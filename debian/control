@@ -1,0 +1,15 @@
+Source: jacal
+Section: math
+Priority: optional
+Maintainer: Thomas Bushnell, BSG <tb@debian.org>
+Build-Depends: debhelper (>= 5), texi2html, texinfo
+Standards-Version: 3.7.2
+
+Package: jacal
+Architecture: all
+Depends: ${misc:Depends}, scm | guile
+Description: Interactive symbolic math system
+ JACAL is an interactive symbolic math system which can manipulate and
+ simplify equations, scalars, vectors, and matrices of single and
+ multiple valued algebraic expressions containing numbers, variables,
+ radicals, and algebraic differential, and holonomic functions.

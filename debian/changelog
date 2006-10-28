@@ -1,0 +1,12 @@
+jacal (1b7-1) unstable; urgency=low
+
+  * Initial release. (Closes: #395935)
+    
+  * jacal.texi: Alter copyright notice to specify that there are no back
+    cover or front cover texts, with permission of upstream copyright
+    owner (Aubrey Jaffer) in accord with his new distribution zip archive.
+  
+  * jacal.1 (TH): Include section number.
+  
+ -- Thomas Bushnell, BSG <tb@debian.org>  Sat, 28 Oct 2006 13:18:38 -0700
+
