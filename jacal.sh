@@ -26,8 +26,9 @@ Usage: jacal SCHEME
 
 Usage: jacal
 
-  Start JACAL using executable 'scheme', 'scm', 'mzscheme', 'guile',
+  Start JACAL using executable 'scheme', 'scm', 'mzscheme', 'guile-1.6',
   'gsi' or 'slib48'."
+# in preceding notice, change guile to guile-1.6, by tb.
 
 case "$1" in
     -v | --ver*) echo jacal "$VERSION"; exit 0;;
@@ -46,8 +47,9 @@ if [ -z "$command" ]; then
 	command=gsi; implementation=gam
     elif type mzscheme>/dev/null 2>&1; then
 	command=mzscheme; implementation=plt
-    elif type guile>/dev/null 2>&1; then
-	command=guile; implementation=gui
+# Changed from looking for 'guile' to 'guile-1.6' by tb.
+    elif type guile-1.6>/dev/null 2>&1; then
+	command=guile-1.6; implementation=gui
     elif type slib48>/dev/null 2>&1; then
 	echo "do 'cd ${JACALDIR}; make jacal48'"
     elif type scheme48>/dev/null 2>&1; then
@@ -107,19 +109,20 @@ case $implementation in
 	fi;;
 esac
 
+# add 'init/' to all these, by tb.
 case $implementation in
   scm) echo $command -ip1 -l ${JACALDIR}go "$@"
        exec $command -ip1 -l ${JACALDIR}go "$@";;
   elk) echo $command -i -l ${JACALDIR}elk.scm "$@"
        exec $command -i -l ${JACALDIR}elk.scm "$@";;
-  gam) echo $command -:s ${SCHEME_LIBRARY_PATH}gambit.init ${JACALDIR}go.scm "$@"
-       exec $command -:s ${SCHEME_LIBRARY_PATH}gambit.init ${JACALDIR}go.scm "$@";;
-  gui) echo $command -l ${SCHEME_LIBRARY_PATH}guile.init -l ${JACALDIR}go.scm "$@"
-       exec $command -l ${SCHEME_LIBRARY_PATH}guile.init -l ${JACALDIR}go.scm "$@";;
-  plt) echo $command -f ${SCHEME_LIBRARY_PATH}DrScheme.init -f ${JACALDIR}go.scm "$@"
-       exec $command -f ${SCHEME_LIBRARY_PATH}DrScheme.init -f ${JACALDIR}go.scm "$@";;
-  mit) echo $command -load ${SCHEME_LIBRARY_PATH}mitscheme.init -load ${JACALDIR}go "$@"
-       exec $command -load ${SCHEME_LIBRARY_PATH}mitscheme.init -load ${JACALDIR}go "$@";;
+  gam) echo $command -:s ${SCHEME_LIBRARY_PATH}init/gambit.init ${JACALDIR}go.scm "$@"
+       exec $command -:s ${SCHEME_LIBRARY_PATH}init/gambit.init ${JACALDIR}go.scm "$@";;
+  gui) echo $command -l ${SCHEME_LIBRARY_PATH}init/guile.init -l ${JACALDIR}go.scm "$@"
+       exec $command -l ${SCHEME_LIBRARY_PATH}init/guile.init -l ${JACALDIR}go.scm "$@";;
+  plt) echo $command -f ${SCHEME_LIBRARY_PATH}init/DrScheme.init -f ${JACALDIR}go.scm "$@"
+       exec $command -f ${SCHEME_LIBRARY_PATH}init/DrScheme.init -f ${JACALDIR}go.scm "$@";;
+  mit) echo $command -load ${SCHEME_LIBRARY_PATH}init/mitscheme.init -load ${JACALDIR}go "$@"
+       exec $command -load ${SCHEME_LIBRARY_PATH}init/mitscheme.init -load ${JACALDIR}go "$@";;
   umb) echo umb-scheme does not run jacal; exit 1;;
   s48) if [ -f "${JACALDIR}scheme48.image" ]; then
 	 echo ";;; Type (math) to begin."

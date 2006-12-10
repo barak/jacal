@@ -1,3 +1,15 @@
+jacal (1b7-2) unstable; urgency=high
+
+  * jacal.sh: Find .init files in proper subdirectory of slib library location.
+   (Closes: #401030)
+    
+  * jacal.sh: Look for "guile-1.6" and not guile; likewise make the usage
+    statement say to request "guile-1.6" if that's what you want.
+  * debian/control (Depends): Require guile-1.6 and not just any guile.
+    [These changes are further required for jacal to work right with guile.]
+  
+ -- Thomas Bushnell, BSG <tb@debian.org>  Sat,  9 Dec 2006 16:18:06 -0800
+
 jacal (1b7-1) unstable; urgency=low
 
   * Initial release. (Closes: #395935)
