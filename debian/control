@@ -7,7 +7,7 @@ Standards-Version: 3.7.2
 
 Package: jacal
 Architecture: all
-Depends: ${misc:Depends}, scm | guile-1.6
+Depends: ${misc:Depends}, scm | guile-1.6, slib (>= 3a5-1)
 Description: Interactive symbolic math system
  JACAL is an interactive symbolic math system which can manipulate and
  simplify equations, scalars, vectors, and matrices of single and

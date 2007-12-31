@@ -1,3 +1,69 @@
+2007-11-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* toploads.scm: defmacro:load "sexp.scm" because it uses
+	fluid-let.
+
+	* jacal.1, jacal.sh (Usage): Updated list of implementations.
+
+	* Makefile (install): Grab SCHEME_LIBRARY_PATH from `slib'.
+
+2007-11-23  Aubrey Jaffer  <jaffer@aubrey.jaffer>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b7 to 1b8.
+
+2007-09-04  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* *: Updated license notices to GPL 3.
+
+	* COPYING: Updated to GPL-3.0.
+
+	* Makefile (srcdir.mk): Removed.
+	(install*): Added $(DESTDIR) prefix.
+
+2007-09-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh: Added support for SISC.
+
+2007-09-02  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Demonstrating Jacal): Give full batch commands.
+
+2007-06-08  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile: Changed to use "mkdir -p".
+
+2007-04-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (jacal.html): Make in unix for w32install because MinGW
+	chokes on @syncodeindex.
+
+	* jacal.sh (kawa): Added.
+
+2007-03-26  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (mfiles): Added version.txi.
+
+2007-03-05  Jerry van Dijk
+
+	* jacal.nsi: NSIS Windows installer script.
+
+	* Makefile (w32install): Added target.
+
+2007-01-20  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* uv-hensel.scm (landau-mignotte-bound*2): integer-sqrt has moved
+	from 'root' to 'math-integer' SLIB module.
+
+	* Makefile (mfiles): Added elk.scm (trampoline for "jacal.sh").
+
+2006-11-04  Waldek Hebisch
+
+	* uv-hensel.scm (u:factorsz): Found an example to exercise LOOP.
+
+2006-11-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi: Eliminated cover texts from GFDL.
+
 2006-10-21  Aubrey Jaffer  <jaffer@aubrey.jaffer>
 
 	* toploads.scm (*jacal-version*): Bumped from 1b6 to 1b7.

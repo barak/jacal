@@ -4,7 +4,7 @@
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or (at
+# the Free Software Foundation, either version 3 of the License, or (at
 # your option) any later version.
 #
 # This program is distributed in the hope that it will be useful, but
@@ -26,8 +26,8 @@ Usage: jacal SCHEME
 
 Usage: jacal
 
-  Start JACAL using executable 'scheme', 'scm', 'mzscheme', 'guile-1.6',
-  'gsi' or 'slib48'."
+  Run JACAL using (MIT) 'scheme', 'scm', 'gsi', 'mzscheme', 'guile-1.6',
+  'slib48', 'scmlit', 'elk', 'sisc', or 'kawa'."
 # in preceding notice, change guile to guile-1.6, by tb.
 
 case "$1" in
@@ -59,6 +59,10 @@ if [ -z "$command" ]; then
 	command=scmlit; implementation=scm
     elif type elk>/dev/null 2>&1; then
 	command=elk; implementation=elk
+    elif type sisc>/dev/null 2>&1; then
+	command=sisc; implementation=ssc
+    elif type kawa>/dev/null 2>&1; then
+	command=kawa; implementation=kwa
     else
 	echo No Scheme implementation found.
 	exit 1
@@ -75,6 +79,8 @@ elif type $command>/dev/null 2>&1; then
   elif echo ${SPEW} | grep 'MzScheme'  >/dev/null 2>&1; then implementation=plt
   elif echo ${SPEW} | grep 'Guile'     >/dev/null 2>&1; then implementation=gui
   elif echo ${SPEW} | grep 'SCM'       >/dev/null 2>&1; then implementation=scm
+  elif echo ${SPEW} | grep 'SISC'      >/dev/null 2>&1; then implementation=ssc
+  elif echo ${SPEW} | grep 'Kawa'      >/dev/null 2>&1; then implementation=kwa
   else implementation=
   fi
 else
@@ -109,20 +115,23 @@ case $implementation in
 	fi;;
 esac
 
-# add 'init/' to all these, by tb.
 case $implementation in
   scm) echo $command -ip1 -l ${JACALDIR}go "$@"
        exec $command -ip1 -l ${JACALDIR}go "$@";;
   elk) echo $command -i -l ${JACALDIR}elk.scm "$@"
        exec $command -i -l ${JACALDIR}elk.scm "$@";;
-  gam) echo $command -:s ${SCHEME_LIBRARY_PATH}init/gambit.init ${JACALDIR}go.scm "$@"
-       exec $command -:s ${SCHEME_LIBRARY_PATH}init/gambit.init ${JACALDIR}go.scm "$@";;
-  gui) echo $command -l ${SCHEME_LIBRARY_PATH}init/guile.init -l ${JACALDIR}go.scm "$@"
-       exec $command -l ${SCHEME_LIBRARY_PATH}init/guile.init -l ${JACALDIR}go.scm "$@";;
-  plt) echo $command -f ${SCHEME_LIBRARY_PATH}init/DrScheme.init -f ${JACALDIR}go.scm "$@"
-       exec $command -f ${SCHEME_LIBRARY_PATH}init/DrScheme.init -f ${JACALDIR}go.scm "$@";;
-  mit) echo $command -load ${SCHEME_LIBRARY_PATH}init/mitscheme.init -load ${JACALDIR}go "$@"
-       exec $command -load ${SCHEME_LIBRARY_PATH}init/mitscheme.init -load ${JACALDIR}go "$@";;
+  gam) echo $command -:s ${SCHEME_LIBRARY_PATH}gambit.init ${JACALDIR}go.scm "$@"
+       exec $command -:s ${SCHEME_LIBRARY_PATH}gambit.init ${JACALDIR}go.scm "$@";;
+  gui) echo $command -l ${SCHEME_LIBRARY_PATH}guile.init -l ${JACALDIR}go.scm "$@"
+       exec $command -l ${SCHEME_LIBRARY_PATH}guile.init -l ${JACALDIR}go.scm "$@";;
+  ssc) echo $command -e "(begin (load \"${SCHEME_LIBRARY_PATH}sisc.init\") (load \"${JACALDIR}go.scm\"))" -- "$@"
+       exec $command -e "(begin (load \"${SCHEME_LIBRARY_PATH}sisc.init\") (load \"${JACALDIR}go.scm\"))" -- "$@";;
+  kwa) echo $command -f ${SCHEME_LIBRARY_PATH}kawa.init -f ${JACALDIR}go.scm -- "$@"
+       exec $command -f ${SCHEME_LIBRARY_PATH}kawa.init -f ${JACALDIR}go.scm -- "$@";;
+  plt) echo $command -f ${SCHEME_LIBRARY_PATH}DrScheme.init -f ${JACALDIR}go.scm "$@"
+       exec $command -f ${SCHEME_LIBRARY_PATH}DrScheme.init -f ${JACALDIR}go.scm "$@";;
+  mit) echo $command -load ${SCHEME_LIBRARY_PATH}mitscheme.init -load ${JACALDIR}go "$@"
+       exec $command -load ${SCHEME_LIBRARY_PATH}mitscheme.init -load ${JACALDIR}go "$@";;
   umb) echo umb-scheme does not run jacal; exit 1;;
   s48) if [ -f "${JACALDIR}scheme48.image" ]; then
 	 echo ";;; Type (math) to begin."

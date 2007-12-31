@@ -1,3 +1,16 @@
+jacal (1b8-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/control (Depends): Require version 3a5-1 or slib; that's the first
+    Debian slib to put the init files in the usual place.  Thus the fix to
+    jacal.sh closing bug 401030 is no longer needed.
+    
+  * jacal.1: Repeat change from 1b7-1.
+  
+  * jacal.sh: Repeat second change from 1b7-2.
+  
+ -- Thomas Bushnell, BSG <tb@debian.org>  Sun, 30 Dec 2007 21:08:20 -0800
+
 jacal (1b7-2) unstable; urgency=high
 
   * jacal.sh: Find .init files in proper subdirectory of slib library location.

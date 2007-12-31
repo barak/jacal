@@ -1,0 +1,2 @@
+@set JACALVERSION 1b8
+@set JACALDATE November 2007

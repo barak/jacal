@@ -4,7 +4,7 @@
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2 of the License, or (at
+;; the Free Software Foundation, either version 3 of the License, or (at
 ;; your option) any later version.
 ;; 
 ;; This program is distributed in the hope that it will be useful, but
@@ -19,7 +19,7 @@
 (require 'hash-table)
 (require 'fluid-let)
 (require 'polynomial-factors)
-(require-if '(and compiling (not inexact)) 'root)
+(require-if '(and compiling (not inexact)) 'math-integer)
 (require 'common-list-functions)
 
 ;;; =================== Memoize procedure calls ===================
@@ -487,7 +487,7 @@
 		(sqrt (apply + (map (lambda (x) (* x x)) (cdr p))))
 		(expt 2 (univ:deg p))))))))
    (else
-    (require 'root)
+    (require 'math-integer)
     (lambda (p)
       (abs (* 2
 	      (integer-sqrt (apply + (map (lambda (x) (* x x)) (cdr p))))
@@ -573,8 +573,8 @@
 				    (set! n (- n combine))
 				    (if (> (* 2 combine) n) (exit #t))))))
 			      (combinations factors combine))
-;;; I (jaffer) am unable to find an example to exercise this LOOP.
-			     (jacal:found-bug 'u:factorsz 'loop)
+;;; factor((x^5+y^5)^5-(x^5-y^5)^5);
+;;; exercises this loop
 			     (loop (+ combine 1))
 			     )))))
 ;;; At this point the code tests for (null? factors) and returns
