@@ -3,7 +3,7 @@ Section: math
 Priority: optional
 Maintainer: Thomas Bushnell, BSG <tb@debian.org>
 Build-Depends: debhelper (>= 5), texi2html, texinfo
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 
 Package: jacal
 Architecture: all

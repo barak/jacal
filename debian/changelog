@@ -1,3 +1,18 @@
+jacal (1b8-2) unstable; urgency=low
+
+  * debian/rules (clean): Don't ignore all errors on Make clean invocation.
+    Fixes lintian warning debian-rules-ignores-make-clean-error.
+    
+  * debian/control (Standards-Version): Update to 3.7.3.  No changes necessary.
+  
+  * debian/jacal.doc-base: Remove extraneouse whitespace.  Fixes lintian
+    warning doc-base-file-separator-extra-whitespace.
+  
+  * debian/dirs: Delete usr/sbin.  Fixes lintian warning
+    package-contains-empty-directory.
+  
+ -- Thomas Bushnell, BSG <tb@debian.org>  Mon, 14 Jan 2008 15:52:21 -0500
+
 jacal (1b8-1) unstable; urgency=low
 
   * New upstream release.
