@@ -4,7 +4,7 @@
 ; placed in the public domain
 
 ; *** version numbers ***
-!define PRODUCT_VERSION "1b8-1"
+!define PRODUCT_VERSION "1b9-1"
 
 ; ----------------[ NO CHANGES BELOW ]----------------
 
@@ -31,7 +31,7 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
+!define MUI_ICON "equal.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
@@ -67,7 +67,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "JACAL-${PRODUCT_VERSION}.exe"
+OutFile "jacal-${PRODUCT_VERSION}.exe"
 InstallDir "$PROGRAMFILES\jacal"
 InstallDirRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -104,6 +104,7 @@ Section "MainSection" SEC01
   File "elim.scm"
   File "English.scm"
   File "ext.scm"
+  File "equal.ico"
   File "factors.scm"
   File "fdl.texi"
   File "ff.scm"
@@ -114,7 +115,6 @@ Section "MainSection" SEC01
   File "hist.scm"
   File "info.scm"
   File "jacal.html"
-  File "jacal.lnk"
   File "jacal.nsi"
   File "jacal.spec"
   File "jacal.texi"
@@ -142,8 +142,8 @@ Section "MainSection" SEC01
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Manual.lnk" "$INSTDIR\jacal.html"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\JACAL.lnk" "$INSTDIR\JACAL.lnk"
-  CreateShortCut "$DESKTOP\JACAL.lnk" "$INSTDIR\JACAL.lnk"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\JACAL.lnk" "scm.exe" '-iql"$INSTDIR\math.scm" -ie"(math)"' "$INSTDIR\equal.ico"
+  CreateShortCut "$DESKTOP\JACAL.lnk" "scm.exe" '-iql"$INSTDIR\math.scm" -ie"(math)"' "$INSTDIR\equal.ico"
   !insertmacro MUI_STARTMENU_WRITE_END
 
 ; Jaffer jacal registry settings
@@ -205,7 +205,6 @@ Section Uninstall
   Delete "$INSTDIR\jacal.texi"
   Delete "$INSTDIR\jacal.spec"
   Delete "$INSTDIR\jacal.nsi"
-  Delete "$INSTDIR\jacal.lnk"
   Delete "$INSTDIR\jacal.html"
   Delete "$INSTDIR\info.scm"
   Delete "$INSTDIR\hist.scm"
@@ -217,6 +216,7 @@ Section Uninstall
   Delete "$INSTDIR\fdl.texi"
   Delete "$INSTDIR\factors.scm"
   Delete "$INSTDIR\ext.scm"
+  Delete "$INSTDIR\equal.ico"
   Delete "$INSTDIR\English.scm"
   Delete "$INSTDIR\elim.scm"
   Delete "$INSTDIR\DOC\ratint.tex"

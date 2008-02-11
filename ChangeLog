@@ -1,3 +1,79 @@
+2008-02-01  Aubrey Jaffer  <jaffer@aubrey.jaffer>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b8 to 1b9.
+
+2008-01-31  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile, jacal.spec: Always put - between jacal and version.
+
+2008-01-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Overview): JACAL is a GNU package.
+	(GNU Free Documentation License): Moved under "Overview".
+
+2008-01-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (jacal48): Increased -h, but still says
+	"4500000 is too small" when run!
+
+	* sexp.scm (hash-table): Require.
+
+	* toploads.scm (byte): If BYTE (required by RANDOM) requires
+	ARRAY, then it will redefine EQUAL?, which will screw up
+	HASH-TABLE.  So require BYTE first.
+
+	* Makefile (jacallibdir): Removed extra lib/ from path.
+
+2008-01-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (install): test -d is not needed with mkdir -p.
+
+2008-01-18  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (install): mkdir -p.
+
+2008-01-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (RSYNC): --rsync-path no longer needed.
+
+2008-01-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.nsi (MUI_ICON): Set to equal.ico.
+
+	* Makefile: Removed JACAL.lnk.
+
+	* jacal.nsi: Create shortcuts at installation; removed JACAL.lnk.
+
+2008-01-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (doszip): Added eqaul.ico.
+
+	* equal.ico: Added equal-sign icon.
+
+2007-12-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh, jacal.1: Added Larceny.
+
+	* jacal.texi (Installation): Added Larceny.
+
+	* builtin.scm (degree): Fixed WNA error message.
+
+2007-12-17  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* English.scm (tran:translations): Removed not-a-bunch?.
+
+	* builtin.scm (poly): Fixed for rational coefficients.
+
+2007-11-29  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh: mzscheme.init renamed from DrScheme.init.
+
+	* English.scm (tran:translations): Added file-not-found.
+
+	* builtin.scm (load): Check that file exists before loading.
+
+	* sexp.scm (batch): Check that file exists before running.
+
 2007-11-28  Aubrey Jaffer  <agj@alum.mit.edu>
 
 	* toploads.scm: defmacro:load "sexp.scm" because it uses

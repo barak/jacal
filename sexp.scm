@@ -36,6 +36,7 @@
 (require 'with-file)
 (require 'common-list-functions)
 (require 'fluid-let)
+(require 'hash-table)
 
 ;;; our local environments
 ;(define heqput! (alist-associator eq?))
@@ -137,12 +138,16 @@
   'scheme)
 
 (define (batch file)
-  (fluid-let ((page-height page-height)
-	      (page-width page-width)
-	      (*input-grammar* *input-grammar*)
-	      (*output-grammar* *output-grammar*)
-	      (*echo-grammar* *echo-grammar*))
-    (with-input-from-file file batch1)))
+  (cond ((file-exists? file)
+	 (fluid-let ((page-height page-height)
+		     (page-width page-width)
+		     (*input-grammar* *input-grammar*)
+		     (*output-grammar* *output-grammar*)
+		     (*echo-grammar* *echo-grammar*))
+	   (with-input-from-file file batch1)))
+	(else
+	 (math:warn 'file-not-found file)
+	 novalue)))
 
 (define (batch1)
   (do ((math:exit-saved math:exit)

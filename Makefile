@@ -28,7 +28,7 @@ intro:
 	@echo "to learn how to run and use JACAL."
 	@echo
 
-VERSION = 1b8
+VERSION = 1b9
 RELEASE = 1
 
 rpm_prefix=$(HOME)/rpmbuild/
@@ -36,25 +36,23 @@ prefix = /usr/local/
 exec_prefix = $(prefix)
 # directory where `make install' will put executable.
 bindir = $(exec_prefix)bin/
-libdir = $(exec_prefix)lib/
-jacallibdir = $(prefix)lib/jacal/
+jacallibdir = $(exec_prefix)lib/jacal/
 # directory where `make install' will put manual page.
-mandir = $(prefix)man/
-man1dir = $(mandir)man1/
+man1dir = $(prefix)man/man1/
 infodir = $(prefix)info/
 S48IMAGE = $(jacallibdir)scheme48.image
 
 PREVDOCS = prevdocs/
 
-jacal$(VERSION).info:	version.txi jacal.texi
+jacal-$(VERSION).info:	version.txi jacal.texi
 	-mv jacal.info jacaltmp.info
 	makeinfo jacal.texi --no-split -o jacal.info
-	mv jacal.info jacal$(VERSION).info
+	mv jacal.info jacal-$(VERSION).info
 	-mv jacaltmp.info jacal.info
-jacal.info:	jacal$(VERSION).info
+jacal.info:	jacal-$(VERSION).info
 	if [ -f $(PREVDOCS)jacal.info ];\
-		then infobar $(PREVDOCS)jacal.info jacal$(VERSION).info jacal.info;\
-		else cp jacal$(VERSION).info jacal.info;fi
+		then infobar $(PREVDOCS)jacal.info jacal-$(VERSION).info jacal.info;\
+		else cp jacal-$(VERSION).info jacal.info;fi
 info:	installinfo
 installinfo:	$(DESTDIR)$(infodir)jacal.info
 $(DESTDIR)$(infodir)jacal.info:	jacal.info
@@ -68,18 +66,16 @@ $(DESTDIR)$(infodir)jacal.info.gz:	$(DESTDIR)$(infodir)jacal.info
 	gzip -f $(DESTDIR)$(infodir)jacal.info
 
 pinstall:	jacal.1
-	test -d $(DESTDIR)$(mandir) || mkdir $(DESTDIR)$(mandir)
-	test -d $(DESTDIR)$(man1dir) || mkdir $(DESTDIR)$(man1dir)
+	mkdir -p $(DESTDIR)$(man1dir)
 	-cp jacal.1 $(DESTDIR)$(man1dir)
-	test -d $(DESTDIR)$(libdir) || mkdir $(DESTDIR)$(libdir)
-	test -d $(DESTDIR)$(jacallibdir) || mkdir $(DESTDIR)$(jacallibdir)
+	mkdir -p $(DESTDIR)$(jacallibdir)
 	-cp $(sfiles) $(cfiles) $(gfiles) jacalcat Makefile COPYING HELP $(DESTDIR)$(jacallibdir)
 
 install:	pinstall
 	echo ";;(use-modules (ice-9 slib))"	 > $(DESTDIR)$(jacallibdir)go.scm
 	echo "(slib:load \"$(jacallibdir)math\")" > $(DESTDIR)$(jacallibdir)go.scm
 	echo "(math)"				>> $(DESTDIR)$(jacallibdir)go.scm
-	test -d $(DESTDIR)$(bindir) || mkdir $(DESTDIR)$(bindir)
+	mkdir -p $(DESTDIR)$(bindir)
 	echo '#! /bin/sh'			 > $(DESTDIR)$(bindir)jacal
 	grep -h ^SCHEME_LIBRARY_PATH= `which slib` >> $(DESTDIR)$(bindir)jacal
 	echo export SCHEME_LIBRARY_PATH		>> $(DESTDIR)$(bindir)jacal
@@ -157,11 +153,13 @@ mfiles = ANNOUNCE COPYING HELP Makefile jacalcat jacal.texi version.txi \
 	fdl.texi jacal.1 \
 	demo test.math rw.math jacal.spec jacal.sh elk.scm jacal.nsi
 allfiles = README ChangeLog $(mfiles) $(sfiles) $(cfiles) $(gfiles) \
-	jacal.info jacal.doc JACAL.lnk
+	jacal.info jacal.doc
 #dfiles Document internals of Jacal.
 dfiles = algdenom grammar history lambda ratint.tex eqalign.sty
 # Common Lisp not currently supported.
 lfiles = scl.lisp math.lisp compilem.lisp
+
+tagfiles = $(sfiles) $(cfiles) $(gfiles) $(mfiles)
 
 jacal48:
 	(echo ",batch on"; \
@@ -171,7 +169,7 @@ jacal48:
 	 echo ",collect"; \
 	 echo ",batch off"; \
 	 echo ",dump $(S48IMAGE) \"(jacal $(VERSION))\""; \
-	 echo ",exit") | slib48 -h 4500000
+	 echo ",exit") | slib48 -h 5100000
 unjacal48:
 	rm -f $(S48IMAGE)
 
@@ -184,7 +182,7 @@ docs:	$(DESTDIR)$(infodir)jacal.info.gz $(htmldir)jacal_toc.html \
 
 makedev = make -f $(HOME)/makefile.dev
 CHPAT=$(HOME)/bin/chpat
-RSYNC=rsync --rsync-path=bin/rsync -bav
+RSYNC=rsync -bav
 UPLOADEE=swissnet_upload
 dest = $(HOME)/dist/
 DOSCM = /c/Voluntocracy/dist/
@@ -193,7 +191,7 @@ temp/jacal:	$(allfiles) $(htmldir)ratint.pdf
 	-rm -rf temp
 	mkdir -p temp/jacal
 	ln  $(allfiles) temp/jacal
-	mkdir temp/jacal/DOC
+	mkdir -p temp/jacal/DOC
 	ln $(htmldir)ratint.pdf temp/jacal/DOC
 	cd DOC; ln $(dfiles) ../temp/jacal/DOC
 
@@ -203,6 +201,7 @@ infotemp/jacal:	jacal.info
 	ln jacal.info jacal.info-* infotemp/jacal
 
 #For change-barred HTML.
+prevdocs:	$(PREVDOCS)jacal_toc.html $(PREVDOCS)jacal.info
 $(PREVDOCS)jacal_toc.html:
 $(PREVDOCS)jacal.info:	Makefile
 	cd $(PREVDOCS); unzip -a $(dest)jacal*.zip
@@ -211,42 +210,43 @@ $(PREVDOCS)jacal.info:	Makefile
 	cd $(PREVDOCS); mv -f jacal/jacal*.info ./
 	cd $(PREVDOCS); mv -f jacal/*.html ./
 	rm -rf $(PREVDOCS)jacal
+	-rm -f jacal-$(VERSION).info
 
 distinfo:	$(dest)jacal.info.zip
 $(dest)jacal.info.zip:	infotemp/jacal
 	$(makedev) TEMP=infotemp/ DEST=$(dest) PROD=jacal ver=.info zip
 	rm -rf infotemp
 
-README: jacal$(VERSION).info Makefile
-	echo "This directory contains the distribution of jacal$(VERSION).  Jacal is a" > README
+README: jacal-$(VERSION).info Makefile
+	echo "This directory contains the distribution of jacal-$(VERSION).  Jacal is a" > README
 	echo "symbolic mathematics system written in the programming language Scheme." >> README
 	echo "" >> README
 	echo "	     http://swiss.csail.mit.edu/~jaffer/JACAL.html" >> README
 	echo "" >> README
-	info -f jacal$(VERSION).info -n 'Installation' -o - >> README
+	info -f jacal-$(VERSION).info -n 'Installation' -o - >> README
 
 release:	dist README pdfs # rpm
-	cvs tag -F jacal$(VERSION)
+	cvs tag -F jacal-$(VERSION)
 	cp ANNOUNCE $(htmldir)JACAL_ANNOUNCE.txt
 	$(RSYNC) $(htmldir)JACAL.html $(htmldir)JACAL_ANNOUNCE.txt $(UPLOADEE):public_html/
-	$(RSYNC) $(dest)README $(dest)jacal$(VERSION).zip\
-	$(dest)jacal-$(VERSION)-$(RELEASE).noarch.rpm\
-	$(htmldir)ratint.pdf\
+	$(RSYNC) $(dest)README $(dest)jacal-$(VERSION).zip \
+		$(dest)jacal-$(VERSION)-$(RELEASE).noarch.rpm \
+		$(htmldir)ratint.pdf \
 	$(dest)jacal-$(VERSION)-$(RELEASE).src.rpm $(UPLOADEE):dist/
-#	upload $(dest)README $(dest)jacal$(VERSION).zip ftp.gnu.org:gnu/jacal/
+#	upload $(dest)README $(dest)jacal-$(VERSION).zip ftp.gnu.org:gnu/jacal/
 
 upzip:	$(HOME)/pub/jacal.zip
 	$(RSYNC) $(HOME)/pub/jacal.zip $(UPLOADEE):pub/
 
-dist:	$(dest)jacal$(VERSION).zip
-$(dest)jacal$(VERSION).zip:	temp/jacal
-	$(makedev) DEST=$(dest) PROD=jacal ver=$(VERSION) zip
+dist:	$(dest)jacal-$(VERSION).zip
+$(dest)jacal-$(VERSION).zip:	temp/jacal
+	$(makedev) DEST=$(dest) PROD=jacal ver=-$(VERSION) zip
 
 rpm:	pubzip
-# $(dest)jacal-$(VERSION)-$(RELEASE).noarch.rpm:	$(dest)jacal$(VERSION).zip
-	cp -f $(HOME)/pub/jacal.zip $(rpm_prefix)SOURCES/jacal$(VERSION).zip
+# $(dest)jacal-$(VERSION)-$(RELEASE).noarch.rpm:	$(dest)jacal-$(VERSION).zip
+	cp -f $(HOME)/pub/jacal.zip $(rpm_prefix)SOURCES/jacal-$(VERSION).zip
 	rpmbuild -ba --clean jacal.spec
-	rm $(rpm_prefix)SOURCES/jacal$(VERSION).zip
+	rm $(rpm_prefix)SOURCES/jacal-$(VERSION).zip
 	mv $(rpm_prefix)RPMS/noarch/jacal-$(VERSION)-$(RELEASE).noarch.rpm \
 	   $(rpm_prefix)SRPMS/jacal-$(VERSION)-$(RELEASE).src.rpm $(dest)
 
@@ -260,11 +260,12 @@ jacal.com:	temp/jacal
 zip:	jacal.zip
 jacal.zip:	temp/jacal
 	$(makedev) PROD=jacal zip
-doszip:	$(DOSCM)jacal$(VERSION).zip
-$(DOSCM)jacal$(VERSION).zip:	temp/jacal jacal.html
-	$(makedev) DEST=$(DOSCM) PROD=jacal ver=$(VERSION) zip
-	-cd ..; zip -9ur $(DOSCM)jacal$(VERSION).zip jacal/jacal.html
-	zip -d $(DOSCM)jacal$(VERSION).zip jacal/jacal.info
+doszip:	$(DOSCM)jacal-$(VERSION).zip
+$(DOSCM)jacal-$(VERSION).zip: temp/jacal jacal.html equal.ico
+	$(makedev) DEST=$(DOSCM) PROD=jacal ver=-$(VERSION) zip
+	-cd ..; zip -9ur $(DOSCM)jacal-$(VERSION).zip \
+		jacal/jacal.html jacal/equal.ico
+	zip -d $(DOSCM)jacal-$(VERSION).zip jacal/jacal.info
 pubzip:	temp/jacal
 	$(makedev) DEST=$(HOME)/pub/ PROD=jacal zip
 
@@ -275,11 +276,11 @@ distdiffs:	temp/jacal
 	$(makedev) DEST=$(dest) PROD=jacal ver=$(ver) distdiffs
 
 CITERS = ANNOUNCE ../scm/ANNOUNCE $(htmldir)README.html ../dist/README \
-	$(DOSCM)install.bat $(DOSCM)makefile $(DOSCM)mkdisk.bat
-CITES = toploads.scm Makefile $(htmldir)JACAL.html jacal.spec jacal.texi jacal.nsi
+	$(DOSCM)unzipall.bat $(DOSCM)buildall
+CITES = toploads.scm Makefile jacal.spec jacal.texi jacal.nsi \
+	$(htmldir)JACAL.html
 
 updates:
-	$(CHPAT) jacal$(VERSION) jacal$(ver) $(CITERS)
 	$(CHPAT) jacal-$(VERSION) jacal-$(ver) $(CITERS)
 	$(CHPAT) $(VERSION) $(ver) $(CITES)
 	make README
@@ -292,10 +293,10 @@ new:	updates
 	cat ChangeLog >> change
 	mv -f change ChangeLog
 	cvs commit -m '(*jacal-version*): Bumped from $(VERSION) to $(ver).'
-	cvs tag -F jacal$(ver)
+	cvs tag -F jacal-$(ver)
 
-tags:	$(sfiles) $(cfiles) $(gfiles) $(mfiles)
-	etags $(sfiles) $(cfiles) $(gfiles) $(mfiles)
+tags:	$(tagfiles)
+	etags $(tagfiles)
 
 clean:
 	-rm -f *~ *.bak *.orig *.rej core a.out *.o \#*

@@ -518,7 +518,7 @@
 	  ((null? (cdr args))
 	   (poly:degree xp (expl->var (car args))))
 	  (else
-	   (bltn:error 'degree (car ply args))))))
+	   (bltn:error 'degree 'wna (cons ply args))))))
 
 (define (coeff p var ord)
   (cond ((rat? p)
@@ -590,16 +590,16 @@
 
 (defbltn 'poly
   (lambda (var . args)
-    (cond ((expl:var? var)
-	   (reduce (lambda (p c) (poly:+ (poly:* p var) c))
+    (cond ((null? args)
+	   (if (eqn? var)
+	       (eqn->poly var)
+	       0))
+	  ((expl:var? var)
+	   (reduce (lambda (p c) (app* $1*$2+$3 p var c))
 		   (reverse
-		    (cond ((> (length args) 1) args)
-			  ((and (= (length args) 1) (bunch? (car args)))
-			   (car args))
-			  (else
-			   (bltn:error 'not-a-bunch? (car args)))))))
-	  ((and (null? args) (eqn? var))
-	   (eqn->poly var))
+		    (if (and (= (length args) 1) (bunch? (car args)))
+			(car args)
+			args))))
 	  (else
 	   (bltn:error 'poly? (cons var args))))))
 
@@ -880,8 +880,12 @@
 
 (defbltn 'load
   (lambda (file)
-    (slib:load (var->string (expl->var file)))
-    file))
+    (cond ((file-exists? file)
+	   (slib:load (var->string (expl->var file)))
+	   file)
+	  (else
+	   (math:warn 'file-not-found file)
+	   novalue))))
 
 (defbltn 'require
   (lambda (file)

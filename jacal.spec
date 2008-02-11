@@ -1,5 +1,5 @@
 %define name jacal
-%define version 1b8
+%define version 1b9
 %define release 1
 
 Name:         %{name}
@@ -15,9 +15,9 @@ BuildArch:    noarch
 Requires:     slib
 
 Summary:      The JACAL Symbolic Math System
-Source:       ftp://swiss.csail.mit.edu/pub/scm/jacal%{version}.zip
+Source:       ftp://swiss.csail.mit.edu/pub/scm/jacal-%{version}.zip
 URL:          http://swiss.csail.mit.edu/~jaffer/JACAL.html
-BuildRoot:    %{_tmppath}/%{name}%{version}
+BuildRoot:    %{_tmppath}/%{name}-%{version}
 Prefix:       %{_prefix}
 
 %description
@@ -32,7 +32,7 @@ functions.
 %prep
 %setup -n jacal -c -T
 cd ..
-unzip ${RPM_SOURCE_DIR}/jacal%{version}.zip
+unzip ${RPM_SOURCE_DIR}/jacal-%{version}.zip
 
 %build
 gzip -f jacal.info
@@ -73,7 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/lib/jacal/COPYING
 %{prefix}/lib/jacal/HELP
 %{prefix}/lib/jacal/Makefile
-%{_mandir}/man1/jacal.1.*
+%{prefix}/man/man1/jacal.1.*
 %{_infodir}/jacal.info.*
 
 %doc ANNOUNCE ChangeLog README COPYING demo test.math rw.math DOC/algdenom DOC/grammar DOC/history DOC/lambda DOC/ratint.pdf

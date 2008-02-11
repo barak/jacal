@@ -1,4 +1,4 @@
-
+#!/bin/bash
 ##"jacal" sh script; Find a Scheme implementation and run JACAL in it.
 # Copyright (C) 2001, 2003, 2004 Aubrey Jaffer
 #
@@ -27,7 +27,7 @@ Usage: jacal SCHEME
 Usage: jacal
 
   Run JACAL using (MIT) 'scheme', 'scm', 'gsi', 'mzscheme', 'guile-1.6',
-  'slib48', 'scmlit', 'elk', 'sisc', or 'kawa'."
+  'slib48', 'larceny', 'scmlit', 'elk', 'sisc', or 'kawa'."
 # in preceding notice, change guile to guile-1.6, by tb.
 
 case "$1" in
@@ -55,6 +55,8 @@ if [ -z "$command" ]; then
     elif type scheme48>/dev/null 2>&1; then
 	echo "do 'cd ${SCHEME_LIBRARY_PATH}; make slib48'"
 	echo "do 'cd ${JACALDIR}; make jacal48'"
+    elif type larceny>/dev/null 2>&1; then
+	command=larceny; implementation=lar
     elif type scmlit>/dev/null 2>&1; then
 	command=scmlit; implementation=scm
     elif type elk>/dev/null 2>&1; then
@@ -77,6 +79,7 @@ elif type $command>/dev/null 2>&1; then
   elif echo ${SPEW} | grep 'UMB Scheme'>/dev/null 2>&1; then implementation=umb
   elif echo ${SPEW} | grep 'scheme48'  >/dev/null 2>&1; then implementation=s48
   elif echo ${SPEW} | grep 'MzScheme'  >/dev/null 2>&1; then implementation=plt
+  elif echo ${SPEW} | grep 'larceny'   >/dev/null 2>&1; then implementation=lar
   elif echo ${SPEW} | grep 'Guile'     >/dev/null 2>&1; then implementation=gui
   elif echo ${SPEW} | grep 'SCM'       >/dev/null 2>&1; then implementation=scm
   elif echo ${SPEW} | grep 'SISC'      >/dev/null 2>&1; then implementation=ssc
@@ -128,8 +131,10 @@ case $implementation in
        exec $command -e "(begin (load \"${SCHEME_LIBRARY_PATH}sisc.init\") (load \"${JACALDIR}go.scm\"))" -- "$@";;
   kwa) echo $command -f ${SCHEME_LIBRARY_PATH}kawa.init -f ${JACALDIR}go.scm -- "$@"
        exec $command -f ${SCHEME_LIBRARY_PATH}kawa.init -f ${JACALDIR}go.scm -- "$@";;
-  plt) echo $command -f ${SCHEME_LIBRARY_PATH}DrScheme.init -f ${JACALDIR}go.scm "$@"
-       exec $command -f ${SCHEME_LIBRARY_PATH}DrScheme.init -f ${JACALDIR}go.scm "$@";;
+  plt) echo $command -f ${SCHEME_LIBRARY_PATH}mzscheme.init -f ${JACALDIR}go.scm "$@"
+       exec $command -f ${SCHEME_LIBRARY_PATH}mzscheme.init -f ${JACALDIR}go.scm "$@";;
+  lar) echo $command -- -e "(require 'srfi-96)" ${JACALDIR}go.scm "$@"
+       exec $command -- -e "(require 'srfi-96)" ${JACALDIR}go.scm "$@";;
   mit) echo $command -load ${SCHEME_LIBRARY_PATH}mitscheme.init -load ${JACALDIR}go "$@"
        exec $command -load ${SCHEME_LIBRARY_PATH}mitscheme.init -load ${JACALDIR}go "$@";;
   umb) echo umb-scheme does not run jacal; exit 1;;
