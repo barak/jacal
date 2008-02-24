@@ -1,3 +1,14 @@
+jacal (1b9-2) unstable; urgency=low
+
+  * debian/rules (MAKEVARS): Set man1dir.  (Closes: #467314)
+  
+  * debian/control (Build-Depends): Move texi2html and texinfo to...
+    (Build-Depends-Indep): ...here.
+    
+  * jacal.1: Put title *before* section in TH directive.
+  
+ -- Thomas Bushnell, BSG <tb@debian.org>  Sun, 24 Feb 2008 18:25:38 -0500
+
 jacal (1b9-1) unstable; urgency=low
 
   * New upstream release.

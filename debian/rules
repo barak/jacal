@@ -14,6 +14,7 @@ MAKEVARS=prefix=$(CURDIR)/debian/jacal/usr/ \
 	infodir=$(CURDIR)/debian/jacal/usr/share/info/ \
 	htmldir=$(CURDIR)/debian/jacal/usr/share/doc/jacal/ \
 	mandir=$(CURDIR)/debian/jacal/usr/share/man/ \
+	man1dir=$(CURDIR)/debian/jacal/usr/share/man/man1/ \
 	TEXI2HTML=texi2html
 
 export TEXI2HTML=texi2html
