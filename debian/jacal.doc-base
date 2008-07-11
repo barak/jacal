@@ -3,7 +3,7 @@ Title: Debian jacal Manual
 Author: Aubrey Jaffer
 Abstract: This manual describes how to use Jacal, an interactive symbolic
  math system.
-Section: Apps/Math
+Section: Science/Mathematics
 
 Format: info
 Index: /usr/share/info/jacal.info.gz

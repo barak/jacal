@@ -1,4 +1,3 @@
-#!/bin/bash
 ##"jacal" sh script; Find a Scheme implementation and run JACAL in it.
 # Copyright (C) 2001, 2003, 2004 Aubrey Jaffer
 #

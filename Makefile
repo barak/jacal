@@ -304,7 +304,7 @@ clean:
 distclean:	realclean
 realclean:
 	-rm -f *~ *.bak *.orig *.rej TAGS core a.out *.o \#*
-	-rm -f jacal.info*
+	-rm -f jacal*.info* version.txi
 	-rm -rf *temp jacal.html JACAL-*.exe
 realempty:	temp/jacal
 	-rm -f $(allfiles)

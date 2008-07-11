@@ -53,7 +53,7 @@ clean:
 	rm -f build-stamp configure-stamp
 
 	# Add here commands to clean up after the build process.
-	[ ! -f Makefile ] || $(MAKE) clean
+	[ ! -f Makefile ] || $(MAKE) realclean
 
 	dh_clean 
 
@@ -70,7 +70,7 @@ install: build
 	echo ";;(use-modules (ice-9 slib))"	 > debian/jacal/usr/lib/jacal/go.scm
 	echo "(slib:load \"/usr/lib/jacal/math\")"	 > debian/jacal/usr/lib/jacal/go.scm
 	echo "(math)"				>> debian/jacal/usr/lib/jacal/go.scm
-	echo '#! /bin/sh'			 > debian/jacal/usr/bin/jacal
+	echo '#! /bin/bash'			 > debian/jacal/usr/bin/jacal
 	echo JACALDIR=/usr/lib/jacal/		>> debian/jacal/usr/bin/jacal
 	echo VERSION=1b7			>> debian/jacal/usr/bin/jacal
 	cat jacal.sh				>> debian/jacal/usr/bin/jacal

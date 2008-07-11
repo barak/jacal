@@ -1,3 +1,17 @@
+jacal (1b9-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix bashism in /bin/sh script. Simply setting "#!/bin/bash" in the
+    offending file was not enough as the shebang was added programmatically
+    in debian/rules. (Closes: #464995)
+  * Move documentation from deprecated "Apps/Math" section to
+    "Science/Mathematics".
+  * Ensure clean target removes version.txt and all .info files generated
+    during build.
+  * Bump Standards-Version to 3.8.0.
+
+ -- Chris Lamb <chris@chris-lamb.co.uk>  Fri, 11 Jul 2008 19:57:16 +0100
+
 jacal (1b9-2) unstable; urgency=low
 
   * debian/rules (MAKEVARS): Set man1dir.  (Closes: #467314)

@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Thomas Bushnell, BSG <tb@debian.org>
 Build-Depends: debhelper (>= 5)
 Build-Depends-Indep: texi2html, texinfo
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 
 Package: jacal
 Architecture: all
