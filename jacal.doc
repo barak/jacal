@@ -1,4 +1,4 @@
-JACAL(Jan 21 2005)                                          JACAL(Jan 21 2005)
+JACAL(Dec 20 2007)                                          JACAL(Dec 20 2007)
 
 
 
@@ -6,8 +6,8 @@ NAME
        JACAL - symbolic mathematics system
 
 SYNOPSIS
-       jacal [ scheme | scm | gsi | mzscheme | guile | scheme48 | scmlit | elk
-       | sisc | kawa ]
+       jacal  [  scheme  | scm | gsi | mzscheme | guile | scheme48 | larceny |
+       scmlit | elk | sisc | kawa ]
 
 DESCRIPTION
        JACAL is a symbolic  mathematics  system  for  the  simplification  and
@@ -57,4 +57,4 @@ SEE ALSO
 
 
 
-4th Berkeley Distribution                                   JACAL(Jan 21 2005)
+4th Berkeley Distribution                                   JACAL(Dec 20 2007)

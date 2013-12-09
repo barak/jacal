@@ -75,7 +75,6 @@ Documentation License.''
 * Lambda Calculus::             Functions
 * Miscellaneous::               
 * Flags::                       
-* Copying This Manual::         
 * Index::                       
 @end menu
 @end ifnottex
@@ -90,18 +89,14 @@ expressions constructed of numbers, variables, radicals, and algebraic
 functions, differential, and holonomic functions.  In addition, vectors
 and matrices of the above objects are included.
 
-@iftex
-@ifclear html
 JACAL @value{JACALVERSION} was released @value{JACALDATE}.  Current
 information about JACAL can be found on JACAL's @dfn{WWW} home page:
 
 @center @url{http://swiss.csail.mit.edu/~jaffer/JACAL}
-@end ifclear
-@end iftex
 
-This is free software, and you are welcome to redistribute it under
-certain conditions; See the file COPYING with this program or type
-@code{(terms)();} to JACAL for details.
+JACAL, part of the GNU project, is free software, and you are welcome
+to redistribute it under certain conditions; See the file COPYING with
+this program or type @code{(terms)();} to JACAL for details.
 
 For a list of the features that have changed since the last JACAL
 release, see the file @file{ANNOUNCE}.  For a list of the features that
@@ -112,6 +107,7 @@ have changed over time, see the file @file{ChangeLog}.
 * Installation::                How to install JACAL on your system.
 * Running Jacal::               
 * Release Notes::               Useful information.
+* GNU Free Documentation License::  
 @end menu
 
 @node Authors and Bibliography, Installation, Overview, Overview
@@ -192,11 +188,11 @@ from @uref{http://swiss.csail.mit.edu/~jaffer/SLIB}.
 
 @deftp System i386 GNU/Linux with Redhat Package Manager (rpm)
 @example
-wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e4-1.i386.rpm
-wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3a5-1.noarch.rpm
-wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b8-1.noarch.rpm
-rpm -U scm-5e4-1.i386.rpm slib-3a5-1.noarch.rpm jacal-1b8-1.noarch.rpm
-rm scm-5e4-1.i386.rpm slib-3a5-1.noarch.rpm jacal-1b8-1.noarch.rpm
+wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5-1.i386.rpm
+wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1-1.noarch.rpm
+wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9-1.noarch.rpm
+rpm -U scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm
+rm scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm
 @end example
 
 The command @samp{jacal} will start an interactive session.
@@ -206,20 +202,20 @@ The command @samp{jacal} will start an interactive session.
 @deftp System Unix
 @deftpx System GNU/Linux
 @example
-wget http://swiss.csail.mit.edu/ftpdir/scm/scm5e4.zip
-wget http://swiss.csail.mit.edu/ftpdir/scm/slib3a5.zip
-wget http://swiss.csail.mit.edu/ftpdir/scm/jacal1b8.zip
-unzip -ao scm5e4.zip
-unzip -ao slib3a5.zip
-unzip -ao jacal1b8.zip
+wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5.zip
+wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1.zip
+wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9.zip
+unzip -ao scm-5e5.zip
+unzip -ao slib-3b1.zip
+unzip -ao jacal-1b9.zip
 (cd slib; make install)
 (cd scm; make scm; make install)
 (cd jacal; make install)
-rm scm5e4.zip slib3a5.zip jacal1b8.zip
+rm scm-5e5.zip slib-3b1.zip jacal-1b9.zip
 @end example
 
 The command @samp{jacal} will start an interactive session using ELK,
-Gambit, Guile, MIT-Scheme, MzScheme, Scheme48, SCM, or SISC.
+Gambit, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48, SCM, or SISC.
 Type @samp{jacal --help} for instructions.
 @end deftp
 
@@ -232,9 +228,9 @@ installing SCM and SLIB on Macintosh computers.
 
 @deftp System x86 Microsoft
 Download and run
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/SLIB-3a5-1.exe},@*
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/SCM-5e4-1.exe}, and@*
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/JACAL-1b8-1.exe}.
+@uref{http://swiss.csail.mit.edu/ftpdir/scm/SLIB-3b1-1.exe},@*
+@uref{http://swiss.csail.mit.edu/ftpdir/scm/SCM-5e5-1.exe}, and@*
+@uref{http://swiss.csail.mit.edu/ftpdir/scm/JACAL-1b9-1.exe}.
 @end deftp
 
 
@@ -341,7 +337,7 @@ end-of-file character will terminate the session.
 
 
 
-@node Release Notes,  , Running Jacal, Overview
+@node Release Notes, GNU Free Documentation License, Running Jacal, Overview
 @section Release Notes
 @cindex Release Notes
 
@@ -427,6 +423,12 @@ has initializations for modes in Jacal.
 @item view.scm
 is a program for viewing TeX expressions.
 @end table
+
+
+@node GNU Free Documentation License,  , Release Notes, Overview
+@section GNU Free Documentation License
+
+@include fdl.texi
 
 
 @node Algebra, Calculus, Overview, Top
@@ -2304,16 +2306,12 @@ Prints a copy of the GNU General Public License
 @example
 @group
 e1 : terms();
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
 
-GNU GENERAL PUBLIC LICENSE
-**************************
-                        Version 1, February 1989
-
-     Copyright (C) 1989 Free Software Foundation, Inc.
-     59 Temple Place, Suite 330, Boston, MA 02111, USA
-
-     Everyone is permitted to copy and distribute verbatim copies
-     of this license document, but changing it is not allowed.
+ Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
 @end group
 @end example
                   [ rest deleted for brevity]
@@ -2416,7 +2414,7 @@ e5: [disp2d, standard, schemepretty, scheme]
 @end deffn
 
 
-@node Flags, Copying This Manual, Miscellaneous, Top
+@node Flags, Index, Miscellaneous, Top
 @chapter Flags
 
 
@@ -2592,17 +2590,7 @@ e16 : b+c;
 @end example
 @end defvr
 
-@node Copying This Manual, Index, Flags, Top
-@appendix Copying This Manual
-
-@menu
-* GNU Free Documentation License::  License for copying this manual.
-* How to use this License for your documents::  
-@end menu
-
-@include fdl.texi
-
-@node Index,  , Copying This Manual, Top
+@node Index,  , Flags, Top
 @unnumbered Index
 
 @printindex fn
