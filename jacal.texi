@@ -16,20 +16,16 @@
 This manual is for JACAL (version @value{JACALVERSION}, @value{JACALDATE}),
 an interactive symbolic mathematics system.
 
-Copyright @copyright{} 1993-1999, 2002, 2006 Free Software Foundation, Inc.
+Copyright @copyright{} 1993-1999, 2002, 2006, 2007
+Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2 or
 any later version published by the Free Software Foundation; with no
-Invariant Sections, with the Front-Cover Texts being ``A GNU Manual,''
-and with the Back-Cover Texts as in (a) below.  A copy of the
-license is included in the section entitled ``GNU Free Documentation
-License.''
-
-(a) The FSF's Back-Cover Text is: ``You have freedom to copy and modify
-this GNU Manual, like GNU software.  Copies published by the Free
-Software Foundation raise funds for GNU development.''
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled ``GNU Free
+Documentation License.''
 @end quotation
 @end copying
 
@@ -194,13 +190,13 @@ installed, then the @samp{scm} steps are unnecessary.
 JACAL also requires the SLIB Portable Scheme library which is available
 from @uref{http://swiss.csail.mit.edu/~jaffer/SLIB}.
 
-@deftp System i386 Linux with Redhat Package Manager (rpm)
+@deftp System i386 GNU/Linux with Redhat Package Manager (rpm)
 @example
-wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e3-1.i386.rpm
-wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3a4-1.noarch.rpm
-wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b7-1.noarch.rpm
-rpm -U scm-5e3-1.i386.rpm slib-3a4-1.noarch.rpm jacal-1b7-1.noarch.rpm
-rm scm-5e3-1.i386.rpm slib-3a4-1.noarch.rpm jacal-1b7-1.noarch.rpm
+wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e4-1.i386.rpm
+wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3a5-1.noarch.rpm
+wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b8-1.noarch.rpm
+rpm -U scm-5e4-1.i386.rpm slib-3a5-1.noarch.rpm jacal-1b8-1.noarch.rpm
+rm scm-5e4-1.i386.rpm slib-3a5-1.noarch.rpm jacal-1b8-1.noarch.rpm
 @end example
 
 The command @samp{jacal} will start an interactive session.
@@ -208,21 +204,23 @@ The command @samp{jacal} will start an interactive session.
 
 
 @deftp System Unix
-@deftpx System Linux
+@deftpx System GNU/Linux
 @example
-wget http://swiss.csail.mit.edu/ftpdir/scm/scm5e3.zip
-wget http://swiss.csail.mit.edu/ftpdir/scm/slib3a4.zip
-wget http://swiss.csail.mit.edu/ftpdir/scm/jacal1b7.zip
-unzip -ao scm5e3.zip
-unzip -ao slib3a4.zip
-unzip -ao jacal1b7.zip
+wget http://swiss.csail.mit.edu/ftpdir/scm/scm5e4.zip
+wget http://swiss.csail.mit.edu/ftpdir/scm/slib3a5.zip
+wget http://swiss.csail.mit.edu/ftpdir/scm/jacal1b8.zip
+unzip -ao scm5e4.zip
+unzip -ao slib3a5.zip
+unzip -ao jacal1b8.zip
+(cd slib; make install)
 (cd scm; make scm; make install)
 (cd jacal; make install)
-rm scm5e3.zip slib3a4.zip jacal1b7.zip
+rm scm5e4.zip slib3a5.zip jacal1b8.zip
 @end example
 
 The command @samp{jacal} will start an interactive session using ELK,
-MIT-Scheme, Gambit, UMB-Scheme, MzScheme, Guile, or SCM.
+Gambit, Guile, MIT-Scheme, MzScheme, Scheme48, SCM, or SISC.
+Type @samp{jacal --help} for instructions.
 @end deftp
 
 
@@ -232,36 +230,11 @@ installing SCM and SLIB on Macintosh computers.
 @end deftp
 
 
-@deftp System Microsoft
-Download @uref{http://swiss.csail.mit.edu/ftpdir/scm/scm.exe},@*
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/scm5e3.zip},@*
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/slib3a4.zip}, and@*
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/jacal1b7.zip}.
-
-Unzip each, creating the @file{scm}, @file{slib}, and @file{jacal}
-subdirectories.
-
-Create a batch script named @file{jacal.bat} to start Scheme and load
-@file{jacal/math.scm}.  If @file{scm.exe} and the subdirectories are
-installed in @samp{c:\scm\}, then @file{jacal.bat} would be:
-
-@example
-@@c:\scm\scm -iql c:\scm\jacal\math -ie"(math)" 
-@end example
-
-Start a MS-DOS prompt and CD to the installation directory.  Type
-@code{jacal}.  If jacal prints:
-
-@example
-JACAL version 1b7, Copyright 1989-2002 Aubrey Jaffer
-JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
-This is free software, and you are welcome to redistribute it
-under certain conditions; type `(terms)' for details.
-;;; Type (math) to begin.
-@end example
-
-then it is installed successfully.  Drag @file{jacal.bat} to the desktop
-if desired.  scm5e3.zip, slib3a4.zip, jacal1b7.zip can be deleted.
+@deftp System x86 Microsoft
+Download and run
+@uref{http://swiss.csail.mit.edu/ftpdir/scm/SLIB-3a5-1.exe},@*
+@uref{http://swiss.csail.mit.edu/ftpdir/scm/SCM-5e4-1.exe}, and@*
+@uref{http://swiss.csail.mit.edu/ftpdir/scm/JACAL-1b8-1.exe}.
 @end deftp
 
 
@@ -332,12 +305,12 @@ manual.
 There are several demonstration files in the @file{jacal} directory.
 To run, use the batch command @ref{Miscellaneous, batch}.
 
-@table @file
-@item demo
+@table @samp
+@item batch("demo");
 Demonstrates a variety of JACAL features.
-@item test.math
+@item batch("test.math");
 Tests each operator.
-@item rw.math
+@item batch("rw.math");
 Demonstrates tensors and The Robertson-Walker Cosmology Model.
 @end table
 

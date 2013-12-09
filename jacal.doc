@@ -6,18 +6,19 @@ NAME
        JACAL - symbolic mathematics system
 
 SYNOPSIS
-       jacal [ scm | gsi | mzscheme | guile | slib48 | scheme48 | scmlit ]
+       jacal [ scheme | scm | gsi | mzscheme | guile | scheme48 | scmlit | elk
+       | sisc | kawa ]
 
 DESCRIPTION
-       JACAL  is  a  symbolic  mathematics  system  for the simplification and
-       manipulation of equations and  single  and  multiple  valued  algebraic
-       expressions  constructed of numbers, variables, radicals, and algebraic
+       JACAL is a symbolic  mathematics  system  for  the  simplification  and
+       manipulation  of  equations  and  single  and multiple valued algebraic
+       expressions constructed of numbers, variables, radicals, and  algebraic
        functions, differential, and holonomic functions.  In addition, vectors
        and matrices of the above objects are included.
 
 OPTIONS
-       The  optional argument to the jacal script is the Scheme implementation
-       to run.  Absent the argument, it searches for  implementations  in  the
+       The optional argument to the jacal script is the Scheme  implementation
+       to  run.   Absent  the argument, it searches for implementations in the
        above order.
 
 ENVIRONMENT VARIABLES
@@ -32,7 +33,7 @@ FILES
               batch("demo"); to demonstrate commands in jacal
 
        rw.math
-              batch("rw.math");  to  demonstrate  tensors  in  "The Robertson-
+              batch("rw.math"); to  demonstrate  tensors  in  "The  Robertson-
               Walker Cosmology Model".
 
        test.math
@@ -47,8 +48,8 @@ SEE ALSO
        The JACAL home-page:
        http://swiss.csail.mit.edu/~jaffer/JACAL.html
 
-       The full documentation for jacal is maintained as a Texinfo manual.  If
-       the  info  and  jacal programs are properly installed at your site, the
+       The  full documentation for jacal is maintained as a Texinfo manual. If
+       the info and jacal programs are properly installed at  your  site,  the
        command
               info jacal
 

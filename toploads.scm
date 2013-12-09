@@ -3,7 +3,7 @@
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2 of the License, or (at
+;; the Free Software Foundation, either version 3 of the License, or (at
 ;; your option) any later version.
 ;;
 ;; This program is distributed in the hope that it will be useful, but
@@ -19,9 +19,10 @@
 (require-if 'compiling 'info)
 (require-if 'compiling 'precedence-parse)
 
-(define *jacal-version* "1b7")
+(define *jacal-version* "1b8")
 
-(define (jacal:dot) (display ".") (force-output)) (jacal:dot)
+(define (jacal:dot) (display ".") (force-output))
+(jacal:dot)
 (slib:load (in-vicinity (program-vicinity) "types"))
 (jacal:dot)		;Variables and type conversions.
 (define (math:exit b) (cleanup-handlers!) (slib:error "error in math system"))
@@ -51,7 +52,7 @@
 
 ;(define *symdefs* '())			;":" environment.
 (define *symdefs* (make-hash-table 37))	;":" environment.
-(slib:load (in-vicinity (program-vicinity) "sexp"))
+(defmacro:load (in-vicinity (program-vicinity) "sexp"))
 (jacal:dot)		;read-eval-print loop.  Conversion from
 			;sexpression to internal form and back.
 (slib:load (in-vicinity (program-vicinity) "poly"))
