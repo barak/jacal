@@ -1,0 +1,69 @@
+
+			      THE LEXER
+
+In English.scm there are the lines:
+(lex:def-class 70 '(#\^) #f)
+(lex:def-class 49 '(#\*) #f)
+(lex:def-class 50 '(#\/) #f)
+(lex:def-class 51 '(#\+ #\-) #f)
+(lex:def-class 20 '(#\|) #f)
+(lex:def-class 30 '(#\< #\> #\= #\: #\~) #f)
+(lex:def-class 40 '(#\0 #\1 #\2 #\3 #\4 #\5 #\6 #\7 #\8 #\9)
+	       (lambda (l) (string->number (list->string l))))
+(lex:def-class 41
+	    '(#\A #\B #\C #\D #\E #\F #\G #\H #\I #\J #\K #\L #\M
+	      #\N #\O #\P #\Q #\R #\S #\T #\U #\V #\W #\X #\Y #\Z
+	      #\a #\b #\c #\d #\e #\f #\g #\h #\i #\j #\k #\l #\m
+	      #\n #\o #\p #\q #\r #\s #\t #\u #\v #\w #\x #\y #\z
+	      #\@ #\_ #\% #\?)
+	    #f)
+(lex:def-class (lambda (chr) (or (eqv? #\" chr) (eof-object? chr)))
+	    '(#\")
+	    (lambda (l)
+	      (lex:read-char) (string->symbol (list->string (cdr l)))))
+(lex:def-class 0 (list slib:tab slib:form-feed #\  #\newline) #f)
+
+These lines define which character can be grouped into symbols in the
+standard input-grammar.  In the first line is only the character ^ and
+its class number is not 1 removed from any other.  Therefore it can
+only group with itself.  Eg.  ^ ^^ ^^^ ^^^^ ...
+
+e5 : a+^^^^-c;
+
+e5: ^^^^ + a - c
+
+The line (lex:def-class 30 '(#\< #\> #\= #\: #\~) #f) says that any
+consecutive combination of < > = : and ~ will be grouped together.
+
+41 is one greater than 40 so a symbol can begin with a class 41
+character and continue with either class 41 or class 40 characters.
+
+51 can have subsequent 50 characters; this gives us +/- and -/+.
+50 can have subsequent 49 characters; this gives us /*.
+
+Class 0 is special (all the other numbers are arbitrary).  It
+designates whitespace.
+
+#\" has a function rather than a class number.  This function is #t
+when the symbol should end.
+
+The last argument to lex:def-class is the function to run on the list
+of characters of a symbol.  If #f then a symbol is generated from the
+character list.
+
+			 INSTALLING A GRAMMAR
+
+(defgrammar 'mygrammar
+  (make-grammar 'mygrammar
+		(lambda (grm) (read))		;the reader
+		#f				;lex-tab
+		#f				;read-tab
+		(lambda (sexp grm) (write sexp));the writer
+		#f))				;write-tab
+
+The grm arguments are passed the whole grammar (a list of the args
+passed to make-grammar).  Lex-tab is used by the lexer if you call it.
+The read-tab can be used by the reader if you want it.  the write-tab
+contains the templates for the writer.  You can probably use inprint
+for the writer (which uses templates like those at the beginning of
+English.scm).

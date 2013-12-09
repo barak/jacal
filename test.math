@@ -1,0 +1,364 @@
+/*
+Copyright (C) 1993 Mike Thomas
+Copyright (C) 2002 Aubrey Jaffer
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+set echogrammar standard;
+
+verify(5^2, 25);
+a:[[1,2,3],[5,2,7]];
+b:[[3,2],[6,4]];
+verify(b . a, [[13,10,23], [26,20,46]]);
+c:[[1,3,5],[2,4,7]];
+d:[2,4];
+verify(c + d, [[3,5,7], [6,8,11]]);
+verify(3+2, 5);
+verify(e+d, [2 + e , 4 + e]);
+verify(-[1,2,3], [-1 , -2 , -3]);
+verify(3-7, -4);
+verify(+/-3, 3 * %sqrt1);
+verify((3 * %sqrt1)^2, 9);
+verify(+/-(3 * %sqrt1), 3);
+verify((x^2-y^2)/(x-y), x + y);
+verify(1=2, 0 = -1);
+verify((1+x)^4, 1 + 4* x + 6* x^2  + 4* x^3  + x^4);
+
+a:[[1,0],[-1,1]];
+verify(a^^3,[ [1,0], [-3,1]]);
+
+verify(bunch(1,2,3),[1 , 2 , 3]);
+verify(coeff((x+2)^4,x,0), 16);
+verify(coeff((x+2)^4,x,1), 32);
+verify(coeff((x+2)^4,x,2), 24);
+verify(coeff((x+2)^4,x,3), 8);
+verify(coeff((x+2)^4,x,4), 1);
+verify(coeffs((x+2)^4,x), [16 , 32 , 24 , 8 , 1]);
+verify(col([[1,2,4],[2,5,6]],2), [[2],[5]]);
+verify(content(2*x*y+4*x^2*y^2,y), [2* x , y + 2 *x* y^2 ]);
+
+verify(crossproduct([1,2,3],[4,2,5]),[4 , 7 , -6]);
+verify(denom(4/5), 5);
+
+a:[[1,2],[6,7]];
+verify(determinant(a), -5);
+verify(diagmatrix(12,3,a,s^2),
+	     [[12,  0,	0,  0 ],
+	      [0,   3,	0,  0 ],
+	      [0,   0,	a,  0 ],
+	      [0,   0,	0, s^2]]);
+verify(diagmatrix([1,2],2), [[[1 , 2],  0], [   0, 2]]);
+
+verify(divide(x^2+y^2,x-7*y^2,x), [x + 7* y^2  , y^2  + 49* y^4 ]);
+verify(divide(-7,3), [-2 , -1]);
+verify(divide(x^2+y^2+z^2,x+y+z), [- x - y + z , 2* x^2  + 2* x* y + 2* y^2 ]);
+verify(divide(x^2+y^2+z^2,x+y+z,y), [- x + y - z , 2* x^2  + 2* x* z + 2*z^2 ]);
+verify(divide(x^2+y^2+z^2,x+y+z,z), [- x - y + z , 2* x^2  + 2* x* y + 2* y^2 ]);
+
+a:[1,2,3];
+
+b:[3,1,5];
+
+verify(dotproduct(a,b), 20);
+
+verify(eliminate([x^2+y=0,x^3+y=0],[x]), 0 = y + y^2);
+verify(eliminate([x+y+z=3,x^2+y^2+z^2=3,x^3+y^3+z^3=3],[x,y]), 0 = 1 - z);
+
+
+verify(factors(120), [[[2], 3], [[3], 1], [[5], 1]]);
+verify(factors(-120), [[[-1], 1], [[2], 3], [[3], 1], [[5], 1]]);
+
+w(t):=t+1;
+verify(finv(w), lambda([@1], -1 + @1));
+
+verify(gcd(x^4-y^4,x^6+y^6),x^2  + y^2);
+verify(gcd(4,10), 2);
+
+e4: lambda([@1 , @2], @1  + @2 );
+
+verify(genmatrix(e4,3,5),
+   [[2,   3,   4,  5,  6],
+    [3,   4,   5,  6,  7],
+    [4,   5,   6,  7,  8]]);
+
+verify(ident(4),
+   [[1,  0,  0,  0],
+    [0,  1,  0,  0],
+    [0,  0,  1,  0],
+    [0,  0,  0,  1]]);
+
+e12 : lambda([x],x^2);
+e13 : lambda([x,y,z],x*y*z);
+
+verify(e12+e13, lambda([@1, @2, @3], @1^2  + @1* @2* @3));
+
+verify(listofvars(x^2+y^3),[x , y]);
+verify(listofvars((x^2+y^3)/(2*x^7+y*x+z)), [z , x , y]);
+
+b:[[1,2,3],[3,1,5],[5,2,7]];
+
+verify(minor(b,3,1),
+     [[2,  3],
+      [1,  5]]);
+
+verify(mod(5,2), 1);
+verify(mod(x^4+4,x^2=2), 8);
+
+verify(num((x^2+y^2)/(x^2-y^2)), -(x^2  + y^2));
+verify(num(7/4),7);
+verify(num(7/(4/3)),21);
+
+verify(or(x=2,y=3), 0 = -6 + 3 *x + (2 - x)* y);
+/* verify(or(2,3), {x | 0 = 6 - 5 *x + x^2 }); */
+verify(or(x=2,17), 17);
+
+verify(discriminant(x^3-1,x), -27);
+
+verify(rapply([[1,2,3],[1,4,6],3],2,3),6);
+verify(rapply([a,b],2),b);
+verify(rapply([a,b]), [a,b]);
+
+verify(resultant(x^2+n,x^3+n,x), n^2 + n^3);
+
+u:[[1,2,3],[1,5,3]];
+
+verify(row(u,2), [1, 5, 3]);
+
+verify(scalarmatrix(3,6),
+   [[6,  0,  0],
+    [0,  6,  0],
+    [0,  0,  6]]);
+
+verify(sylvester(a0+a1*x+a2*x^2+a3*x^3,b0+b1*x+b2*x^2,x),
+   [[a3,  a2,  a1,  a0,  0 ],
+    [0,   a3,  a2,  a1,  a0],
+    [b2,  b1,  b0,  0 ,  0 ],
+    [0,   b2,  b1,  b0,  0 ],
+    [0,   0,   b2,  b1,  b0]]);
+
+verify(differential(x^2+y^3), 2* x* x' + 3* y^2 * y');
+verify((x^2+y^3)', 2*x*x' + 3*y^2*y');
+verify((x^2+x*y^3)', 2*x*x' + 3*x*y^2*y'+ y^3*x');
+
+q:[[1,1,1,1,1],[1,2,3,4,5]];
+
+verify(transpose(q),
+    [[1,  1],
+     [1,  2],
+     [1,  3],
+     [1,  4],
+     [1,  5]]);
+
+A:[1,0];
+B:[1,3];
+C:[1,2];
+D:[0,0];
+E:[1,3,0];
+M : [
+      [1,2,3,0],
+      [3,7,4,2],
+      [4,4,5,6]
+     ];
+
+verify(rank([A]),     1);
+verify(rank([E]),     1);
+verify(rank(M),       3);
+verify(rank([A,B,C]), 2);
+verify(rank([A,B]),   2);
+verify(rank([A,C]),   2);
+verify(rank([B,C]),   2);
+
+
+D: [[- k12 - k13, k21, k31],
+    [k12, - k23 - k21, k32],
+    [k13, k23, - k31 - k32]];
+
+verify(determinant(D), 0);
+
+verify(wronskian(x, e^x, x*e^x), e^(2*x));
+
+/* Complex numbers */
+
+verify((-1)^(1/2), %i);
+verify((-1)^(2/2), -1);
+verify((-1)^(3/2), -%i);
+verify((-1)^(5/2), %i);
+
+/* The old eliminate problem */
+
+YN1: 2 * A1 + 2 * L1 * M1;
+YN2: 4 * B1 - 2 * L1 * M1;
+YN3: A1 + 2* B1;
+verify(eliminate([YN1=0,YN2=0],[M1]), YN3=0);
+
+YN1: 2 * A1 + 2 * L1 * M1 ^ 2;
+YN2: 4 * B1 - 2 * L1 * M1 ^ 2;
+YN3: A1 + 2* B1;
+verify(eliminate([YN1=0,YN2=0],[M1]), YN3=0);
+
+YN1: 2 * A1 + 2 * L1 * M1 ^ 3;
+YN2: 4 * B1 - 2 * L1 * M1 ^ 3;
+YN3: A1 + 2* B1;
+verify(eliminate([YN1=0,YN2=0],[M1]), YN3=0);
+
+YN1: 2 * A1 + 2 * L1 * M1 ^ 2;
+YN2: 4 * B1 - 2 * L1 * M1;
+YN3: A1 * L1 + 4* B1^2;
+verify(eliminate([YN1=0,YN2=0],[M1]), YN3=0);
+
+YN1: 2 * A1 + 2 * L1 * M1 ^ 3;
+YN2: 4 * B1 - 2 * L1 * M1;
+YN3: A1 * L1^2 + 8 * B1^3;
+verify(eliminate([YN1=0,YN2=0],[M1]), YN3=0);
+
+YN1: 2 * A1 + 2 * L1 * M1 ^ 2;
+YN2: 4 * B1 - 2 * L1 * M1 ^ 3;
+YN3: A1^3 * L1 + 4 * B1^2 * L1^2;
+verify(eliminate([YN1=0,YN2=0],[M1]), YN3=0);
+
+/* Manipulate the Gibbs equation */
+
+verify({dU | T * dS = dU + P * dV - mu1 * dc1 - mu2 * dc2},
+           T*dS-P*dV+mu1*dc1+mu2*dc2);
+verify({T | T * dS = dU + P * dV - mu1 * dc1 - mu2 * dc2},
+           (dU+P*dV-mu1*dc1-mu2*dc2)/dS);
+verify({mu1 | T * dS = dU + P * dV - mu1 * dc1 - mu2 * dc2},
+           (dU+P*dV-T*dS-mu2*dc2)/dc1);
+
+/* And again using the ' operator */
+
+verify({U' | T * S' = U' + P * V' - mu1 * c1' - mu2 * c2'},
+           T*S'-P*V'+mu1*c1'+mu2*c2');
+verify({T | T * S' = U' + P * V' - mu1 * c1' - mu2 * c2'},
+           (U'+P*V'-mu1*c1'-mu2*c2')/S');
+verify({mu1 | T * S' = U' + P * V' - mu1 * c1' - mu2 * c2'},
+           (U'+P*V'-T*S'-mu2*c2')/c1');
+
+/* Use a lambda expression for the power method of approximating a
+   dominant eigenvalue */
+
+A: [[3,2], [-1,0]];
+X: [[1], [1]];
+
+/* NOT DONE: power(a99, n99, x99): a99^^n99 . x99;
+*/
+
+verify((A^^3) . X, [[29],[-13]]);
+
+verify(pa1 || 1/pa2, pa1/(1 + pa1 * pa2));
+
+/* Complex Expressions (first reset variables)
+*/
+
+a:a;b:b;c:c;d:d;p:p;q:q;u:u;v:v;w:w;x:x;y:y;z:z;A:A;B:B;C:C;D:D;U:U;V:V;X:X;Y:Y;Z:Z;
+
+cp1: (a+%i*b)/(c+%i*d);
+
+verify(|cp1|, ((a^2 + b^2) * c^2 + (a^2 + b^2) * d^2)^(1/2)/|(c^2 + d^2)|);
+
+verify(realpart(cp1), (a * c + b * d)/(c^2 + d^2));
+
+verify(imagpart(cp1), (b * c - a * d)/(c^2 + d^2));
+
+verify(factors((a-b)^5-1),
+       [[[-1, 1 - a + b, 1 + a + a^2 + a^3 + a^4 +
+       (-1 - 2 * a - 3 * a^2 - 4 * a^3) * b +
+       (1 + 3 * a + 6 * a^2) * b^2 + (-1 - 4 * a) * b^3 + b^4], 1]]);
+
+verify(ffsff(x^5+x^3+1, 53),
+	[[16 - 22 * x + 26 * x^2 + x^3, 1], [-13 + x, 2]]);
+
+verify(berl(x^5+x^3+2, 53),
+	[1 + x, 5 - 26 * x + x^2, 11 + 25 * x + x^2]);
+
+verify(factors((a^2+1)*(a^2+3)*(a^3-5)*(a^5+9)),
+	[[[1 + a^2, 3 + a^2, -5 + a^3, 9 + a^5], 1]]);
+
+verify(factors((14*x^4-10/68*x^-5)/(5*x^2+1)),
+	[[[x], -5], [[2, 17, 1 + 5 * x^2], -1], [[-5 + 476 * x^9], 1]]);
+
+verify(factors(x*y), [[[x, y], 1]]);
+
+verify(factors((x+a)*(y^4-z)), [[[-1, a + x, (- y^4) + z], 1]]);
+
+verify(factors((x+u*a^3)*(y^4-z)), [[[-1, a^3 * u + x, (- y^4) + z], 1]]);
+
+verify(factors((x+u*a^3)^2*(y^4-z)/((x+1)*(u^2-v^2))),
+	[[[(- u) + v, u + v, 1 + x], -1],
+	[[(- y^4) + z], 1],
+	[[a^3 * u + x], 2]]);
+
+verify(factors(200*(-1*x+1+y)*(u-r^6)*(21*x+2-t^4)),
+	[[[(- r^6) + u, 2 - t^4 + 21 * x, 1 - x + y], 1], [[5], 2], [[2], 3]]);
+
+verify(factors(2*(a+u)*(-v+b)*(a*x+y)^2),
+	[[[-1, 2, a + u, (- b) + v], 1], [[a * x + y], 2]]);
+
+verify(factors(2*(a+u)*(-v+b)*(a*x+y)^2/((u^2-v^2)*(11*x+55))),
+	[[[11, (- u) + v, u + v, 5 + x], -1],
+	[[2, a + u, (- b) + v], 1],
+	[[a * x + y], 2]]);
+
+verify(factors(2*(a+u)*(-v+b)*(a*x+y)^2/((u^2-v^2)*x^4*(11*x+55))),
+	[[[x], -4],
+	[[11, (- u) + v, u + v, 5 + x], -1],
+	[[2, a + u, (- b) + v], 1], 
+	[[a * x + y], 2]]);
+
+verify(factors((c^3*u+b*a)*(b*b*a+v*p^2*q^2*c)),
+	[[[a * b + c^3 * u, a * b^2 + c * p^2 * q^2 * v], 1]]);
+
+verify(factors((2*z+y-x)*(y^3-a*x^2)*(b*z^2+y)),
+	[[[(- a * x^2) + y^3, (- x) + y + 2 * z, y + b * z^2], 1]]);
+
+verify(factors((c*z+a)*(a*z+b)*(b*z+c)),
+	[[[b + a * z, c + b * z, a + c * z], 1]]);
+
+verify(factors(((x+w)^2*z-u*d)*(-2*a*b*z+c)),
+	[[[-1, (- c) + 2 * a * b * z, (- d * u) + (w^2 + 2 * w * x + x^2) * z], 1]]);
+
+verify(factors((-200*%i*x-c)*(x-d-z^5)/(a*(b^3-(a+u)*z))),
+	[[[a, (- b^3) + (a + u) * z], -1],
+	 [[-1, c + 200 * %i * x, d - x + z^5], 1]]);
+
+/* This one has out-of-control landau-mignotte-bound
+*/
+
+verify(factors((a*a*b*(x+w)*z+d)*(2*a*b*b*z+c)),
+	[[[c + 2 * a * b^2 * z, d + (a^2 * b * w + a^2 * b * x) * z], 1]]);
+
+verify(factors((a*a*b*z+d)*(2*a*b*b*z+c)),
+	[[[d + a^2 * b * z, c + 2 * a * b^2 * z], 1]]);
+
+verify(factors((a*a*b*z+d)*(2*a*b*b*z+c)*((u+a)*x+1)),
+	[[[1 + (a + u) * x, d + a^2 * b * z, c + 2 * a * b^2 * z], 1]]);
+
+/* Very very slow; does it halt?
+*/
+
+verify(factors((a*a*b*z+d)*(2*a*b*b*z+c)*((u+a)*z+1)),
+	[[[d + a^2 * b * z, c + 2 * a * b^2 * z, 1 + (a + u) * z], 1]]);
+
+/* Test multivariate factoring with square leading coefficient.
+*/
+
+verify(factors(x^2 - 9*y^2),
+	[[[-1, - x + 3 * y, x + 3 * y], 1]]);
+
+verify(factors((2*z+y-x)*(y^3*z-a*x^2)*(b*z^2+y)),
+	[[[(- x) + y + 2 * z, (- a * x^2) + y^3 * z, y + b * z^2], 1]]);
+
+/* Done. */
+set echogrammar null;

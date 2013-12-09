@@ -1,0 +1,76 @@
+This message announces the availability of JACAL release jacal1b7.
+
+JACAL is an interactive symbolic mathematics program.  JACAL can
+manipulate and simplify equations, scalars, vectors, and matrices of
+single and multiple valued algebraic expressions containing numbers,
+variables, radicals, and algebraic differential, and holonomic
+functions.
+
+JACAL is written in Scheme and works with Scheme implementations which
+support the SLIB Scheme Library.  The SCM Scheme implementation
+(written in C) is available with JACAL.  SCM runs on Amiga, Atari-ST,
+MacOS, MS-DOS, OS/2, NOS/VE, Unicos, VMS, Windows, Unix and similar
+systems.
+
+JACAL is free software.  It is released under the GNU Public License
+(GPL).
+
+Documentation and distributions in several formats are linked from
+JACAL's home page:
+
+	    http://swiss.csail.mit.edu/~jaffer/JACAL.html
+
+Links to distributions of JACAL and related softwares are at the end
+of this message.
+
+				-=-=-
+jacal1b7 news:
+
++ Fixed problems running in Scheme48 and Bigloo.
+
++ Improved installation procedures.
+
+  * jacal.sh: Pass extra argument to $command.
+
+  * Makefile (dvi, pdf): New tetex-3.0(-20.FC5) broke them -- fixed.
+  (ratint.pdf): Repaired for tetex-3.0.
+  (mfiles): Added fdl.texi.
+  (docs): Added target to make all documentation files; invoke xdvi.
+  (jacal48): Add "(require 'fluid-let)"; batch now works.
+
+  * jacal.texi (Index): Merged indexes.
+
+  * sexp.scm: Added (require 'fluid-let).
+
+  * unparse.scm (print-using-grammar): Renamed from inprint.
+  (template-print): Renamed from tprint.
+
+  * ff.scm (sym:invert, sym:sym): Use symmetric:modulus procedure.
+
+				-=-=-
+
+JACAL is available from:
+ http://swiss.csail.mit.edu/ftpdir/scm/jacal1b7.zip
+ swiss.csail.mit.edu:/pub/scm/jacal1b7.zip (FTP instructions follow)
+Also available as RPM:
+ http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b7-1.noarch.rpm
+ swiss.csail.mit.edu:/pub/scm/jacal-1b7-1.noarch.rpm
+
+SLIB is a portable scheme library which JACAL requires:
+ http://swiss.csail.mit.edu/ftpdir/scm/slib3a4.zip
+ swiss.csail.mit.edu:/pub/scm/slib3a4.zip
+Also available as RPM:
+ http://swiss.csail.mit.edu/ftpdir/scm/slib-3a4-1.noarch.rpm
+ swiss.csail.mit.edu:/pub/scm/slib-3a4-1.noarch.rpm
+
+SCM is a small Scheme implementation under which JACAL will run.
+SCM source is available from:
+ http://swiss.csail.mit.edu/ftpdir/scm/scm5e3.zip
+ swiss.csail.mit.edu:/pub/scm/scm5e3.zip
+Also available as i386 binary RPM:
+ http://swiss.csail.mit.edu/ftpdir/scm/scm-5e3-1.i386.rpm
+ swiss.csail.mit.edu:/pub/scm/scm-5e3-1.i386.rpm
+
+Programs for printing and viewing TexInfo documentation (which JACAL
+has) come with GNU Emacs or can be obtained via ftp from:
+ ftp://ftp.gnu.org/pub/gnu/texinfo/texinfo-4.8.tar.gz

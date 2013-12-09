@@ -1,0 +1,35 @@
+
+				JACAL
+
+In December of 1987, in order to facilitate the design of constant
+impedance electrical filters (diplexers), I wrote a symbolic circuit
+analysis program.  It was written in LISP (2 weeks), implemented
+Canonical Rational Expressions, and was not particularly sophisticated
+(Euclidean GCD).  It worked directly with the small signal Laplace
+Transform of currents, voltages, and impedances.  After doing some
+reading about symbolic manipulation, I became fascinated with the
+problem of canonical forms.  This interest produced JACAL.
+
+JACAL is a symbolic mathematics system for the simplification and
+manipulation of equations and single and multiple valued algebraic
+expressions constructed of numbers, variables, radicals, and algebraic
+functions, differential, and holonomic functions.  In addition,
+vectors and matrices of the above objects are included.
+
+JACAL is written in Scheme.  A version of Scheme (IEEE P1178 and R4RS
+compliant) written in C is available with JACAL.  SCM runs on Amiga,
+Atari-ST, MacOS, MS-DOS, OS/2, NOS/VE, VMS, Unix and similar systems.
+
+To receive an IBM PC floppy disk with the documentation, source and
+executable files, send $99.00 to: Aubrey Jaffer, 84 Pleasant St.,
+Wakefield MA 01880 USA.
+
+			      THE AUTHOR
+
+I am a working programmer and electronic engineer.  I am also board
+member of the League for Programming freedom, an organization of
+people upset about the developing legal climate that's making it
+difficult to write software without risk of litigation.  For more
+information, contact: League for Programming Freedom, 1 Kendall
+Square, #143, P.O. Box 9171, Cambridge, MA 02139, USA (617-621-7084
+and 617-577-1209 FAX).

@@ -1,0 +1,24 @@
+                              JACAL HELP
+
+You are typing at Jacal's top level.  Typing "qed;" will exit Jacal to
+Scheme.  If you are running in an interactive Scheme, you can reenter
+your session by typing "(math)".
+
+When you see the line "--more--" printed by Jacal, type <space>
+followed by <return> (or <enter>) to see more of what is being
+printed.  Type "q" or "Q" to stop the printing of the expression or
+file.
+
+There is a limited online help system.  Type "commands();" to see all
+available commands.  Typing "describe(describe);" will give a short
+explanation of describe.  Typing "example(describe);" will give an
+example of the use of describe.  Not all commands have examples.
+
+Jacal also has flags that can be set to control features of operation.
+Typing "show all;" will list them.
+
+When Jacal thinks that a sub-expression is missing from an input
+expression, it will put a "?" in the place it expected the
+sub-expression.  This "?" can be treated as a regular variable.  You
+can use this to modify the expression (using Eliminate) so that you
+don't have to retype the entire expression.

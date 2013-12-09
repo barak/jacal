@@ -1,0 +1,10 @@
+;;; "jacalcat": SLIB catalog additions for JACAL.     -*-scheme-*-
+(
+ (finite-fields		defmacro "ff")
+ (polynomial-factors	defmacro "factors")
+ (combinatorics		. "combin")
+ (univariate-hensel	defmacro "uv-hensel")
+ (hensel		. "hensel")
+ (debug-jacal		. "debug")
+ (info			. "info")
+ )

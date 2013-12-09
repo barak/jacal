@@ -1,0 +1,61 @@
+.\" dummy line
+.TH JACAL "Jan 21 2005"
+.UC 4
+.SH NAME
+JACAL \- symbolic mathematics system
+.SH SYNOPSIS
+.B jacal
+[ scm | gsi | mzscheme | guile | slib48 | scheme48 | scmlit ]
+.br
+.sp 0.3
+.SH DESCRIPTION
+JACAL is a symbolic mathematics system for the simplification and
+manipulation of equations and single and multiple valued algebraic
+expressions constructed of numbers, variables, radicals, and algebraic
+functions, differential, and holonomic functions.  In addition, vectors
+and matrices of the above objects are included.
+.SH OPTIONS
+The optional argument to the
+.I jacal
+script is the Scheme implementation to run.  Absent the argument, it
+searches for implementations in the above order.
+.SH ENVIRONMENT VARIABLES
+.TP
+.B SCHEME_LIBRARY_PATH
+is the SLIB Scheme library directory.
+.SH FILES
+.TP
+jacal.info
+.br
+Texinfo documentation of
+.I jacal.
+.TP
+demo
+.br
+batch("demo"); to demonstrate commands in
+.I jacal
+.TP
+rw.math
+.br
+batch("rw.math"); to demonstrate tensors in
+"The Robertson-Walker Cosmology Model".
+.TP
+test.math
+.br
+batch("test.math"); for regression suite.
+.SH AUTHORS
+Aubrey Jaffer (agj @ alum.mit.edu)
+.br
+Michael Thomas
+.br
+Jerry D. Hedden
+.SH SEE ALSO
+The JACAL home-page:
+.br
+http://swiss.csail.mit.edu/~jaffer/JACAL.html
+.TP
+The full documentation for jacal is maintained as a Texinfo manual. If the info and jacal programs are properly installed at your site, the command
+.br
+info jacal
+.TP
+should give you access to the complete manual.

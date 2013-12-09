@@ -1,0 +1,79 @@
+This directory contains the distribution of jacal1b7.  Jacal is a
+symbolic mathematics system written in the programming language Scheme.
+
+	     http://swiss.csail.mit.edu/~jaffer/JACAL.html
+
+File: jacal.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
+
+1.2 Installation
+================
+
+The JACAL program is written in the Algorithmic Language "Scheme".  So
+you must obtain and install a Scheme implementation in order to run it.
+The installation procedures given here use the SCM Scheme
+implementation.  If your system has a Scheme (or Guile) implementation
+installed, then the `scm' steps are unnecessary.
+
+  JACAL also requires the SLIB Portable Scheme library which is
+available from `http://swiss.csail.mit.edu/~jaffer/SLIB'.
+
+ -- System: i386 Linux with Redhat Package Manager (rpm)
+          wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e3-1.i386.rpm
+          wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3a4-1.noarch.rpm
+          wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b7-1.noarch.rpm
+          rpm -U scm-5e3-1.i386.rpm slib-3a4-1.noarch.rpm jacal-1b7-1.noarch.rpm
+          rm scm-5e3-1.i386.rpm slib-3a4-1.noarch.rpm jacal-1b7-1.noarch.rpm
+
+     The command `jacal' will start an interactive session.
+
+ -- System: Unix
+ -- System: Linux
+          wget http://swiss.csail.mit.edu/ftpdir/scm/scm5e3.zip
+          wget http://swiss.csail.mit.edu/ftpdir/scm/slib3a4.zip
+          wget http://swiss.csail.mit.edu/ftpdir/scm/jacal1b7.zip
+          unzip -ao scm5e3.zip
+          unzip -ao slib3a4.zip
+          unzip -ao jacal1b7.zip
+          (cd scm; make scm; make install)
+          (cd jacal; make install)
+          rm scm5e3.zip slib3a4.zip jacal1b7.zip
+
+     The command `jacal' will start an interactive session using ELK,
+     MIT-Scheme, Gambit, UMB-Scheme, MzScheme, Guile, or SCM.
+
+ -- System: Apple
+     `http://www.io.com/~cobblers/scm/' has downloads and utilities for
+     installing SCM and SLIB on Macintosh computers.
+
+ -- System: Microsoft
+     Download `http://swiss.csail.mit.edu/ftpdir/scm/scm.exe',
+     `http://swiss.csail.mit.edu/ftpdir/scm/scm5e3.zip',
+     `http://swiss.csail.mit.edu/ftpdir/scm/slib3a4.zip', and
+     `http://swiss.csail.mit.edu/ftpdir/scm/jacal1b7.zip'.
+
+     Unzip each, creating the `scm', `slib', and `jacal' subdirectories.
+
+     Create a batch script named `jacal.bat' to start Scheme and load
+     `jacal/math.scm'.  If `scm.exe' and the subdirectories are
+     installed in `c:\scm\', then `jacal.bat' would be:
+
+          @c:\scm\scm -iql c:\scm\jacal\math -ie"(math)"
+
+     Start a MS-DOS prompt and CD to the installation directory.  Type
+     `jacal'.  If jacal prints:
+
+          JACAL version 1b7, Copyright 1989-2002 Aubrey Jaffer
+          JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
+          This is free software, and you are welcome to redistribute it
+          under certain conditions; type `(terms)' for details.
+          ;;; Type (math) to begin.
+
+     then it is installed successfully.  Drag `jacal.bat' to the desktop
+     if desired.  scm5e3.zip, slib3a4.zip, jacal1b7.zip can be deleted.
+
+Compiling Jacal
+---------------
+
+For Scheme implementations with compilers, it is worthwhile to compile
+SLIB files, and the JACAL files `types.scm' and `poly.scm'.
+

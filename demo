@@ -1,0 +1,82 @@
+set echogrammar standard;
+/*
+Running demo, a test batch file.
+
+Entering a simple formula: */a-b;
+/*
+generating a simple radical
+
+*/
+rad:%^(1/2);
+/*
+Now that the simple radical has been defined, it will split any
+radicals of which it is a factor
+
+*/
+rad2:(a^2-b^2)^(1/2);
+/*
+The total differential is:
+
+*/
+%';
+/*
+The derivative with respect to b is:
+
+*/
+diff(rad2,b);
+/*
+lets try generating a 3rd order field extension
+
+*/
+foo3:{a|a^3+a*x+y};
+/*
+does the original formula extinguish the extension?
+
+*/
+verify(%^3+%*x+y,0);
+/*
+now, lets see what the derivative
+in terms of the field extension is
+
+*/
+foo3';
+/*
+The derivative with respect to x is:
+
+*/
+diff(foo3,x);
+/*
+ Non-commutative partials example from Tom M. Apostol, Mathematical
+Analysis, Addison-Wesley Publishing Co., 1957
+
+*/
+Af(x,y) : x*y*(x^2-y^2)/(x^2+y^2);
+Df1 : partial(Af,1);
+Df2 : partial(Af,2);
+verify(-y,Df1(0,y));
+verify(x,Df2(x,0));
+verify(partial(Df1(0,@2),@2),-1);
+verify(partial(Df2(@1,0),@1),1);
+
+verify([[1,0],[-2,1]],[[1,0],[-1,1]]^^2);
+mp:[2*x-(a-1)*y=5*b,a*x+b*y+c=0];
+coefmatrix(mp,[x,y]);
+d2:augcoefmatrix(mp,[x,y]);
+/*
+echelon(d2);
+  triangularize(d2);*/
+rank(d2);
+amatrix:[[3,1],[2,4]];
+charpoly(amatrix,lam);
+/*
+variables can be eliminated from expressions and equations, even
+involving radicals and functions.
+
+*/
+eliminate([a^2/c+a^(1/2)+f(a,b,c),a=b/c],a);
+verify(%,(b^2 + f(b/c, b, c) * c^3 + c^2 * b^(1/2) * c^(1/2))/c^3);
+/*
+done
+
+*/
+set echogrammar null;

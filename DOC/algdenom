@@ -1,0 +1,32 @@
+	    Algorithm to Remove Radicals From Denominators
+
+Based on the denominator s(y) generate a factor which when multiplied
+times the ratio will remove y from the denominator s(y).
+
+Let y be defined by a polynomial p(y)=0.
+Let s(y) be a polynomial in y with deg(s(y)) < deg(p(y)).
+Psuedo-dividing p(y) by s(y), the psuedo-quotient q1(y) and the
+psuedo-remainder r1(y) satisfy
+lc^(n-m+1)*p(y) = q1(y)*s(y) + r1(y) ; deg(r1(y)) < deg(s(y))
+If deg(r1(y))=0
+  then q1(y)*s(y) = -r1
+  else psuedo-divide p(y) by r1(y)
+    lc^(n-m+1)*p(y) = q2(y)*r1(y) + r2(y) ; deg(r2(y)) < deg(r1(y))
+This is repeated until deg(rk(y)) = 0.
+Thus q1(y)*q2(y)*...*qk(y)*s(y) = (-1)^k * rk.
+
+The product q1(y)*q2(y)*...*qk(y) is a factor which when multiplied
+times a ratio will remove y from the denominator s(y).
+
+Ira Gessel suggests instead using the extended Euclidean Algorithm.
+Given p(y) and s(y) as above, it produces polynomials
+a(y) and b(y) such that
+a(y)*p(y) + b(y)*s(y) = gcd(p(y),s(y)) = r1.
+Because p(y)=0 the product b(y)*s(y) = r1.
+
+If rk=0 then p(y) and s(y) have a common factor and hence we are
+dividing by zero.  An example of this is 1/(y+2) where y is defined by
+y^2 - 4 = 0.
+
+If deg(s(y))=1 the first algorithm terminates after the first
+division;  The second algorithm will require more divisions.

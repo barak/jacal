@@ -1,0 +1,231 @@
+/* RW.MATH -- An application of JACAL's tensor-like support functions
+   Copyright (C) 1993, 1997 Jerry D. Hedden
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or (at
+   your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+   Execute this program in JACAL with:  batch("rw.math");
+*/
+
+
+/* >>>>>>>>>>>>>>  The Robertson-Walker Cosmology Model  <<<<<<<<<<<<<<
+
+   This batch file deals with the Robertson-Walker generalization of the
+   Friedmann cosmology model.
+
+   The space-time "interval" for this model is given by:
+
+        ds^2 = - dt^2 +
+                 S(t)^2 * d(r)^2/(1-k*r^2) +
+                 S(t)^2 * r^2 * d(theta)^2 +
+                 S(t)^2 * r^2 * sin(theta)^2 * d(phi)^2
+
+   where t is in geometrized units of length (c=1), S(t) is the four-
+   dimensional radius of the universe as a function of time, and r is a
+   pseudo-distance coordinate.  For a "closed universe", k = 1, and "the
+   distance between galaxies" is given by S(t) * arcsin(r).  For an "open
+   universe", k = -1, and distance is S(t) * arcsinh(r).  For a "flat
+   universe", there can, technically, be no expansion/contraction.
+   Therefore, k = 0, S(t) = 1, and r is distance.
+
+   Because JACAL is 1-based (not 0-based), the fourth coordinate will be
+   used to represent time (which is usually the zero coordinate x0).
+   Therefore, x1 = r, x2 = theta, x3 = phi and x4 = t in the results below.
+
+   The names given to the tensors below are suffixed in such a was as to
+   indicate the contra-/covariant nature of the indices involved.  For
+   example, Riemann_ulll is a tensor whose first index in contravariant and
+   remaining indices covariant.
+
+   Modify and add 'set outgrammar ...' commands, as desired.
+*/
+
+
+set outgrammar null;
+
+require("tensor");              /* JACAL's tensor-like support functions */
+
+transcript("rw.log");           /* Log the model's results */
+
+
+/* The metric tensor is specific to each space-time configuration, and is
+   usually symbolized in the literature by a lowercase g with covariant
+   indices:
+                        g
+                         ab
+*/
+set outgrammar disp2d;
+
+metric_ll : diagmatrix( S(x4)^2 / (1-k*x1^2),
+                        S(x4)^2 * x1^2,
+                        S(x4)^2 * x1^2 * sin(x2)^2,
+                        -1 );
+
+
+/* The metric tensor with contravariant indices is the inverse of the
+   metric tensor with covariant indices:
+
+                         ab        -1
+                        g   = (g  )
+                                ab
+
+   NOTE:  Perform actual matrix inversion if the metric tensor has off-
+   diagonal elements.
+*/
+set outgrammar disp2d;
+
+metric_uu : diagmatrix( 1/metric_ll[1,1],
+                        1/metric_ll[2,2],
+                        1/metric_ll[3,3],
+                        1/metric_ll[4,4] );
+
+
+/* The metric tensor with mixed indices is just the identity matrix.
+*/
+set outgrammar null;
+
+metric_ul : ident(4);
+
+
+/* The determinant of metric tensor yields information about a unit volume
+   of the space-time.
+*/
+set outgrammar disp2d;
+
+det_metric : determinant(metric_ll);
+
+
+/* The first derivatives of the metric tensor are used to produce the
+   Christoffel symbols below:
+
+                        g
+                         ab,c
+
+   'eliminate's are used to handle the first derivatives of functions in
+   the metric.
+*/
+set outgrammar null;
+
+d_metric_lll :
+  indexshift( [ diff(metric_ll,x1),
+                eliminate( [ diff(metric_ll,x2),
+                             cos = (partial(sin,1)) ],
+                           (partial(sin,1)) ),
+                diff(metric_ll,x3),
+                diff(metric_ll,x4) ],
+              1, 3 );
+
+
+/* The Christoffel symbols are usually represented in the literature with
+   an upper-case gamma (a 'Z' will be used instead):
+
+                 a      1     ax
+                Z    = --- * g   * ( g     + g     - g     )
+                  bc    2             xb,c    xc,b    bc,x
+*/
+set outgrammar disp2d;
+
+Christoffel_ull :
+  (tmult(metric_uu, d_metric_lll, 2, 1) +
+   indexswap(tmult(metric_uu, d_metric_lll, 2, 1), 2, 3) -
+   tmult(metric_uu, d_metric_lll, 2, 3))
+        / 2;
+
+
+/* The first derivatives of Christoffel symbols are used to produce the
+   Riemann curvature tensor below:
+
+                         a
+                        Z
+                          bc,d
+
+   'eliminate's are used to handle the first and second derivatives of
+   functions in the metric.
+*/
+set outgrammar null;
+
+d_Christoffel_ulll :
+  indexshift( [ diff(Christoffel_ull,x1),
+                eliminate( [ diff(Christoffel_ull,x2),
+                             cos = (partial(sin,1)),
+                             -sin(x2) = (partial(cos,1))(x2) ],
+                           [ (partial(sin,1)),
+                             (partial(cos,1))(x2) ] ),
+                diff(Christoffel_ull,x3),
+                diff(Christoffel_ull,x4) ],
+              1, 4 );
+
+
+/* The Riemann curvature tensor:
+
+         a       a        a          a      x          a      x
+        R     = Z      - Z      + ( Z    * Z    ) - ( Z    * Z    )
+          bcd     bd,c     bc,d       xc     bd         xd     bc
+
+   (This tensor is produced in two stages to reduced the number of
+   computations required.)
+*/
+set outgrammar null;
+
+R_temp : d_Christoffel_ulll +
+         indexshift( tmult(Christoffel_ull, Christoffel_ull, 2, 1), 2, 4 );
+
+set outgrammar disp2d;
+
+Riemann_ulll : indexswap(R_temp,3,4) - R_temp;
+
+
+/* The Ricci tensor is a contraction of the Riemann tensor.  Like the
+   Riemann tensor, an upper-case R is used to designate the Ricci tensor,
+   but with fewer indices:
+
+                               x
+                        R   = R
+                         ab     axb
+
+   The other forms of the tensor are obtained with suitable applications
+   of the metric.
+
+   The "scalar curvature" is a contration of the Ricci tensor:
+
+                             x
+                        R = R
+                              x
+*/
+set outgrammar disp2d;
+
+Ricci_ll    : contract(Riemann_ulll, 1, 3);
+Ricci_ul    : tmult(metric_uu, Ricci_ll, 2, 1);
+Ricci_uu    : tmult(Ricci_ul, metric_uu, 2, 1);
+scalar_curv : contract(Ricci_ul, 1, 2);
+
+
+/* Finally, the Einstein tensor (denoted with an upper-case G):
+
+                                      1
+                        G   = R   - (--- * R * g  )
+                         ab    ab     2         ab
+
+   The other forms of the tensor are obtained with suitable applications
+   of the metric.
+*/
+set outgrammar disp2d;
+
+Einstein_ll : Ricci_ll - (scalar_curv * metric_ll / 2);
+Einstein_ul : Ricci_ul - (scalar_curv * metric_ul / 2);
+Einstein_uu : Ricci_uu - (scalar_curv * metric_uu / 2);
+
+
+transcript();           /* Done -- close the log file */

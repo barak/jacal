@@ -1,0 +1,1700 @@
+2006-10-21  Aubrey Jaffer  <jaffer@aubrey.jaffer>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b6 to 1b7.
+
+2006-09-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Index): Merged indexes.
+
+2006-08-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (dvi, pdf): New tetex-3.0(-20.FC5) broke them -- fixed.
+	(ratint.pdf): Repaired for tetex-3.0; ratint.dvi still broken.
+
+2006-06-30  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* unparse.scm (print-using-grammar): Renamed from inprint.
+	(template-print): Renamed from tprint.
+
+2006-06-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh: Pass extra argument to $command.
+
+2006-05-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (mfiles): Added fdl.texi.
+	(docs): Added target to make all documentation files; invoke xdvi.
+
+2006-03-22  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (jacal48): Add "(require 'fluid-let)"; batch now works.
+
+2006-03-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm: Added (require 'fluid-let).
+
+2006-03-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ff.scm (sym:invert, sym:sym): Use symmetric:modulus procedure.
+
+2006-02-13  Aubrey Jaffer  <jaffer@aubrey>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b5 to 1b6.
+
+2006-02-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* English.scm (tok:char-group): Works returning string (instead of
+	symbol); why?
+
+	* types.scm (var:sexp-apply, var:sexp-string): Commented out
+	unused functions.
+
+2005-12-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (scheme): Inputs string argument as Scheme.
+	(make-grammar-bltn): Added.
+	(tex): Inputs string argument as TeX.
+	(standard, disp2d): Added; input string argument as standard.
+
+	* info.scm (jacobi, jacobian): Added.
+
+	* builtin.scm (jacobi, jacobian): Added.
+
+2005-12-26  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (diff): Added poly:square-free-var call to remove
+	differentials in both numerator and denominator.
+
+2005-12-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh (gui): Removed guile.scm; uses go.scm instead.
+
+	* Makefile (install): Removed guile.scm; uses go.scm instead.
+
+	* *.scm: Downcased all program identifiers.
+
+2005-06-22  Aubrey Jaffer  <jaffer@aubrey>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b4 to 1b5.
+
+2005-06-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (clambda?): Descend bunches rather than matrixes.
+
+	* builtin.scm (wronski, wronskian): Added.
+
+2005-01-22  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.1: Documented jacal script.
+
+	* view.scm, vect.scm, uv-hensel.scm, tensor.scm, sqfree.scm,
+	poly.scm, norm.scm, hensel.scm, grammar.scm, ff.scm, factors.scm,
+	ext.scm, elim.scm, debug.scm, combin.scm, builtin.scm, types.scm,
+	sexp.scm, English.scm: Added appropriate REQUIREs.
+
+	* Makefile (tags): Cleaned.
+
+	* scl.scm: Removed; each file does its own REQUIREs.
+
+2005-01-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh (gsi): Gambit 4.0 doesn't allow input redirection;
+	foils --version test.
+
+2004-12-05  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (degree, flatten): Added.
+	(poly): With single argument, convert equation to polynomial.
+
+	* poly.scm (poly:total-degree): Added.
+
+2004-09-22  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* uv-hensel.scm, hensel.scm, poly.scm, ff.scm: EXPT replaces
+	INTEGER-EXPT.
+
+	* scl.scm: No longer need logical for INTEGER-EXPT.
+
+2004-09-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ff.scm (ff:null-space-basis, ff:null-space-basis-gcl-bug):
+	array:copy! renamed from array-copy! and arguments reversed.
+
+2004-01-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile ($(infodir)jacal.info): "cp -a" ==> "cp -p".
+	(jacal.info): Only run infobar if PREVDOCS exists.
+
+	* jacal.sh: grep -q is not universal.  echo -n not portable.
+	Test for rpm existence before call.
+
+2004-01-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh: Separated shell assignments and exports.
+
+	* Makefile (srcdir.mk): Include after target.
+	Separated shell assignments and exports.
+
+2003-11-30  Aubrey Jaffer  <jaffer@scm.jaffer>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b3 to 1b4.
+
+2003-11-30  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacalcat (finite-fields, polynomial-factors, univariate-hensel):
+	FLUID-LET users must be defmacro.
+
+	* jacal.sh (scheme48): Only invoke with scheme48 argument.
+
+2003-11-11  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* uv-hensel.scm, scl.scm, grammar.scm, ff.scm, factors.scm,
+	builtin.scm: Cleaned some REQUIREs.
+
+2003-11-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh (gsi): Gambit interpreter added.
+
+2003-09-24  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (pinstall): jacalcat was missing.
+
+2003-07-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (release): make pdfs.
+
+2003-07-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacalcat: Added SLIB catalog additions for JACAL.
+
+	* toploads.scm: SLIB catalog:read replaces ad-hoc *catalog*
+	manipulation.
+
+2003-06-22  Aubrey Jaffer  <jaffer@aubrey.jaffer>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b2 to 1b3.
+
+2002-12-02  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (verify): Added newline before did-not-verify:.
+
+	* Makefile (install): Removed gratuitous '/' after $(...dir).
+
+2002-10-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (tex): Added TeX-output command.
+
+2002-06-29  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* hensel.scm (map-svpf-factors): take SPEC-VAR argument.
+
+	* sqfree.scm (Yuniv:square-free-factorization): math:trace
+	logging.
+
+	* debug.scm (poly:factor<): Wrap with check for well-ordering.
+
+	* builtin.scm (verify): Print expressions using *input-grammar*.
+
+	* toploads.scm (*catalog*): Added feature debug-jacal.
+
+	* factors.scm (svpf): Simplified.
+	(poly:factor<): Fixed ordering of vars.
+
+	* poly.scm (univ:one?): Take and check VAR argument.
+
+	* sexp.scm (batch1): Newline after echo.
+
+	* grammar.scm (math:print): Take n-ary arguments.
+
+2002-06-27  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* uv-hensel.scm (squarefreeness-preserving-modulus): Err if all
+	primes < 100 fail.
+
+	* ff.scm (basis->polys): Abstracted from ff:null-space-basis.
+	(ff:p/p, ff:q-matrix): Replaced ff:degree of already ff:unorm
+	arrays with univ:deg.
+
+2002-06-26  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ff.scm (ff:null-space-basis): Return vector.
+
+	* sqfree.scm (*univ:square-free-factorization): Replaced APPENDs
+	with CONS.
+
+	* elim.scm (var:elim): Replaced APPENDs with CONS.
+
+2002-06-25  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* hensel.scm: Evaluation functions moved from ff.scm
+
+	* uv-hensel.scm (memon): Moved from hensel.scm.
+
+	* poly.scm (poly:unitz, poly:primz): Moved from ff.scm.
+
+	* ff.scm: Moved some procedures to sqfree.scm and factors.scm.
+
+	* Makefile (sfiles): Added sqfree.scm and factors.scm.
+
+	* sqfree.scm: Procedures for square-freeness.
+
+	* factors.scm: Procedures for sorting and converting polynomial
+	factors.
+
+2002-06-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* poly.scm (univ:monomial): Numerical compares use EQV? not EQ?.
+
+	* sexp.scm (bunch->sexp): Numerical compares use EQV? not EQ?.
+
+	* hensel.scm: Moved univariate hensel procedures into
+	uv-hensel.scm.
+
+	* Makefile (sfiles): Added uv-hensel.scm.
+
+	* test.math: Self-set additional variables.
+	Added copyrights and license.
+
+	* uv-hensel.scm: Moved univariate hensel procedures into.
+
+2002-05-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* view.scm, vect.scm, unparse.scm, types.scm, toploads.scm,
+	tensor.scm, sexp.scm, scl.scm, rw.math, poly.scm, norm.scm,
+	modeinit.scm, math.scm, jacal.sh, info.scm, hist.scm, hensel.scm,
+	grammar.scm, func.scm, ff.scm, ext.scm, elim.scm, combin.scm,
+	builtin.scm, Makefile, English.scm: Added 12-line GPL2 notice.
+
+	* COPYING: Replaced with GNU GENERAL PUBLIC LICENSE Version 2.
+
+2002-05-12  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* English.scm (.): Allow in symbols and numbers.
+
+	* test.math: Put spaces around "."
+
+2002-04-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* combin.scm (combinations): Fixed map argument length mismatch.
+
+	* jacal.sh (usage): Added.
+	(--version, -v): Supported.
+
+	* Makefile (install): Define jacal VERSION in jacal.sh.
+
+2002-03-11  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.sh (mzscheme): Load DrScheme.init.
+
+2002-03-05  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (temp/jacal): Link ratint.pdf from htmldir.
+
+	* test.math: Added factoring test suite.
+
+2002-02-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.spec (%doc): ratint.pdf replaced ratint.dvi
+
+	* Makefile (ratint.pdf): Added.
+
+2002-02-11  Aubrey Jaffer  <jaffer@aubrey.jaffer>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b1 to 1b2.
+
+	* Makefile (CITERS, CITES): Abstracted functional file groups.
+
+2002-01-31  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ff.scm (ff:null-space-basis-gcl-bug, ff:null-space-basis):
+	(ff:q-matrix): Changed to use create-array.
+
+2002-01-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Concept Index): Added.
+	(Installation): Rewrote with separate instructions per platform.
+	(Manifest): Added.
+
+	* Makefile (README): Generate from jacal$(VERSION).info.
+
+	* jacal.texi (Starting Jacal): Removed .scm from slib:load
+	example.
+
+2001-10-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (infinite-list-of): Removed.
+	(eliminate): Check that parallel bunches are the same length.
+
+2001-09-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile, jacal.sh, jacal.spec (guile.scm): Create special
+	script for guile because it needs (use-modules (ice-9 slib)) in
+	order to access SLIB.
+
+2001-08-29  Bo Forslund  <bo.forslund@abc.se>
+
+	* jacal.spec (Prefix): Use builtin %{_prefix}.
+	(%post): .* allows use of .bz2 or .gz.
+
+	* Makefile (pinstall): HELP file added.
+
+2001-07-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (unjacal48): Target added; deletes scheme48.image.
+
+2001-06-07  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (rpm): Build src.rpm also.
+
+2001-05-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* scl.scm (multiarg/and-): Added require of.
+
+2001-05-27  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.spec (%install): Create script
+	${RPM_BUILD_ROOT}%{prefix}/bin/jacal containing
+	JACALDIR=%{prefix}/share/jacal/.
+
+	* jacal.sh: Make install or building rpm prepends JACALDIR
+	definition to script.
+
+	* Makefile (install): Makes up script $(exec_prefix)bin/jacal.
+
+Mon May 21 19:22:11 EDT 2001  Aubrey Jaffer  <jaffer@aubrey.jaffer>
+
+	* toploads.scm (*jacal-version*): Bumped from 1b0 to 1b1.
+
+2001-05-21    <ajaffer@scanlogic.com>
+
+	* Makefile (install): Added target.
+
+2001-05-20  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (html): Renamed "jacal" subdirectory to "prevdocs".
+	(scheme48.image): Added target.
+
+	* jacal: Added script to run jacal on multiple implementations.
+
+	* jacal.spec: Added spec file to generate a .rpm file.
+
+2001-05-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (pdf): Added targets.
+
+2001-01-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ff.scm (rat:factor->sexp): Fixed for simple numeric numerators
+	or denominators.
+
+2000-12-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* toploads.scm (prec:warn): Now accepts multiple arguments.
+
+1999-09-17  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* jacal.texi: Put description into jacal_toc.html.
+
+Sun Sep 12 22:43:04 EDT 1999  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* toploads.scm (*jacal-version*): Bumped from 1a9 to 1b0.
+
+1999-05-22  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* hensel.scm (poly:factorz): Issues messages for multivariate
+	factoring when math:trace is on.
+
+1999-05-21  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* hensel.scm (poly:factorszpp): Fixed factoring for multivariate
+	polynomials whose leading coefficients have repeated factors.
+
+1999-05-16  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* hensel.scm (map-svpf-factors): abstracted from poly:factorz.
+
+	* ff.scm (number->poly): moved from hensel.scm.
+
+1999-05-15  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* ff.scm (u:factorz): Integrated into poly:factorz.
+
+	* hensel.scm (poly:factorszpp): put limits on number of random
+	ideals and primes tried.
+
+1999-04-30  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* vect.scm (mtrx:inverse): Added.
+
+1999-04-27  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* toploads.scm (*catalog*): "usercat" didn't work from other
+	directories;  Augment *catalog* directly.
+
+1999-04-10  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* sexp.scm (defbltn): Extra definition removed.
+	(sapply): Constant functions now represented by the constant.
+
+1999-01-29  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* builtin.scm (factors):
+	(factor): now accept equations as argument.
+
+	* sexp.scm (*->or-eqns): Added to factor equations.
+
+1999-01-28  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* jacal.texi (Algebraic Commands): documented extrule.
+
+Sun Jan 17 12:02:50 EST 1999  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* toploads.scm (*jacal-version*): Bumped from 1a8 to 1a9.
+
+1999-01-15  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* ff.scm (ff:q-matrix ff:null-space-basis): Were assuming
+	array-mapping worked for vectors.
+	(ravect->list): to convert arrays to lists.
+	(ff:generate-field power-list): rewrote sans array-mapping.
+
+	* debug.scm (math:printn): don't put symbols on separate lines.
+
+1998-12-08  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* jacal.texi (Installation): Added HTML anchor for Installation
+	instructions.
+
+1998-11-03  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* builtin.scm (equate-coeffs): Removes duplicates.
+
+	* hensel.scm (remove-duplicates): Moved to SLIB.
+
+	* combin.scm (del): Moved from "ff.scm".
+
+Tue Nov 3 17:48:00 EST 1998  Aubrey Jaffer  <jaffer@scm.colorage.net>
+
+	* toploads.scm (*jacal-version*): Bumped from 1a7 to 1a8.
+
+1998-10-26  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* builtin.scm (equatecoeffs): added.
+
+	* ext.scm, elim.scm, poly.scm, norm.scm: promote -> poly:promote
+
+	* builtin.scm (coeff coeffs): added to properly process
+	polynomials with rational coefficients.
+
+1998-09-18  Aubrey Jaffer  <jaffer@colorage.com>
+
+	* hensel.scm (mri): Added global state `ideal:prngs' to reduce
+	chance of reentrant random calls.
+
+Sun Oct 26 23:49:02 1997  Jerry Hedden  <hedden@netaxs.com>
+
+	* rw.math: updated.  The previous version had some errors.
+
+Mon Sep 22 12:39:18 EDT 1997  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* toploads.scm (*jacal-version*): Bumped from 1a6 to 1a7.
+
+Tue May 20 10:26:44 1997  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* ext.scm (alg:conjugate): fixed 1/x^(3/2) bug.
+
+Sun May 18 11:02:58 1997  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* ext.scm (make-radical-exts): added.  Factors radicands and calls
+	(make-radical-ext): which now just processes a single irreducible
+	integer or polynomial.
+
+	* builtin.scm (factors): added.
+	(factorial): added.
+
+	* ff.scm (negate-factors-exps): added.
+	(poly:sort-merge-factors): added.
+
+	* sexp.scm (terms->factors-list): added.
+	(batch): now uses fluid-let to protect *grammar*s and page
+	parameters from errors, etc.
+
+Sat May 17 22:55:58 1997  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* sexp.scm (defsym): now maintains both canonical and
+	non-canonical definitions.
+
+	* norm.scm (poly:sqfr-all): renamed from poly:factor.  Fixes
+	conflict with hensel.scm function of same name.
+
+	* ff.scm (factors->sexp): added.  Sorting deferred until
+	conversion.  Factor now returns an `sexp' factored expression.
+
+Sat May 10 18:56:23 EDT 1997  Aubrey Jaffer  <jaffer@scm.bertronics.com>
+
+	* toploads.scm (*jacal-version*): Bumped from 1a5 to 1a6.
+
+Sat May 10 16:37:50 1997  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* builtin.scm (abs realpart imagpart): added.
+
+	* poly.scm (poly:cabs): added.
+
+Wed May  7 15:14:04 1997  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* parse.scm: rewrote and moved to SLIB.
+
+Fri Mar 14 20:02:30 1997  Aubrey Jaffer  <jaffer@mit-ai>
+
+	* builtin.scm (parallel ||): operator added.
+
+Mon Oct  7 10:45:04 1996  Aubrey Jaffer  <jaffer@bertronics>
+
+	* grammar.scm (jacal:found-bug): Added.  Used in hensel.scm for
+	clauses which I have never observed to execute.
+
+Tue Sep  3 23:31:30 1996  Aubrey Jaffer  <jaffer@bertronics>
+
+	* hensel.scm (u:factorsz): removed repeated sub-calculations and
+	simplified.
+
+Mon Sep  2 16:56:58 1996  Aubrey Jaffer  <jaffer@bertronics>
+
+	* hensel.scm (landau-mignotte-bound*2): Resolved confusion over
+	formula by Monte-Carlo testing.
+
+Thu Aug 22 11:51:32 1996  Aubrey Jaffer  <jaffer@bertronics>
+
+	* jacal.texi (Algebraic Commands): Documentation of `|' operator
+	added.  Also fixed @: --> @@:.
+
+Wed May 29 14:57:24 1996  Aubrey Jaffer  <jaffer@jacal.bertronics>
+
+	* hensel.scm (cilog): floored replaced with ceiling integer
+	logarithm of y base b.
+	(landau-mignotte-bound*2): Fixed according to ACA.  Now
+	encapsulates all exact/inexact conditionals.  Added documentation
+	of the Landau-Mignot bound.
+
+Mon Apr 22 22:02:53 1996  Aubrey Jaffer  <jaffer@jacal.bertronics>
+
+	* vect.scm (determinant): Fixed long standing bug where
+	determinants which should return zero instead generated
+	"ERROR: car: Wrong type in arg1 0".
+
+Thu, 9 Nov 1995 23:59:00 +1100  Michael Thomas (mjt@octavia.anu.edu.au)
+
+	* hensel.scm: fixed missing number->poly to convert result of
+	poly:- to u:p/c argument.
+
+Sun Oct  1 00:16:38 1995  Aubrey Jaffer  (jaffer@jacal)
+
+	* ff.scm (sqarefreeness-preserving-modulus): pulled out of
+	u:factorsz.
+	(u:factorsz f1): Now calls univ:prem rather than poly:pdiv.
+
+	* poly.scm (poly:prem): Merged with function from ff.scm.  Now
+	takes var argument.
+
+	* builtin.scm (mod): fixed.
+	(jacal:modulus): added.
+
+	* ff.scm (landau-mignotte-bound2): rewritten so that it does not
+	require inexacts.
+
+Mon Sep 11 00:01:01 1995  Aubrey Jaffer  (jaffer@jacal)
+
+	* math.scm (set-handlers! cleanup-handlers!): No longer intercepts
+	user-interrupt.  SCM now does a break(point) from user-interrupt
+	(^c).
+
+	* poly.scm (poly:valid? p): added to check variable ordering in
+	polynomials.
+
+	* debug.scm (math:continuable-break-with-object
+	math:break-with-object): added to facilitate operating on
+	troublesome expressions.
+
+	* builtin.scm (continue): added to work with breaks.
+
+September  4 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (hen:mhenseln correct-lcs): Fixed leading coefficient
+	update problems.
+
+August 30 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (correct-lcs): Fixed handling of repeated factors in
+	the leading coefficient.
+
+August 29 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (hen:mhenseln): Fixed bug by replacing delete with
+	the non-destructive function del. Should delete be
+	destructive?
+
+August 15 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (poly:factorzpp): Removed extraneous and buggy ideal
+	generation code.
+
+August 11 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (uniques): Fixed
+
+August  2 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (mri): Added Modified make-random-ideal to return
+	unique numbers for each variable in the ideal and to accept a
+	list of forbidden numbers.
+
+July 31  1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (poly:sff): Fixed special variable bug
+
+July 27  1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm: Tidied up output formats
+	(u:factorz): Fixed sign bug
+	(poly:factorz): Added ability to handle non-primitive and
+	non-square-free leading coefficients.
+
+July 25  1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (poly:factorz): Worked around a bug in GCL algorithm
+	6.3 by extracting factors which are powers of a variable.
+
+July 18  1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (factorz): Replaced factorsz.
+	(poly:factorz): Replaced poly:factorsz.
+	(poly:factorsq factorsq): Removed.
+	Incorporated squarefree multivariate factorisation.
+	(poly:contz): Fixed sign bug.
+
+June 18  1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (poly:univariate?): Renamed from u:univariate?.
+	(factorsz): Renamed from factormsz.
+	(factorq): Added built in function.
+
+June 13  1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (ff:eea-gcd): Refixed
+	(hen:mhenseln):	Fixed leading coefficient bugs.
+	(u:unitz poly:unitz): Added.
+	(u:primz u:contz): Renamed from u:pp and u:cont.
+	(poly:primz): Fixed.
+	(unitz primz contz): Added built in's to obtain the unit,
+	primitive and content of multivariate polynomials over Z
+
+June 9   1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm: Fixed some bugs in multivariate factoring system.
+
+June 8   1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (poly:0-degree-norm): Fixed bug in poly:evaln by
+	adding.
+	(u:evalp, u:evaln): Minor optimisations to.
+	(poly->number):	Renamed from u:convert.
+
+June 4   1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (ff:eea-gcd): Fixed bug (I hope)!!!
+
+June 1   1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm: Dealt with the leading coefficient problem.  Cleaned
+	up the code.
+
+May 30   1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (unlucky?): Factored out test for unlucky
+	homomorphisms into.  Cleaned up the code.
+
+May 5    1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (u:prime-power): Added.
+	(ff:q-matrix): Fixed bug.
+
+April 28 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (u:sff): Renamed from poly:sff.
+	(poly:sff): Added.
+
+April 27 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm (poly:factorzpp): Dealt with unlucky homomorphisms
+	and bugs.
+
+April 24 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+
+	* ff.scm: Merged Aubrey's 18 April version of ff.scm with the
+	changes I've made since last mail.The file now (in places)
+	uses the prime number generator added to SLIB.
+	(ff:sff ff:mnorm): Changes to multivariate stuff.
+
+Sun Mar 12 00:08:08 1995  Aubrey Jaffer  (jaffer@jacal)
+
+	* jacal.texi (Factoring): section added.
+
+	* builtin.scm (factor): Now autoloads "ff.scm" and calls factoruq.
+
+Mar 6 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm: Finished adding basic multivariate procedures, still
+	debugging.
+
+Mar 5 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm: Fixed a bug in ff:null-space-basis by changing to a
+	slower algorithm from Knuth.  I still don't know why GCL's
+	algorithm fails. Undoubtedly my coding.
+
+Mar 2 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (factoruq u:factorq): Added.
+
+Mar 1 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm: Added sorting of results from poly:sff, u:factorz,
+	ff:berlekamp, to accomodate algorithmic changes I might choose to
+	make later, and to make the output more consistent.
+	* ff.scm: Fixed ff:sff.
+	* ff.scm: Added argument checks to bltn's berl, ffsff and sff.
+	* ff.scm: Added a third argument to bltn ffsff, a power for the
+	prime to be raised to.
+
+Thu Feb 23 14:56:36 1995  Aubrey Jaffer  (jaffer@jacal)
+	* ff.scm (ff:print): replaced large number of display and newline
+	statements.  Formatted code and comments for 80 columns.
+
+February 22 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (u:factorsmz u:factormz): Changed to cover
+	non-monic polys
+	* Deleted some junk from the file.
+
+february 21 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (hen:diophantine (most important)):
+	(hen:diophantine1 hen:multiterm-eea-lift hen:eea-lift):
+	Memoized. Very successful, because the speed increase is
+	enormous, with little memory cost.
+
+February 20 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm: Debugging of hensel lifting and u:factorsmz
+	* Fiddled with ff:euclid-gcd to no noticeable speed increase.
+
+February 17 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm: Finally completed initial Hensel lifting and factorisation
+	but it is very buggy and slow. The diophantine solvers have
+	inbuilt checkers for their results.
+	* (ff:diff): Fixed bug in, floating global variable
+	* (sym:sym u:zero? u:one? u:number? ff:eea-gcd): Small
+	efficiency changes.
+
+February 6 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm(ff:p+p ff:p-p): Fixed minor bug.
+
+February 4 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm: In failed pursuit of (ff:berlekamp p7 3) bug revamped
+	ff:q-matrix, to no noticeable gain in speed in ff:berlekamp.
+
+February 1 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (ff:p/p->qr): fixed bug in special cases
+	* used ff:p/p->qr in ff:euclid-gcd, ff:eea-lift
+	* (ff:p-p): fixed bug in , didn't negate tail of second
+	argument when it is longer than the first.
+	* (number->poly): added, fixed related bug in ff:p*p
+
+January 31 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (ff:p/p->qr ff:p/p): new division algorithm
+	(Knuth's D algorithm, sec 4.6.1)
+
+January 30 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm: converted to symmetric representation instead of
+	positive.
+	* added extended Euclidean GCD for u: and sym:
+	* added initial attempt at hen:eea-lift for support
+	of multivariate Hensel lifting (GCL algorithm 6.3)
+
+January 27 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm: improved source code documentation
+	* replaced eqv?'s with =
+	* (ff:leading): sped up
+	* (u:zero? u:one? u:number?): altered to use cadr, = instead
+	of equal? in u:number
+	* (u:pp u:cont): remove ff:norm from, assuming they will be
+	sent normalised arguments
+	* (ff:norm): sped up
+	* u:lose-lzeros inserted where u:norm not needed
+	* (ff:norm ff:p*c ff:p+p ff:p-p): rewrote using map instead of do.
+	* (ff:higher-deg): rewrote.
+	* (ff:p/c ff:p/p): altered.
+
+January  1 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
+	* ff.scm (ff:inverse): Replaced with the faster
+	modular:invert (require 'modular).
+
+Fri Jul  8 11:57:56 1994  Aubrey Jaffer  (jaffer@jacal)
+
+	* norm.scm ((extize p)):
+	* sexp.scm ((batch1)): call to sect:next-string changed to
+	chap:next-string and moved to SLIB.
+
+Wed Jun  1 00:00:05 1994  Aubrey Jaffer  (jaffer@jacal)
+
+	* builtin.scm (push-modes pop-modes): added for example.
+
+Fri May 27 00:38:23 1994  Aubrey Jaffer  (jaffer@jacal)
+
+	* toploads.scm ((jacal:dot)): Print out dots while loading.
+
+Sun May 15 10:27:09 1994  Aubrey Jaffer  (jaffer@jacal)
+
+	* Makefile (DOC/jacal.dvi): jacal.dvi and associated files now
+	left in DOC subdirectory.
+
+Sat May 14 23:49:51 1994  Aubrey Jaffer  (jaffer@jacal)
+
+	* sexp.scm ((list-of-procedure-defsyms)): hash version was not
+	filtering wiht procedure?
+
+	* elim.scm ((implicits:map proc b)): fixed [a,b,c]=0 says "not a
+	polynomial equation".
+
+Mon Apr  4 11:34:37 1994  Aubrey Jaffer  (jaffer@jacal)
+
+	* jacal.texi (Top): Much cleaned up and expanded.  Now prints
+	correctly and has indexes.
+
+Fri Apr  1 13:10:19 1994  Aubrey Jaffer  (jaffer@jacal)
+
+	* Makefile (intro): Added message for those who just make.
+	(jacal): makes SCM startup script for JACAL.
+	Cleaned up and reorganized Makefile.
+
+Fri Dec 24 00:41:32 1993    (jaffer at jacal)
+
+	From: Jerry D. Hedden <HEDDEN@esdsdf.dnet.ge.com>
+	* slib.texi: tensor operators documented.
+	* rw.math: General Relativity batch file updated.
+	* tensor.scm: updated.
+
+Fri Nov 26 17:17:06 1993    (jaffer at jacal)
+
+	From: Hal Abelson <hal@mit-ai>
+	* unparse.scm (hglue): did not handle missing optional arguments
+	correctly.
+
+Tue Oct 26 00:47:37 1993    (jaffer at jacal)
+
+	From: eigenstr@falstaff.cs.rose-hulman.edu
+	* jacal.texi: TeXinfo documentation created.  manual directory
+	removed.
+
+Tue Oct 19 00:53:45 1993    (jaffer at jacal)
+
+	* jacal1a2 released
+
+	* types.scm (make-shadow): radical functions can finally be
+	applied!
+
+Mon Oct 18 22:39:09 1993    (jaffer at jacal)
+
+	* types.scm (make-shadow): rewritten.  Now allows substitution in
+	f(@2).
+	* types.scm (var:shadow): now cached.
+
+Thu Oct 14 00:33:51 1993    (jaffer at jacal)
+
+	* elim.scm (bump-shadow): added.  Now called by capply.
+
+Sun Oct  3 14:46:36 1993    (jaffer at jacal)
+
+	* norm.scm (expr:normalize): fixed ({@|@^2=3}/3)^2; being 3/9
+	bug;
+	* types.scm (var:depends): now includes all var and func
+	depenencies, rather than just terminal dependencies.  Eliminate of
+	funcs now works.
+	* types.scm (defext): greatly simplified thanks to new
+	var:depends.
+
+Tue Sep 28 13:48:04 1993    (jaffer at jacal)
+
+	* types.scm (make-var sexp->new-var): make-var ==> sexp->new-var.
+	make-var now just an alias for vector.
+
+Tue Sep  7 01:12:43 1993    (jaffer at jacal)
+
+	* elim.scm (ext:elim): no longer loops on eliminate([f(y)=0,f=a],f);
+
+	* norm.scm (chain-rule): now chains radicals of funcs.
+
+	* builtin.scm (over): defined same as /.
+
+Mon Aug 30 01:14:32 1993    (jaffer at jacal)
+
+	From: mjt@juliet.anu.edu.au (Michael Thomas)
+	* test.math
+
+Fri Aug 27 10:24:03 1993    (jaffer at jacal)
+
+	* types.scm (deferop): function is now a licit (rather than sexp).
+	var:elim now will eliminate from function position.
+
+Mon Aug 23 23:49:24 1993    (jaffer at jacal)
+
+	* sexp.scm (batch1): simple recall of formula does not evaluate
+	and define new symbol.
+
+Fri Aug 13 23:34:28 1993    (jaffer at jacal)
+
+	* sexp.scm (math->sexp deferedmath->sexp bunch->sexp horner):
+	horner now a passed parameter.
+
+Mon Aug  9 00:06:58 1993    (jaffer at jacal)
+
+	* builtin.scm norm.scm (PolyDiff expl:diff): added and diff no
+	longer tries to use poly:diff.
+
+Tue Jul 27 00:28:18 1993    (jaffer at jacal)
+
+	* types.scm (var:differential): applications now differentiate to
+	partials (partial chain rule).
+
+Sat Jul 24 00:26:32 1993    (jaffer at jacal)
+
+	* types.scm (make-var): infinite loop on f(@1) fixed.
+
+Tue Jul 20 00:33:15 1993    (jaffer at jacal)
+
+	* unparse.scm (display-chunk): trailing newlines no longer printed
+	from inprint.  Newlines added to comments in demo to compensate.
+
+	* English.scm demo: Underscore (_) no longer allowed identifier
+	syntax.
+
+Fri Jul  2 01:20:41 1993    (jaffer at jacal)
+
+	* builtin.scm info.scm (discriminant): changed from
+	poly_discriminant.
+
+Sun Jun 13 23:22:18 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* unparse.scm (display-box): now paginates within expressions on
+	blank lines.
+
+Fri Jun 11 00:10:11 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* sexp.scm (rapply): now can deferop.
+	* English.scm grammar.scm (math:translations math:translate):
+	added.
+
+	From: Jerry D. Hedden <HEDDEN@esdsdf.dnet.ge.com>
+	* rw.math: General Relativity batch file added.
+	* tensor.scm (indexshift indexswap contract tmult): added.  Some
+	documentation in README release notes.
+
+Tue Jun  8 00:07:28 1993  Aubrey Jaffer  (jaffer at basel)
+
+	* sexp.scm (batch): now uses dynamic-wind to bind page-height
+	during batch.
+
+	* modinit.scm: added capability for international language
+	support.
+
+Mon Jun  7 01:55:00 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* unparse.scm (display-box): now paginates output.
+
+Sun Jun  6 20:39:09 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* grammar.scm (paginate-file help): created.
+	* HELP: created.
+	* info.scm: created.  All descriptions and examples moved there.
+
+Sat Jun  5 00:07:02 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* elim.scm (var:funcs ext:elim): variables now eliminate from
+	functional arguments.
+
+	* elim.scm types.scm ext.scm: radicals now have func-arglist.
+
+Fri Jun  4 23:20:35 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* grammar.scm(math-write): added.  writes to Null grammar no
+	longer do math->sexp.
+
+Wed Jun  2 00:18:56 1993  Aubrey Jaffer  (jaffer at caddr)
+
+	* ext.scm (alg:vars): simplified using var:depends.
+
+Tue Jun  1 00:15:49 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* stdgrm.scm (^): priority changed so that (^ (^ b c) a) is
+	parenthesized.
+
+	* grammar.scm (math:print): now uses [] for lists.
+
+	* debug.scm: added tracing defmacros.
+
+Mon May 31 01:30:28 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* sexp.scm (seval): can now apply non-curried radical functions.
+
+Sun May 30 23:44:19 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* elim.scm (ext:elim): now eliminates variables through radicals.
+
+Sat May 29 22:04:08 1993  Aubrey Jaffer  (jaffer at montreux)
+
+	* demo: test of partial added.
+
+	* types.scm (var:shadow ext:shadow): now uses last byte
+	(differential degree) to distinguish shadow priority.
+
+Wed May 26 00:28:07 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* builtin.scm types.scm grammar.scm (list-of-grammars
+	list-of-flags list-of-infodefs list-of-vars): added.
+
+Thu May 20 18:32:47 1993  Aubrey Jaffer  (jaffer at montreux)
+
+	* parse.scm stdgrm.scm: TeX input mode added.
+
+Wed May 19 15:05:19 1993  Aubrey Jaffer  (jaffer at montreux)
+
+	* builtin.scm parse.scm scl.scm sexp.scm stdgrm.scm toploads.scm
+	types.scm: Now all use alists rather than hash-tables.
+
+	* parse.scm stdgrm.scm: many buglets fixed.  Code works with
+	either alists or hash-tables now.
+
+Thu Apr 29 23:50:02 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* builtin.scm (prime? CartProd Elementwise): added.
+
+Wed Mar 17 12:12:21 1993  Aubrey Jaffer  (jaffer at montreux)
+
+	* ext.scm (make-radical-ext): 0^(1/2) fixed.
+
+	* poly.scm types.scm (signcan num denom): equations now print as
+	positive.
+
+Sun Mar 14 00:40:49 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* poly.scm (poly:elim2): like poly:resultant but removes gcd of
+	leading coefficients.  This removes some of extraneous factors in
+	elimination.
+
+Sat Mar  6 16:51:52 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* elim.scm: created with elimination and canonical lambda.
+
+Tue Mar  2 00:27:08 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* types.scm (deferop): now sets up depends.
+
+Sun Feb 28 23:47:03 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* all: "_" separator replaced with ":".
+
+	* builtin.scm (describe): now works for most objects.
+
+Fri Jan 29 23:32:15 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* builtin.scm (linkradicals verify): added.
+
+Tue Jan 26 22:58:53 1993  Aubrey Jaffer  (jaffer at camelot)
+
+	* vect.scm (ncexpt): fixed.
+
+	* builtin.scm (augcoefmatrix coefmatrix triangularize rank
+	charpoly cofactor): added
+
+Wed Jan 20 00:21:32 1993  Aubrey Jaffer  (jaffer at montreux)
+
+	* ext.scm (alg_clear-denoms): no longer clears nilpotents (0^(1/2))
+
+	* builtin.scm (%inftsl): removed.  Can be done by 0^(1/2).
+
+	* stdgrm.scm: whitespace characters now defined from looping over
+	char-whitespace?.
+
+Wed Dec 23 14:32:37 1992  Aubrey Jaffer  (jaffer at camelot)
+
+	* builtin.scm vect.scm (dotproduct): split into ncprod and
+	dotproduct.
+
+	* builtin.scm (gcd): now takes arbitrary number of arguments.
+
+	* builtin.scm norm.scm (diff): now works for all cases.
+
+	* sexp.scm (seva): changed function position evaluation so that
+	det:determinant; makes det alias determinant.
+
+	* unparse.scm grammar.scm: output-port-width is always supplied an
+	argument (for MITScheme).
+
+	* builtin.scm (trace debug): flags added.
+
+	* poly.scm (poly_resultant): now returns 0 for degenerate case.
+
+Tue Dec 22 00:34:44 1992  Aubrey Jaffer  (jaffer at camelot)
+
+	* builtin.scm: fixed signs on %i and %sqrt1.  All constant field
+	extensions now have low priority.
+
+	* sexp.scm (cmprs_^): fixed (a^2)^c;
+
+	* sexp.scm (fcinverse): now definitely fixed.
+
+	* norm.scm (vsubst): now will only substitute vars for vars.
+
+Sun Dec 20 01:53:36 1992  Aubrey Jaffer  (jaffer at camelot)
+
+	* sexp.scm (fcinverse): fixed sign bug with functional inversion.
+	Busted if other variables involved now.
+
+	* norm.scm (expr_normalize): fixed sign bug with algebraic
+	extensions.
+
+Sat Dec 19 22:28:29 1992  Aubrey Jaffer  (jaffer at camelot)
+
+	* sexp.scm (coes->horner-sexp) Horner's rule mode added.
+
+	* sexp.scm (clambda?): now does not accept non-matrix bunches.
+
+	* unparse.scm: 2d line breaking implemented.
+
+	* Too many changes to record.
+
+Sun Dec  6 01:26:24 1992  Aubrey Jaffer  (jaffer at camelot)
+
+	* builtin.scm (diagmatrix scalarmatrix): old diagmatrix renamed to
+	scalarmatrix.  Diagmatrix now takes a vector argument.
+
+Sat Dec  5 12:45:12 1992  Aubrey Jaffer  (jaffer at camelot)
+
+	* types.scm: diff-depth now encoded in var_ord.
+
+	* all internal variables now generated using sect:inc-string.
+
+	* types.scm: variable ordering now done entirely with string<?
+	(with override byte before actual string and number of diffs after).
+
+	* types.scm: finite-differentials eliminated.
+
+	* builtin.scm: moved all initial var creation and prefixed @ names
+	with _.
+
+	* unparse.scm (hglue): fixed order of evaluation bug in DO.
+
+Wed Jun  3 13:23:52 1992  Aubrey Jaffer  (jaffer at Ivan)
+
+	*all: files renamed to *.scm form.
+
+	* parse.scm unparse.scm sexp.scm types.scm:  grammars are now
+	records.  2d output formatting added.
+
+Tue May 28 00:06:05 1991  Aubrey Jaffer  (jaffer at Ivan)
+
+	* builtin.scm (example): fixed.
+
+	* ext.scm builtin.scm (mod, alg_mod): alg_mod created.  mod now
+	will clear denominators (like radicals do).
+
+	* math.scm builtin.scm (*transcript-output*, transcript): created.
+
+Sat May 25 23:06:03 1991  Aubrey Jaffer  (jaffer at Ivan)
+
+	* math.scm (sload, *jacal-version*, *jacal-directory*): defined.
+
+Sun May 19 22:08:43 1991  Aubrey Jaffer  (jaffer at Ivan)
+
+	* math.scm (*current-input*, *current-output*) dynamic variables
+	to allow input and output indirection.
+
+	* sexp.scm builtin.scm (batch, load) batch created, load fixed.
+
+Wed Feb  6 00:23:17 1991  Aubrey Jaffer  (jaffer at foxkid)
+
+	* poly.scm (univ_prem_list) eliminated.  This fixed radicals bug.
+	{*}_vect -> {*} functions renamed since only vect version now.
+
+	* sexp.scm (warning) now puts out a trailing newline and returns
+	last value.
+
+Wed Dec  5 16:28:00 1990  Aubrey Jaffer  (jaffer at foxkid)
+
+	* std.grm (^^): binding power upped to 210 so that d^^2(f(x))
+	does not apply 2 to f(x).
+
+	* poly (): - now only takes 2 arguments (more are not required
+	in Scheme^4).
+
+	* BUG: ((x+a)^(1/2))^3 ==> x+a.  Proably due to previous change.
+
+Mon Oct 29 13:48:00 1990  Aubrey Jaffer  (jaffer at foxkid)
+
+	* poly (poly_^): no longer uses builtin scheme expt (not essential
+	procedure).
+
+	* types (num, denom): no longer handle numbers other than integers.
+
+	* sexp (seval): now checks for rationals and converts them, signals
+	error for inexact inputs.
+
+	* parse (def_bp ...) null? => not [confusion between () and #f]
+
+	* scl.scm (sort): created. char-code-limit added.
+
+Mon Aug 27 01:33:07 1990  Aubrey Jaffer  (jaffer at zohar)
+
+	* poly (poly_resultant): now returns DEMOTED gcd if non-constant.
+	this fixes rotbug!
+
+Sun Aug 26 23:12:34 1990  Aubrey Jaffer  (jaffer at zohar)
+
+	* poly (univ_/?): fixed for dividing by number.  Did not fix rotbug.
+
+	* poly (univ_/ const_promote): created
+	...-0-term ==> ...-const
+
+Sun Jul  1 23:06:30 1990  Aubrey Jaffer  (jaffer at zohar)
+
+	* norm (total-differential chain-exts poly_diffn):
+	fixed differentials.
+
+Sat May 12 21:48:01 1990  Aubrey Jaffer  (jaffer at zohar)
+
+	* types (impl_number? ==> rat_number?)
+
+	* types (proc):
+	defined so that proc will funcallize (funcalls of proc removed)
+
+	* types (rat_unit-denom?):
+	created
+
+	* scl.scm (union):
+	defined
+
+	* parse (lex):
+	letrec removed.
+
+Thu May 10 00:25:17 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* types (make-rad-ext):
+	fixed variable ordering bug.
+
+Tue May  8 21:42:25 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* parse (lex):
+	removed letrec.
+
+Fri May  4 00:03:17 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* types (make-ext-var):
+	did defext after vsubst. changed vsubst to cons of cdr.  Now
+	defines nested radicals properly.  Nested radicals clear out of
+	denominators correctly.
+
+Thu May  3 00:53:22 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* all:
+	removed all letrec use except lex in parse.l and determinant in vect.l
+
+Wed May  2 00:28:01 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* ext (ext_conjugate):
+	full algebraic version works.  ext_simplify of nested radicals is
+	broken (infinite loop).
+
+	* poly (univ_pdiv_vect):
+	finally made a version of pseudo division with quotient which works.
+
+Fri Apr 27 00:48:03 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* exts:
+	eliminated letrec.
+
+	* types:
+	added new field	(var_dependencies) to var.
+
+Thu Apr 26 01:29:54 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* ext (ext_find-var-if -> ext_for-each-var):
+	rewritten for efficiency and to purge letrec.
+
+Wed Apr 25 21:24:12 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* combined ext and radicals -> ext
+	* combined bunch and matrix -> vect
+	* combined impl and factor -> norm
+	* combined top and seval -> sexp
+	* compilum.lisp -> compilem.lisp
+
+Mon Apr 23 00:43:33 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* poly:
+	eliminated (letrec ...)
+
+	* poly.l (poly_do-vars):
+	created;
+
+	* types.l (bunch_map):
+	created;
+
+	* seval.l (capply, diffarg):
+	simplified with the use of the above functions.
+
+Thu Apr 19 00:31:36 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* types.scm (eqn?):
+	I no longer depend on char? being disjoint from other types.  This
+	is in order to be compatible with Scheme^3.
+
+	* builtin.l :
+	fixed and added many functions.
+
+Wed Apr 18 17:22:31 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* seval.l (fcexpt):
+	now works.  changed calls to capply to app*.
+	fcinverse works but negates its argument (why?).
+
+Mon Apr 16 01:21:49 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* ext (ext_clear-denoms):
+	works for square roots.  subtle problem with determinant screws up
+	higher order.
+	* syntax -> macsyma.syn
+	* meta -> builtins :
+	documentation strings entered for most functions.
+	* poly (sylvester & bruno) :
+	resultant matrix functions created.
+
+Wed Apr 11 01:37:54 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* impl (ncexpt):
+	created.  positive exponent works for matrices, vectors, and
+	functions.  Problems with inverses.
+	* radicals :
+	radicands now come out positive.
+
+Thu Apr  5 01:02:04 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* radicals, matrix, types (make-rat):
+	created in types.  This eliminates almost all constructions:
+	(list @ num -denom)
+
+	* radicals (all):
+	schemized.  improved ipow.  radicands keep coming out negative.
+
+Wed Apr  4 15:48:20 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* syntax (leadingplus => leading+?)
+	fixed and moved to seval
+
+	* syntax (inprint)
+	now understands (define var exp)
+
+Fri Mar 30 01:24:04 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* cgol, seval (math):
+	input and output grammar independently settable.  grammars now
+	contain both input and output functions.  line terminators work
+	correctly.
+
+Thu Mar 29 00:31:20 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* cgol, syntax, seval:
+	made input syntax switchable.  Input delimiters made postfix (this
+	was a change to cgol_parse).
+
+Wed Mar 28 16:16:25 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* cgol (all):
+	all syntax tables now in one structure: cgol_grammar.
+
+	* seval, syntax, cgol (seval, bunch->sexp, inprint, #\[):
+	sexps now use vectors instead of '(bunch ...) to represent vectors.
+	delimiters for end of expression (#\; #\$) now are read after the
+	expression is read and dispatched in seval.  This should move to cgol.
+
+Tue Mar 27 00:19:21 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* poly, types, seval:
+	leading coefficient of impls is now negative.  this means less
+	poly_negates for type conversion.
+
+Sat Mar 24 00:18:42 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* all (all):
+	added missing else clauses to conds and ifs.  Now runs in scheme.
+
+Fri Mar 23 00:46:43 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* syntax.l (;):
+	changed to character token.
+
+	* seval.l (seval):
+	fixed some problems with suchthat and clambda variables.
+
+	* seval.l (math):
+	spruced up messages to reflect syntax_infix.
+
+	* seval.l (poly->sexp):
+	simplified
+
+Tue Mar 20 00:08:31 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* poly.lisp (degree&lc):
+	eliminated in favor of much simpler degree.  This sidesteps Common
+	Lisp compiler problem.  It also means lc is not contructed unless
+	it is needed.  Should speed things up.
+
+	* scl.scm:
+	read-file removed (was interfering with reader).  Many common lisp
+	utility functions defined.
+
+	* syntax.l:
+	"|" eliminated from symbol names.  Scheme association lists now
+	used.
+
+	* factor.l (poly_factor-split):
+	do* eliminated.
+
+	* matrix.l (mtrx_diagmatrix, rank, triangularize):
+	do* eliminated
+
+	* poly.l (poly_coeff):
+	rewritten to not use do*.  map-no-end-0s written; gives much more
+	efficient implementation of poly_coeff.  Everything using
+	univ_monomial should be rewritten using map-no-end-0s.
+
+	* scl.lisp (define):
+	defun removed; Less error messages on loading.  Non-scheme
+	functions removed.  List? fixed to accept '().  pair?, list? and
+	procedure? now check for closures-might-be-conses.
+
+Fri Mar 16 00:03:42 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* output:
+	split between seval and syntax
+
+Wed Mar 14 01:05:57 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* all:
+	code now loads.  debugged up to problems with symbols
+	vs. vars in top level math.
+
+Mon Mar 12 01:23:19 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* types:
+	finished entering code.  Started debugging.
+
+Fri Mar  9 00:05:56 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* types:
+	massive changes to make vars be vectors (not finished).
+
+	* seval (capply):
+	now decimates in body bunches (rather than args).
+
+	* impl:
+	differentials bunchized
+
+Mon Mar  5 00:24:20 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* seval (seval):
+	now lexically binds clambda, rlambda, and suchthat symbols.
+	* all:
+	fixed misc things.
+
+Sun Mar  4 00:37:14 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* types:
+	types created.  started new data type regime. lots is broken.
+
+Wed Feb 28 13:30:19 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* meta:
+	made arithmetic operations nary and changed names
+
+Tue Feb 27 01:30:19 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* matrix (determinant):
+	completed
+
+Mon Feb 26 00:11:34 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* bunch, matrix:
+	@n order changed; matrix functions work again
+
+	* syntax, output
+	lambda syntax fixed: \[a,b],b-a;
+
+Sun Feb 25 00:15:23 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* seval (seval): schemized and simplified.
+	* meta, impl, matrix:
+	functions split between internal and user callable versions.
+	Not finished.
+
+Tue Feb 13 00:25:04 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* cgol, syntax:
+	now foo((a,x)) --> (foo (begin a x))
+
+Mon Feb 12 01:23:56 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* cgol, syntax:
+	parsing rewritten.  some minor bugs and incompatabilities
+	introduced.  Nary parsing introduced; not supported in seval.
+
+Thu Feb  8 23:33:23 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* poly (univ_prs):
+	schemized
+
+Tue Feb  6 00:52:56 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* poly:
+	eliminated most do* and blocks
+
+Mon Feb  5 01:08:43 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* impl:
+	cleaned up derivatives some, not finished.
+
+Sat Feb  3 00:32:43 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* poly:
+	reordered functions and put in dummies to allow compilation
+
+	* poly (univ_prem):
+	schemified
+
+	* poly (poly_norm => univ_norm):
+	rewritten in scheme.
+
+Tue Jan 30 01:15:54 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* bunch.scl (bunch_elim):
+	rewrote for scheme
+
+Sun Jan 28 01:08:51 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* scl.lisp:
+	changed to not use macros to define builtins so that compiled
+	version works.
+
+	* scl.lisp (define):
+	now uses defun whenever possible, so that functions have their
+	name with them. Still cannot compile poly.lisp.
+	* poly.lisp (univ_prs):
+	had step sub-clause missing in do*.  should speed thing up a bit.
+
+Tue Jan 23 13:32:07 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* scl.lisp:
+	expanded to full scheme and debugged.
+	* *.lisp -> *.scl:
+	and many conversions done. all "#'" removed.  most calls changed to
+	scheme names.
+	* rearranged directories
+
+Thu Jan 18 01:28:51 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* scl.lisp (lambda and define defined).
+	* *.lisp:
+	#'(lambda --> (lambda
+
+Tue Jan 16 01:33:59 1990  Aubrey Jaffer  (jaffer at crispy-critters)
+
+	* scm.lisp:
+	the Scheme compatability definitions created.  Some char and
+	string functions changed in all files.
+
+Mon Jan 15 01:06:58 1990  Aubrey Jaffer  (jaffer at crispy-critters)
+
+	* poly.lisp removed lambda-unshadow (unused).  moved symbol
+	creation from nmatrix.
+
+	* *.lisp all variables now reside in package "USER".
+
+Sat Jan 13 18:26:02 1990  Aubrey Jaffer  (jaffer at lammert)
+
+	* seval.lisp, impl.lisp:
+	added finite differentials. eliminated express and unexpress.
+
+	* seval.lisp (capply):
+	fixed bug: vector of functions of vector of
+	arguments.  fixed clambda for differentials.
+
+	* math.lisp: moved all test calls here
+
+Fri Jan 12 01:20:27 1990  Aubrey Jaffer  (jaffer at crispy-critters)
+
+	* poly.lisp output.lisp degree => degree&lc changed to return a
+	list rather than multiple values (in prep for Scheme)
+
+Thu Jan  4 01:10:57 1990  Aubrey Jaffer  (jaffer at gerber)
+
+	* impl.lisp (vsubst): now works on bunches
+	* poly.lisp moved differential and lambda var functions here
+	* seval.lisp capply and related functions rewritten to implement
+	differential operators.
+
+Tue Dec 19 23:44:43 1989  Aubrey Jaffer  (jaffer at gerber)
+
+	* syntax.lisp (a*b)'' now works
+	* seval.lisp simplified capply and added function for differential
+	clambda (not finished).
+
+Sun Dec 17 23:08:06 1989  Aubrey Jaffer  (jaffer at gerber)
+
+	* poly.lisp zero? and one? written and used
+
+Sat Dec 16 01:07:49 1989  Aubrey Jaffer  (jaffer at gerber)
+
+	* poly.lisp split large poly_* into poly_* and univ_*
+	* factor.lisp created from diff and factor stuff in poly.lisp
+
+Fri Dec 15 00:32:37 1989  Aubrey Jaffer  (jaffer at gerber)
+
+	* poly.lisp moved differential functions from impl.lisp
+	* seval.lisp cleaned up capply to prepare for differential operators.
+
+Thu Nov 27 11:31:00 1989  Aubrey Jaffer  (jaffer at rosalyn.ai.mit.edu)
+
+	* seval.lisp applying vectors of clambdas works again
+
+Thu Nov 16 11:31:00 1989  Aubrey Jaffer  (jaffer at rosalyn.ai.mit.edu)
+
+	* *.lisp lowercased and reformated all files
+
+Fri Nov 10 01:02:34 1989  Aubrey Jaffer  (jaffer at gerber)
+
+	* doc/layers created
+	* ext.lisp created from impl.lisp
+	* impl.lisp, seval.lisp many name changes inpreperation
+	for scheme and better layering
+
+Thu Nov  9 01:18:18 1989  Aubrey Jaffer  (jaffer at gerber)
+
+	* radicals.lisp added rad_depth
+
+Sun Nov  5 23:58:10 1989  Aubrey Jaffer  (jaffer at rice-chex)
+
+	* caf.lisp => impl.lisp (all caf -> impl)
+	* output.lisp (all 2 -> ->)
+	layering improved
+
+Wed Nov  1 14:32:45 1989  Aubrey Jaffer  (jaffer at lammert)
+
+	* poly.lisp (square-free -> poly_square-free)
+	* bunch.lisp meta.lisp (eliminate is now in meta.lisp)
+
+Wed Oct 25 01:09:22 1989  Aubrey Jaffer  (jaffer at lammert)
+
+	* bunch.lisp, output.lisp (bunch?)
+	() is now a bunch.
+
+Tue Oct 24 22:34:08 1989  Aubrey Jaffer  (jaffer at lammert)
+
+	* poly.lisp (resultant->poly_resultant)
+	and functions which use it
+	now check for getting back number (instead of equation).
+
