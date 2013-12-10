@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
 Build-Depends: debhelper (>= 9)
 Build-Depends-Indep: texi2html, texinfo
-Standards-Version: 3.8.0
+Standards-Version: 3.9.5
 
 Package: jacal
 Architecture: all
