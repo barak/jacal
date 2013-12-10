@@ -1,3 +1,24 @@
+jacal (1b9-3) unstable; urgency=low
+
+  * adopt package (closes: #721056)
+  * regenerate using modern dh (closes: #708491)
+  * debian/watch: from qa.debian.org
+  * dpkg source format 3.0 (quilt)
+    - migrate debian mods to quilt patches
+  * patch jacal.texi for modern version of texinfo (closes: #707527)
+  * debian/copyright: update per lintian and upstream copyright
+  * debian/control:
+    - add homepage field
+    - add packaging repo fields
+    - bump standards version to 3.9.5
+  * dh issues
+    - bump to dh9
+    - dh_installchangelogs finds ChangeLog without assistance
+    - dh_clean -k is deprecated; use dh_prep instead
+    - move symbolic link creation from debian/rules to debian/links
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Tue, 10 Dec 2013 12:55:22 +0000
+
 jacal (1b9-2.1) unstable; urgency=medium
 
   * Non-maintainer upload.
