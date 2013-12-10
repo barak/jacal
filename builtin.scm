@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2005 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2005, 2007, 2010 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 (require-if 'compiling 'factor)
 (require-if 'compiling 'hensel)
 (require-if 'compiling 'combinatorics)
+(require-if 'compiling 'interpolate)
 
 ;;;; First, what case are symbols in?  Determine the standard case:
 (define char-standard-case
@@ -40,7 +41,7 @@
   (do ((i 0 (+ 1 i))
        (sl (string-length s)))
       ((>= i sl) s)
-      (string-set! s i (char-standard-case (string-ref s i)))))
+    (string-set! s i (char-standard-case (string-ref s i)))))
 (define (bltn:error . args)
   (apply math:warn args)
   novalue)
@@ -306,35 +307,43 @@
 ;		  '#())))
 
 ;;;; Built in functions
-(defbltn 'set
+(defbltn 'set 2 2
   (lambda (name . values)
     (apply flag-set (var:sexp (expl->var name)) values)))
 
-(defbltn 'show
+(defbltn 'show 1 1
   (lambda (name . rest) (apply flag-get
 			       (var:sexp (expl->var name))
 			       rest)))
 
-(defbltn 'commands
+(defbltn 'commands 0 0
   (lambda ()
     (block-write-strings
      (sort! (map object->string (list-of-procedure-defsyms))
 	    string<?))
     novalue))
 
-(defbltn '%
+(defbltn '% 0 0
   (lambda () %))
 
-(defbltn 'depends
+(defbltn 'depends 1 1
   (lambda (x) (map var->expl (var:depends (expl->var x)))))
 
-(defbltn 'args
-  (lambda (x) (cdr (func-arglist (expl->var x)))))
+(defbltn 'args 1 1
+  (lambda (x)
+    (define fa (func-arglist (expl->var x)))
+    (if (null? fa)
+	(math:error 'args 'not-a-function? x)
+	(cdr fa))))
 
-(defbltn 'func
-  (lambda (x) (car (func-arglist (expl->var x)))))
+(defbltn 'func 1 1
+  (lambda (x)
+    (define fa (func-arglist (expl->var x)))
+    (if (null? fa)
+	(math:error 'func 'not-a-function? x)
+	(car fa))))
 
-(defbltn 'describe
+(defbltn 'describe 1 1
   (lambda (x)
     (cond
      ((and (expl:var? x)
@@ -372,19 +381,19 @@
 	((column? x) 'column-vector)
 	(else 'bunch)))
 
-(defbltn 'example
+(defbltn 'example 1 1
   (lambda (x) (info:example x)))
 
 (define (terms) (paginate-file (in-vicinity jacal-vicinity "COPYING")))
-(defbltn 'terms (lambda () (terms) novalue))
+(defbltn 'terms 0 0 (lambda () (terms) novalue))
 
 (define (help) (paginate-file (in-vicinity jacal-vicinity "HELP")))
-(defbltn 'help (lambda () (help) novalue))
+(defbltn 'help 0 0 (lambda () (help) novalue))
 
 (define (boolify x)
   (var->expl (sexp->var (if x 'true 'false))))
 
-(defbltn 'verify
+(defbltn 'verify 2 2
   (lambda (try expect)
     (let ((tv (normalize try)) (ev (normalize expect)))
       (cond ((equal? tv ev) (boolify #t))
@@ -397,67 +406,67 @@
 	     ;;(if math:debug (do-more))
 	     (boolify #f))))))
 
-(defbltn 'differential
+(defbltn 'differential 1 1
   (lambda (obj) (total-differential obj)))
 
-(defbltn 'negate
+(defbltn 'negate 1 1
   (lambda (obj) (app* _-$1 obj)))
 
-(defbltn 'u+/-
+(defbltn 'u+/- 1 1
   (lambda (obj) (app* _+/-$1 obj)))
 
-(defbltn 'u-/+
+(defbltn 'u-/+ 1 1
   (lambda (obj) (app* _-/+$1 obj)))
 
-(defbltn '^				;need to do expt also
+(defbltn '^ 2 2				;need to do expt also
   (lambda (x exp)
     (if (and (expl? x) (number? exp) (positive? exp))
 	(poly:^ x (normalize exp))
 	(^ (expr x) exp))))
 
-(defbltn '^^				;need to do ncexpt also
+(defbltn '^^ 2 2			;need to do ncexpt also
   (lambda (a pow) (ncexpt (exprs a) (normalize pow))))
 
-(defbltn '*
+(defbltn '* 0 #f
   (lambda args (reduce (lambda (x y)
 			 (if (and (expl? x) (expl? y))
 			     (poly:* x y)
 			     (app* $1*$2 x y)))
 		       args)))
 
-(defbltn '+
+(defbltn '+ 0 #f
   (lambda args (reduce (lambda (x y)
 			 (if (and (expl? x) (expl? y))
 			     (poly:+ x y)
 			     (app* $1+$2 x y)))
 		       args)))
 
-(defbltn '-
+(defbltn '- 0 #f
   (lambda args (reduce (lambda (x y)
 			 (if (and (expl? x) (expl? y))
 			     (poly:- x y)
 			     (app* $1-$2 x y)))
 		       args)))
 
-(defbltn 'b+/-
+(defbltn 'b+/- 0 #f
   (lambda args (reduce (lambda (x y) (app* $1+/-$2 x y)) args)))
 
-(defbltn 'b-/+
+(defbltn 'b-/+ 0 #f
   (lambda args (reduce (lambda (x y) (app* $1-/+$2 x y)) args)))
 
-(defbltn '/
+(defbltn '/ 0 #f
   (lambda args (reduce (lambda (x y) (app* $1/$2 x y)) args)))
 
-(defbltn 'over
+(defbltn 'over 0 #f
   (lambda args (reduce (lambda (x y) (app* $1/$2 x y)) args)))
 
-(defbltn 'parallel
+(defbltn 'parallel 0 #f
   (lambda args (reduce (lambda (x y) (app* $1!!$2 x y)) args)))
 
-(defbltn 'bunch
+(defbltn 'bunch 0 #f
   (lambda args args))
 
-(defbltn 'flatten
+(defbltn 'flatten 1 1
   (letrec ((flatten-bunch
 	    (lambda (b)
 	      (if (bunch? b)
@@ -465,22 +474,22 @@
 		  (list b)))))
     flatten-bunch))
 
-(defbltn 'rapply
+(defbltn 'rapply 0 #f
   (lambda args (apply rapply args)))
 
-(defbltn 'or
+(defbltn 'or 0 #f
   (lambda args
     (poleqn->licit (reduce poly:* (map licit->poleqn args)))))
 
-(defbltn '=
+(defbltn '= 2 2
   (lambda (x y) (app* $1=$2 x y)))
 
-(defbltn 'qed
+(defbltn 'qed 0 0
   (lambda ()
     (cleanup-handlers!)
     (math:exit #t)))
 
-(defbltn 'quit
+(defbltn 'quit 0 0
   (lambda ()
     (cleanup-handlers!)
     (slib:exit)
@@ -488,7 +497,7 @@
     (math:greet)
     novalue))
 
-(defbltn 'continue
+(defbltn 'continue 1 1
   (lambda (value)
     (cond ((null? math:break-continuation-stack) #f)
 	  (else
@@ -497,20 +506,20 @@
 		   (cdr math:break-continuation-stack))
 	     (cont value))))))
 
-(defbltn 'restart
+(defbltn 'restart 0 0
   (lambda ()
     (restart)))
 
 ;;;; User callable functions
 
-(defbltn 'listofvars
+(defbltn 'listofvars 1 1
   (lambda (exp)
     (let ((deps '()))
       (licits:for-each (lambda (poly) (set! deps (union (alg:vars poly) deps)))
 		       exp)
       (map var->expl (remove $ deps)))))
 
-(defbltn 'degree
+(defbltn 'degree 1 2
   (lambda (ply . args)
     (define xp (if (eqn? ply) (eqn->poly ply) ply))
     (cond ((null? args)
@@ -539,12 +548,12 @@
 	 (cdr (poly:promote var poly)))
 	(else (bltn:error 'not-a-polynomial? poly var))))
 
-(defbltn 'coeff
+(defbltn 'coeff 2 3
   (lambda (p var . optional)
     (let ((ord (if (null? optional) 1 (car optional))))
       (coeff p (expl->var var) (plicit->integer ord)))))
 
-(defbltn 'coeffs
+(defbltn 'coeffs 1 2
   (lambda (p . optional)
     (cond ((not (null? optional))
 	   (coeffs p (expl->var (car optional))))
@@ -585,10 +594,10 @@
 		  (poly:equate-coeffs (denom poly1) (denom poly2) var))))
 	(else (remove-duplicates (poly:equate-coeffs poly1 poly2 var)))))
 
-(defbltn 'equatecoeffs (lambda (p1 p2 var)
-			 (equate-coeffs p1 p2 (expl->var var))))
+(defbltn 'equatecoeffs 3 3 (lambda (p1 p2 var)
+			     (equate-coeffs p1 p2 (expl->var var))))
 
-(defbltn 'poly
+(defbltn 'poly 1 #f
   (lambda (var . args)
     (cond ((null? args)
 	   (if (eqn? var)
@@ -603,13 +612,13 @@
 	  (else
 	   (bltn:error 'poly? (cons var args))))))
 
-(defbltn 'num
+(defbltn 'num 1 1
   (lambda (exp) (num (expr:normalize exp))))
 
-(defbltn 'denom
+(defbltn 'denom 1 1
   (lambda (exp) (denom (expr:normalize exp))))
 
-(defbltn 'divide
+(defbltn 'divide 2 3
   (lambda (dividend divisor . vars)
     (set! dividend (licit->polxpr dividend))
     (set! divisor (licit->polxpr divisor))
@@ -620,7 +629,7 @@
 					(car divisor))
 				    (expl->var (car vars))))))
 
-(defbltn 'content
+(defbltn 'content 2 2
   (lambda (poly var)
     (let* ((var (expl->var var))
 	   (poly (poly:promote var (licit->polxpr poly)))
@@ -628,7 +637,7 @@
       (list cont (poly:/ poly cont)))))
 
 ;;; This is user callable GCD.
-(defbltn 'gcd
+(defbltn 'gcd 0 #f
   (lambda args
     (if (null? args) 0
 	(reduce poly:gcd (map licit->polxpr args)))))
@@ -638,7 +647,7 @@
 	((negative? m) (symmetric:modulus (- m)))
 	(else m)))
 
-(defbltn 'mod
+(defbltn 'mod 1 3
   (lambda (licit . args)
     (let* ((modulus (if (null? args) *modulus* (licit->polxpr (car args))))
 	   (var (if (or (null? args) (null? (cdr args)))
@@ -655,13 +664,13 @@
 		    (pair? (rat:denom p))
 		    (eq? (car modulus) (car (rat:denom p))))
 	       (poly:prem (poly:* p (alg:conjugate (rat:denom p) modulus))
-			      modulus
-			      var)
+			  modulus
+			  var)
 	       p))))))))
 
 ;;; This is user callable RESULTANT.  It always operates on
 ;;; polynomials and does not know about extensions etc.
-(defbltn 'resultant
+(defbltn 'resultant 3 3
   (lambda (a b v)
     (let ((res (poly:resultant
 		(licit->polxpr a)
@@ -669,13 +678,13 @@
 		(expl->var v))))
       res)))
 
-(defbltn 'sylvester
+(defbltn 'sylvester 3 3
   (lambda (p1 p2 var)
     (sylvester (licit->polxpr p1)
 	       (licit->polxpr p2)
 	       (expl->var var))))
 
-(defbltn 'discriminant
+(defbltn 'discriminant 2 2
   (lambda (poly var)
     (set! poly (licit->polxpr poly))
     (set! poly (poly:/ poly (if (> (leading-number poly) 0)
@@ -697,9 +706,9 @@
 	      ((< idx 1) lst)))
 	funcs)))
 
-(defbltn 'jacobi jacobi-matrix)
+(defbltn 'jacobi 1 1 jacobi-matrix)
 
-(defbltn 'jacobian
+(defbltn 'jacobian 0 #f
   (lambda args
     (determinant (apply jacobi-matrix args))))
 
@@ -711,27 +720,27 @@
 
 (define (wronski-matrix var . funcs)
   (wronskian-matrix (expl->var var)
-		      (map licit->polxpr
-			   (if (= 1 (length funcs))
-			       (car funcs)
-			       funcs))))
+		    (map licit->polxpr
+			 (if (= 1 (length funcs))
+			     (car funcs)
+			     funcs))))
 
 ;; The matrix constructed by placing the functions in the first row,
 ;; the first derivative of each function in the second row, and so on
 ;; through the n-1 derivative, thus forming a square matrix.
 
-(defbltn 'wronski wronski-matrix)
+(defbltn 'wronski 1 #f wronski-matrix)
 
-(defbltn 'wronskian
+(defbltn 'wronskian 1 #f
   (lambda (var . funcs)
     (determinant (wronski-matrix var funcs))))
 
-(defbltn 'eliminate
+(defbltn 'eliminate 2 2
   (lambda (eqns vars)
     (poleqns->licits (eliminate (licits->poleqns eqns)
 				(variables (normalize vars))))))
 
-(defbltn 'polyelim
+(defbltn 'polyelim 2 2
   (lambda (eqns vars)
     (poleqns->licits (poly:elim (licits->poleqns eqns) (variables vars)))))
 
@@ -739,7 +748,7 @@
   (require 'factor)			;autoload from SLIB
   (sexp:terms->product-of-powers (sort! (factor e1) <)))
 
-(defbltn 'factor
+(defbltn 'factor 1 1
   (lambda (e0)
     (define (fctr e0)
       (let ((e1 (expr:normalize e0)))
@@ -764,12 +773,12 @@
 	(else (require 'hensel)
 	      (rat:factors e1))))
 
-(defbltn 'factors
+(defbltn 'factors 1 1
   (lambda (e1)
     (cond ((eqn? e1) (rat:factors-list (eqn->poly e1)))
 	  (else (rat:factors-list (expr:normalize e1))))))
 
-(defbltn 'prime?
+(defbltn 'prime? 1 1
   (lambda (n)
     (let ((e (licit->polxpr n)))
       (cond ((number? e)
@@ -777,10 +786,10 @@
 	     (boolify (prime? e)))
 	    (else (bltn:error 'not-a-number n))))))
 
-(defbltn 'matrix
+(defbltn 'matrix 0 #f
   (lambda args (apply matrix args)))
 
-(defbltn 'genmatrix
+(defbltn 'genmatrix 3 5
   (lambda (fun i2 j2 . i1j1)
     (let ((i1 1) (j1 1))
       (cond ((null? i1j1))
@@ -799,48 +808,48 @@
        (plicit->integer i1)
        (plicit->integer j1)))))
 
-(defbltn 'augcoefmatrix
+(defbltn 'augcoefmatrix 2 2
   (lambda (eqns vars)
     (augcoefmatrix (licits->poleqns eqns) (variables vars))))
 
-(defbltn 'coefmatrix
+(defbltn 'coefmatrix 2 2
   (lambda (eqns vars)
     (coefmatrix (licits->poleqns eqns) (variables vars))))
 
-(defbltn 'rank
+(defbltn 'rank 1 1
   rank)
 
-(defbltn 'ident
+(defbltn 'ident 1 1
   (lambda (n) (mtrx:scalarmatrix n 1)))
 
-(defbltn 'scalarmatrix
+(defbltn 'scalarmatrix 2 2
   (lambda (n x) (mtrx:scalarmatrix (plicit->integer n) x)))
 
-(defbltn 'diagmatrix
+(defbltn 'diagmatrix 0 #f
   (lambda args (mtrx:diagmatrix args)))
 
-(defbltn 'determinant
+(defbltn 'determinant 1 1
   (lambda (m) (determinant m)))
 
-(defbltn 'charpoly
+(defbltn 'charpoly 2 2
   charpoly)
 
-(defbltn 'crossproduct
+(defbltn 'crossproduct 2 2
   (lambda (x y) (crossproduct x y)))
 
-(defbltn 'dotproduct
+(defbltn 'dotproduct 2 2
   (lambda (x y) (dotproduct x y)))
 
-(defbltn 'ncmult
+(defbltn 'ncmult 2 2
   (lambda (x y) (ncmult x y)))
 
-(defbltn 'row
+(defbltn 'row 2 2
   (lambda (m i)
     (if (matrix? m)
 	(list-ref m (+ -1 (plicit->integer i)))
 	(bltn:error 'row-of-non-matrix?:- m))))
 
-(defbltn 'col
+(defbltn 'col 2 2
   (lambda (m i)
     (cond ((matrix? m)
 	   (map (lambda (row)
@@ -849,36 +858,36 @@
 	  ((bunch? m) (list-ref m (plicit->integer i)))
 	  (else (bltn:error 'column-of-non-matrix?:- m)))))
 
-(defbltn 'minor
+(defbltn 'minor 3 3
   (lambda (m i j)
     (mtrx:minor m (plicit->integer i) (plicit->integer j))))
 
-(defbltn 'cofactor
+(defbltn 'cofactor 3 3
   (lambda (m i j)
     (cofactor m (plicit->integer i) (plicit->integer j))))
 
-(defbltn 'transpose
+(defbltn 'transpose 1 1
   (lambda (m) (transpose m)))
 
-(defbltn 'cartprod
+(defbltn 'cartprod 1 1
   (lambda (m)
     (require 'combinatorics)
     (cart-prod m)))
 
-(defbltn 'factorial
+(defbltn 'factorial 1 1
   (lambda (m)
     (require 'combinatorics)
     (factorial m)))
 
-(defbltn 'elementwise
+(defbltn 'elementwise 1 #f
   (lambda (f . args)
     (apply map (lambda args (sapply f args)) args)))
 
-(defbltn 'finv
+(defbltn 'finv 1 1
   (lambda (f)
     (fcinverse f)))
 
-(defbltn 'load
+(defbltn 'load 1 1
   (lambda (file)
     (cond ((file-exists? file)
 	   (slib:load (var->string (expl->var file)))
@@ -887,18 +896,18 @@
 	   (math:warn 'file-not-found file)
 	   novalue))))
 
-(defbltn 'require
+(defbltn 'require 1 1
   (lambda (file)
     (slib:load (in-vicinity jacal-vicinity (var->string (expl->var file))))
     file))				;this should use require.
 					;need to mess with file extension.
 
-(defbltn 'batch
+(defbltn 'batch 1 1
   (lambda (file)
     (batch (var->string (expl->var file)))
     novalue))
 
-(defbltn 'transcript
+(defbltn 'transcript 0 #f
   (lambda files
     (cond ((null? files)
 	   (transcript-off)
@@ -909,21 +918,21 @@
 	     (transcript-on file)
 	     (car files))))))
 
-(defbltn 'system
+(defbltn 'system 1 1
   (lambda (command)
     (system (var->string (expl->var command)))
-;    command		;uncomment this line if system doesn't return nicely
+    ;;command		;uncomment this line if system doesn't return nicely
     ))
 
-(defbltn 'diff
+(defbltn 'diff 1 #f
   (lambda (exp . args)
     (reduce-init diff exp (map expl->var args))))
 
-(defbltn 'polydiff
+(defbltn 'polydiff 1 #f
   (lambda (exp . args)
     (reduce-init expls:diff exp (map expl->var args))))
 
-(defbltn 'partial
+(defbltn 'partial 1 #f
   (lambda (func . args)
     (cond ((number? func) (bltn:error 'not-a-function? func))
 	  ((null? args) (bltn:error 'no-variables?))
@@ -937,7 +946,7 @@
 			 (else (math:error 'partial-with-respect-to? a))))
 		 args))))))
 
-(defbltn 'scheme
+(defbltn 'scheme 1 1
   (lambda (expr)
     (cond ((expl:var? expr)
 	   (sexp->math
@@ -954,27 +963,30 @@
 	   (sexp->math
 	    (call-with-input-string (var->string (expl->var expr))
 	      (lambda (port)
-		(prec:parse (grammar-read-tab grammar) #\; port)))))
+		(prec:parse (grammar-read-tab grammar) #\; 0 port)))))
 	  (else
 	   (write-sexp (if (sexp? expr) expr (cano->sexp expr horner))
 		       grammar)
 	   novalue))))
 
-(defbltn 'tex (make-grammar-bltn 'tex))
-(defbltn 'standard (make-grammar-bltn 'standard))
-(defbltn 'disp2d (make-grammar-bltn 'disp2d))
+(defbltn 'tex 1 1 (make-grammar-bltn 'tex))
+(defbltn 'standard 1 1 (make-grammar-bltn 'standard))
+(defbltn 'disp2d 1 1 (make-grammar-bltn 'disp2d))
 
-(defbltn '(abs cabs)
-  (lambda (exp)
-    (let ((e1 (expr:normalize exp)))
-      (cond ((rat? e1)
-	     (app* $1/$2
-		   (poly:cabs (rat:num e1))
-		   (poly:cabs (rat:denom e1))))
-	    ((expl? e1) (poly:cabs e1))
-	    (else (bltn:error 'abs-of-non-rational-expression exp))))))
+(define (c-abs exp)
+  (let ((e1 (expr:normalize exp)))
+    (cond ((rat? e1)
+	   (app* $1/$2
+		 (poly:cabs (rat:num e1))
+		 (poly:cabs (rat:denom e1))))
+	  ((expl? e1) (poly:cabs e1))
+	  (else (bltn:error 'abs-of-non-rational-expression exp)))))
 
-(defbltn 'realpart
+(defbltn 'abs 1 1 c-abs)
+
+(defbltn 'cabs 1 1 c-abs)
+
+(defbltn 'realpart 1 1
   (lambda (exp)
     (let ((e1 (expr:normalize exp)))
       (cond ((rat? e1)
@@ -984,7 +996,7 @@
 	    ((expl? e1) (poly:coeff e1 %i 0))
 	    (else (bltn:error 'abs-of-non-rational-expression exp))))))
 
-(defbltn 'imagpart
+(defbltn 'imagpart 1 1
   (lambda (exp)
     (let ((e1 (expr:normalize exp)))
       (cond ((rat? e1)
@@ -994,16 +1006,57 @@
 	    ((expl? e1) (poly:coeff e1 %i 1))
 	    (else (bltn:error 'abs-of-non-rational-expression exp))))))
 
-(defbltn 'extrule
+(defbltn 'extrule 1 1
   (lambda (x) (poly->eqn (or (extrule (expl->var x)) 0))))
+
+;;; commands for polynomial interpolation:
+
+(defbltn 'interp 1 #f
+  (lambda args
+    (require 'interpolate)
+    (interp:interp cidentity args 'lagrange)))
+
+(defbltn 'interp.lagrange 1 #f
+  (lambda args
+    (require 'interpolate)
+    (interp:interp cidentity args 'lagrange)))
+
+(defbltn 'interp.newton 1 #f
+  (lambda args
+    (require 'interpolate)
+    (interp:interp cidentity args 'newton)))
+
+(defbltn 'interp.neville 1 #f
+  (lambda args
+    (require 'interpolate)
+    (interp:interp cidentity args 'neville)))
+
+(defbltn 'taylor 3 3
+  (lambda (expr a n)
+    (require 'interpolate)
+    (interp:taylor expr a n)))
+
+;;; polynomial decomposition
+
+(defbltn 'decompose 2 2
+  (lambda (poly var)
+    (require 'decompose)
+    (decompose (coeffs poly (expl->var var)) var)))
+
+(defbltn 'compose 3 3
+  (lambda (f g var)
+    (require 'decompose)
+    (compose (coeffs f (expl->var var)) 
+	     (coeffs g (expl->var var))
+	     var)))
 
 ;;; commands for debugging:
 
-(defbltn 'chain
+(defbltn 'chain 1 1
   (lambda (exp)
     (let ((e (expl->var exp)))
       (poly->eqn (chain-rule e (var:differential e))))))
 
-(defbltn 'shadow
+(defbltn 'shadow 1 1
   (lambda (x) (map (lambda (v) (if v (var->expl v) '()))
 		   (or (vector-ref (expl->var x) 4) '()))))

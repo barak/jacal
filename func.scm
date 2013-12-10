@@ -54,7 +54,7 @@
 (require 'sort)
 (require 'common-list-functions)
 
-(defbltn 'symmetrical
+(defbltn 'symmetrical 1 #f
   (lambda (func . symmetry-lists)
     (let* ((f (expl->var func))
 	   (osls (and f (or (func-syms f) '()))))

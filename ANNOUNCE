@@ -1,4 +1,4 @@
-This message announces the availability of JACAL release jacal-1b9.
+This message announces the availability of JACAL release jacal-1c3.
 
 JACAL is an interactive symbolic mathematics program.  JACAL can
 manipulate and simplify equations, scalars, vectors, and matrices of
@@ -18,60 +18,47 @@ under the GNU General Public License (GPL).
 Documentation and distributions in several formats are linked from
 JACAL's home page:
 
-	    http://swiss.csail.mit.edu/~jaffer/JACAL.html
+	      <http://people.csail.mit.edu/jaffer/JACAL>
 
 Links to distributions of JACAL and related softwares are at the end
 of this message.
 
-				-=-=-
-jacal-1b9 news:
+			       -=-=-=-
+jacal-1c3 news:
 
-* Larceny (Scheme) is now supported.
-* Installation improved.
-* Spiffy new ray-traced "=" logo.
-* jacal-discuss email group
-  http://lists.gnu.org/mailman/listinfo/jacal-discuss
+jacal-1c3 is a minor release.  Details at
+<http://cvs.savannah.gnu.org/viewvc/*checkout*/jacal/jacal/ChangeLog>
 
-  * toploads.scm (byte): If BYTE (required by RANDOM) requires
-  ARRAY, then it will redefine EQUAL?, which will screw up
-  HASH-TABLE.  So require BYTE first.
-  DEFMACRO:LOAD "sexp.scm" because it uses FLUID-LET.
+  * Added support for (gosh) Gauche-0.9.
 
-  * sexp.scm (batch): Check that file exists before running.
+  From Vytautas Jancauskas:
+  * Added rudimentary polynomial decomposition support.
 
-  * builtin.scm (poly): Fixed for rational coefficients.
-  (load): Check that file exists before loading.
-  (degree): Fixed WNA error message.
-
-  * English.scm (tran:translations): Removed not-a-bunch?;
-  Added file-not-found.
-
-  * Makefile, jacal.spec: Put "-" between "jacal" and version in names.
-
-				-=-=-
+			       -=-=-=-
 
 JACAL is available from:
- http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9.zip
- swiss.csail.mit.edu:/pub/scm/jacal-1b9.zip (FTP instructions follow)
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3.zip>
 Also available as RPM:
- http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9-1.noarch.rpm
- swiss.csail.mit.edu:/pub/scm/jacal-1b9-1.noarch.rpm
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.src.rpm>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.noarch.rpm>
 
 SLIB is a portable scheme library which JACAL requires:
- http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1.zip
- swiss.csail.mit.edu:/pub/scm/slib-3b1.zip
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4.zip>
 Also available as RPM:
- http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1-1.noarch.rpm
- swiss.csail.mit.edu:/pub/scm/slib-3b1-1.noarch.rpm
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.src.rpm>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.noarch.rpm>
+Also available as MS-Windows installer:
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.exe>
 
 SCM is a small Scheme implementation under which JACAL will run.
 SCM source is available from:
- http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5.zip
- swiss.csail.mit.edu:/pub/scm/scm-5e5.zip
-Also available as i386 binary RPM:
- http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5-1.i386.rpm
- swiss.csail.mit.edu:/pub/scm/scm-5e5-1.i386.rpm
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1.zip>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.src.rpm>
+Also available as a binary RPM:
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.x86_64.rpm>
+Also available as MS-Windows installer:
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.exe>
 
 Programs for printing and viewing TexInfo documentation (which JACAL
 has) come with GNU Emacs or can be obtained via ftp from:
- ftp://ftp.gnu.org/pub/gnu/texinfo/texinfo-4.8.tar.gz
+ <ftp://ftp.gnu.org/pub/gnu/texinfo>

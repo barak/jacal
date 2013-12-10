@@ -22,7 +22,7 @@
 (require-if 'compiling 'info)
 (require-if 'compiling 'precedence-parse)
 
-(define *jacal-version* "1b9")
+(define *jacal-version* "1c3")
 
 (define (jacal:dot) (display ".") (force-output))
 (jacal:dot)
@@ -55,7 +55,7 @@
 
 ;(define *symdefs* '())			;":" environment.
 (define *symdefs* (make-hash-table 37))	;":" environment.
-(defmacro:load (in-vicinity (program-vicinity) "sexp"))
+(slib:load (in-vicinity (program-vicinity) "sexp"))
 (jacal:dot)		;read-eval-print loop.  Conversion from
 			;sexpression to internal form and back.
 (slib:load (in-vicinity (program-vicinity) "poly"))
@@ -82,15 +82,18 @@
 (slib:load (in-vicinity (program-vicinity) "ext"))
 (jacal:dot)		;Field extension creation and simplification.
 (require 'precedence-parse)		;Fixup prec:warn
-(define (prec:warn . msgs)
-  (do ((j (+ -1 tok:column) (+ -8 j)))
+(define (prec:warn dyn . msgs)
+  (do ((j (+ -1 (car (cddddr dyn))) (+ -8 j)))
       ((> 8 j)
        (do ((i j (+ -1 i)))
 	   ((>= 0 i))
 	 (display-diag #\space)))
     (display-diag slib:tab))
   (display-diag "^ ")
-  (for-each (lambda (x) (tran:translate x) (display-diag #\space)) msgs)
+  (for-each (lambda (x)
+	      (write-diag (tran:translate x))
+	      (display-diag #\space))
+	    msgs)
   (newline-diag))
 (jacal:dot)		;General parser
 (slib:load (in-vicinity (program-vicinity) "unparse"))
@@ -106,7 +109,7 @@
 
 (newline)
 (display "JACAL version ") (display *jacal-version*)
-(display ", Copyright 1989-2005 Aubrey Jaffer
+(display ", Copyright 1989-2011 Aubrey Jaffer
 JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `(terms)' for details.

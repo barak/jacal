@@ -39,23 +39,25 @@
 (require 'hash-table)
 
 ;;; our local environments
-;(define heqput! (alist-associator eq?))
-;(define heqrem! (alist-remover eq?))
-;(define hassq (predicate->asso eq?))
-;(define (list-of-procedure-defsyms)
-;  (define proc-defs '())
-;  (alist-for-each (lambda (k v) (if (procedure? (var:def v))
-;				    (set! proc-defs (cons k proc-defs))))
-;		  var-tab)
-;  proc-defs)
+;; (define heqput! (alist-associator eq?))
+;; (define heqrem! (alist-remover eq?))
+;; (define hassq (predicate->asso eq?))
+;; (define (list-of-procedure-defsyms)
+;;   (define proc-defs '())
+;;   (alist-for-each (lambda (k v)
+;; 		    (if (procedure? (var:def v))
+;; 			(set! proc-defs (cons k proc-defs))))
+;; 		  var-tab)
+;;   proc-defs)
 
 (define heqput! (hash-associator eq?))
 (define heqrem! (hash-remover eq?))
 (define hassq (predicate->hash-asso eq?))
 (define (list-of-procedure-defsyms)
   (define proc-defs '())
-  (hash-for-each (lambda (k v) (if (procedure? (var:def v))
-				   (set! proc-defs (cons k proc-defs))))
+  (hash-for-each (lambda (k v)
+		   (if (procedure? (var:def v))
+		       (set! proc-defs (cons k proc-defs))))
 		 var-tab)
   proc-defs)
 
@@ -76,16 +78,15 @@
        (cond ((null? pr) alst)
 	     (else (math:error 'defbltn 'odd-length-proto-list protos))))))
 
-;; (define (defbltn syms . protos)
-;;   (define alst (pairs->alist protos))
-;;   (for-each (lambda (sym) (var:set-def! (sexp->var sym) alst))
-;; 	    (if (list? syms) syms (list syms)))
-;;   syms)
-
-(define (defbltn syms val)
-  (for-each (lambda (sym) (var:set-def! (sexp->var sym) val))
-	    (if (list? syms) syms (list syms)))
-  syms)
+(define (defbltn sym low high val)
+  (var:set-def! (sexp->var sym)
+		(lambda args
+		  (if (if high
+			  (<= low (length args) high)
+			  (<= low (length args)))
+		      (apply val args)
+		      (math:error sym 'wna args))))
+  sym)
 
 ;;; hdns here is a list of lexically bound symbols as in lambda or suchthat.
 ;;; so it is really a list of things not to look up.
@@ -171,13 +172,10 @@
 		  ((output-port? cip)
 		   (let ((cip cip))
 		     (display math:prompt cip)
-		     (force-output cip)
-		     (tok:bump-column (string-length math:prompt) cip)))
+		     (force-output cip)))
 		  (else (display math:prompt)
-			(force-output)
-			(tok:bump-column (string-length math:prompt) cip)))
-	    (set! obj (read-sexp *input-grammar*))
-	    (tok:bump-column 0 cip)
+			(force-output)))
+	    (set! obj (read-sexp *input-grammar* (string-length math:prompt)))
 	    (cond ((not obj) (loop))
 		  ((eof-object? obj) (math:exit #t))
 		  ((and (symbol? obj) (symdef-lookup obj '()))
@@ -244,7 +242,7 @@
 (define (fcexpt fc pow)
   (if (negative? pow)
       (fcexpt (fcinverse fc) (- pow))
-    (ipow-by-squaring fc pow cidentity app*)))
+      (ipow-by-squaring fc pow cidentity app*)))
 
 (define (rapply ob . arglist)
   (cond ((null? arglist) ob)
@@ -514,7 +512,7 @@
 
 (define (sexp:decompose-rationally func expr)
   (cond ((rat? expr) (sexp:over (func (num expr))
-			     (func (denom expr))))
+				(func (denom expr))))
 	(else (func expr))))
 
 ;;;	Copyright 1989, 1990, 1991, 1992, 1993, 1996, 1997 Aubrey Jaffer.

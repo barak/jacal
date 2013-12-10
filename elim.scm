@@ -19,15 +19,15 @@
 
 ;;;; Variable elimination
 (define (poly:elim poleqns vars)
-  (cond (math:trace
-	 (display-diag 'eliminating:) (newline-diag)
-	 (math:write (map var->expl vars) *output-grammar*)
-	 (display-diag 'from:) (newline-diag)
-	 (math:write (poleqns->licits poleqns) *output-grammar*)))
+;;;   (cond (math:trace
+;;; 	 (display-diag 'eliminating:) (newline-diag)
+;;; 	 (math:write (map var->expl vars) *output-grammar*)
+;;; 	 (display-diag 'from:) (newline-diag)
+;;; 	 (math:write (poleqns->licits poleqns) *output-grammar*)))
   (do ((vs vars (cdr vs)) (polys poleqns) (poly #f))
       ((null? vs)
-       (cond (math:trace (display-diag 'yielding:) (newline-diag)
-			 (math:write polys *output-grammar*)))
+;;;        (cond (math:trace (display-diag 'yielding:) (newline-diag)
+;;; 			 (math:write polys *output-grammar*)))
        polys)
     (do ((var (car vs))
 	 (pl polys (if (null? pl)

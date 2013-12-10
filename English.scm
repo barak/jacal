@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright (C) 1989, 1990, 1991, 1992, 1993, 1995, 1997 Aubrey Jaffer.
+;; Copyright (C) 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2007, 2009, 2010 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -131,7 +131,7 @@
   '(
     (template:default 140 #d0140 "(" #d1010 #(rest ", " #d2010) ")")
     (template:bunch 140 "[" #d0010 #(rest ", " break #d1010) "]")
-    (template:matrix 140 (#\[) #d0010 #(rest "  " #d1010) (#\]))
+    (template:matrix 140 (#\[) (#\ ) #d0010 #(rest "  " #d1010) (#\ ) (#\]))
     (template:parenthesis 200 "(" #d1010 ")")
     (- 100 #d1100 " - " break #d2101 #(rest " - " break #d3101))
     (negate 100 "- " #d1100)
@@ -286,26 +286,32 @@
 ;;; Begin by Ignoring whitespace characters.
 (set! *syn-defs* *syn-ignore-whitespace*)
 
+(define (list2string dyn lst) (list->string lst))
+
 ;;; Character classes
-(prec:define-grammar (tok:char-group 70 #\^ list->string))
-(prec:define-grammar (tok:char-group 49 #\* list->string))
-(prec:define-grammar (tok:char-group 50 #\/ list->string))
-(prec:define-grammar (tok:char-group 51 '(#\+ #\-) list->string))
-(prec:define-grammar (tok:char-group 20 '(#\|) list->string))
-(prec:define-grammar (tok:char-group 30 '(#\< #\> #\= #\: #\~) list->string))
-(prec:define-grammar (tok:char-group 40
-		      (string-append "." tok:decimal-digits)
-		      (lambda (l) (if (equal? '(#\.) l)
-				      #\.
-				      (string->number (list->string l))))))
-(prec:define-grammar (tok:char-group 41
-		      (string-append tok:upper-case tok:lower-case "@%?_")
-		      list->string))
+(prec:define-grammar (tok:char-group 70 #\^ list2string))
+(prec:define-grammar (tok:char-group 49 #\* list2string))
+(prec:define-grammar (tok:char-group 50 #\/ list2string))
+(prec:define-grammar (tok:char-group 51 '(#\+ #\-) list2string))
+(prec:define-grammar (tok:char-group 20 '(#\|) list2string))
+(prec:define-grammar (tok:char-group 30 '(#\< #\> #\= #\: #\~) list2string))
 (prec:define-grammar (tok:char-group
-       (lambda (chr) (or (eqv? #\" chr) (eof-object? chr)))
-       #\"
-       (lambda (l)
-	 (tok:read-char) (list->string (cdr l)))))
+		      40
+		      (string-append "." tok:decimal-digits)
+		      (lambda (dyn l)
+			(if (equal? '(#\.) l)
+			    #\.
+			    (string->number (list->string l))))))
+(prec:define-grammar (tok:char-group
+		      41
+		      (string-append tok:upper-case tok:lower-case "@%?_")
+		      list2string))
+(prec:define-grammar (tok:char-group
+		      (lambda (chr) (or (eqv? #\" chr) (eof-object? chr)))
+		      #\"
+		      (lambda (dyn l)
+			(tok:read-char dyn)
+			(list->string (cdr l)))))
 
 ;;; Delimiters and Separators
 
@@ -377,26 +383,25 @@
 (prec:define-grammar (prec:nofix 'help 'help))
 (prec:define-grammar (prec:nofix 'qed 'qed))
 
-(prec:define-grammar (prec:commentfix "/*"
-		  (lambda (str)
-		    (and str
-			 (call-with-input-string
-			  str (lambda (pt)
-				(fluid-let ((*prec:port* pt))
-				  (if (eq? (get-grammar 'null) *echo-grammar*)
-				      (do ((i (string-length str) (+ -1 i)))
-					  ((zero? i))
-					(tok:read-char))
-				      (do ((i (string-length str) (+ -1 i)))
-					  ((zero? i))
-					(display (tok:read-char)))))))))
-		  "*/"))
+(prec:define-grammar (prec:commentfix
+		      "/*"
+		      (lambda (str)
+			(and str
+			     (not (eq? (get-grammar 'null) *echo-grammar*))
+			     (display str)))
+		      "*/"))
+
+(define (grm-reader grm column)
+  (define cip (current-input-port))
+  (prec:parse (grammar-read-tab grm)
+	      #\;
+	      (+ column (flush-input-whitespace cip))
+	      cip))
 
 (defgrammar 'standard
   (make-grammar
    'standard				;name
-   (lambda (grm)			;reader
-     (prec:parse (grammar-read-tab grm) #\; (current-input-port)))
+   grm-reader				;reader
    *syn-defs*				;read-tab
    print-using-grammar			;writer
    tps:std))				;write-tab
@@ -404,8 +409,7 @@
 (defgrammar 'disp2d
   (make-grammar
    'disp2d				;name
-   (lambda (grm)			;reader
-     (prec:parse (grammar-read-tab grm) #\; (current-input-port)))
+   grm-reader				;reader
    *syn-defs*				;read-tab
    print-using-grammar			;writer
    tps:2d))				;write-tab
@@ -418,11 +422,14 @@
 ;;; Begin by Ignoring whitespace characters.
 (set! *syn-defs* *syn-ignore-whitespace*)
 
-(prec:define-grammar (tok:char-group 40 tok:decimal-digits
-			(lambda (l) (string->number (list->string l)))))
-(prec:define-grammar (tok:char-group 41
-		        (string-append tok:upper-case tok:lower-case)
-			list->string))
+(prec:define-grammar (tok:char-group
+		      40
+		      tok:decimal-digits
+		      (lambda (dyn l) (string->number (list->string l)))))
+(prec:define-grammar (tok:char-group
+		      41
+		      (string-append tok:upper-case tok:lower-case)
+		      list2string))
 (let ((seen1 #f))
   (prec:define-grammar (tok:char-group
 			(lambda (chr)
@@ -431,9 +438,10 @@
 				 (set! seen1 chr) #t)
 				(else (set! seen1 #t) #f)))
 			'(#\\)
-			(lambda (l)
-			  (cond ((char? seen1) (tok:read-char)
-					       (set! l (list #\\ seen1))))
+			(lambda (dyn l)
+			  (cond ((char? seen1)
+				 (tok:read-char dyn)
+				 (set! l (list #\\ seen1))))
 			  (set! seen1 #f)
 			  (list->string l)))))
 
@@ -489,8 +497,7 @@
 (defgrammar 'tex
   (make-grammar
    'tex					;name
-   (lambda (grm)			;reader
-     (prec:parse (grammar-read-tab grm) #\; (current-input-port)))
+   grm-reader				;reader
    *syn-defs*				;read-tab
    print-using-grammar			;writer
    tps:tex))				;write-tab

@@ -21,7 +21,7 @@
 (define (bunch:norm x)
   (if (null? (cdr x))
       (car x)
-    x))
+      x))
 
 (define (copymatrix m)
   (if (matrix? m)
@@ -276,6 +276,3 @@
 				     (car restrows)))))
 	       (set-car! (list-tail c j) k))
 	      (else (set! r (+ 1 r))))))))
-
-;;;	Copyright 1989, 1990, 1991, 1992, 1993 Aubrey Jaffer.
-

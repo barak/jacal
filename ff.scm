@@ -160,42 +160,56 @@
 (define (sym:array-prototype p . fill)
   (apply modulus->array-prototype (quotient p -2) fill))
 
-;;; Reduce univariate p mod n and remove leading zero coefficients
-(define (ff:unorm n p)
-  (cons (car p)
-	(cons (sym:sym n (cadr p))
-	      (map-no-end-0s (lambda (x) (sym:sym n x)) (cddr p)))))
+;;; Reduce univariate poly mod modulus and remove leading zero coefficients
+(define (ff:unorm modulus poly)
+  (cons (car poly)
+	(cons (sym:sym modulus (cadr poly))
+	      (map-no-end-0s (lambda (coeff) (sym:sym modulus coeff))
+			     (cddr poly)))))
 
-;;; Degree of (ff:unorm n p)
-(define (ff:degree n p)
-  (- (length (ff:unorm n p)) 2))
+;;; Degree of (ff:unorm modulus poly)
+(define (ff:degree modulus poly)
+  (- (length (ff:unorm modulus poly)) 2))
 
-(define (ff:lc n p)
-  (sym:sym n (univ:lc p)))
+(define (ff:lc modulus poly)
+  (sym:sym modulus (univ:lc poly)))
 
-(define (ff:monic? n p)
-  (and (not (univ:const? p)) (eqv? 1 (ff:lc n p))))
+(define (ff:monic? modulus poly)
+  (and (not (univ:const? poly)) (eqv? 1 (ff:lc modulus poly))))
 
 ;;; Printer for diagnostic information
-(define (ff:print . args)
-  (define result #f)
-  (for-each (lambda (x) (set! result x) (display-diag x) (display #\space)) args)
-  (newline-diag)
-  result)
+(define ff:print math:print)
+
+(define (the-variable-in a)
+  (cond ((null? a) #f)
+	((number? (car a))
+	 (the-variable-in (cdr a)))
+	(else (caar a))))
 
 ;;;================================================================
 ;;; Standard Euclidean algorithm for polynomial gcd over Z mod n
-(define ff:euclid-gcd
-  (lambda (modulus x y)
-    (set! x (ff:unorm modulus x))
-    (set! y (ff:unorm modulus y))
-    (fluid-let ((*modulus* (symmetric:modulus modulus)))
-      (cond
-       ((univ:zero? x) (univ:make-monic y))
-       ((univ:zero? y) (univ:make-monic x))
-       (else
-	(let ((ans (univ:fgcd x y)))
-	  (if (number? ans) (list (car x) ans) ans)))))))
+(define (ff:euclid-gcd modulus x y)
+  (set! x (ff:unorm modulus x))
+  (set! y (ff:unorm modulus y))
+  (fluid-let ((*modulus* (symmetric:modulus modulus)))
+    (cond
+     ((univ:zero? x) (univ:make-monic y))
+     ((univ:zero? y) (univ:make-monic x))
+     (else
+      (let ((ans (univ:fgcd x y)))
+	(if (number? ans) (list (car x) ans) ans))))))
+
+(define (ff:check-pairwise-relatively-prime caller u p)
+  (define x1 (list (the-variable-in u) 1))
+  (do ((us u (cdr us)))
+      ((null? us))
+    (for-each (lambda (uo)
+		(define g (ff:euclid-gcd p (car us) uo))
+		(cond ((not (equal? x1 g))
+		       (math:warn 'in caller)
+		       (math:error 'not-relatively-prime 'mod p
+				   (car us) uo '==> g))))
+	      (cdr us))))
 
 ;;; ===================== Truncating Division =====================
 (define ff:p/p->qr
@@ -429,7 +443,7 @@
 ;;;    (ff:print "  After subtraction of 1 along the diagonal,	m = " m)
 ;;;	 (array-map! m (lambda (x) (sym:sym p (* -1 x))) m)
 ;;;    (ff:print "  After multiplication of -1 along the diagonal,  m = " m)
-    (let (;;(i 0)
+    (let ( ;;(i 0)
 	  (ret '()))
       (let loop1 ((j 0))
 	(if (< j n)
@@ -514,13 +528,13 @@
 
 (define (remove-exponents fs fs1)
   (cond
-    ((null? fs) fs1)
-    ((number? (caar fs))
-      (ff:print "n " (caar fs))
-      (remove-exponents (cdr fs) (fs1)))
-    (else
-      (ff:print "e " (caar fs))
-      (remove-exponents (cdr fs) (append (caar fs) fs1)))))
+   ((null? fs) fs1)
+   ((number? (caar fs))
+    (ff:print "n " (caar fs))
+    (remove-exponents (cdr fs) (fs1)))
+   (else
+    (ff:print "e " (caar fs))
+    (remove-exponents (cdr fs) (append (caar fs) fs1)))))
 
 (define (ff:check-arg e)
   (cond ((not (poly:univariate? e))
@@ -530,23 +544,23 @@
   (cond ((not (prime? n))
 	 (bltn:error 'not-a-prime-number n))))
 
-(defbltn 'sff
+(defbltn 'sff 1 1
   (lambda (poly)
     (let ((e (licit->polxpr poly)))
       (if (not (eqv? 1 (unitcan (univ:cont e))))
-	(bltn:error 'not-a-primitive-polynomial poly)
-	(u:sff e)))))
+	  (bltn:error 'not-a-primitive-polynomial poly)
+	  (u:sff e)))))
 
-(defbltn 'usff
+(defbltn 'usff 1 1
   (lambda (poly)
     (let ((e (licit->polxpr poly)))
       (ff:check-arg e)
       (cond
-       ((not (equal? e (u:primz e)))	   ;this test should be replaced
+       ((not (equal? e (u:primz e)))	;this test should be replaced
 	(bltn:error 'not-a-primitive-polynomial poly))
        (else (u:sff e))))))
 
-(defbltn 'ffsff
+(defbltn 'ffsff 2 3
   (lambda (poly pn . k1)
     (let ((p (licit->polxpr poly))
 	  (n (licit->polxpr pn))
@@ -560,7 +574,7 @@
 	(bltn:error 'not-greater-than-zero k))
        (else (ff:sff (expt n k) p))))))
 
-(defbltn 'berl
+(defbltn 'berl 2 2
   (lambda (poly pn)
     (let ((p (licit->polxpr poly))
 	  (n (licit->polxpr pn)))
@@ -570,10 +584,10 @@
        ((not (ff:monic? n p))
 	(bltn:error 'not-monic-mod-n p))
        ((not (= (univ:deg p) (ff:degree n p)))
-	(bltn:error 'not-same-degree-when-reduced-mod-n (ff:norm p n)))
+	(bltn:error 'not-same-degree-when-reduced-mod-n p n))
        (else (ff:berlekamp n p))))))
 
-(defbltn 'parfrac
+(defbltn 'parfrac 1 1
   (lambda (poly)
     (let ((e1 (expr:normalize poly)))
       (u:partial-fraction-expand (num e1) (denom e1)))))

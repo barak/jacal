@@ -16,23 +16,40 @@
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 (require 'common-list-functions)
+(require 'hash-table)			; for memon
 
-;;; delete all occurrences of a from b non-destructively
-(define (del a b acc)
-  (cond ((null? a) b)
-	((null? b) acc)
-	((equal? a (car b))
-	  (del a (cdr b) acc))
-	(else (del a (cdr b) (append acc (list (car b)))))))
+;;; =================== Memoize procedure calls ===================
+;;; From Norvig "Artificial Intelligence Programming"
+;;; Examples:
+;;; (define fib
+;;;   (memon (lambda (n)
+;;;	 (if (<= n 1) 1
+;;;	    (+ (fib (+ -1 n)) (fib (+ -2 n)))))))
+;;;
+;;; (define sum
+;;;   (memon (lambda (x y)
+;;;	 (+ x y))))
+;;;
+(define (memon fn)
+  (let ((table (make-hash-table 100))
+	(gethash (hash-inquirer equal?))
+	(puthash (hash-associator equal?)))
+    (lambda x
+      (let ((val (gethash table x)))
+	(if val
+	    val
+	    (let ((fx (apply fn x)))
+	      (puthash table x fx)
+	      fx))))))
 
 (define (factorial n)
-  (letrec ((factorial1
-	     (lambda (i acc)
-	       (if (< i 2) acc (factorial1 (+ -1 i) (* acc i))))))
-    (factorial1 n 1)))
+  (define (fact i acc)
+    (if (< i 2) acc (fact (+ -1 i) (* acc i))))
+  (fact n 1))
 
 (define (cart-prod choices)
-  (if (null? choices) '(())
+  (if (null? choices)
+      '(())
       (let* ((choice (car choices)))
 	(apply append
 	       (map (lambda (tuple)
@@ -45,26 +62,23 @@
 ;;; Return all the unique subsets of size n obtainable from the list l
 
 (define (combinations l n)
-  (letrec ((combs1
-	    (lambda (l1 l2 n acc)
-	      (let* ((l1l (length l1))
-		     (l2l (length l2))
-		     (sumls (+ l1l l2l)))
-		(cond
-		 ((< sumls n) acc)
-		 ((= sumls n) (append acc (list (append l1 l2))))
-		 ((= l1l (+ -1 n))
-		  (append acc (map (lambda (x) (append l1 (list x))) l2)))
-		 (else (apply append
-			      (map (lambda (x y)
-				     (combs1 (append l1 (list x)) y n acc))
-				   l2 (make-ends (cdr l2) '()))))))))
-	   (make-ends
-	    (lambda (l acc)
-	      (if (null? l)
-		  (append acc '(()))
-		  (make-ends (cdr l) (append acc (list l)))))))
-    (combs1 '() l n '())))
+  (define (combs1 l1 l2 n acc)
+    (let* ((l1l (length l1))
+	   (l2l (length l2))
+	   (sumls (+ l1l l2l)))
+      (cond ((< sumls n) acc)
+	    ((= sumls n) (append acc (list (append l1 l2))))
+	    ((= l1l (+ -1 n))
+	     (append acc (map (lambda (x) (append l1 (list x))) l2)))
+	    (else (apply append
+			 (map (lambda (x y)
+				(combs1 (append l1 (list x)) y n acc))
+			      l2 (make-ends (cdr l2) '())))))))
+  (define (make-ends l acc)
+    (if (null? l)
+	(append acc '(()))
+	(make-ends (cdr l) (append acc (list l)))))
+  (combs1 '() l n '()))
 
 ;;; (UNIQUES L) removes any element in each member of a list of lists
 ;;; that is present in any other member of the list of lists,
@@ -74,18 +88,16 @@
 ;;; which are not members of each list in the list l2.
 
 (define (uniques l)
-  (letrec ((unis
-	    (lambda (a b c)
-	      (cond ((null? b) c)
-		    (else
-		     (unis (cons a (list (car b)))
-			   (cdr b)
-			   (let ((l1 (car b))
-				 (l2 (append a (cdr b))))
-			     (for-each
-			      (lambda (x)
-				(if (some (lambda (sl) (member x sl)) l2)
-				    (set! l1 (del x l1 '())))) l1)
-			     (append
-			      c (list l1)))))))))
-    (unis '() l '())))
+  (define (unis a b c)
+    (cond ((null? b) c)
+	  (else (unis (cons a (list (car b)))
+		      (cdr b)
+		      (let ((l1 (car b))
+			    (l2 (append a (cdr b))))
+			(for-each
+			 (lambda (x)
+			   (if (some (lambda (sl) (member x sl)) l2)
+			       (set! l1 (remove x l1)))) l1)
+			(append
+			 c (list l1)))))))
+  (unis '() l '()))

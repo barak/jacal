@@ -1,6 +1,7 @@
-This is jacal.info, produced by makeinfo version 4.8 from jacal.texi.
+This is jacal-1c3.info, produced by makeinfo version 4.13 from                |
+jacal.texi.                                                                   |
 
-This manual is for JACAL (version 1b9, February 2008), an interactive         |
+This manual is for JACAL (version 1c3, May 2013), an interactive              |
 symbolic mathematics system.
 
   Copyright (C) 1993-1999, 2002, 2006, 2007 Free Software Foundation,
@@ -8,7 +9,7 @@ Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
-     Version 1.2 or any later version published by the Free Software
+     Version 1.3 or any later version published by the Free Software
      Foundation; with no Invariant Sections, no Front-Cover Texts, and
      no Back-Cover Texts.  A copy of the license is included in the
      section entitled "GNU Free Documentation License."
@@ -19,12 +20,12 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: jacal.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
-
+File: jacal-1c3.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
+                                                                              |
 JACAL
 *****
 
-This manual is for JACAL (version 1b9, February 2008), an interactive         |
+This manual is for JACAL (version 1c3, May 2013), an interactive              |
 symbolic mathematics system.
 
   Copyright (C) 1993-1999, 2002, 2006, 2007 Free Software Foundation,
@@ -32,7 +33,7 @@ Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
-     Version 1.2 or any later version published by the Free Software
+     Version 1.3 or any later version published by the Free Software
      Foundation; with no Invariant Sections, no Front-Cover Texts, and
      no Back-Cover Texts.  A copy of the license is included in the
      section entitled "GNU Free Documentation License."
@@ -49,8 +50,8 @@ Inc.
 * Index::
 
 
-File: jacal.info,  Node: Overview,  Next: Algebra,  Prev: Top,  Up: Top
-
+File: jacal-1c3.info,  Node: Overview,  Next: Algebra,  Prev: Top,  Up: Top
+                                                                              |
 1 Overview
 **********
 
@@ -60,14 +61,14 @@ expressions constructed of numbers, variables, radicals, and algebraic
 functions, differential, and holonomic functions.  In addition, vectors
 and matrices of the above objects are included.
 
-  JACAL 1b9 was released February 2008.  Current information about            |
-JACAL can be found on JACAL's "WWW" home page:                                |
-                                                                              |
-              `http://swiss.csail.mit.edu/~jaffer/JACAL'                      |
-                                                                              |
-  JACAL, part of the GNU project, is free software, and you are welcome       |
-to redistribute it under certain conditions; See the file COPYING with        |
-this program or type `(terms)();' to JACAL for details.                       |
+  JACAL 1c3 was released May 2013.  Current information about JACAL can       |
+be found on JACAL's "WWW" home page:                                          |
+
+              `http://people.csail.mit.edu/jaffer/JACAL'
+
+  JACAL, part of the GNU project, is free software, and you are welcome
+to redistribute it under certain conditions; See the file COPYING with
+this program or type `(terms)();' to JACAL for details.
 
   For a list of the features that have changed since the last JACAL
 release, see the file `ANNOUNCE'.  For a list of the features that have
@@ -82,8 +83,8 @@ changed over time, see the file `ChangeLog'.
 * GNU Free Documentation License::
 
 
-File: jacal.info,  Node: Authors and Bibliography,  Next: Installation,  Prev: Overview,  Up: Overview
-
+File: jacal-1c3.info,  Node: Authors and Bibliography,  Next: Installation,  Prev: Overview,  Up: Overview
+                                                                              |
 1.1 Authors and Bibliography
 ============================
 
@@ -96,7 +97,7 @@ Michael Thomas
 Jerry D. Hedden
      Tensors.
 
-  The maintainer can be reached as `agj @ alum.mit.edu'.
+  The maintainer can be reached as `agj@alum.mit.edu'.
 
 Bibliography
 ------------
@@ -120,20 +121,20 @@ Bibliography
 
 [R5RS]
      Richard Kelsey and William Clinger and Jonathan (Rees, editors)
-     Revised(5) Report on the Algorithmic Language Scheme (r5rs_toc),
+     Revised(5) Report on the Algorithmic Language Scheme (../r5rs_toc),      |
      `Higher-Order and Symbolic Computation' Volume 11, Number 1 (1998),
      pp. 7-105, or
      `ACM SIGPLAN Notices' 33(9), September 1998.
-     *Note Revised(5) Report on the Algorithmic Language Scheme:
+     *note Revised(5) Report on the Algorithmic Language Scheme:
      (r5rs)Top.
 [SLIB]
      Todd R. Eigenschink and Aubrey Jaffer.
-     SLIB; The Portable Scheme Library (slib_toc)
-     *Note SLIB; The Portable Scheme Library: (slib)Top.
+     SLIB; The Portable Scheme Library (../slib_toc)                          |
+     *note SLIB; The Portable Scheme Library: (slib)Top.
 
 
-File: jacal.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
-
+File: jacal-1c3.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
+                                                                              |
 1.2 Installation
 ================
 
@@ -144,33 +145,33 @@ implementation.  If your system has a Scheme (or Guile) implementation
 installed, then the `scm' steps are unnecessary.
 
   JACAL also requires the SLIB Portable Scheme library which is
-available from `http://swiss.csail.mit.edu/~jaffer/SLIB'.
+available from `http://people.csail.mit.edu/jaffer/SLIB'.
 
- -- System: i386 GNU/Linux with Redhat Package Manager (rpm)
-          wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5-1.i386.rpm       |
-          wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1-1.noarch.rpm    |
-          wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9-1.noarch.rpm   |
-          rpm -U scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm
-          rm scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm  |
+ -- System: x86_64 GNU/Linux with Redhat Package Manager (rpm)                |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.x86_64.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.noarch.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.noarch.rpm
+          rpm -U scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
+          rm scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
 
      The command `jacal' will start an interactive session.
 
  -- System: Unix
  -- System: GNU/Linux
-          wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5.zip              |
-          wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1.zip             |
-          wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9.zip            |
-          unzip -ao scm-5e5.zip                                               |
-          unzip -ao slib-3b1.zip                                              |
-          unzip -ao jacal-1b9.zip                                             |
-          (cd slib; make install)
-          (cd scm; make scm; make install)
-          (cd jacal; make install)
-          rm scm-5e5.zip slib-3b1.zip jacal-1b9.zip                           |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1.zip         |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4.zip        |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3.zip       |
+          unzip -ao scm-5f1.zip                                               |
+          unzip -ao slib-3b4.zip                                              |
+          unzip -ao jacal-1c3.zip                                             |
+          (cd slib; ./configure --prefix=/usr/local/; make install)           |
+          (cd scm; ./configure --prefix=/usr/local/; make scm; make install)  |
+          (cd jacal; ./configure --prefix=/usr/local/; make install)          |
+          rm scm-5f1.zip slib-3b4.zip jacal-1c3.zip                           |
 
      The command `jacal' will start an interactive session using ELK,
-     Gambit, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48, SCM, or          |
-     SISC.  Type `jacal --help' for instructions.                             |
+     Gambit, Gauche, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48,          |
+     SCM, or SISC.  Type `jacal --help' for instructions.                     |
 
  -- System: Apple
      `http://www.io.com/~cobblers/scm/' has downloads and utilities for
@@ -178,9 +179,9 @@ available from `http://swiss.csail.mit.edu/~jaffer/SLIB'.
 
  -- System: x86 Microsoft
      Download and run
-     `http://swiss.csail.mit.edu/ftpdir/scm/SLIB-3b1-1.exe',                  |
-     `http://swiss.csail.mit.edu/ftpdir/scm/SCM-5e5-1.exe', and               |
-     `http://swiss.csail.mit.edu/ftpdir/scm/JACAL-1b9-1.exe'.                 |
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.exe',             |
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.exe', and          |
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.exe'.            |
 
 Compiling Jacal
 ---------------
@@ -189,8 +190,8 @@ For Scheme implementations with compilers, it is worthwhile to compile
 SLIB files, and the JACAL files `types.scm' and `poly.scm'.
 
 
-File: jacal.info,  Node: Running Jacal,  Next: Release Notes,  Prev: Installation,  Up: Overview
-
+File: jacal-1c3.info,  Node: Running Jacal,  Next: Release Notes,  Prev: Installation,  Up: Overview
+                                                                              |
 1.3 Running Jacal
 =================
 
@@ -207,7 +208,7 @@ LOADing a `.init' file from the `slib' directory.  Then type:
 where `/usr/local/lib/jacal/' is a path to the JACAL directory.  JACAL
 should then print:
 
-     JACAL version 1b9, Copyright 1989-1999, 2002 Aubrey Jaffer               |
+     JACAL version 1c3, Copyright 1989-1999, 2002 Aubrey Jaffer               |
      JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
      This is free software, and you are welcome to redistribute it
      under certain conditions; type `(terms)' for details.
@@ -227,7 +228,7 @@ Demonstrating Jacal
 -------------------
 
 There are several demonstration files in the `jacal' directory.  To
-run, use the batch command *Note batch: Miscellaneous.
+run, use the batch command *note batch: Miscellaneous.
 
 `batch("demo");'
      Demonstrates a variety of JACAL features.
@@ -264,7 +265,7 @@ Typing `(math)' will return to the JACAL session.
 end-of-file character will terminate the session.
 
 
-File: jacal.info,  Node: Release Notes,  Next: GNU Free Documentation License,  Prev: Running Jacal,  Up: Overview
+File: jacal-1c3.info,  Node: Release Notes,  Next: GNU Free Documentation License,  Prev: Running Jacal,  Up: Overview
                                                                               |
 1.4 Release Notes
 =================
@@ -361,439 +362,493 @@ view.scm
      is a program for viewing TeX expressions.
 
 
-File: jacal.info,  Node: GNU Free Documentation License,  Prev: Release Notes,  Up: Overview
-                                                                              |
-1.5 GNU Free Documentation License                                            |
-==================================                                            |
-                                                                              |
-                      Version 1.2, November 2002                              |
-                                                                              |
-     Copyright (C) 2000,2001,2002 Free Software Foundation, Inc.              |
-     51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA                 |
-                                                                              |
-     Everyone is permitted to copy and distribute verbatim copies             |
-     of this license document, but changing it is not allowed.                |
-                                                                              |
-  0. PREAMBLE                                                                 |
-                                                                              |
-     The purpose of this License is to make a manual, textbook, or other      |
-     functional and useful document "free" in the sense of freedom: to        |
-     assure everyone the effective freedom to copy and redistribute it,       |
-     with or without modifying it, either commercially or                     |
-     noncommercially.  Secondarily, this License preserves for the            |
-     author and publisher a way to get credit for their work, while not       |
-     being considered responsible for modifications made by others.           |
-                                                                              |
-     This License is a kind of "copyleft", which means that derivative        |
-     works of the document must themselves be free in the same sense.         |
-     It complements the GNU General Public License, which is a copyleft       |
-     license designed for free software.                                      |
-                                                                              |
-     We have designed this License in order to use it for manuals for         |
-     free software, because free software needs free documentation: a         |
-     free program should come with manuals providing the same freedoms        |
-     that the software does.  But this License is not limited to              |
-     software manuals; it can be used for any textual work, regardless        |
-     of subject matter or whether it is published as a printed book.          |
-     We recommend this License principally for works whose purpose is         |
-     instruction or reference.                                                |
-                                                                              |
-  1. APPLICABILITY AND DEFINITIONS                                            |
-                                                                              |
-     This License applies to any manual or other work, in any medium,         |
-     that contains a notice placed by the copyright holder saying it          |
-     can be distributed under the terms of this License.  Such a notice       |
-     grants a world-wide, royalty-free license, unlimited in duration,        |
-     to use that work under the conditions stated herein.  The                |
-     "Document", below, refers to any such manual or work.  Any member        |
-     of the public is a licensee, and is addressed as "you".  You             |
-     accept the license if you copy, modify or distribute the work in a       |
-     way requiring permission under copyright law.                            |
-                                                                              |
-     A "Modified Version" of the Document means any work containing the       |
-     Document or a portion of it, either copied verbatim, or with             |
-     modifications and/or translated into another language.                   |
-                                                                              |
-     A "Secondary Section" is a named appendix or a front-matter section      |
-     of the Document that deals exclusively with the relationship of the      |
-     publishers or authors of the Document to the Document's overall          |
-     subject (or to related matters) and contains nothing that could          |
-     fall directly within that overall subject.  (Thus, if the Document       |
-     is in part a textbook of mathematics, a Secondary Section may not        |
-     explain any mathematics.)  The relationship could be a matter of         |
-     historical connection with the subject or with related matters, or       |
-     of legal, commercial, philosophical, ethical or political position       |
-     regarding them.                                                          |
-                                                                              |
-     The "Invariant Sections" are certain Secondary Sections whose            |
-     titles are designated, as being those of Invariant Sections, in          |
-     the notice that says that the Document is released under this            |
-     License.  If a section does not fit the above definition of              |
-     Secondary then it is not allowed to be designated as Invariant.          |
-     The Document may contain zero Invariant Sections.  If the Document       |
-     does not identify any Invariant Sections then there are none.            |
-                                                                              |
-     The "Cover Texts" are certain short passages of text that are            |
-     listed, as Front-Cover Texts or Back-Cover Texts, in the notice          |
-     that says that the Document is released under this License.  A           |
-     Front-Cover Text may be at most 5 words, and a Back-Cover Text may       |
-     be at most 25 words.                                                     |
-                                                                              |
-     A "Transparent" copy of the Document means a machine-readable copy,      |
-     represented in a format whose specification is available to the          |
-     general public, that is suitable for revising the document               |
-     straightforwardly with generic text editors or (for images               |
-     composed of pixels) generic paint programs or (for drawings) some        |
-     widely available drawing editor, and that is suitable for input to       |
-     text formatters or for automatic translation to a variety of             |
-     formats suitable for input to text formatters.  A copy made in an        |
-     otherwise Transparent file format whose markup, or absence of            |
-     markup, has been arranged to thwart or discourage subsequent             |
-     modification by readers is not Transparent.  An image format is          |
-     not Transparent if used for any substantial amount of text.  A           |
-     copy that is not "Transparent" is called "Opaque".                       |
-                                                                              |
-     Examples of suitable formats for Transparent copies include plain        |
-     ASCII without markup, Texinfo input format, LaTeX input format,          |
-     SGML or XML using a publicly available DTD, and                          |
-     standard-conforming simple HTML, PostScript or PDF designed for          |
-     human modification.  Examples of transparent image formats include       |
-     PNG, XCF and JPG.  Opaque formats include proprietary formats that       |
-     can be read and edited only by proprietary word processors, SGML or      |
-     XML for which the DTD and/or processing tools are not generally          |
-     available, and the machine-generated HTML, PostScript or PDF             |
-     produced by some word processors for output purposes only.               |
-                                                                              |
-     The "Title Page" means, for a printed book, the title page itself,       |
-     plus such following pages as are needed to hold, legibly, the            |
-     material this License requires to appear in the title page.  For         |
-     works in formats which do not have any title page as such, "Title        |
-     Page" means the text near the most prominent appearance of the           |
-     work's title, preceding the beginning of the body of the text.           |
-                                                                              |
-     A section "Entitled XYZ" means a named subunit of the Document           |
-     whose title either is precisely XYZ or contains XYZ in parentheses       |
-     following text that translates XYZ in another language.  (Here XYZ       |
-     stands for a specific section name mentioned below, such as              |
-     "Acknowledgements", "Dedications", "Endorsements", or "History".)        |
-     To "Preserve the Title" of such a section when you modify the            |
-     Document means that it remains a section "Entitled XYZ" according        |
-     to this definition.                                                      |
-                                                                              |
-     The Document may include Warranty Disclaimers next to the notice         |
-     which states that this License applies to the Document.  These           |
-     Warranty Disclaimers are considered to be included by reference in       |
-     this License, but only as regards disclaiming warranties: any other      |
-     implication that these Warranty Disclaimers may have is void and         |
-     has no effect on the meaning of this License.                            |
-                                                                              |
-  2. VERBATIM COPYING                                                         |
-                                                                              |
-     You may copy and distribute the Document in any medium, either           |
-     commercially or noncommercially, provided that this License, the         |
-     copyright notices, and the license notice saying this License            |
-     applies to the Document are reproduced in all copies, and that you       |
-     add no other conditions whatsoever to those of this License.  You        |
-     may not use technical measures to obstruct or control the reading        |
-     or further copying of the copies you make or distribute.  However,       |
-     you may accept compensation in exchange for copies.  If you              |
-     distribute a large enough number of copies you must also follow          |
-     the conditions in section 3.                                             |
-                                                                              |
-     You may also lend copies, under the same conditions stated above,        |
-     and you may publicly display copies.                                     |
-                                                                              |
-  3. COPYING IN QUANTITY                                                      |
-                                                                              |
-     If you publish printed copies (or copies in media that commonly          |
-     have printed covers) of the Document, numbering more than 100, and       |
-     the Document's license notice requires Cover Texts, you must             |
-     enclose the copies in covers that carry, clearly and legibly, all        |
-     these Cover Texts: Front-Cover Texts on the front cover, and             |
-     Back-Cover Texts on the back cover.  Both covers must also clearly       |
-     and legibly identify you as the publisher of these copies.  The          |
-     front cover must present the full title with all words of the            |
-     title equally prominent and visible.  You may add other material         |
-     on the covers in addition.  Copying with changes limited to the          |
-     covers, as long as they preserve the title of the Document and           |
-     satisfy these conditions, can be treated as verbatim copying in          |
-     other respects.                                                          |
-                                                                              |
-     If the required texts for either cover are too voluminous to fit         |
-     legibly, you should put the first ones listed (as many as fit            |
-     reasonably) on the actual cover, and continue the rest onto              |
-     adjacent pages.                                                          |
-                                                                              |
-     If you publish or distribute Opaque copies of the Document               |
-     numbering more than 100, you must either include a                       |
-     machine-readable Transparent copy along with each Opaque copy, or        |
-     state in or with each Opaque copy a computer-network location from       |
-     which the general network-using public has access to download            |
-     using public-standard network protocols a complete Transparent           |
-     copy of the Document, free of added material.  If you use the            |
-     latter option, you must take reasonably prudent steps, when you          |
-     begin distribution of Opaque copies in quantity, to ensure that          |
-     this Transparent copy will remain thus accessible at the stated          |
-     location until at least one year after the last time you                 |
-     distribute an Opaque copy (directly or through your agents or            |
-     retailers) of that edition to the public.                                |
-                                                                              |
-     It is requested, but not required, that you contact the authors of       |
-     the Document well before redistributing any large number of              |
-     copies, to give them a chance to provide you with an updated             |
-     version of the Document.                                                 |
-                                                                              |
-  4. MODIFICATIONS                                                            |
-                                                                              |
-     You may copy and distribute a Modified Version of the Document           |
-     under the conditions of sections 2 and 3 above, provided that you        |
-     release the Modified Version under precisely this License, with          |
-     the Modified Version filling the role of the Document, thus              |
-     licensing distribution and modification of the Modified Version to       |
-     whoever possesses a copy of it.  In addition, you must do these          |
-     things in the Modified Version:                                          |
-                                                                              |
-       A. Use in the Title Page (and on the covers, if any) a title           |
-          distinct from that of the Document, and from those of               |
-          previous versions (which should, if there were any, be listed       |
-          in the History section of the Document).  You may use the           |
-          same title as a previous version if the original publisher of       |
-          that version gives permission.                                      |
-                                                                              |
-       B. List on the Title Page, as authors, one or more persons or          |
-          entities responsible for authorship of the modifications in         |
-          the Modified Version, together with at least five of the            |
-          principal authors of the Document (all of its principal             |
-          authors, if it has fewer than five), unless they release you        |
-          from this requirement.                                              |
-                                                                              |
-       C. State on the Title page the name of the publisher of the            |
-          Modified Version, as the publisher.                                 |
-                                                                              |
-       D. Preserve all the copyright notices of the Document.                 |
-                                                                              |
-       E. Add an appropriate copyright notice for your modifications          |
-          adjacent to the other copyright notices.                            |
-                                                                              |
-       F. Include, immediately after the copyright notices, a license         |
-          notice giving the public permission to use the Modified             |
-          Version under the terms of this License, in the form shown in       |
-          the Addendum below.                                                 |
-                                                                              |
-       G. Preserve in that license notice the full lists of Invariant         |
-          Sections and required Cover Texts given in the Document's           |
-          license notice.                                                     |
-                                                                              |
-       H. Include an unaltered copy of this License.                          |
-                                                                              |
-       I. Preserve the section Entitled "History", Preserve its Title,        |
-          and add to it an item stating at least the title, year, new         |
-          authors, and publisher of the Modified Version as given on          |
-          the Title Page.  If there is no section Entitled "History" in       |
-          the Document, create one stating the title, year, authors,          |
-          and publisher of the Document as given on its Title Page,           |
-          then add an item describing the Modified Version as stated in       |
-          the previous sentence.                                              |
-                                                                              |
-       J. Preserve the network location, if any, given in the Document        |
-          for public access to a Transparent copy of the Document, and        |
-          likewise the network locations given in the Document for            |
-          previous versions it was based on.  These may be placed in          |
-          the "History" section.  You may omit a network location for a       |
-          work that was published at least four years before the              |
-          Document itself, or if the original publisher of the version        |
-          it refers to gives permission.                                      |
-                                                                              |
-       K. For any section Entitled "Acknowledgements" or "Dedications",       |
-          Preserve the Title of the section, and preserve in the              |
-          section all the substance and tone of each of the contributor       |
-          acknowledgements and/or dedications given therein.                  |
-                                                                              |
-       L. Preserve all the Invariant Sections of the Document,                |
-          unaltered in their text and in their titles.  Section numbers       |
-          or the equivalent are not considered part of the section            |
-          titles.                                                             |
-                                                                              |
-       M. Delete any section Entitled "Endorsements".  Such a section         |
-          may not be included in the Modified Version.                        |
-                                                                              |
-       N. Do not retitle any existing section to be Entitled                  |
-          "Endorsements" or to conflict in title with any Invariant           |
-          Section.                                                            |
-                                                                              |
-       O. Preserve any Warranty Disclaimers.                                  |
-                                                                              |
-     If the Modified Version includes new front-matter sections or            |
-     appendices that qualify as Secondary Sections and contain no             |
-     material copied from the Document, you may at your option                |
-     designate some or all of these sections as invariant.  To do this,       |
-     add their titles to the list of Invariant Sections in the Modified       |
-     Version's license notice.  These titles must be distinct from any        |
-     other section titles.                                                    |
-                                                                              |
-     You may add a section Entitled "Endorsements", provided it contains      |
-     nothing but endorsements of your Modified Version by various             |
-     parties--for example, statements of peer review or that the text         |
-     has been approved by an organization as the authoritative                |
-     definition of a standard.                                                |
-                                                                              |
-     You may add a passage of up to five words as a Front-Cover Text,         |
-     and a passage of up to 25 words as a Back-Cover Text, to the end         |
-     of the list of Cover Texts in the Modified Version.  Only one            |
-     passage of Front-Cover Text and one of Back-Cover Text may be            |
-     added by (or through arrangements made by) any one entity.  If the       |
-     Document already includes a cover text for the same cover,               |
-     previously added by you or by arrangement made by the same entity        |
-     you are acting on behalf of, you may not add another; but you may        |
-     replace the old one, on explicit permission from the previous            |
-     publisher that added the old one.                                        |
-                                                                              |
-     The author(s) and publisher(s) of the Document do not by this            |
-     License give permission to use their names for publicity for or to       |
-     assert or imply endorsement of any Modified Version.                     |
-                                                                              |
-  5. COMBINING DOCUMENTS                                                      |
-                                                                              |
-     You may combine the Document with other documents released under         |
-     this License, under the terms defined in section 4 above for             |
-     modified versions, provided that you include in the combination          |
-     all of the Invariant Sections of all of the original documents,          |
-     unmodified, and list them all as Invariant Sections of your              |
-     combined work in its license notice, and that you preserve all           |
-     their Warranty Disclaimers.                                              |
-                                                                              |
-     The combined work need only contain one copy of this License, and        |
-     multiple identical Invariant Sections may be replaced with a single      |
-     copy.  If there are multiple Invariant Sections with the same name       |
-     but different contents, make the title of each such section unique       |
-     by adding at the end of it, in parentheses, the name of the              |
-     original author or publisher of that section if known, or else a         |
-     unique number.  Make the same adjustment to the section titles in        |
-     the list of Invariant Sections in the license notice of the              |
-     combined work.                                                           |
-                                                                              |
-     In the combination, you must combine any sections Entitled               |
-     "History" in the various original documents, forming one section         |
-     Entitled "History"; likewise combine any sections Entitled               |
-     "Acknowledgements", and any sections Entitled "Dedications".  You        |
-     must delete all sections Entitled "Endorsements."                        |
-                                                                              |
-  6. COLLECTIONS OF DOCUMENTS                                                 |
-                                                                              |
-     You may make a collection consisting of the Document and other           |
-     documents released under this License, and replace the individual        |
-     copies of this License in the various documents with a single copy       |
-     that is included in the collection, provided that you follow the         |
-     rules of this License for verbatim copying of each of the                |
-     documents in all other respects.                                         |
-                                                                              |
-     You may extract a single document from such a collection, and            |
-     distribute it individually under this License, provided you insert       |
-     a copy of this License into the extracted document, and follow           |
-     this License in all other respects regarding verbatim copying of         |
-     that document.                                                           |
-                                                                              |
-  7. AGGREGATION WITH INDEPENDENT WORKS                                       |
-                                                                              |
-     A compilation of the Document or its derivatives with other              |
-     separate and independent documents or works, in or on a volume of        |
-     a storage or distribution medium, is called an "aggregate" if the        |
-     copyright resulting from the compilation is not used to limit the        |
-     legal rights of the compilation's users beyond what the individual       |
-     works permit.  When the Document is included in an aggregate, this       |
-     License does not apply to the other works in the aggregate which         |
-     are not themselves derivative works of the Document.                     |
-                                                                              |
-     If the Cover Text requirement of section 3 is applicable to these        |
-     copies of the Document, then if the Document is less than one half       |
-     of the entire aggregate, the Document's Cover Texts may be placed        |
-     on covers that bracket the Document within the aggregate, or the         |
-     electronic equivalent of covers if the Document is in electronic         |
-     form.  Otherwise they must appear on printed covers that bracket         |
-     the whole aggregate.                                                     |
-                                                                              |
-  8. TRANSLATION                                                              |
-                                                                              |
-     Translation is considered a kind of modification, so you may             |
-     distribute translations of the Document under the terms of section       |
-     4.  Replacing Invariant Sections with translations requires special      |
-     permission from their copyright holders, but you may include             |
-     translations of some or all Invariant Sections in addition to the        |
-     original versions of these Invariant Sections.  You may include a        |
-     translation of this License, and all the license notices in the          |
-     Document, and any Warranty Disclaimers, provided that you also           |
-     include the original English version of this License and the             |
-     original versions of those notices and disclaimers.  In case of a        |
-     disagreement between the translation and the original version of         |
-     this License or a notice or disclaimer, the original version will        |
-     prevail.                                                                 |
-                                                                              |
-     If a section in the Document is Entitled "Acknowledgements",             |
-     "Dedications", or "History", the requirement (section 4) to              |
-     Preserve its Title (section 1) will typically require changing the       |
-     actual title.                                                            |
-                                                                              |
-  9. TERMINATION                                                              |
-                                                                              |
-     You may not copy, modify, sublicense, or distribute the Document         |
-     except as expressly provided for under this License.  Any other          |
-     attempt to copy, modify, sublicense or distribute the Document is        |
-     void, and will automatically terminate your rights under this            |
-     License.  However, parties who have received copies, or rights,          |
-     from you under this License will not have their licenses                 |
-     terminated so long as such parties remain in full compliance.            |
-                                                                              |
- 10. FUTURE REVISIONS OF THIS LICENSE                                         |
-                                                                              |
-     The Free Software Foundation may publish new, revised versions of        |
-     the GNU Free Documentation License from time to time.  Such new          |
-     versions will be similar in spirit to the present version, but may       |
-     differ in detail to address new problems or concerns.  See               |
-     `http://www.gnu.org/copyleft/'.                                          |
-                                                                              |
-     Each version of the License is given a distinguishing version            |
-     number.  If the Document specifies that a particular numbered            |
-     version of this License "or any later version" applies to it, you        |
-     have the option of following the terms and conditions either of          |
-     that specified version or of any later version that has been             |
-     published (not as a draft) by the Free Software Foundation.  If          |
-     the Document does not specify a version number of this License,          |
-     you may choose any version ever published (not as a draft) by the        |
-     Free Software Foundation.                                                |
-                                                                              |
-ADDENDUM: How to use this License for your documents                          |
-====================================================                          |
-                                                                              |
-To use this License in a document you have written, include a copy of         |
-the License in the document and put the following copyright and license       |
-notices just after the title page:                                            |
-                                                                              |
-       Copyright (C)  YEAR  YOUR NAME.                                        |
-       Permission is granted to copy, distribute and/or modify this document  |
-       under the terms of the GNU Free Documentation License, Version 1.2     |
-       or any later version published by the Free Software Foundation;        |
-       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover    |
+File: jacal-1c3.info,  Node: GNU Free Documentation License,  Prev: Release Notes,  Up: Overview
+                                                                              |
+1.5 GNU Free Documentation License
+==================================
+
+                     Version 1.3, 3 November 2008
+
+     Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+     `http://fsf.org/'
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document "free" in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.
+     We recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it
+     can be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You
+     accept the license if you copy, modify or distribute the work in a
+     way requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in
+     the notice that says that the Document is released under this
+     License.  If a section does not fit the above definition of
+     Secondary then it is not allowed to be designated as Invariant.
+     The Document may contain zero Invariant Sections.  If the Document
+     does not identify any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images
+     composed of pixels) generic paint programs or (for drawings) some
+     widely available drawing editor, and that is suitable for input to
+     text formatters or for automatic translation to a variety of
+     formats suitable for input to text formatters.  A copy made in an
+     otherwise Transparent file format whose markup, or absence of
+     markup, has been arranged to thwart or discourage subsequent
+     modification by readers is not Transparent.  An image format is
+     not Transparent if used for any substantial amount of text.  A
+     copy that is not "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and
+     standard-conforming simple HTML, PostScript or PDF designed for
+     human modification.  Examples of transparent image formats include
+     PNG, XCF and JPG.  Opaque formats include proprietary formats that
+     can be read and edited only by proprietary word processors, SGML or
+     XML for which the DTD and/or processing tools are not generally
+     available, and the machine-generated HTML, PostScript or PDF
+     produced by some word processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     The "publisher" means any person or entity that distributes copies
+     of the Document to the public.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow
+     the conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the
+     title equally prominent and visible.  You may add other material
+     on the covers in addition.  Copying with changes limited to the
+     covers, as long as they preserve the title of the Document and
+     satisfy these conditions, can be treated as verbatim copying in
+     other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a
+     machine-readable Transparent copy along with each Opaque copy, or
+     state in or with each Opaque copy a computer-network location from
+     which the general network-using public has access to download
+     using public-standard network protocols a complete Transparent
+     copy of the Document, free of added material.  If you use the
+     latter option, you must take reasonably prudent steps, when you
+     begin distribution of Opaque copies in quantity, to ensure that
+     this Transparent copy will remain thus accessible at the stated
+     location until at least one year after the last time you
+     distribute an Opaque copy (directly or through your agents or
+     retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of
+     copies, to give them a chance to provide you with an updated
+     version of the Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with
+     the Modified Version filling the role of the Document, thus
+     licensing distribution and modification of the Modified Version to
+     whoever possesses a copy of it.  In addition, you must do these
+     things in the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of
+          previous versions (which should, if there were any, be listed
+          in the History section of the Document).  You may use the
+          same title as a previous version if the original publisher of
+          that version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on
+          the Title Page.  If there is no section Entitled "History" in
+          the Document, create one stating the title, year, authors,
+          and publisher of the Document as given on its Title Page,
+          then add an item describing the Modified Version as stated in
+          the previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in
+          the "History" section.  You may omit a network location for a
+          work that was published at least four years before the
+          Document itself, or if the original publisher of the version
+          it refers to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the
+          section all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document,
+          unaltered in their text and in their titles.  Section numbers
+          or the equivalent are not considered part of the section
+          titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option
+     designate some or all of these sections as invariant.  To do this,
+     add their titles to the list of Invariant Sections in the Modified
+     Version's license notice.  These titles must be distinct from any
+     other section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end
+     of the list of Cover Texts in the Modified Version.  Only one
+     passage of Front-Cover Text and one of Back-Cover Text may be
+     added by (or through arrangements made by) any one entity.  If the
+     Document already includes a cover text for the same cover,
+     previously added by you or by arrangement made by the same entity
+     you are acting on behalf of, you may not add another; but you may
+     replace the old one, on explicit permission from the previous
+     publisher that added the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination
+     all of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the
+     documents in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow
+     this License in all other respects regarding verbatim copying of
+     that document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of
+     a storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided under this License.  Any attempt
+     otherwise to copy, modify, sublicense, or distribute it is void,
+     and will automatically terminate your rights under this License.
+
+     However, if you cease all violation of this License, then your
+     license from a particular copyright holder is reinstated (a)
+     provisionally, unless and until the copyright holder explicitly
+     and finally terminates your license, and (b) permanently, if the
+     copyright holder fails to notify you of the violation by some
+     reasonable means prior to 60 days after the cessation.
+
+     Moreover, your license from a particular copyright holder is
+     reinstated permanently if the copyright holder notifies you of the
+     violation by some reasonable means, this is the first time you have
+     received notice of violation of this License (for any work) from
+     that copyright holder, and you cure the violation prior to 30 days
+     after your receipt of the notice.
+
+     Termination of your rights under this section does not terminate
+     the licenses of parties who have received copies or rights from
+     you under this License.  If your rights have been terminated and
+     not permanently reinstated, receipt of a copy of some or all of
+     the same material does not give you any rights to use it.
+
+ 10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     `http://www.gnu.org/copyleft/'.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If
+     the Document does not specify a version number of this License,
+     you may choose any version ever published (not as a draft) by the
+     Free Software Foundation.  If the Document specifies that a proxy
+     can decide which future versions of this License can be used, that
+     proxy's public statement of acceptance of a version permanently
+     authorizes you to choose that version for the Document.
+
+ 11. RELICENSING
+
+     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
+     World Wide Web server that publishes copyrightable works and also
+     provides prominent facilities for anybody to edit those works.  A
+     public wiki that anybody can edit is an example of such a server.
+     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
+     site means any set of copyrightable works thus published on the MMC
+     site.
+
+     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
+     license published by Creative Commons Corporation, a not-for-profit
+     corporation with a principal place of business in San Francisco,
+     California, as well as future copyleft versions of that license
+     published by that same organization.
+
+     "Incorporate" means to publish or republish a Document, in whole or
+     in part, as part of another Document.
+
+     An MMC is "eligible for relicensing" if it is licensed under this
+     License, and if all works that were first published under this
+     License somewhere other than this MMC, and subsequently
+     incorporated in whole or in part into the MMC, (1) had no cover
+     texts or invariant sections, and (2) were thus incorporated prior
+     to November 1, 2008.
+
+     The operator of an MMC Site may republish an MMC contained in the
+     site under CC-BY-SA on the same site at any time before August 1,
+     2009, provided the MMC is eligible for relicensing.
+
+
+ADDENDUM: How to use this License for your documents
+====================================================
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.3
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
        Texts.  A copy of the license is included in the section entitled ``GNU
-       Free Documentation License''.                                          |
-                                                                              |
-  If you have Invariant Sections, Front-Cover Texts and Back-Cover            |
-Texts, replace the "with...Texts." line with this:                            |
-                                                                              |
-         with the Invariant Sections being LIST THEIR TITLES, with            |
-         the Front-Cover Texts being LIST, and with the Back-Cover Texts      |
-         being LIST.                                                          |
-                                                                              |
-  If you have Invariant Sections without Cover Texts, or some other           |
-combination of the three, merge those two alternatives to suit the            |
-situation.                                                                    |
-                                                                              |
-  If your document contains nontrivial examples of program code, we           |
-recommend releasing these examples in parallel under your choice of           |
-free software license, such as the GNU General Public License, to             |
-permit their use in free software.                                            |
-                                                                              |
+       Free Documentation License''.
+
+  If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts." line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+  If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+  If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License, to
+permit their use in free software.
+
 
-File: jacal.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
+File: jacal-1c3.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
                                                                               |
 2 Algebra
 *********
@@ -804,11 +859,12 @@ File: jacal.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
 * Algebraic Commands::
 * Rational Expression::
 * Polynomials::
+* Interpolation::
 * Factoring::
 
 
-File: jacal.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: Algebra,  Up: Algebra
-
+File: jacal-1c3.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: Algebra,  Up: Algebra
+                                                                              |
 2.1 Algebraic Operators
 =======================
 
@@ -947,8 +1003,8 @@ File: jacal.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: 
               Z1 + Z2
 
 
-File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: Algebraic Operators,  Up: Algebra
-
+File: jacal-1c3.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: Algebraic Operators,  Up: Algebra
+                                                                              |
 2.2 Algebraic Commands
 ======================
 
@@ -1060,8 +1116,8 @@ File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: 
           e5: {:@ | 0 = -1 + :@ }
 
 
-File: jacal.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebraic Commands,  Up: Algebra
-
+File: jacal-1c3.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebraic Commands,  Up: Algebra
+                                                                              |
 2.3 Rational Expression
 =======================
 
@@ -1116,8 +1172,8 @@ File: jacal.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebra
      and the `imagpart' of Z.
 
 
-File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expression,  Up: Algebra
-
+File: jacal-1c3.info,  Node: Polynomials,  Next: Interpolation,  Prev: Rational Expression,  Up: Algebra
+                                                                              |
 2.4 Polynomials
 ===============
 
@@ -1316,9 +1372,79 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
      in Z2.  Z1 and Z2 can be polynomials or ratios of polynomials.
 
 
-File: jacal.info,  Node: Factoring,  Prev: Polynomials,  Up: Algebra
-
-2.5 Factoring
+File: jacal-1c3.info,  Node: Interpolation,  Next: Factoring,  Prev: Polynomials,  Up: Algebra
+                                                                              |
+2.5 Interpolation                                                             |
+=================                                                             |
+                                                                              |
+ -- Command: interp mat                                                       |
+ -- Command: interp vec1 vec2 ...                                             |
+     The only argument, MAT, must be an array having at least one row         |
+     of two expressions: [[X1,Y1],[X2,Y2],...].  It is an error if            |
+     there are any duplicates in the first column of the second               |
+     argument,                                                                |
+                                                                              |
+     `interp' returns a polynomial function POLY(@1) such that                |
+     MAT[1,2]=POLY(MAT[1,1]), MAT[2,2]=POLY(MAT[2,1]), etc.                   |
+                                                                              |
+     There is a variant of the `interp' command that takes multiple           |
+     vector arguments instead of a matrix. These vectors represent            |
+     points to be interpolated over. The same constraints apply as in         |
+     the matrix version. All the variants of the interpolation                |
+     procedure described later have both these forms.                         |
+                                                                              |
+          e9 : interp([[2, 3], [0, -1]]);                                     |
+                                                                              |
+          e9 : lambda([@1], -1 + 2 @1)                                        |
+                                                                              |
+          e10 : interp([[2, 3], [1, z]]);                                     |
+                                                                              |
+          e10 : lambda([@1], -3 + 2 z + (3 - z) @1)                           |
+                                                                              |
+          e11 : interp([2, 3], [y, z]);                                       |
+                                                                              |
+                            3 y - 2 z + (-3 + z) @1                           |
+          e11 : lambda([@1], -----------------------)                         |
+                                    -2 + y                                    |
+                                                                              |
+ -- Command: interp.lagrange mat                                              |
+ -- Command: interp.lagrange vec1 vec2 ...                                    |
+     This is the same as the `interp' command.                                |
+                                                                              |
+ -- Command: interp.newton mat                                                |
+ -- Command: interp.newton vec1 vec2 ...                                      |
+     This is similar to `interp' command with an added option of              |
+     including derivative values when defining points. The same               |
+     constraints apply as in `interp'. You can choose to specify some         |
+     number of derivatives for each point. That number does not have to       |
+     be the same for all points.                                              |
+                                                                              |
+          e0 : interp.newton([-1, 0], [0, 1], [1, 0]);                        |
+                                                                              |
+                                 2                                            |
+          e0: lambda([@1], 1 - @1 )                                           |
+                                                                              |
+          e1 : interp.newton([-1, 0], [0, 1, 0, 20], [1, 0]);                 |
+                                                                              |
+                                    2        4                                |
+          e1: lambda([@1], 1 + 10 @1  - 11 @1 )                               |
+                                                                              |
+          e2 : interp.newton([-1, 0], [0, 1, 0, a], [1, 0]);                  |
+                                                                              |
+                                   2              4                           |
+                           2 + a @1  + (-2 - a) @1                            |
+          e2: lambda([@1], ------------------------)                          |
+                                      2                                       |
+                                                                              |
+ -- Command: interp.neville mat                                               |
+ -- Command: interp.neville vec1 vec2 ...                                     |
+     The same as `interp' in its functionality, but uses newtons form         |
+     when constructing the polynomial.                                        |
+                                                                              |
+
+File: jacal-1c3.info,  Node: Factoring,  Prev: Interpolation,  Up: Algebra
+                                                                              |
+2.6 Factoring                                                                 |
 =============
 
  -- Command: factor int
@@ -1502,8 +1628,8 @@ the factors and the second column contains the corresponding exponent.
      free.  This code is still being developed.
 
 
-File: jacal.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra,  Up: Top
-
+File: jacal-1c3.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra,  Up: Top
+                                                                              |
 3 Calculus
 **********
 
@@ -1555,8 +1681,8 @@ File: jacal.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra, 
      `diff' but POLY must be a polynomial.
 
 
-File: jacal.info,  Node: Matrices and Tensors,  Next: Lambda Calculus,  Prev: Calculus,  Up: Top
-
+File: jacal-1c3.info,  Node: Matrices and Tensors,  Next: Lambda Calculus,  Prev: Calculus,  Up: Top
+                                                                              |
 4 Matrices and Tensors
 **********************
 
@@ -1576,8 +1702,8 @@ JACAL (ncmult(), ^^, transpose(), etc.) expect.
 * indexswap::                   Swaps two indices within a tensor
 
 
-File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matrices and Tensors,  Up: Matrices and Tensors
-
+File: jacal-1c3.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matrices and Tensors,  Up: Matrices and Tensors
+                                                                              |
 4.1 Generating Matrices
 =======================
 
@@ -1714,11 +1840,35 @@ File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matric
               [10  13  18  25  34]
 
 
-File: jacal.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating Matrices,  Up: Matrices and Tensors
-
+File: jacal-1c3.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating Matrices,  Up: Matrices and Tensors
+                                                                              |
 4.2 Matrix Parts
 ================
 
+ -- Command: rank matrix                                                      |
+     The rank of MATRIX is the maximal number of linearly independent         |
+     columns of MATRIX, which is always equalt to the maximal number of       |
+     linearly independent rows of MATRIX.                                     |
+          e13 : rank([[0,0],[0,0]]);                                          |
+                                                                              |
+          e13: 0                                                              |
+                                                                              |
+          e14 : rank([[0,0],[0,1]]);                                          |
+                                                                              |
+          e14: 1                                                              |
+                                                                              |
+          e15 : rank([[2,0],[0,1]]);                                          |
+                                                                              |
+          e15: 2                                                              |
+                                                                              |
+          e17 : rank([[b,c],[0,a]]);                                          |
+                                                                              |
+          e17: 2                                                              |
+                                                                              |
+          e18 : rank([[b,c,d],[a,0,a],[e,f,a]]);                              |
+                                                                              |
+          e18: 3                                                              |
+                                                                              |
  -- Command: row matrix i
      The command `row' returns the Ith row of the matrix MATRIX, where
      `i = INT'.  If INT is larger than the number of rows of MATRIX,
@@ -1801,11 +1951,35 @@ File: jacal.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating
           e7: [a, b]
 
 
-File: jacal.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  Up: Matrices and Tensors
-
+File: jacal-1c3.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  Up: Matrices and Tensors
+                                                                              |
 4.3 Matrix commands
 ===================
 
+ -- Command: transpose matrix                                                 |
+     Computes the transpose of `(MATRIX)'.                                    |
+                                                                              |
+ -- Command: determinant matrix                                               |
+     The Jacal command `determinant' computes the determinant of a            |
+     square matrix.  Attempting to take the determinant of a non-square       |
+     matrix will produce an error message.                                    |
+                                                                              |
+          e1 : a:[[1,2],[6,7]];                                               |
+                                                                              |
+              [1  2]                                                          |
+          e1: [    ]                                                          |
+              [6  7]                                                          |
+                                                                              |
+          e2 : determinant(a);                                                |
+                                                                              |
+          e2: -5                                                              |
+                                                                              |
+ -- Command: charpoly matrix var                                              |
+     The characteristic polynomial of MATRIX:                                 |
+                                                                              |
+     determinant(MATRIX - I VAR)                                              |
+                                                                              |
+                                                                              |
  -- Command: . matrix1 matrix2
      Matrix multiplication.
 
@@ -1921,28 +2095,10 @@ File: jacal.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  
           e25 : crossproduct([1,2,3],[4,2,5]);
 
           e25: [4, 7, -6]
-
- -- Command: determinant matrix
-     The Jacal command `determinant' computes the determinant of a
-     square matrix.  Attempting to take the determinant of a non-square
-     matrix will produce an error message.
-
-          e1 : a:[[1,2],[6,7]];
-
-              [1  2]
-          e1: [    ]
-              [6  7]
-
-          e2 : determinant(a);
-
-          e2: -5
-
- -- Command: transpose matrix
-     Computes the transpose of `(MATRIX)'.
-
+                                                                              |
 
-File: jacal.info,  Node: Tensors,  Next: tmult,  Prev: Matrix commands,  Up: Matrices and Tensors
-
+File: jacal-1c3.info,  Node: Tensors,  Next: tmult,  Prev: Matrix commands,  Up: Matrices and Tensors
+                                                                              |
 4.4 Tensors
 ===========
 
@@ -1977,8 +2133,8 @@ operations available for use.
 below.
 
 
-File: jacal.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices and Tensors
-
+File: jacal-1c3.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices and Tensors
+                                                                              |
 4.5 Tensor Multiplication
 =========================
 
@@ -2042,8 +2198,8 @@ File: jacal.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices a
      scalar.
 
 
-File: jacal.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrices and Tensors
-
+File: jacal-1c3.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrices and Tensors
+                                                                              |
 4.6 Tensor contraction
 ======================
 
@@ -2087,8 +2243,8 @@ File: jacal.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrice
      the vector.
 
 
-File: jacal.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Matrices and Tensors
-
+File: jacal-1c3.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Matrices and Tensors
+                                                                              |
 4.7 Shifting of Tensor Indices
 ==============================
 
@@ -2123,8 +2279,8 @@ File: jacal.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Mat
      an n-by-1 matrix (column vector).
 
 
-File: jacal.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
-
+File: jacal-1c3.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
+                                                                              |
 4.8 Swapping of Tensor Indices
 ==============================
 
@@ -2156,14 +2312,11 @@ File: jacal.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
      an n-by-1 matrix (column vector).
 
 
-File: jacal.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices and Tensors,  Up: Top
-
+File: jacal-1c3.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices and Tensors,  Up: Top
+                                                                              |
 5 Lambda Calculus
 *****************
-
-5.1 Create a lambda expression
-==============================
-
+                                                                              |
  -- Operator: lambda varlist expression
      Jacal has the ability to work with lambda expressions, via the
      command `lambda'. Furthermore, Jacal always converts user
@@ -2187,8 +2340,26 @@ File: jacal.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices 
                                       2
           e14: lambda([@1, @2, @3], @1  + @1 @2 @3)
 
-5.2 Compute inverse function
-============================
+ -- Command: elementwise function matrix1 matrix2 ...                         |
+     The arguments MATRIX1, MATRIX2, ... must have the same shape.  The       |
+     command `elementwise' returns a new matrix formed by applying            |
+     FUNCTION to each tuple of elements of MATRIX1, MATRIX2, ....             |
+                                                                              |
+          e9 : elementwise(foo,[a, b], [c, d]);                               |
+                                                                              |
+          e9: [foo(a, c), foo(b, d)]                                          |
+                                                                              |
+          e10 : elementwise(@1+5*@2,[a, b], [c, d]);                          |
+                                                                              |
+          e10: [a + 5 c, b + 5 d]                                             |
+                                                                              |
+          e1 : elementwise(@1-@2,[9,8,7],[[1,0],[4,5],[6,3]]);                |
+                                                                              |
+              [ 8  9 ]                                                        |
+              [      ]                                                        |
+          e1: [ 4  3 ]                                                        |
+              [      ]                                                        |
+              [ 1  4 ]                                                        |
 
  -- Command: finv function
      `FUNCTION^^-1'
@@ -2209,8 +2380,8 @@ File: jacal.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices 
           e0: lambda([@1], -1 + @1)
 
 
-File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  Up: Top
-
+File: jacal-1c3.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  Up: Top
+                                                                              |
 6 Miscellaneous
 ***************
 
@@ -2236,23 +2407,72 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
      dependent.
 
           batch("demo");
-     of the file demo in the JACAL directory will give a
-     demonstration of JACAL's capabilities.
+     of the file demo in the JACAL directory will give a demonstration
+     of JACAL's capabilities.
 
+ -- Command: tex expr                                                         |
+ -- Command: scheme expr                                                      |
+ -- Command: disp2d expr                                                      |
+ -- Command: standard expr                                                    |
+     Displays EXPR in TeX, Jacal's two-dimensional output format, or          |
+     Jacal's infix input format, respectively.                                |
+                                                                              |
+ -- Command: tex string                                                       |
+     Read TeX expression STRING.                                              |
+                                                                              |
+ -- Command: scheme string                                                    |
+     Read Scheme expression STRING.                                           |
+                                                                              |
+ -- Command: disp2d string                                                    |
+ -- Command: standard string                                                  |
+     Reads STRING in Jacal's infix input format.                              |
+                                                                              |
+     e24 : b^2-4*a*c;                                                         |
+                                                                              |
+           2                                                                  |
+     e24: b  - 4 a c                                                          |
+                                                                              |
+     e25 : tex(e24);                                                          |
+     b^{2} - 4\,a\,c                                                          |
+     e25 : tex("b^{2} - 4\,a\,c");                                            |
+                                                                              |
+           2                                                                  |
+     e25: b  - 4 a c                                                          |
+                                                                              |
+     e26 : disp2d(e25);                                                       |
+      2                                                                       |
+     b  - 4 a c                                                               |
+     e26 : disp2d("b^2-4*a*c");                                               |
+                                                                              |
+           2                                                                  |
+     e26: b  - 4 a c                                                          |
+                                                                              |
+     e27 : scheme(e26);                                                       |
+     (- (^ b 2) (* 4 a c))                                                    |
+                                                                              |
+     e27 : scheme("(- (^ b 2) (* 4 a c))");                                   |
+                                                                              |
+           2                                                                  |
+     e27: b  - 4 a c                                                          |
+                                                                              |
  -- Command: commands
      The command `commands' produces a list of all of the command
-     available in Jacal. It is called as s function of no arguments.
-     Explicitly:
+     available in Jacal. It is called as s function of no arguments.          |
 
-          e21 : commands();
+e21 : commands();
 
-               u-/+ u+/- transpose transcript differential terms system
-               sylvester show set scalarmatrix row resultant rapply quit
-               qed discriminant poly or num negate mod minor matrix
-               load listofvars ident genmatrix gcd finv factor example
-               eliminate dotproduct divide diff diagmatrix determinant
-               describe denom crossproduct content commands col coeffs
-               coeff bunch batch b+/- ^^ ^ = / - + * %
+     % * + - / = ^ ^^ abs args augcoefmatrix b+/- b-/+ batch bunch cabs       |
+     cartprod chain charpoly coeff coeffs coefmatrix cofactor col commands    |
+     content continue crossproduct degree denom depends describe              |
+     determinant diagmatrix diff differential discriminant disp2d divide      |
+     dotproduct elementwise eliminate equatecoeffs example extrule factor     |
+     factorial factors finv flatten func gcd genmatrix help ident imagpart    |
+     interp interp.lagrange interp.neville interp.newton jacobi jacobian      |
+     listofvars load matrix minor mod ncmult negate num or over parallel      |
+     partial poly polydiff polyelim prime? qed quit rank rapply realpart      |
+     require restart resultant row scalarmatrix scheme set shadow show        |
+     standard sylvester system terms tex transcript transpose u+/- u-/+       |
+     verify wronski wronskian                                                 |
 
  -- Command: describe command
      The command `describe' is the heart of the online help facility of
@@ -2276,7 +2496,7 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
  -- Command: example command
      Here, COMMAND is a string which is the name of a Jacal command.
      `example' gives an example of the use of the command.  See also
-     *Note describe: Miscellaneous.
+     *note describe: Miscellaneous.
 
           e43 : example(+);
           a + b
@@ -2333,7 +2553,7 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
      Prints a copy of the GNU General Public License
           e1 : terms();
                               GNU GENERAL PUBLIC LICENSE
-                                 Version 3, 29 June 2007                      |
+                                 Version 3, 29 June 2007
 
            Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
            Everyone is permitted to copy and distribute verbatim copies
@@ -2393,39 +2613,47 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
      the current input grammar type `show ingrammar'. To see the
      current output grammar, type `show outgrammar'. To see the current
      priority for printing expressions, type `show priority'.
-          e1 : show all;
 
-               prompt priority outgrammar ingrammar grammars all
-          e1 : show prompt;
+e1 : show all;
 
-          e1: e1
+     all debug echogrammar grammars horner ingrammar linkradicals outgrammar  |
+     page phases priority prompt trace version width                          |
+                                                                              |
+e1 : show prompt;
 
-          e3 : show priority;
+e1: e1
 
-              :@ (differential :@) @3 @2 @1 %inftsl y x u-/+ u+/-
-              transpose transcript differential terms t system sylvester
-              showpriority show set scalarmatrix row resultant rapply quit
-              qed prompt priority discriminant poly or num negate mod
-              minor matrix load listofvars ident genmatrix gcd finv factor
-              example eliminate e1 dotproduct divide diff diagmatrix
-              determinant describe denom crossproduct content commands col
-              coeffs coeff c bunch batch b-/+ b+/- b all a ^^ ^ = / - + *
-              % %sqrt1 %i
+e3 : show priority;
 
-          e3 : show outgrammar;
+     :@ (differential :@) @3 @2 @1 y x wronskian wronski verify u-/+ u+/-     |
+     transpose transcript tex terms t system sylvester standard show shadow   |
+     set scheme scalarmatrix row resultant restart require realpart rapply    |
+     rank quit qed prompt priority prime? polyelim polydiff poly partial      |
+     parallel over or num negate ncmult mod minor matrix load listofvars      |
+     jacobian jacobi interp.newton interp.neville interp.lagrange interp      |
+     imagpart ident help genmatrix gcd func flatten finv factors factorial    |
+     factor extrule example equatecoeffs eliminate elementwise e0 dotproduct  |
+     divide disp2d discriminant differential diff diagmatrix determinant      |
+     describe depends denom degree crossproduct continue content commands col |
+     cofactor coefmatrix coeffs coeff charpoly chain cartprod cabs c bunch    |
+     batch b-/+ b+/- b augcoefmatrix args all abs a ^^ ^ ? = ::@ / - + * %    |
+     %sqrt1 %i                                                                |
 
-          e3: disp2d
+e3 : show outgrammar;
 
-          e4 : show ingrammar;
+e3: disp2d
 
-          e4: standard
+e4 : show ingrammar;
 
-          e5 : show grammars;
+e4: standard
 
-          e5: [disp2d, standard, schemepretty, scheme]
+e5 : show grammars;
+
+e5: [scheme, null, schemepretty, standard, disp2d, tex]                       |
+                                                                              |
 
 
-File: jacal.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
+File: jacal-1c3.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
                                                                               |
 7 Flags
 *******
@@ -2570,7 +2798,7 @@ File: jacal.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
           e16 : b+c;
 
 
-File: jacal.info,  Node: Index,  Prev: Flags,  Up: Top
+File: jacal-1c3.info,  Node: Index,  Prev: Flags,  Up: Top
                                                                               |
 Index
 *****
@@ -2585,11 +2813,11 @@ Index
 * +/-:                                   Algebraic Operators. (line  53)
 * -:                                     Algebraic Operators. (line  40)
 * -/+:                                   Algebraic Operators. (line  54)
-* .:                                     Matrix commands.     (line   7)
+* .:                                     Matrix commands.     (line  31)
 * /:                                     Algebraic Operators. (line  98)
 * =:                                     Algebraic Operators. (line 119)
 * ^:                                     Algebraic Operators. (line 106)
-* ^^:                                    Matrix commands.     (line  28)
+* ^^:                                    Matrix commands.     (line  52)
 * abs:                                   Rational Expression. (line  50)
 * Algebra:                               Algebra.             (line   6)
 * Algebraic Commands:                    Algebraic Commands.  (line   6)
@@ -2604,50 +2832,57 @@ Index
 * bunch:                                 Generating Matrices. (line   7)
 * cabs:                                  Rational Expression. (line  51)
 * Calculus:                              Calculus.            (line   6)
+* charpoly:                              Matrix commands.     (line  25)
 * coeff:                                 Polynomials.         (line  22)
 * coeffs:                                Polynomials.         (line  24)
-* cofactor:                              Matrix Parts.        (line  62)
-* col:                                   Matrix Parts.        (line  23)
-* commands:                              Miscellaneous.       (line  32)
+* cofactor:                              Matrix Parts.        (line  86)
+* col:                                   Matrix Parts.        (line  47)
+* commands:                              Miscellaneous.       (line  77)
 * Compiling Jacal:                       Installation.        (line  54)
 * content:                               Polynomials.         (line  80)
 * contract:                              contract.            (line   7)
 * Conventions:                           Release Notes.       (line  24)
-* crossproduct:                          Matrix commands.     (line 112)
+* crossproduct:                          Matrix commands.     (line 136)
 * degree:                                Polynomials.         (line   7)
 * Demonstrating Jacal:                   Running Jacal.       (line  38)
 * denom:                                 Rational Expression. (line  24)
-* describe:                              Miscellaneous.       (line  47)
-* determinant:                           Matrix commands.     (line 123)
+* describe:                              Miscellaneous.       (line  96)
+* determinant:                           Matrix commands.     (line  10)
 * diagmatrix:                            Generating Matrices. (line  71)
 * diff:                                  Calculus.            (line  31)
 * differential:                          Calculus.            (line  10)
 * discriminant:                          Polynomials.         (line 178)
+* disp2d:                                Miscellaneous.       (line  34)
 * divide:                                Polynomials.         (line  91)
-* dotproduct:                            Matrix commands.     (line  94)
+* dotproduct:                            Matrix commands.     (line 118)
+* elementwise:                           Lambda Calculus.     (line  30)
 * eliminate:                             Algebraic Commands.  (line   7)
 * equatecoeffs:                          Polynomials.         (line 196)
-* example:                               Miscellaneous.       (line  66)
+* example:                               Miscellaneous.       (line 115)
 * extrule:                               Algebraic Commands.  (line  71)
 * factor:                                Factoring.           (line   7)
 * Factoring:                             Factoring.           (line   6)
 * ffsff:                                 Factoring.           (line 159)
-* finv:                                  Lambda Calculus.     (line  36)
+* finv:                                  Lambda Calculus.     (line  51)
 * flatten:                               Generating Matrices. (line  34)
 * gcd:                                   Polynomials.         (line 163)
 * genmatrix:                             Generating Matrices. (line 117)
 * GNU/Linux:                             Installation.        (line  26)
-* i386:                                  Installation.        (line  16)
 * ident:                                 Generating Matrices. (line  42)
 * imagpart:                              Rational Expression. (line  44)
 * indexshift:                            indexshift.          (line   7)
 * indexswap:                             indexswap.           (line   7)
 * ingrammar:                             Flags.               (line  37)
-* lambda:                                Lambda Calculus.     (line  10)
+* interp:                                Interpolation.       (line   7)
+* interp.lagrange:                       Interpolation.       (line  37)
+* interp.neville:                        Interpolation.       (line  66)
+* interp.newton:                         Interpolation.       (line  41)
+* Interpolation:                         Interpolation.       (line   6)
+* lambda:                                Lambda Calculus.     (line   7)
 * listofvars:                            Rational Expression. (line  32)
-* load:                                  Miscellaneous.       (line  76)
+* load:                                  Miscellaneous.       (line 125)
 * Manifest:                              Release Notes.       (line  41)
-* minor:                                 Matrix Parts.        (line  44)
+* minor:                                 Matrix Parts.        (line  68)
 * mod:                                   Polynomials.         (line 125)
 * num:                                   Rational Expression. (line   7)
 * or:                                    Algebraic Commands.  (line  79)
@@ -2660,63 +2895,69 @@ Index
 * Polynomials:                           Polynomials.         (line   6)
 * priority:                              Flags.               (line 116)
 * prompt:                                Flags.               (line   7)
-* qed:                                   Miscellaneous.       (line  87)
-* quit:                                  Miscellaneous.       (line  96)
-* rapply:                                Matrix Parts.        (line  66)
+* qed:                                   Miscellaneous.       (line 136)
+* quit:                                  Miscellaneous.       (line 145)
+* rank:                                  Matrix Parts.        (line   7)
+* rapply:                                Matrix Parts.        (line  90)
 * Rational Expression:                   Rational Expression. (line   6)
 * realpart:                              Rational Expression. (line  47)
 * Recovery from Errors:                  Running Jacal.       (line  53)
 * Release Notes:                         Release Notes.       (line   6)
 * resultant:                             Polynomials.         (line 187)
-* row:                                   Matrix Parts.        (line   7)
+* row:                                   Matrix Parts.        (line  31)
 * Running Jacal:                         Running Jacal.       (line   6)
 * scalarmatrix:                          Generating Matrices. (line  57)
+* scheme:                                Miscellaneous.       (line  33)
 * Scheme:                                Installation.        (line   6)
-* set:                                   Miscellaneous.       (line 168)
+* set:                                   Miscellaneous.       (line 217)
 * sff:                                   Factoring.           (line 154)
-* show:                                  Miscellaneous.       (line 176)
+* show:                                  Miscellaneous.       (line 225)
+* standard:                              Miscellaneous.       (line  35)
 * Stopping Jacal:                        Running Jacal.       (line  63)
 * suchthat:                              Algebraic Commands.  (line  22)
 * sylvester:                             Generating Matrices. (line  94)
-* system:                                Miscellaneous.       (line 108)
-* terms:                                 Miscellaneous.       (line 122)
+* system:                                Miscellaneous.       (line 157)
+* terms:                                 Miscellaneous.       (line 171)
+* tex:                                   Miscellaneous.       (line  32)
 * tmult:                                 tmult.               (line   7)
-* transcript:                            Miscellaneous.       (line 133)
-* transpose:                             Matrix commands.     (line 138)
+* transcript:                            Miscellaneous.       (line 182)
+* transpose:                             Matrix commands.     (line   7)
 * Unix:                                  Installation.        (line  25)
 * x86:                                   Installation.        (line  46)
+* x86_64:                                Installation.        (line  16)
 * |:                                     Algebraic Commands.  (line  48)
 * ||:                                    Algebraic Operators. (line 130)
 
 
 
 Tag Table:
-Node: Top785
-Node: Overview1746
-Node: Authors and Bibliography3209
-Node: Installation4653
-Node: Running Jacal7309
-Node: Release Notes9757
-Node: GNU Free Documentation License12493
-Node: Algebra46987
-Node: Algebraic Operators47278
-Node: Algebraic Commands51173
-Node: Rational Expression54436
-Node: Polynomials55727
-Node: Factoring61521
-Node: Calculus67210
-Node: Matrices and Tensors68610
-Node: Generating Matrices69262
-Node: Matrix Parts73775
-Node: Matrix commands76226
-Node: Tensors79844
-Node: tmult81296
-Node: contract83988
-Node: indexshift85864
-Node: indexswap87650
-Node: Lambda Calculus89196
-Node: Miscellaneous90845
-Node: Flags98593
-Node: Index102443
+Node: Top875
+Node: Overview1919
+Node: Authors and Bibliography3243
+Node: Installation4808
+Node: Running Jacal7695
+Node: Release Notes10226
+Node: GNU Free Documentation License12966
+Node: Algebra38189
+Node: Algebraic Operators38502
+Node: Algebraic Commands42480
+Node: Rational Expression45826
+Node: Polynomials47200
+Node: Interpolation53081
+Node: Factoring58618
+Node: Calculus64458
+Node: Matrices and Tensors65941
+Node: Generating Matrices66676
+Node: Matrix Parts71272
+Node: Matrix commands75726
+Node: Tensors80990
+Node: tmult82525
+Node: contract85300
+Node: indexshift87259
+Node: indexswap89128
+Node: Lambda Calculus90757
+Node: Miscellaneous94047
+Node: Flags106546
+Node: Index110400
 
 End Tag Table

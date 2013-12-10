@@ -447,6 +447,9 @@
 (define (poly:unitz p var)
   (sign (leading-number (poly:leading-coeff p var))))
 
+(define (poly:primative? poly var)
+  (unit? (apply poly:gcd* (cdr (poly:promote var poly)))))
+
 (define (u:primz p)
   (univ/scalar p (* (u:unitz p) (univ:cont p))))
 
@@ -569,6 +572,14 @@
 	  0))))
 
 (define (poly:elim2 p1 p2 var)
+  (cond (math:trace
+	 (display-diag "eliminating: ")
+	 (display-diag (var:sexp var))
+	 (display-diag " from:")
+	 (newline-diag)
+	 (let ((grm (get-grammar 'standard)))
+	   (math:write (poleqn->licit p1) grm)
+	   (math:write (poleqn->licit p2) grm))))
   (let* ((u1 (poly:promote var p1))
 	 (u2 (poly:promote var p2))
 	 (pg (poly:gcd (univ:lc u1) (univ:lc u2))))
@@ -579,11 +590,15 @@
 		      ((zero? (univ:degree u2 var)) p2)
 		      ((shorter? u1 u2) (univ:prs u2 u1))
 		      (else (univ:prs u1 u2))))
-	   (e (if (zero? (univ:degree res var)) res
-		  0)))
-      (if (or (number? pg)) e
-	  (let ((q (poly:/ e pg)))
-	    (if (number? q) e (univ:primpart q)))))))
+	   (e (if (zero? (univ:degree res var)) res 0)))
+      (set! res (if (number? pg)
+		    e
+		    (let ((q (poly:/ e pg)))
+		      (if (number? q) e (univ:primpart q)))))
+      (cond (math:trace (display-diag 'yielding:)
+			(newline-diag)
+			(math:write res (get-grammar 'standard))))
+      res)))
 
 (define (poly:modularize modulus poly)
   (if (number? poly)

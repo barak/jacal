@@ -21,7 +21,7 @@ Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2 or
+under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
 copy of the license is included in the section entitled ``GNU Free
@@ -63,7 +63,7 @@ Documentation License.''
 @c @value{JACALVERSION} was released @value{JACALDATE}.  Current
 @c information about JACAL can be found on JACAL's @dfn{WWW} home page:
 
-@c @center @url{http://swiss.csail.mit.edu/~jaffer/JACAL}
+@c @center @url{http://people.csail.mit.edu/jaffer/JACAL}
 
 @insertcopying
 
@@ -92,7 +92,7 @@ and matrices of the above objects are included.
 JACAL @value{JACALVERSION} was released @value{JACALDATE}.  Current
 information about JACAL can be found on JACAL's @dfn{WWW} home page:
 
-@center @url{http://swiss.csail.mit.edu/~jaffer/JACAL}
+@center @url{http://people.csail.mit.edu/jaffer/JACAL}
 
 JACAL, part of the GNU project, is free software, and you are welcome
 to redistribute it under certain conditions; See the file COPYING with
@@ -124,7 +124,7 @@ Polynomial Factoring.
 Tensors.
 @end table
 
-The maintainer can be reached as @samp{agj @@ alum.mit.edu}.
+The maintainer can be reached as @samp{agj@@alum.mit.edu}.
 
 @subheading Bibliography
 @cindex Bibliography
@@ -151,7 +151,7 @@ Y. Siret (Editor), E. Tournier, J. H. Davenport, F. Tournier.@*
 @item [R5RS]
 @pindex R5RS
 Richard Kelsey and William Clinger and Jonathan (Rees, editors)@*
-@uref{r5rs_toc, Revised(5) Report on the Algorithmic Language Scheme},@*
+@uref{../r5rs_toc, Revised(5) Report on the Algorithmic Language Scheme},@*
 @cite{Higher-Order and Symbolic Computation} Volume 11, Number 1 (1998),
 @w{pp.@: 7-105}, or@*
 @cite{ACM SIGPLAN Notices} 33(9), September 1998.@*
@@ -162,7 +162,7 @@ Richard Kelsey and William Clinger and Jonathan (Rees, editors)@*
 @item [SLIB]
 @pindex SLIB
 Todd R. Eigenschink and Aubrey Jaffer.@*
-@uref{slib_toc, SLIB; The Portable Scheme Library}@*
+@uref{../slib_toc, SLIB; The Portable Scheme Library}@*
 @ifinfo
 @ref{Top, , SLIB; The Portable Scheme Library, slib, SLIB; The Portable Scheme Library}.
 @end ifinfo
@@ -184,15 +184,15 @@ implementation.  If your system has a Scheme (or Guile) implementation
 installed, then the @samp{scm} steps are unnecessary.
 
 JACAL also requires the SLIB Portable Scheme library which is available
-from @uref{http://swiss.csail.mit.edu/~jaffer/SLIB}.
+from @uref{http://people.csail.mit.edu/jaffer/SLIB}.
 
-@deftp System i386 GNU/Linux with Redhat Package Manager (rpm)
+@deftp System x86_64 GNU/Linux with Redhat Package Manager (rpm)
 @example
-wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5-1.i386.rpm
-wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1-1.noarch.rpm
-wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9-1.noarch.rpm
-rpm -U scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm
-rm scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.x86_64.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.noarch.rpm
+rpm -U scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
+rm scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
 @end example
 
 The command @samp{jacal} will start an interactive session.
@@ -202,21 +202,21 @@ The command @samp{jacal} will start an interactive session.
 @deftp System Unix
 @deftpx System GNU/Linux
 @example
-wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5.zip
-wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1.zip
-wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9.zip
-unzip -ao scm-5e5.zip
-unzip -ao slib-3b1.zip
-unzip -ao jacal-1b9.zip
-(cd slib; make install)
-(cd scm; make scm; make install)
-(cd jacal; make install)
-rm scm-5e5.zip slib-3b1.zip jacal-1b9.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3.zip
+unzip -ao scm-5f1.zip
+unzip -ao slib-3b4.zip
+unzip -ao jacal-1c3.zip
+(cd slib; ./configure --prefix=/usr/local/; make install)
+(cd scm; ./configure --prefix=/usr/local/; make scm; make install)
+(cd jacal; ./configure --prefix=/usr/local/; make install)
+rm scm-5f1.zip slib-3b4.zip jacal-1c3.zip
 @end example
 
 The command @samp{jacal} will start an interactive session using ELK,
-Gambit, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48, SCM, or SISC.
-Type @samp{jacal --help} for instructions.
+Gambit, Gauche, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48, SCM,
+or SISC.  Type @samp{jacal --help} for instructions.
 @end deftp
 
 
@@ -228,9 +228,9 @@ installing SCM and SLIB on Macintosh computers.
 
 @deftp System x86 Microsoft
 Download and run
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/SLIB-3b1-1.exe},@*
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/SCM-5e5-1.exe}, and@*
-@uref{http://swiss.csail.mit.edu/ftpdir/scm/JACAL-1b9-1.exe}.
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.exe},@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.exe}, and@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.exe}.
 @end deftp
 
 
@@ -440,6 +440,7 @@ is a program for viewing TeX expressions.
 * Algebraic Commands::          
 * Rational Expression::         
 * Polynomials::                 
+* Interpolation::               
 * Factoring::                   
 @end menu
 
@@ -848,7 +849,7 @@ and the @code{imagpart} of @var{z}.
 
 
 
-@node Polynomials, Factoring, Rational Expression, Algebra
+@node Polynomials, Interpolation, Rational Expression, Algebra
 @section Polynomials
 @cindex Polynomials
 
@@ -1115,7 +1116,85 @@ ratios of polynomials.
 @end deffn
 
 
-@node Factoring,  , Polynomials, Algebra
+@node Interpolation, Factoring, Polynomials, Algebra
+@section Interpolation
+@cindex Interpolation
+
+@deffn Command interp mat
+@deffnx Command interp vec1 vec2 @dots{}
+The only argument, @var{mat}, must be an array having at least one row
+of two expressions: [[@var{x1},@var{y1}],[@var{x2},@var{y2}],@dots{}].
+It is an error if there are any duplicates in the first column of the
+second argument,
+
+@code{interp} returns a polynomial function @var{poly}(@var{@@1}) such
+that
+@var{mat}[1,2]=@var{poly}(@var{mat}[1,1]),
+@var{mat}[2,2]=@var{poly}(@var{mat}[2,1]), etc.
+
+There is a variant of the @code{interp} command that takes multiple
+vector arguments instead of a matrix. These vectors represent points
+to be interpolated over. The same constraints apply as in the matrix
+version. All the variants of the interpolation procedure described
+later have both these forms.
+
+@example
+e9 : interp([[2, 3], [0, -1]]);
+
+e9 : lambda([@@1], -1 + 2 @@1)
+
+e10 : interp([[2, 3], [1, z]]);
+
+e10 : lambda([@@1], -3 + 2 z + (3 - z) @@1)
+
+e11 : interp([2, 3], [y, z]);
+
+                  3 y - 2 z + (-3 + z) @@1
+e11 : lambda([@@1], -----------------------)
+                          -2 + y
+@end example
+@end deffn
+
+@deffn Command interp.lagrange mat
+@deffnx Command interp.lagrange vec1 vec2 @dots{}
+This is the same as the @code{interp} command.
+@end deffn
+
+@deffn Command interp.newton mat
+@deffnx Command interp.newton vec1 vec2 @dots{}
+This is similar to @code{interp} command with an added option of
+including derivative values when defining points. The same constraints
+apply as in @code{interp}. You can choose to specify some number of
+derivatives for each point. That number does not have to be the same
+for all points. 
+
+@example
+e0 : interp.newton([-1, 0], [0, 1], [1, 0]);
+
+                       2
+e0: lambda([@@1], 1 - @@1 )
+
+e1 : interp.newton([-1, 0], [0, 1, 0, 20], [1, 0]);
+
+                          2        4
+e1: lambda([@@1], 1 + 10 @@1  - 11 @@1 )
+
+e2 : interp.newton([-1, 0], [0, 1, 0, a], [1, 0]);
+
+                         2              4
+                 2 + a @@1  + (-2 - a) @@1
+e2: lambda([@@1], ------------------------)
+                            2
+@end example
+@end deffn
+
+@deffn Command interp.neville mat
+@deffnx Command interp.neville vec1 vec2 @dots{}
+The same as @command{interp} in its functionality, but uses newtons
+form when constructing the polynomial.
+@end deffn
+
+@node Factoring,  , Interpolation, Algebra
 @section Factoring
 @cindex Factoring
 
@@ -1582,6 +1661,35 @@ e5: [5   8   13  20  29]
 @node Matrix Parts, Matrix commands, Generating Matrices, Matrices and Tensors
 @section Matrix Parts
 
+@deffn Command rank matrix
+The rank of @var{matrix} is the maximal number of linearly independent
+columns of @var{matrix}, which is always equalt to the maximal number
+of linearly independent rows of @var{matrix}.
+@example
+@group
+e13 : rank([[0,0],[0,0]]);
+
+e13: 0
+
+e14 : rank([[0,0],[0,1]]);
+
+e14: 1
+
+e15 : rank([[2,0],[0,1]]);
+
+e15: 2
+
+e17 : rank([[b,c],[0,a]]);
+
+e17: 2
+
+e18 : rank([[b,c,d],[a,0,a],[e,f,a]]);
+
+e18: 3
+@end group
+@end example
+@end deffn
+
 @deffn Command row matrix i
 The command @code{row} returns the @var{i}th row of the matrix
 @var{matrix}, where @code{i = @var{int}}.  If @var{int} is larger than
@@ -1694,8 +1802,43 @@ e7: [a, b]
 
 @node Matrix commands, Tensors, Matrix Parts, Matrices and Tensors
 @section Matrix commands
-@deffn Command . matrix1 matrix2
 
+
+@deffn Command transpose matrix
+Computes the transpose of @code{(@var{matrix})}.
+@end deffn
+
+
+@deffn Command determinant matrix
+The Jacal command @code{determinant} computes the determinant of a
+square matrix.  Attempting to take the determinant of a non-square
+matrix will produce an error message.
+
+@example
+@group
+e1 : a:[[1,2],[6,7]];
+
+    [1  2]
+e1: [    ]
+    [6  7]
+
+e2 : determinant(a);
+
+e2: -5
+@end group
+@end example
+@end deffn
+
+
+@deffn Command charpoly matrix var
+The characteristic polynomial of @var{matrix}:
+
+determinant(@var{matrix} - I @var{var})
+
+@end deffn
+
+
+@deffn Command . matrix1 matrix2
 Matrix multiplication.
 
 @example
@@ -1841,34 +1984,10 @@ e25: [4, 7, -6]
 @end example
 @end deffn
 
-@deffn Command determinant matrix
-The Jacal command @code{determinant} computes the determinant of a
-square matrix.  Attempting to take the determinant of a non-square
-matrix will produce an error message.
-
-@example
-@group
-e1 : a:[[1,2],[6,7]];
-
-    [1  2]
-e1: [    ]
-    [6  7]
-
-e2 : determinant(a);
-
-e2: -5
-@end group
-@end example
-@end deffn
-
-@deffn Command transpose matrix
-Computes the transpose of @code{(@var{matrix})}.
-@end deffn
-
 @node Tensors, tmult, Matrix commands, Matrices and Tensors
 @section Tensors
 The @code{tensors} supported by JACAL are an extension of the matrix
-structure (i.e., a bunch of bunches of bunches ...) with the added
+structure (i.e., a bunch of bunches of bunches @dots{}) with the added
 stipulation that all @code{dimensions} of the tensor be the same length
 (e.g., 4x4x4).  The number of dimensions (indices) in a tensor is its
 rank: A scalar is a tensor of rank 0; a vector is a rank 1 tensor; a
@@ -2081,7 +2200,6 @@ vector).
 @node Lambda Calculus, Miscellaneous, Matrices and Tensors, Top
 @chapter Lambda Calculus
 
-@section Create a lambda expression
 @deffn Operator lambda varlist expression
 Jacal has the ability to work with lambda expressions, via the command
 @code{lambda}. Furthermore, Jacal always converts user definitions of
@@ -2110,7 +2228,34 @@ e14: lambda([@@1, @@2, @@3], @@1  + @@1 @@2 @@3)
 @end example
 @end deffn
 
-@section Compute inverse function
+@deffn Command elementwise function matrix1 matrix2 @dots{}
+The arguments @var{matrix1}, @var{matrix2}, @dots{} must have the same
+shape.  The command @code{elementwise} returns a new matrix formed by
+applying @var{function} to each tuple of elements of @var{matrix1},
+@var{matrix2}, @dots{}.
+
+@example
+@group
+e9 : elementwise(foo,[a, b], [c, d]);
+
+e9: [foo(a, c), foo(b, d)]
+
+e10 : elementwise(@@1+5*@@2,[a, b], [c, d]);
+
+e10: [a + 5 c, b + 5 d]
+
+e1 : elementwise(@@1-@@2,[9,8,7],[[1,0],[4,5],[6,3]]);
+
+    [ 8  9 ]
+    [      ]
+e1: [ 4  3 ]
+    [      ]
+    [ 1  4 ]
+@end group
+@end example
+@end deffn
+
+
 @deffn Command finv function
 @code{@var{function}^^-1}
 
@@ -2173,26 +2318,83 @@ JACAL's capabilities.
 @end deffn
 
 
-@deffn Command commands
-The command @code{commands} produces a list of all of the command
-available in Jacal. It is called as s function of no arguments.
-Explicitly:
+@deffn Command tex expr
+@deffnx Command scheme expr
+@deffnx Command disp2d expr
+@deffnx Command standard expr
+Displays @var{expr} in TeX, Jacal's two-dimensional output format, or
+Jacal's infix input format, respectively.
+@end deffn
+
+@deffn Command tex string
+Read TeX expression @var{string}.
+@end deffn
+
+@deffn Command scheme string
+Read Scheme expression @var{string}.
+@end deffn
+
+@deffn Command disp2d string
+@deffnx Command standard string
+Reads @var{string} in Jacal's infix input format.
+@end deffn
 
 @example
 @group
-e21 : commands();
+e24 : b^2-4*a*c;
 
-     u-/+ u+/- transpose transcript differential terms system
-     sylvester show set scalarmatrix row resultant rapply quit
-     qed discriminant poly or num negate mod minor matrix
-     load listofvars ident genmatrix gcd finv factor example
-     eliminate dotproduct divide diff diagmatrix determinant
-     describe denom crossproduct content commands col coeffs
-     coeff bunch batch b+/- ^^ ^ = / - + * %
+      2
+e24: b  - 4 a c
+
+e25 : tex(e24);
+b^@{2@} - 4\,a\,c
+e25 : tex("b^@{2@} - 4\,a\,c");
+
+      2
+e25: b  - 4 a c
+
+e26 : disp2d(e25);
+ 2
+b  - 4 a c
+e26 : disp2d("b^2-4*a*c");
+
+      2
+e26: b  - 4 a c
+
+e27 : scheme(e26);
+(- (^ b 2) (* 4 a c))
+
+e27 : scheme("(- (^ b 2) (* 4 a c))");
+
+      2
+e27: b  - 4 a c
 @end group
 @end example
+
+
+@deffn Command commands
+The command @code{commands} produces a list of all of the command
+available in Jacal. It is called as s function of no arguments.
 @end deffn
 
+@example
+@group
+@exdent e21 : commands();
+
+% * + - / = ^ ^^ abs args augcoefmatrix b+/- b-/+ batch bunch cabs
+cartprod chain charpoly coeff coeffs coefmatrix cofactor col commands
+content continue crossproduct degree denom depends describe
+determinant diagmatrix diff differential discriminant disp2d divide
+dotproduct elementwise eliminate equatecoeffs example extrule factor
+factorial factors finv flatten func gcd genmatrix help ident imagpart
+interp interp.lagrange interp.neville interp.newton jacobi jacobian
+listofvars load matrix minor mod ncmult negate num or over parallel
+partial poly polydiff polyelim prime? qed quit rank rapply realpart
+require restart resultant row scalarmatrix scheme set shadow show
+standard sylvester system terms tex transcript transpose u+/- u-/+
+verify wronski wronskian
+@end group
+@end example
 
 @deffn Command describe command
 The command @code{describe} is the heart of the online help facility of
@@ -2377,41 +2579,48 @@ available grammars, type @code{show grammars}.  To see the current input
 grammar type @code{show ingrammar}. To see the current output grammar,
 type @code{show outgrammar}. To see the current priority for printing
 expressions, type @code{show priority}.
+@end deffn
+
 @example
 @group
-e1 : show all;
+@exdent e1 : show all;
 
-     prompt priority outgrammar ingrammar grammars all
-e1 : show prompt;
+all debug echogrammar grammars horner ingrammar linkradicals outgrammar
+page phases priority prompt trace version width
 
-e1: e1
+@exdent e1 : show prompt;
 
-e3 : show priority;
+@exdent e1: e1
 
-    :@@ (differential :@@) @@3 @@2 @@1 %inftsl y x u-/+ u+/-
-    transpose transcript differential terms t system sylvester
-    showpriority show set scalarmatrix row resultant rapply quit
-    qed prompt priority discriminant poly or num negate mod
-    minor matrix load listofvars ident genmatrix gcd finv factor
-    example eliminate e1 dotproduct divide diff diagmatrix
-    determinant describe denom crossproduct content commands col
-    coeffs coeff c bunch batch b-/+ b+/- b all a ^^ ^ = / - + *
-    % %sqrt1 %i
+@exdent e3 : show priority;
 
-e3 : show outgrammar;
+:@@ (differential :@@) @@3 @@2 @@1 y x wronskian wronski verify u-/+ u+/-
+transpose transcript tex terms t system sylvester standard show shadow
+set scheme scalarmatrix row resultant restart require realpart rapply
+rank quit qed prompt priority prime? polyelim polydiff poly partial
+parallel over or num negate ncmult mod minor matrix load listofvars
+jacobian jacobi interp.newton interp.neville interp.lagrange interp
+imagpart ident help genmatrix gcd func flatten finv factors factorial
+factor extrule example equatecoeffs eliminate elementwise e0 dotproduct
+divide disp2d discriminant differential diff diagmatrix determinant
+describe depends denom degree crossproduct continue content commands col
+cofactor coefmatrix coeffs coeff charpoly chain cartprod cabs c bunch
+batch b-/+ b+/- b augcoefmatrix args all abs a ^^ ^ ? = ::@@ / - + * %
+%sqrt1 %i
 
-e3: disp2d
+@exdent e3 : show outgrammar;
 
-e4 : show ingrammar;
+@exdent e3: disp2d
 
-e4: standard
+@exdent e4 : show ingrammar;
 
-e5 : show grammars;
+@exdent e4: standard
 
-e5: [disp2d, standard, schemepretty, scheme]
+@exdent e5 : show grammars;
+
+@exdent e5: [scheme, null, schemepretty, standard, disp2d, tex]
 @end group
 @end example
-@end deffn
 
 
 @node Flags, Index, Miscellaneous, Top

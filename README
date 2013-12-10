@@ -1,9 +1,9 @@
-This directory contains the distribution of jacal-1b9.  Jacal is a
+This directory contains the distribution of jacal-1c3.  Jacal is a
 symbolic mathematics system written in the programming language Scheme.
 
-	     http://swiss.csail.mit.edu/~jaffer/JACAL.html
+	     http://people.csail.mit.edu/jaffer/JACAL.html
 
-File: jacal.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
+File: jacal-1c3.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
 
 1.2 Installation
 ================
@@ -15,33 +15,33 @@ implementation.  If your system has a Scheme (or Guile) implementation
 installed, then the `scm' steps are unnecessary.
 
   JACAL also requires the SLIB Portable Scheme library which is
-available from `http://swiss.csail.mit.edu/~jaffer/SLIB'.
+available from `http://people.csail.mit.edu/jaffer/SLIB'.
 
- -- System: i386 GNU/Linux with Redhat Package Manager (rpm)
-          wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5-1.i386.rpm
-          wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1-1.noarch.rpm
-          wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9-1.noarch.rpm
-          rpm -U scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm
-          rm scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm
+ -- System: x86_64 GNU/Linux with Redhat Package Manager (rpm)
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.x86_64.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.noarch.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.noarch.rpm
+          rpm -U scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
+          rm scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
 
      The command `jacal' will start an interactive session.
 
  -- System: Unix
  -- System: GNU/Linux
-          wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5.zip
-          wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1.zip
-          wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9.zip
-          unzip -ao scm-5e5.zip
-          unzip -ao slib-3b1.zip
-          unzip -ao jacal-1b9.zip
-          (cd slib; make install)
-          (cd scm; make scm; make install)
-          (cd jacal; make install)
-          rm scm-5e5.zip slib-3b1.zip jacal-1b9.zip
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1.zip
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4.zip
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3.zip
+          unzip -ao scm-5f1.zip
+          unzip -ao slib-3b4.zip
+          unzip -ao jacal-1c3.zip
+          (cd slib; ./configure --prefix=/usr/local/; make install)
+          (cd scm; ./configure --prefix=/usr/local/; make scm; make install)
+          (cd jacal; ./configure --prefix=/usr/local/; make install)
+          rm scm-5f1.zip slib-3b4.zip jacal-1c3.zip
 
      The command `jacal' will start an interactive session using ELK,
-     Gambit, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48, SCM, or
-     SISC.  Type `jacal --help' for instructions.
+     Gambit, Gauche, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48,
+     SCM, or SISC.  Type `jacal --help' for instructions.
 
  -- System: Apple
      `http://www.io.com/~cobblers/scm/' has downloads and utilities for
@@ -49,9 +49,9 @@ available from `http://swiss.csail.mit.edu/~jaffer/SLIB'.
 
  -- System: x86 Microsoft
      Download and run
-     `http://swiss.csail.mit.edu/ftpdir/scm/SLIB-3b1-1.exe',
-     `http://swiss.csail.mit.edu/ftpdir/scm/SCM-5e5-1.exe', and
-     `http://swiss.csail.mit.edu/ftpdir/scm/JACAL-1b9-1.exe'.
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.exe',
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.exe', and
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.exe'.
 
 Compiling Jacal
 ---------------

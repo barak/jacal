@@ -1,6 +1,6 @@
 ;; "hensel.scm" Multivariate Hensel Lifting.	-*-scheme-*-
 ;; Copyright 1994, 1995 Mike Thomas
-;; Copyright 1996, 1997, 1998, 1999, 2002 Aubrey Jaffer
+;; Copyright 1996, 1997, 1998, 1999, 2002, 2009 Aubrey Jaffer
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 
 ;;; m-th Taylor series coefficient in expansion about var = n
 (define (taylor-coefficient poly var n m)
+  ;;(if (negative? m) (math:error 'taylor-coefficient 'of 'negative 'index m))
   (poly:/ (poly:evaln (let loop ((i 1) (fn poly))
 			(if (> i m) fn (loop (+ 1 i) (poly:diff fn var))))
 		      var n)
@@ -39,15 +40,16 @@
 ;;; The member of the correct leading coefficients in lcu corresponding
 ;;; to a factor in u, is reduced mod the ideal id.
 (define (lcsubst u lcu id pl)
-  (let* ((save (map (lambda (x) (butlast x 1)) u))
-	 (unsubs (map (lambda (x y) (append x (list y))) save lcu)))
-    (map (lambda (x)
-	   (let loop ((i id))
-	     (cond ((null? i) x)
-		   (else (set! x (ff:mnorm
-				  pl (poly:evaln x (caar i) (cadar i))))
-			 (loop (cdr i))))))
-	 unsubs)))
+  (map (lambda (x y)
+	 (set! x (append (butlast x 1) (list y)))
+	 (let loop ((i id) (y x))
+	   (if (null? i)
+	       (number->poly y (car x))
+	       (loop (cdr i)
+		     (ff:mnorm pl
+			       (poly:evaln y (caar i) (cadar i)))))))
+       u
+       lcu))
 
 ;;; Go through a polynomial and convert each zero degree polynomial
 ;;; coefficient to a number.
@@ -60,6 +62,15 @@
 		    0
 		    (cons (car p) end-bit))))))
 
+(define (poly:largest-coeff poly)
+  (define mc 0)
+  (define (plc p)
+    (if (number? p)
+	(set! mc (max mc (abs p)))
+	(for-each plc (cdr p))))
+  (plc poly)
+  mc)
+
 ;;;; GCL Algorithm 6.4 (p. 272)
 ;;;
 ;;; a: A mutivariate polynomial a(x_1, ..., x_v) element Z[x_1, ..., x_v]
@@ -71,64 +82,99 @@
 ;;;
 ;;; p: prime integer which does not divide lcoeff(a mod I).
 ;;;
-;;; l: a positive such that p^l/2 bounds the magnitudes of all
+;;; l: a positive integer such that (p^l)/2 bounds the magnitudes of all
 ;;;    integers appearing in a and in any of its factors to be computed.
 ;;;
 ;;; u: a list of n>1 univariate polynomials in Z_p^l[x_1] which are
 ;;;    pairwise relatively prime in the Euclidean domain Z_p[x_1],
 ;;;    such that a = u_1 * ... * u_n (mod <I, p^l>).
 ;;;
-;;; lcu: a list of the n correct multivariate leading coefficients
+;;; lcU: a list of the n correct multivariate leading coefficients
 ;;;      corresponding to the univariate factors u.
 
 ;;; MJT: Assumes that the leading coefficient of a given multivariate
 ;;; polynomial is the last one.
-(define (hen:multivariate-hensel a I p l u lcu)
-  (let* ((nu-1 (length I))
-	 (nu   (+ nu-1 1))
-	 (pl   (expt p l))
-	 (av   (make-vector nu a))	;Partly substituted targets
-	 (iv   (make-vector nu '())))	;Partial ideals for leading coefficients
+(define (hen:multivariate-hensel a x_1 I p l u lcU)
+  (define nu-1 (length I))
+  (define pl   (expt p l))
+  ;;(math:print 'hen:multivariate-hensel x_1 (poly:eval-ideal a I))
+  (cond (math:debug
+	 (let ((a-mod-I (poly:eval-ideal a I)))
+	   (define lc-a-mod-I (univ:lc a-mod-I))
+	   (define abnd (poly:largest-coeff a))
+	   (define u_i*
+	     (ff:unorm
+	      pl
+	      (reduce-init poly:*
+			   1
+			   (map (lambda (u_i)
+				  (ff:unorm pl (poly:eval-ideal u_i I)))
+				u))))
+	   (define a* (ff:unorm pl a-mod-I))
+	   ;;(apply math:print 'u '==> u)
+	   (cond ((not (poly:primative? a x_1))
+		  (math:warn 'in 'hen:multivariate-hensel)
+		  (math:error 'polynomial-not-primitive-in-special-variable x_1 a))
+		 ((zero? lc-a-mod-I)
+		  (math:warn 'in 'hen:multivariate-hensel)
+		  (math:error 'lc-0-ideal a))
+		 ((divides? p lc-a-mod-I)
+		  (math:warn 'in 'hen:multivariate-hensel)
+		  (math:error 'p-divides-lc-ideal p lc-a-mod-I))
+		 ((< (quotient (expt p l) 2) abnd)
+		  (math:warn 'in 'hen:multivariate-hensel)
+		  (math:error 'p^l/2<a-coeff-max (quotient (expt p l) 2) '< abnd))
+		 ((<= (length u) 1)
+		  (math:warn 'in 'hen:multivariate-hensel)
+		  (math:error 'u-too-short u))
+		 ((not (equal? a* u_i*))
+		  (math:warn 'in 'hen:multivariate-hensel)
+		  (math:error 'u-product-mod-p^l-ideal-not-equal-to-a
+			      u_i* a*))
+		 )
+	   (ff:check-pairwise-relatively-prime 'hen:multivariate-hensel u p))))
+  (let ((nu (+ nu-1 1)))
+    (define av (make-vector nu a))	;Partly substituted targets
+    (define iv (make-vector nu '())) ;Partial ideals for leading coefficients
     (do ((j (+ -2 nu) (+ -1 j)))
 	((negative? j))
       (let ((xj     (car (list-ref I j)))
 	    (alphaj (cadr (list-ref I j))))
 	(vector-set! iv j (list-tail I j))
 	(vector-set! av j (poly:evaln (vector-ref av (+ 1 j)) xj alphaj))))
-    (let* ((maxdeg (apply max (map (lambda (x) (poly:degree a (car x))) I)))
-	   (bu u)
-	   (n  (length u)))
+    (let ((maxdeg (apply max (map (lambda (x) (poly:degree a (car x))) I)))
+	  (bU u)
+	  (n  (length u)))
       (do ((j 0 (+ 1 j)))
 	  ((>= j nu-1))
-	(let* ((bu1 bu)
-	       (monomial 1)
-	       (e 1)
-	       (xj     (car (list-ref I j)))
-	       (alphaj (cadr (list-ref I j)))
-	       (ij (list xj (- alphaj) 1)))
-	  (set! bu (lcsubst bu lcu (vector-ref iv (+ 1 j)) pl))
-	  (set! e (poly:- (vector-ref av (+ 1 j)) (reduce poly:* bu)))
+	(let ((bU1 bU)
+	      (monomial 1)
+	      (e 1)
+	      (xj     (car (list-ref I j)))
+	      (alphaj (cadr (list-ref I j))))
+	  (define ij (list xj (- alphaj) 1))
+	  (set! bU (lcsubst bU lcU (vector-ref iv (+ 1 j)) pl))
+	  (set! e (poly:- (vector-ref av (+ 1 j)) (reduce poly:* bU)))
 	  (let loop1 ((k 1) (monomial ij))
 	    (if (and (not (eqv? 0 e))
 		     (<= k (poly:degree (vector-ref av (+ 1 j)) xj)))
 		(let ((c (taylor-coefficient e xj alphaj k)))
 		  (if (not (poly:0? c))
 		      (let* ((du1 (hen:multivariate-diophant
-				   bu1 (number->poly c (car (car bu1)))
+				   bU1 (number->poly c (car (car bU1)))
 				   (butlast I (- nu-1 j)) maxdeg p l))
 			     (du (map (lambda (x)
 					(poly:0-degree-norm
 					 (poly:* x  monomial))) du1)))
-			(set! bu (map (lambda (x y)
-					(ff:mnorm pl (poly:0-degree-norm
-						      (poly:+ x y))))
-				      bu du))
+			(set! bU (map (lambda (x y)
+					(ff:mnorm pl (poly:+ x y))) ;(poly:0-degree-norm )
+				      bU du))
 			(set! e (ff:mnorm
 				 pl (poly:0-degree-norm
 				     (poly:- (vector-ref av (+ 1 j))
-					     (reduce poly:* bu)))))))
+					     (reduce poly:* bU)))))))
 		  (loop1 (+ 1 k) (poly:* monomial ij)))))))
-      (if (equal? a (poly:0-degree-norm (reduce-init poly:* 1 bu))) bu #f))))
+      (if (equal? a (poly:0-degree-norm (reduce-init poly:* 1 bU))) bU #f))))
 
 ;;;; GCL Algorithm 6.2 (p. 268) partly tested by MJT
 ;;;
@@ -147,7 +193,7 @@
 ;;;   p must not divide lcoeff(a_i mod I), i = 1, ..., r;
 ;;;
 ;;;   a_i mod <I, p>, i = 1, ..., r, must be pairwise relatively prime
-;;;   in Z_p[x]; and
+;;;   in Z_p[x_1]; and
 ;;;
 ;;;   degree(c, x_1) < sum(degree(a_i, x_1), i = 1, ..., r.
 ;;;
@@ -170,60 +216,79 @@
 ;;;
 ;;; OUTPUT: Returns the list [S_1, ..., S_r]
 (define (hen:multivariate-diophant a c I d p k)
-  (let* ((r (length a))
-	 (nu-1	  (length I))
-	 (nu (+ nu-1 1))
-	 (p^k (expt p k)))
-    (if (> nu 1)
-	(let* ((ap (reduce-init poly:* 1 a))
-	       (b (map (lambda (x) (poly:/ ap x)) a))
-	       (xnu (car (list-ref I (- nu-1 1))))
-	       (alphanu (cadr (list-ref I (- nu-1 1))))
-	       (anew (map (lambda (x) (poly:evaln x xnu alphanu)) a))
-	       (cnew (poly:evaln c xnu alphanu))
-	       (inew (del (list xnu alphanu) I '()))
-	       (sigma (hen:multivariate-diophant anew cnew inew d p k))
-	       (e (ff:mnorm
-		   p^k (poly:- c (reduce-init poly:+ 0 (map poly:* sigma b)))))
-	       (monomial 1))
-	  (let loop ((m 1))
-	    (cond
-	     ((and (<= m d) (not (poly:0? e)))
-	      (set! monomial (poly:* monomial (poly:- (var->expl xnu) alphanu)))
-	      (let ((cm (taylor-coefficient e xnu alphanu m)))
-		(if (not (poly:0? cm))
-		    (let ((ds
-			   (hen:multivariate-diophant anew cm inew d p k)))
-		      (set! ds (map (lambda (x1) (poly:* x1 monomial)) ds))
-		      (set! sigma (map poly:+ sigma ds))
-		      (set! e (ff:mnorm
-			       p^k (poly:- e (reduce-init
-					     poly:+ 0 (map poly:* ds b)))))
-		      )))
-	      (loop (+ 1 m)))
-	     (else
-	      (map (lambda (x) (ff:mnorm p^k x)) sigma)))))
-	(let* ((x1 (car (car a)))
-	       (sigma (make-list r 0))
-	       (c1 (number->poly c x1)) ;So we can deconstruct consistently
-	       (dc (poly:degree c1 x1)))
-	  (let loop ((m 1))
-	    (if (<= (+ -1 m) dc)
-		(let* ((cm (poly:leading-coeff (list-ref c1 m) x1))
+  (define r (length a))
+  (define nu (+ (length I) 1))
+  (define p^k (expt p k))
+  (define x1 (the-variable-in a))
+  (cond (math:debug
+	 (cond ((>= (poly:degree c x1)
+		    (apply + (map (lambda (a_i) (poly:degree a_i x1)) a)))
+		(math:warn 'in 'hen:multivariate-diophant)
+		(math:error 'c-degree-too-large (poly:degree c x1))))
+	 (ff:check-pairwise-relatively-prime
+	  'hen:multivariate-diophant
+	  (map (lambda (a_i)
+		 (set! a_i (poly:eval-ideal a_i I))
+		 (cond ((zero? (modulo (univ:lc a_i) p))
+			(math:warn 'in 'hen:multivariate-diophant)
+			(math:error 'lc-0-divider-ideal a_i)))
+		 (ff:unorm p a_i))
+	       a)
+	  p)))
+  (cond
+   ((> nu 1)
+    (let* ((ap (reduce-init poly:* 1 a))
+	   (b (map (lambda (x) (poly:/ ap x)) a))
+	   (xnu (car (list-ref I (- nu 2))))
+	   (alphanu (cadr (list-ref I (- nu 2))))
+	   (anew (map (lambda (x)
+			(number->poly (poly:evaln x xnu alphanu) (car x)))
+		      a))
+	   (cnew (poly:evaln c xnu alphanu))
+	   (inew (butlast I 1))		;(remove (list xnu alphanu) I)
+	   (sigma (hen:multivariate-diophant anew cnew inew d p k))
+	   (e (ff:mnorm
+	       p^k (poly:- c (reduce-init poly:+ 0 (map poly:* sigma b)))))
+	   (monomial 1))
+      (let loop ((m 1))
+	(cond
+	 ((and (<= m d) (not (poly:0? e)))
+	  (set! monomial (poly:* monomial (poly:- (var->expl xnu) alphanu)))
+	  (let ((cm (taylor-coefficient e xnu alphanu m)))
+	    (if (not (poly:0? cm))
+		(let ((ds (hen:multivariate-diophant anew cm inew d p k)))
+		  (set! ds (map (lambda (x1) (poly:* x1 monomial)) ds))
+		  (set! sigma (map poly:+ sigma ds))
+		  (set! e (ff:mnorm
+			   p^k (poly:- e (reduce-init
+					  poly:+ 0 (map poly:* ds b))))))))
+	  (loop (+ 1 m)))
+	 (else
+	  (map (lambda (x) (ff:mnorm p^k x)) sigma))))))
+   (else
+    (let* ((sigma (make-list r 0))
+	   (c1 (number->poly c x1)) ;So we can deconstruct consistently
+	   (dc (poly:degree c1 x1)))
+      (let loop ((m 0))
+	(if (<= m dc)
+	    (let* ((cm (poly:leading-coeff (list-ref c1 (+ 1 m)) x1))
 ;;; IF cm = 0 then we don't need to do the diophantine solution.
-		       (ds (hen:univariate-diophant a x1 (+ -1 m) p k)))
-		  (check-hd1 a x1 (+ -1 m) p k ds)
-		  (set! ds (map (lambda (x) (poly:* x cm)) ds))
-		  (set! sigma (map (lambda (x y)
-				     (number->poly (poly:+ x y) x1))
-				   sigma ds))
-		  (loop (+ 1 m)))))
-	  (map (lambda (x) (ff:unorm p^k x)) sigma)))))
+		   (ds (hen:univariate-diophant a x1 m p k)))
+	      (check-hd1 a x1 m p k ds)
+	      (set! ds (map (lambda (x) (poly:* x cm)) ds))
+	      (set! sigma (map (lambda (x y)
+				 (number->poly (poly:+ x y) x1))
+			       sigma ds))
+	      (loop (+ 1 m)))))
+      (map (lambda (x) (ff:unorm p^k x)) sigma)))))
 
 ;;; ppoly is primitive polynomial
 (define (map-svpf-factors ppoly spec-var)
-  (map (lambda (factor-exp) (cons (poly:factorszpp (car factor-exp))
-				  (cdr factor-exp)))
+  (map (lambda (factor-exp)
+	 (cons (if (number? (car factor-exp))
+		   (car factor-exp)
+		   (poly:factorszpp (car factor-exp)))
+	       (cdr factor-exp)))
        (yuniv:square-free-factorization ppoly spec-var)))
 
 ;;; Factorise multivariate polynomial over Z
@@ -265,6 +330,7 @@
        facts))))
 
 (define (unlucky? maxdeg poly1 spec-var)
+;;; (display-diag 'unlucky?:) (newline-diag) (math:write poly1 *output-grammar*)
   (or (not (= maxdeg (poly:degree poly1 spec-var)))
       (not (eqv? 1 (poly:gcd (poly:diff poly1 spec-var) poly1)))))
 
@@ -285,6 +351,8 @@
 		    (if (member rn1 nums)
 			(loop (+ 2 (random r ideal:prngs))) rn1))))
 	  (mri (cdr ivars) (cons rn sofar) (cons rn nums) r))))
+;;; (display-diag 'make-random-ideal) (display-diag nums) (newline-diag)
+;;; (for-each (lambda (var) (math:write (var->expl var) *output-grammar*)) ivars)
   (if (> (+ (length ivars) (length nums)) r)
       (math:error 'make-random-ideal "r too small." ivars nums r))
   (map list ivars (mri ivars '() nums r)))
@@ -339,37 +407,38 @@
 ;;; evaluate a polynomial p mod the ideal i
 ;;; (An evaluation homomorphism)
 (define (poly:eval-ideal p i)
-  (define pei
-    (lambda (p i)
-      (if (null? i) p (pei (poly:evaln p (caar i) (cadar i)) (cdr i)))))
-  (pei p i))
+  (if (null? i)
+      p
+      (poly:eval-ideal (poly:evaln p (caar i) (cadar i))
+		       (cdr i))))
 
 ;;; Generate the list of correct leading coefficients
 ;;;
 ;;; uniqs - association list of a unique prime factor for each leading
-;;; coefficient of a polynomial's factors, evaluated over some ideal and
-;;; their corresponding unevaluated multivariate factors.
+;;;   coefficient of a polynomial's factors, evaluated over some ideal
+;;;   and their corresponding unevaluated multivariate factors.
 ;;;
 ;;; imagelcs - factors of the leading coefficient of the univariate
-;;; image of the polynomial, evaluated over the same ideal.
+;;;   image of the polynomial, evaluated over the same ideal.
 (define (correct-lcs uniqs imagelcs lc)
   (define lun (length uniqs))
   (map (lambda (imagelc)
 	 (define res 1)
 	 (let loop ((i 0))
-	   (cond ((and (not (equal? 1 lc)) (< i lun))
+	   (cond ((and (not (unit? lc)) (< i lun))
 		  (let* ((current (list-ref uniqs i))
 			 (unique-prime (car current))
 			 (fact (cadr current)))
 		    (let loop1 ()
-		      (cond ((and (divides? unique-prime imagelc)
+		      (cond ((and (not (unit? unique-prime))
+				  (not (unit? fact))
+				  (divides? unique-prime imagelc)
 				  (poly:/? lc fact))
 			     (set! res (poly:* fact res))
-			     (set! imagelc
-				   (quotient imagelc unique-prime))
+			     (set! imagelc (quotient imagelc unique-prime))
 			     (set! lc (poly:/ lc fact))
-			     (loop1)))
-		      (loop (+ 1 i)))))
+			     (loop1))
+			    (else (loop (+ 1 i)))))))
 		 (else res))))
        imagelcs))
 
@@ -379,77 +448,87 @@
 
 ;;; Factorise square-free primitive multivariate polynomial over Z (sorted)
 (define (poly:factorszpp ppoly)
-  (if (number? ppoly)
-      ppoly
-      (let* ((vars (poly:vars ppoly))
-	     (spec-var (car ppoly))
-	     (maxdeg (poly:degree ppoly spec-var))
-	     (ivars (del spec-var vars '()))
-	     (nivars (length ivars))
-	     (lcpoly (poly:leading-coeff ppoly spec-var))
-	     (lcfactors (if (number? lcpoly)
-			    (remove-duplicates (factor lcpoly))
-			    (strip-powers (poly:factorz lcpoly) '())))
-	     (lcnums
-	      (apply append (map (lambda (x) (if (number? x) (list x) '()))
-				 lcfactors)))
-	     (nlcnums (length lcnums))
-	     (nlcfs (length lcfactors)))
-	(let loop ((start 1))
-	  (let* ((image ppoly)
-		 (iu
-		  (let loopi ((mr+1 (+ nivars nlcnums 2))
-			      (random-ideal (make-random-ideal
-					     ivars lcnums (+ nivars nlcnums 3))))
-		    (let* ((poly1 (poly:eval-ideal image random-ideal))
-			   (elcfactors
-			    (map (lambda (x)
-				   (remove-duplicates
-				    (factor (poly:eval-ideal x random-ideal))))
-				 lcfactors))
-			   (us (uniques elcfactors)))
-		      (cond
-		       ((or (unlucky? maxdeg poly1 spec-var) (some null? us))
-			;;(@print mr+1 (+ nivars nlcnums 100))
-			(if (> mr+1 (+ nivars nlcnums 100))
-			    (math:error 'poly:factorszpp
-					(- mr+1 (+ nivars nlcnums))
-					" tries on" lcnums)
-			    (loopi (+ mr+1 1)
-				   (make-random-ideal ivars lcnums mr+1))))
-		       (else
-			(set! image poly1)
-			(list random-ideal
-			      (if (eqv? 1 lcpoly)
-				  (make-list nlcfs '(1 1))
-				  (map list (map car us) lcfactors))))))))
-		 (ideal (car iu))
-		 (uniqs (cadr iu))
-		 (p (let loopp ((cp 3))
-		      (cond ((and (= maxdeg (ff:degree cp image))
-				  (every (lambda (x) (eqv? 1 x))
-					 (map cadr (ff:sff cp image))))
-			     cp)
-			    ((> cp 1000)
-			     (math:error 'poly:factorszpp
-					 " tried all primes up to " cp))
-			    (else (loopp (car (primes> (+ 1 cp) 1)))))))
-		 (image-factors
-		  (let* ((slpoly (u:unitz image))
-			 (cpoly (univ:cont image))
-			 (factors (poly:sort-factors (u:factorsz image))))
-		    (if (and (= cpoly 1) (= slpoly 1))
-			factors
-			(cons (list spec-var (* slpoly cpoly)) factors))))
-		 (imagelcs (map (lambda (p) (univ:lc p)) image-factors))
-		 (k (u:prime-power image p)))
-	    (if (= (length image-factors) 1)
-		(list ppoly)
-		(let* ((clcs (correct-lcs uniqs imagelcs lcpoly))
-		       (res (hen:multivariate-hensel
-			     ppoly ideal p k image-factors clcs)))
-		  (if (not res)
-		      (if (> start 30)
-			  (math:error 'poly:factorszpp "too many tries." start)
-			  (loop (+ 1 start)))
-		      res))))))))
+  (define vars (poly:vars ppoly))
+  (define nvars #f)
+  (set! nvars (length vars))
+  (let varloop ((vloopcnt 1))
+    (let* ((spec-var (car ppoly)) ;(list-ref vars (random nvars ideal:prngs))
+	   (ivars (remove spec-var vars))
+	   (lcpoly (poly:leading-coeff ppoly spec-var))
+	   (lcfactors (if (number? lcpoly)
+			  (remove-duplicates (factor lcpoly))
+			  (strip-powers (poly:factorz lcpoly) '())))
+	   (lcnums
+	    (apply append (map (lambda (x) (if (number? x) (list x) '()))
+			       lcfactors))))
+      (define maxdeg (poly:degree ppoly spec-var))
+      (define nlcnums (length lcnums))
+      ;;(math:print 'spec-var spec-var 'in ppoly)
+      (let loopi ((mr+1 (+ nvars nlcnums 1))
+		  (random-ideal (make-random-ideal
+				 ivars lcnums (+ nvars nlcnums 1))))
+	(let ((elcfactors
+	       (map (lambda (x)
+		      (remove-duplicates
+		       (factor (poly:eval-ideal x random-ideal))))
+		    lcfactors)))
+	  (define us (uniques elcfactors))
+	  (define image (poly:eval-ideal ppoly random-ideal))
+;;; (display-diag 'unlucky?:) (newline-diag) (math:write image *output-grammar*)
+	  (cond
+	   ((or (some null? us) (unlucky? maxdeg image spec-var))
+	    (cond ((not (> mr+1 (+ nvars nlcnums 100)))
+		   (loopi (+ 1 mr+1)
+			  (make-random-ideal ivars lcnums (+ 2 mr+1))))
+		  ((> vloopcnt 30)
+		   (math:error 'poly:factorszpp "way too many tries." vloopcnt))
+		  (else
+		   (math:warn 'poly:factorszpp
+			      (- mr+1 (+ nvars nlcnums))
+			      " tries on"
+			      lcnums
+			      (var:sexp spec-var)
+			      (if (some null? us) "; null us" "; unlucky"))
+		   (varloop (+ 1 vloopcnt)))
+		  ))
+	   (else
+	    (let ((slpoly (u:unitz image))
+		  (cpoly (univ:cont image))
+		  (factors (poly:sort-factors (u:factorsz image))))
+	      (define image-factors
+		(if (and (one? cpoly) (one? slpoly))
+		    factors
+		    (cons (list spec-var (* slpoly cpoly)) factors)))
+	      (if (one? (length image-factors))
+		  (list ppoly)
+		  (let ((p (let loopp ((cp 3))
+			     (cond ((and (= maxdeg (ff:degree cp image))
+					 (every (lambda (x) (eqv? 1 x))
+						(map cadr (ff:sff cp image))))
+				    cp)
+				   ((> cp 1000)
+				    (math:error 'poly:factorszpp
+						" tried all primes up to "
+						cp))
+				   (else (loopp (car (primes> (+ 1 cp) 1))))))))
+		    (define res (hen:multivariate-hensel
+				 ppoly
+				 spec-var
+				 random-ideal
+				 p
+				 (u:prime-power image p)
+				 image-factors
+				 (correct-lcs
+				  (if (eqv? 1 lcpoly)
+				      (map (lambda (x) '(1 1)) lcfactors)
+				      (map list (map car us) lcfactors)) ; uniqs
+				  (map (lambda (p) (univ:lc p)) image-factors)
+				  lcpoly)))
+		    (cond (res res)
+			  ((> vloopcnt 30)
+			   (math:error 'poly:factorszpp "too many tries." vloopcnt))
+			  (else
+			   (varloop (+ 1 vloopcnt))))))))))))))
+
+;;(require 'debug-jacal) (trace hen:diophantine hen:eea-lift hen:univariate-diophant hen:multivariate-diophant lcsubst hen:multivariate-hensel correct-lcs)
+;;(require 'debug-jacal) (trace-all "hensel.scm")

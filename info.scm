@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 2005 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 2005, 2010 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -48,7 +48,8 @@
 			      (newline)
 			      (sexp->math (car info))))))))
 	(pop-modes)
-	ans)))))
+	ans))
+     (else (math:warn 'no-example-for x)))))
 
 (define definfo
   (let ((heqput! (alist-associator eq?)))

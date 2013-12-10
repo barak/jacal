@@ -259,6 +259,17 @@ verify((A^^3) . X, [[29],[-13]]);
 
 verify(pa1 || 1/pa2, pa1/(1 + pa1 * pa2));
 
+/* Polynomial interpolation 
+*/
+
+interp_fn : interp([3, 4], [4, -2], [5, 7]);
+
+verify(interp_fn(3), 4);
+verify(interp_fn(4), -2);
+verify(interp_fn(5), 7);
+verify(interp_fn(2), 25);
+verify(interp_fn(6), 31);
+
 /* Complex Expressions (first reset variables)
 */
 
@@ -314,7 +325,7 @@ verify(factors(2*(a+u)*(-v+b)*(a*x+y)^2/((u^2-v^2)*(11*x+55))),
 verify(factors(2*(a+u)*(-v+b)*(a*x+y)^2/((u^2-v^2)*x^4*(11*x+55))),
 	[[[x], -4],
 	[[11, (- u) + v, u + v, 5 + x], -1],
-	[[2, a + u, (- b) + v], 1], 
+	[[2, a + u, (- b) + v], 1],
 	[[a * x + y], 2]]);
 
 verify(factors((c^3*u+b*a)*(b*b*a+v*p^2*q^2*c)),
@@ -359,6 +370,13 @@ verify(factors(x^2 - 9*y^2),
 
 verify(factors((2*z+y-x)*(y^3*z-a*x^2)*(b*z^2+y)),
 	[[[(- x) + y + 2 * z, (- a * x^2) + y^3 * z, y + b * z^2], 1]]);
+
+/* This one fails saying:
+;;; poly:factorszpp 101 " tries on" [2]
+*/
+
+verify(factors(x+x^2 + 2*y),
+	[[[2*y + x+x^2], 1]]);
 
 /* Done. */
 set echogrammar null;

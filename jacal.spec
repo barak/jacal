@@ -1,5 +1,5 @@
 %define name jacal
-%define version 1b9
+%define version 1c3
 %define release 1
 
 Name:         %{name}
@@ -15,8 +15,8 @@ BuildArch:    noarch
 Requires:     slib
 
 Summary:      The JACAL Symbolic Math System
-Source:       ftp://swiss.csail.mit.edu/pub/scm/jacal-%{version}.zip
-URL:          http://swiss.csail.mit.edu/~jaffer/JACAL.html
+Source:       http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-%{version}.zip
+URL:          http://people.csail.mit.edu/jaffer/JACAL.html
 BuildRoot:    %{_tmppath}/%{name}-%{version}
 Prefix:       %{_prefix}
 
@@ -35,16 +35,14 @@ cd ..
 unzip ${RPM_SOURCE_DIR}/jacal-%{version}.zip
 
 %build
-gzip -f jacal.info
+
 
 %install
-mkdir -p ${RPM_BUILD_ROOT}%{_infodir}/
-cp jacal.info.gz ${RPM_BUILD_ROOT}%{_infodir}/
 
 make	prefix=${RPM_BUILD_ROOT}%{prefix}/ \
 	mandir=${RPM_BUILD_ROOT}%{_mandir}/ \
 	infodir=${RPM_BUILD_ROOT}%{_infodir}/ \
-	pinstall
+	install
 
 echo "(use-modules (ice-9 slib))">${RPM_BUILD_ROOT}%{prefix}/lib/jacal/guile.scm
 echo "(slib:load \"%{prefix}/lib/jacal/math\")">>${RPM_BUILD_ROOT}%{prefix}/lib/jacal/guile.scm
@@ -73,8 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/lib/jacal/COPYING
 %{prefix}/lib/jacal/HELP
 %{prefix}/lib/jacal/Makefile
-%{prefix}/man/man1/jacal.1.*
-%{_infodir}/jacal.info.*
+%{_mandir}/man1/jacal.1.gz
+%{_infodir}/jacal.info.gz
+%{_infodir}/dir
 
 %doc ANNOUNCE ChangeLog README COPYING demo test.math rw.math DOC/algdenom DOC/grammar DOC/history DOC/lambda DOC/ratint.pdf
 
