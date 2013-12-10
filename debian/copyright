@@ -13,14 +13,14 @@ Copyright:
 
 License:
   The program itself is distributed under the GNU General Public License,
-  version 2 or any later version.
+  version 3 or any later version.
 
-  The documentation is under the GFDL, with no invariant sections or
-cover texts.
+  The documentation is under the GFDL version 1.2, with no invariant sections or
+  cover texts.
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or (at
+  the Free Software Foundation; either version 3 of the License, or (at
   your option) any later version.
 
   This program is distributed in the hope that it will be useful,
@@ -34,8 +34,9 @@ cover texts.
   Street, Fifth Floor, Boston, MA 02110-1301 USA
 
   On Debian systems, the complete text of the GNU General Public
-  License, version 2, can be found in /usr/share/common-licenses/GPL-2.
+  License, version 3, can be found in /usr/share/common-licenses/GPL-3.
 
 The Debian packaging is (C) 2006, Thomas Bushnell, BSG <tb@debian.org> and
 is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
-
+Packaging updates (C) 2013, Barak A. Pearlmutter <bap@debian.org>,
+are placed in the public domain.
