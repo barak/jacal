@@ -5,6 +5,7 @@ jacal (1b9-3) unstable; urgency=low
   * debian/watch: from qa.debian.org
   * dpkg source format 3.0 (quilt)
     - migrate debian mods to quilt patches
+    - tweak debian/rules to save/restore upstream jacal.info
   * patch jacal.texi for modern version of texinfo (closes: #707527)
   * debian/copyright: update per lintian and upstream copyright
   * debian/control:
