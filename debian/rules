@@ -77,7 +77,6 @@ install: build
 	chmod +x debian/jacal/usr/bin/jacal
 
 	rm debian/jacal/usr/lib/jacal/COPYING
-	ln -s /usr/share/common-licenses/GPL debian/jacal/usr/lib/jacal/COPYING
 
 # Build architecture-dependent files here.
 binary-arch: build install
