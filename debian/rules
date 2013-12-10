@@ -41,6 +41,9 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
+
+	# we rebuild jacal.info, but preserve original for later vapour-avoidance.
+	[ -e ORIG-jacal.info ] || mv jacal.info ORIG-jacal.info; fi
 	$(MAKE) jacal.info $(MAKEVARS)
 	$(MAKE) jacal_toc.html $(MAKEVARS)
 	#docbook-to-man debian/jacal.sgml > jacal.1
@@ -52,8 +55,14 @@ clean:
 	dh_testroot
 	rm -f build-stamp configure-stamp
 
+	# this deletes jacal.info, preserve original for later vapour-avoidance.
+	[ -e ORIG-jacal.info ] || mv jacal.info ORIG-jacal.info; fi
+
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) realclean
+
+	# restore jacal.info to upstream state to avoid exciting gbp's vapours.
+	[ ! -e ORIG-jacal.info ] || mv ORIG-jacal.info jacal.info
 
 	dh_clean 
 
