@@ -1,0 +1,19 @@
+From: "Barak A. Pearlmutter" <barak+git@cs.nuim.ie>
+Date: Tue, 10 Dec 2013 10:31:39 +0000
+Subject: man tweaks
+
+---
+ jacal.1 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/jacal.1 b/jacal.1
+index 8a25365..0eed027 100644
+--- a/jacal.1
++++ b/jacal.1
+@@ -1,5 +1,5 @@
+ .\" dummy line
+-.TH JACAL "Dec 20 2007"
++.TH JACAL 1 "Dec 20 2007"
+ .UC 4
+ .SH NAME
+ JACAL \- symbolic mathematics system

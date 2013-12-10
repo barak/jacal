@@ -1,3 +1,4 @@
+
 ##"jacal" sh script; Find a Scheme implementation and run JACAL in it.
 # Copyright (C) 2001, 2003, 2004 Aubrey Jaffer
 #
@@ -25,9 +26,8 @@ Usage: jacal SCHEME
 
 Usage: jacal
 
-  Run JACAL using (MIT) 'scheme', 'scm', 'gsi', 'mzscheme', 'guile-1.6',
+  Run JACAL using (MIT) 'scheme', 'scm', 'gsi', 'mzscheme', 'guile',
   'slib48', 'larceny', 'scmlit', 'elk', 'sisc', or 'kawa'."
-# in preceding notice, change guile to guile-1.6, by tb.
 
 case "$1" in
     -v | --ver*) echo jacal "$VERSION"; exit 0;;
@@ -46,9 +46,8 @@ if [ -z "$command" ]; then
 	command=gsi; implementation=gam
     elif type mzscheme>/dev/null 2>&1; then
 	command=mzscheme; implementation=plt
-# Changed from looking for 'guile' to 'guile-1.6' by tb.
-    elif type guile-1.6>/dev/null 2>&1; then
-	command=guile-1.6; implementation=gui
+    elif type guile>/dev/null 2>&1; then
+	command=guile; implementation=gui
     elif type slib48>/dev/null 2>&1; then
 	echo "do 'cd ${JACALDIR}; make jacal48'"
     elif type scheme48>/dev/null 2>&1; then
