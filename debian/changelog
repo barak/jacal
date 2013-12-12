@@ -1,3 +1,9 @@
+jacal (1b9-4) unstable; urgency=low
+
+  * empty prerm script for install-info transition (closes: #708491)
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Thu, 12 Dec 2013 10:58:36 +0000
+
 jacal (1b9-3) unstable; urgency=low
 
   * adopt package (closes: #721056)
