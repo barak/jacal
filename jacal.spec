@@ -10,6 +10,7 @@ Source0:	http://groups.csail.mit.edu/mac/ftpdir/scm/%{name}-%{version}.zip
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-texinfo.patch
 URL:		http://people.csail.mit.edu/jaffer/JACAL
+BuildRequires:	slib
 BuildRequires:	texinfo
 Requires:	scm
 Requires:	slib
