@@ -1,0 +1,14 @@
+--- jacal/jacal.texi.orig	2013-05-15 04:40:46.000000000 +0200
++++ jacal/jacal.texi	2014-04-21 10:03:14.795931395 +0200
+@@ -30,9 +30,9 @@
+ @end copying
+ 
+ 
+-@dircategory Mathematics
++@dircategory Mathematics:
+ @direntry
+-* Jacal: (jacal).       Interactive Symbolic Mathematics.
++* Jacal: (jacal).			Interactive Symbolic Mathematics
+ @end direntry
+ 
+ @iftex
