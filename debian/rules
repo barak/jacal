@@ -34,6 +34,8 @@ configure-stamp:
 
 	touch configure-stamp
 
+build-arch: build
+build-indep: build
 
 build: build-stamp
 
