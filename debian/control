@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
 Build-Depends: debhelper (>= 9)
 Build-Depends-Indep: texi2html, texinfo
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
 Homepage: http://people.csail.mit.edu/jaffer/JACAL
 Vcs-Git: git://anonscm.debian.org/collab-maint/jacal.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/jacal.git
