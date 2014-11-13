@@ -1,3 +1,13 @@
+jacal (1b9-5) unstable; urgency=medium
+
+  * bump standards version to 3.9.6
+  * missing shebang in empty prerm script (closes: #769476)
+  * silence lintian tags maintainer-script-lacks-debhelper-token
+    debian-rules-missing-recommended-target
+    maintainer-script-without-set-e
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Thu, 13 Nov 2014 23:28:27 +0000
+
 jacal (1b9-4) unstable; urgency=low
 
   * empty prerm script for install-info transition (closes: #708491)
