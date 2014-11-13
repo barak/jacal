@@ -1,2 +1,2 @@
-/bin/sh -e
+#!/bin/sh -e
 # empty script for install-info issue, http://bugs.debian.org/708491
