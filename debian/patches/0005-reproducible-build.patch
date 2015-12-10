@@ -1,0 +1,35 @@
+From: Chris Lamb <lamby@debian.org>
+Date: Thu, 10 Dec 2015 17:03:23 +0000
+Subject: reproducible-build
+
+Remove timestamps from the build system.  Jacal can then be built
+reproducibly using the reproducible build's reproducible toolchain.
+
+See https://wiki.debian.org/ReproducibleBuilds
+
+See bugs.debian.org/807587
+---
+ Makefile | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 0c2db13..e947491 100644
+--- a/Makefile
++++ b/Makefile
+@@ -139,9 +139,15 @@ w32install:	jacal.html
+ #### Stuff for maintaining JACAL below ####
+ 
+ ver = $(VERSION)
++fmt = '%B %Y'
++ifdef SOURCE_DATE_EPOCH
++jacaldate = $(shell date -u -d "@$(SOURCE_DATE_EPOCH)" "+$(fmt)"  2>/dev/null || date -u -r "$(SOURCE_DATE_EPOCH)" "+$(fmt)" 2>/dev/null || date -u "+$(fmt)")
++else
++jacaldate = $(shell date "+$(fmt)")
++endif
+ version.txi:	Makefile
+ 	echo @set JACALVERSION $(ver) > version.txi
+-	echo @set JACALDATE `date +"%B %Y"` >> version.txi
++	echo @set JACALDATE $(jacaldate) >> version.txi
+ 
+ cfiles = math.scm modeinit.scm debug.scm view.scm toploads.scm
+ sfiles = types.scm func.scm poly.scm elim.scm \
