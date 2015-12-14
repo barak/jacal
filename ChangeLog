@@ -1,3 +1,7 @@
+2015-01-14  Aubrey Jaffer  <jaffer@dv7t>
+
+	* toploads.scm (*jacal-version*): Bumped from 1c3 to 1c4.
+
 2013-05-10  Aubrey Jaffer  <agj@alum.mit.edu>
 
 	* jacal.texi (Installation): Added configure to Unix script.

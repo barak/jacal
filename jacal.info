@@ -1,7 +1,7 @@
-This is jacal-1c3.info, produced by makeinfo version 4.13 from                |
+This is jacal-1c4.info, produced by makeinfo version 4.13 from                |
 jacal.texi.                                                                   |
 
-This manual is for JACAL (version 1c3, May 2013), an interactive              |
+This manual is for JACAL (version 1c4, January 2015), an interactive          |
 symbolic mathematics system.
 
   Copyright (C) 1993-1999, 2002, 2006, 2007 Free Software Foundation,
@@ -20,12 +20,12 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: jacal-1c3.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
+File: jacal-1c4.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
                                                                               |
 JACAL
 *****
 
-This manual is for JACAL (version 1c3, May 2013), an interactive              |
+This manual is for JACAL (version 1c4, January 2015), an interactive          |
 symbolic mathematics system.
 
   Copyright (C) 1993-1999, 2002, 2006, 2007 Free Software Foundation,
@@ -50,7 +50,7 @@ Inc.
 * Index::
 
 
-File: jacal-1c3.info,  Node: Overview,  Next: Algebra,  Prev: Top,  Up: Top
+File: jacal-1c4.info,  Node: Overview,  Next: Algebra,  Prev: Top,  Up: Top
                                                                               |
 1 Overview
 **********
@@ -61,8 +61,8 @@ expressions constructed of numbers, variables, radicals, and algebraic
 functions, differential, and holonomic functions.  In addition, vectors
 and matrices of the above objects are included.
 
-  JACAL 1c3 was released May 2013.  Current information about JACAL can       |
-be found on JACAL's "WWW" home page:                                          |
+  JACAL 1c4 was released January 2015.  Current information about JACAL       |
+can be found on JACAL's "WWW" home page:
 
               `http://people.csail.mit.edu/jaffer/JACAL'
 
@@ -83,7 +83,7 @@ changed over time, see the file `ChangeLog'.
 * GNU Free Documentation License::
 
 
-File: jacal-1c3.info,  Node: Authors and Bibliography,  Next: Installation,  Prev: Overview,  Up: Overview
+File: jacal-1c4.info,  Node: Authors and Bibliography,  Next: Installation,  Prev: Overview,  Up: Overview
                                                                               |
 1.1 Authors and Bibliography
 ============================
@@ -133,7 +133,7 @@ Bibliography
      *note SLIB; The Portable Scheme Library: (slib)Top.
 
 
-File: jacal-1c3.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
+File: jacal-1c4.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
                                                                               |
 1.2 Installation
 ================
@@ -148,26 +148,26 @@ installed, then the `scm' steps are unnecessary.
 available from `http://people.csail.mit.edu/jaffer/SLIB'.
 
  -- System: x86_64 GNU/Linux with Redhat Package Manager (rpm)                |
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.x86_64.rpm
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.noarch.rpm
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.noarch.rpm
-          rpm -U scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
-          rm scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2-1.x86_64.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5-1.noarch.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4-1.noarch.rpm
+          rpm -U scm-5f2-1.x86_64.rpm slib-3b5-1.noarch.rpm jacal-1c4-1.noarch.rpm
+          rm scm-5f2-1.x86_64.rpm slib-3b5-1.noarch.rpm jacal-1c4-1.noarch.rpm
 
      The command `jacal' will start an interactive session.
 
  -- System: Unix
  -- System: GNU/Linux
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1.zip         |
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4.zip        |
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3.zip       |
-          unzip -ao scm-5f1.zip                                               |
-          unzip -ao slib-3b4.zip                                              |
-          unzip -ao jacal-1c3.zip                                             |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2.zip         |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5.zip        |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4.zip       |
+          unzip -ao scm-5f2.zip                                               |
+          unzip -ao slib-3b5.zip                                              |
+          unzip -ao jacal-1c4.zip                                             |
           (cd slib; ./configure --prefix=/usr/local/; make install)           |
           (cd scm; ./configure --prefix=/usr/local/; make scm; make install)  |
           (cd jacal; ./configure --prefix=/usr/local/; make install)          |
-          rm scm-5f1.zip slib-3b4.zip jacal-1c3.zip                           |
+          rm scm-5f2.zip slib-3b5.zip jacal-1c4.zip                           |
 
      The command `jacal' will start an interactive session using ELK,
      Gambit, Gauche, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48,          |
@@ -179,9 +179,9 @@ available from `http://people.csail.mit.edu/jaffer/SLIB'.
 
  -- System: x86 Microsoft
      Download and run
-     `http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.exe',             |
-     `http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.exe', and          |
-     `http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.exe'.            |
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5-1.exe',             |
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2-1.exe', and          |
+     `http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4-1.exe'.            |
 
 Compiling Jacal
 ---------------
@@ -190,7 +190,7 @@ For Scheme implementations with compilers, it is worthwhile to compile
 SLIB files, and the JACAL files `types.scm' and `poly.scm'.
 
 
-File: jacal-1c3.info,  Node: Running Jacal,  Next: Release Notes,  Prev: Installation,  Up: Overview
+File: jacal-1c4.info,  Node: Running Jacal,  Next: Release Notes,  Prev: Installation,  Up: Overview
                                                                               |
 1.3 Running Jacal
 =================
@@ -208,7 +208,7 @@ LOADing a `.init' file from the `slib' directory.  Then type:
 where `/usr/local/lib/jacal/' is a path to the JACAL directory.  JACAL
 should then print:
 
-     JACAL version 1c3, Copyright 1989-1999, 2002 Aubrey Jaffer               |
+     JACAL version 1c4, Copyright 1989-1999, 2002 Aubrey Jaffer               |
      JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
      This is free software, and you are welcome to redistribute it
      under certain conditions; type `(terms)' for details.
@@ -265,7 +265,7 @@ Typing `(math)' will return to the JACAL session.
 end-of-file character will terminate the session.
 
 
-File: jacal-1c3.info,  Node: Release Notes,  Next: GNU Free Documentation License,  Prev: Running Jacal,  Up: Overview
+File: jacal-1c4.info,  Node: Release Notes,  Next: GNU Free Documentation License,  Prev: Running Jacal,  Up: Overview
                                                                               |
 1.4 Release Notes
 =================
@@ -362,7 +362,7 @@ view.scm
      is a program for viewing TeX expressions.
 
 
-File: jacal-1c3.info,  Node: GNU Free Documentation License,  Prev: Release Notes,  Up: Overview
+File: jacal-1c4.info,  Node: GNU Free Documentation License,  Prev: Release Notes,  Up: Overview
                                                                               |
 1.5 GNU Free Documentation License
 ==================================
@@ -848,7 +848,7 @@ free software license, such as the GNU General Public License, to
 permit their use in free software.
 
 
-File: jacal-1c3.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
+File: jacal-1c4.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
                                                                               |
 2 Algebra
 *********
@@ -863,7 +863,7 @@ File: jacal-1c3.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
 * Factoring::
 
 
-File: jacal-1c3.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: Algebra,  Up: Algebra
+File: jacal-1c4.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: Algebra,  Up: Algebra
                                                                               |
 2.1 Algebraic Operators
 =======================
@@ -1003,7 +1003,7 @@ File: jacal-1c3.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Pr
               Z1 + Z2
 
 
-File: jacal-1c3.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: Algebraic Operators,  Up: Algebra
+File: jacal-1c4.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: Algebraic Operators,  Up: Algebra
                                                                               |
 2.2 Algebraic Commands
 ======================
@@ -1116,7 +1116,7 @@ File: jacal-1c3.info,  Node: Algebraic Commands,  Next: Rational Expression,  Pr
           e5: {:@ | 0 = -1 + :@ }
 
 
-File: jacal-1c3.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebraic Commands,  Up: Algebra
+File: jacal-1c4.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebraic Commands,  Up: Algebra
                                                                               |
 2.3 Rational Expression
 =======================
@@ -1172,7 +1172,7 @@ File: jacal-1c3.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Alg
      and the `imagpart' of Z.
 
 
-File: jacal-1c3.info,  Node: Polynomials,  Next: Interpolation,  Prev: Rational Expression,  Up: Algebra
+File: jacal-1c4.info,  Node: Polynomials,  Next: Interpolation,  Prev: Rational Expression,  Up: Algebra
                                                                               |
 2.4 Polynomials
 ===============
@@ -1372,7 +1372,7 @@ File: jacal-1c3.info,  Node: Polynomials,  Next: Interpolation,  Prev: Rational 
      in Z2.  Z1 and Z2 can be polynomials or ratios of polynomials.
 
 
-File: jacal-1c3.info,  Node: Interpolation,  Next: Factoring,  Prev: Polynomials,  Up: Algebra
+File: jacal-1c4.info,  Node: Interpolation,  Next: Factoring,  Prev: Polynomials,  Up: Algebra
                                                                               |
 2.5 Interpolation                                                             |
 =================                                                             |
@@ -1442,7 +1442,7 @@ File: jacal-1c3.info,  Node: Interpolation,  Next: Factoring,  Prev: Polynomials
      when constructing the polynomial.                                        |
                                                                               |
 
-File: jacal-1c3.info,  Node: Factoring,  Prev: Interpolation,  Up: Algebra
+File: jacal-1c4.info,  Node: Factoring,  Prev: Interpolation,  Up: Algebra
                                                                               |
 2.6 Factoring                                                                 |
 =============
@@ -1628,7 +1628,7 @@ the factors and the second column contains the corresponding exponent.
      free.  This code is still being developed.
 
 
-File: jacal-1c3.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra,  Up: Top
+File: jacal-1c4.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra,  Up: Top
                                                                               |
 3 Calculus
 **********
@@ -1681,7 +1681,7 @@ File: jacal-1c3.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algeb
      `diff' but POLY must be a polynomial.
 
 
-File: jacal-1c3.info,  Node: Matrices and Tensors,  Next: Lambda Calculus,  Prev: Calculus,  Up: Top
+File: jacal-1c4.info,  Node: Matrices and Tensors,  Next: Lambda Calculus,  Prev: Calculus,  Up: Top
                                                                               |
 4 Matrices and Tensors
 **********************
@@ -1702,7 +1702,7 @@ JACAL (ncmult(), ^^, transpose(), etc.) expect.
 * indexswap::                   Swaps two indices within a tensor
 
 
-File: jacal-1c3.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matrices and Tensors,  Up: Matrices and Tensors
+File: jacal-1c4.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matrices and Tensors,  Up: Matrices and Tensors
                                                                               |
 4.1 Generating Matrices
 =======================
@@ -1840,7 +1840,7 @@ File: jacal-1c3.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Ma
               [10  13  18  25  34]
 
 
-File: jacal-1c3.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating Matrices,  Up: Matrices and Tensors
+File: jacal-1c4.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating Matrices,  Up: Matrices and Tensors
                                                                               |
 4.2 Matrix Parts
 ================
@@ -1951,7 +1951,7 @@ File: jacal-1c3.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Genera
           e7: [a, b]
 
 
-File: jacal-1c3.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  Up: Matrices and Tensors
+File: jacal-1c4.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  Up: Matrices and Tensors
                                                                               |
 4.3 Matrix commands
 ===================
@@ -2097,7 +2097,7 @@ File: jacal-1c3.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Part
           e25: [4, 7, -6]
                                                                               |
 
-File: jacal-1c3.info,  Node: Tensors,  Next: tmult,  Prev: Matrix commands,  Up: Matrices and Tensors
+File: jacal-1c4.info,  Node: Tensors,  Next: tmult,  Prev: Matrix commands,  Up: Matrices and Tensors
                                                                               |
 4.4 Tensors
 ===========
@@ -2133,7 +2133,7 @@ operations available for use.
 below.
 
 
-File: jacal-1c3.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices and Tensors
+File: jacal-1c4.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices and Tensors
                                                                               |
 4.5 Tensor Multiplication
 =========================
@@ -2198,7 +2198,7 @@ File: jacal-1c3.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matric
      scalar.
 
 
-File: jacal-1c3.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrices and Tensors
+File: jacal-1c4.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrices and Tensors
                                                                               |
 4.6 Tensor contraction
 ======================
@@ -2243,7 +2243,7 @@ File: jacal-1c3.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Mat
      the vector.
 
 
-File: jacal-1c3.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Matrices and Tensors
+File: jacal-1c4.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Matrices and Tensors
                                                                               |
 4.7 Shifting of Tensor Indices
 ==============================
@@ -2279,7 +2279,7 @@ File: jacal-1c3.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up:
      an n-by-1 matrix (column vector).
 
 
-File: jacal-1c3.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
+File: jacal-1c4.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
                                                                               |
 4.8 Swapping of Tensor Indices
 ==============================
@@ -2312,7 +2312,7 @@ File: jacal-1c3.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Ten
      an n-by-1 matrix (column vector).
 
 
-File: jacal-1c3.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices and Tensors,  Up: Top
+File: jacal-1c4.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices and Tensors,  Up: Top
                                                                               |
 5 Lambda Calculus
 *****************
@@ -2380,7 +2380,7 @@ File: jacal-1c3.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matri
           e0: lambda([@1], -1 + @1)
 
 
-File: jacal-1c3.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  Up: Top
+File: jacal-1c4.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  Up: Top
                                                                               |
 6 Miscellaneous
 ***************
@@ -2653,7 +2653,7 @@ e5: [scheme, null, schemepretty, standard, disp2d, tex]                       |
                                                                               |
 
 
-File: jacal-1c3.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
+File: jacal-1c4.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
                                                                               |
 7 Flags
 *******
@@ -2798,7 +2798,7 @@ File: jacal-1c3.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
           e16 : b+c;
 
 
-File: jacal-1c3.info,  Node: Index,  Prev: Flags,  Up: Top
+File: jacal-1c4.info,  Node: Index,  Prev: Flags,  Up: Top
                                                                               |
 Index
 *****
@@ -2933,31 +2933,31 @@ Index
 Tag Table:
 Node: Top875
 Node: Overview1919
-Node: Authors and Bibliography3243
-Node: Installation4808
-Node: Running Jacal7695
-Node: Release Notes10226
-Node: GNU Free Documentation License12966
-Node: Algebra38189
-Node: Algebraic Operators38502
-Node: Algebraic Commands42480
-Node: Rational Expression45826
-Node: Polynomials47200
-Node: Interpolation53081
-Node: Factoring58618
-Node: Calculus64458
-Node: Matrices and Tensors65941
-Node: Generating Matrices66676
-Node: Matrix Parts71272
-Node: Matrix commands75726
-Node: Tensors80990
-Node: tmult82525
-Node: contract85300
-Node: indexshift87259
-Node: indexswap89128
-Node: Lambda Calculus90757
-Node: Miscellaneous94047
-Node: Flags106546
-Node: Index110400
+Node: Authors and Bibliography3204
+Node: Installation4769
+Node: Running Jacal7656
+Node: Release Notes10187
+Node: GNU Free Documentation License12927
+Node: Algebra38150
+Node: Algebraic Operators38463
+Node: Algebraic Commands42441
+Node: Rational Expression45787
+Node: Polynomials47161
+Node: Interpolation53042
+Node: Factoring58579
+Node: Calculus64419
+Node: Matrices and Tensors65902
+Node: Generating Matrices66637
+Node: Matrix Parts71233
+Node: Matrix commands75687
+Node: Tensors80951
+Node: tmult82486
+Node: contract85261
+Node: indexshift87220
+Node: indexswap89089
+Node: Lambda Calculus90718
+Node: Miscellaneous94008
+Node: Flags106507
+Node: Index110361
 
 End Tag Table

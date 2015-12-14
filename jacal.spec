@@ -1,5 +1,5 @@
 %define name jacal
-%define version 1c3
+%define version 1c4
 %define release 1
 
 Name:         %{name}

@@ -46,7 +46,7 @@ intro:	config.status
 	@echo "to learn how to run and use JACAL."
 	@echo
 
-VERSION = 1c3
+VERSION = 1c4
 RELEASE = 1
 
 # ./configure --distdir=${HOME}/dist/ --snapdir=${HOME}/pub/ --docdir=${HOME}/public_html/

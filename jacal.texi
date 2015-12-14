@@ -188,11 +188,11 @@ from @uref{http://people.csail.mit.edu/jaffer/SLIB}.
 
 @deftp System x86_64 GNU/Linux with Redhat Package Manager (rpm)
 @example
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.x86_64.rpm
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.noarch.rpm
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.noarch.rpm
-rpm -U scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
-rm scm-5f1-1.x86_64.rpm slib-3b4-1.noarch.rpm jacal-1c3-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2-1.x86_64.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4-1.noarch.rpm
+rpm -U scm-5f2-1.x86_64.rpm slib-3b5-1.noarch.rpm jacal-1c4-1.noarch.rpm
+rm scm-5f2-1.x86_64.rpm slib-3b5-1.noarch.rpm jacal-1c4-1.noarch.rpm
 @end example
 
 The command @samp{jacal} will start an interactive session.
@@ -202,16 +202,16 @@ The command @samp{jacal} will start an interactive session.
 @deftp System Unix
 @deftpx System GNU/Linux
 @example
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1.zip
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4.zip
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3.zip
-unzip -ao scm-5f1.zip
-unzip -ao slib-3b4.zip
-unzip -ao jacal-1c3.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4.zip
+unzip -ao scm-5f2.zip
+unzip -ao slib-3b5.zip
+unzip -ao jacal-1c4.zip
 (cd slib; ./configure --prefix=/usr/local/; make install)
 (cd scm; ./configure --prefix=/usr/local/; make scm; make install)
 (cd jacal; ./configure --prefix=/usr/local/; make install)
-rm scm-5f1.zip slib-3b4.zip jacal-1c3.zip
+rm scm-5f2.zip slib-3b5.zip jacal-1c4.zip
 @end example
 
 The command @samp{jacal} will start an interactive session using ELK,
@@ -228,9 +228,9 @@ installing SCM and SLIB on Macintosh computers.
 
 @deftp System x86 Microsoft
 Download and run
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b4-1.exe},@*
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f1-1.exe}, and@*
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c3-1.exe}.
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5-1.exe},@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2-1.exe}, and@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4-1.exe}.
 @end deftp
 
 
