@@ -1,3 +1,9 @@
+jacal (1c4-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Mon, 14 Dec 2015 17:45:20 +0000
+
 jacal (1b9-8) UNRELEASED; urgency=medium
 
   * d/changelog: Remove trailing whitespaces
