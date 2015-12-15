@@ -1,128 +1,53 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
-# Sample debian/rules that uses debhelper.
-# This file was originally written by Joey Hess and Craig Small.
-# As a special exception, when this file is copied by dh-make into a
-# dh-make output file, you may use that output file without restriction.
-# This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+export TEXI2HTML=texi2html
 
 MAKEVARS=prefix=$(CURDIR)/debian/jacal/usr/ \
 	infodir=$(CURDIR)/debian/jacal/usr/share/info/ \
 	htmldir=$(CURDIR)/debian/jacal/usr/share/doc/jacal/ \
 	mandir=$(CURDIR)/debian/jacal/usr/share/man/ \
 	man1dir=$(CURDIR)/debian/jacal/usr/share/man/man1/ \
-	TEXI2HTML=texi2html
+	TEXI2HTML=${TEXI2HTML}
 
-export TEXI2HTML=texi2html
+version:=$(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9A-Za-z.]+)[-].*$$/\1/p')
 
-CFLAGS = -Wall -g
+%:
+	dh $@ --parallel
 
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
-else
-	CFLAGS += -O2
-endif
-
-configure: configure-stamp
-configure-stamp:
-	dh_testdir
-	# Add here commands to configure the package.
-
-	touch configure-stamp
-
-build-arch: build
-build-indep: build
-
-build: build-stamp
-
-build-stamp: configure-stamp
-	dh_testdir
-
-	# Add here commands to compile the package.
-
+override_dh_auto_build:
 	# we rebuild jacal.info, but preserve original for later vapour-avoidance.
 	[ -e ORIG-jacal.info ] || mv jacal.info ORIG-jacal.info
 	$(MAKE) jacal.info $(MAKEVARS)
 	$(MAKE) jacal_toc.html $(MAKEVARS)
 	#docbook-to-man debian/jacal.sgml > jacal.1
 
-	touch $@
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp configure-stamp
-
+override_dh_clean:
 	# this deletes jacal.info, preserve original for later vapour-avoidance.
 	[ -e ORIG-jacal.info ] || mv jacal.info ORIG-jacal.info
-
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) realclean
-
 	# restore jacal.info to upstream state to avoid exciting gbp's vapours.
 	[ ! -e ORIG-jacal.info ] || mv ORIG-jacal.info jacal.info
-
 	dh_clean
 
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
+# These are from upstream's install target, turned into correctness.
 
+debian/jacal/usr/bin/jacal:
+	echo '#! /bin/bash'			 > $@
+	echo JACALDIR=/usr/lib/jacal/		>> $@
+	echo VERSION=$(version)			>> $@
+	cat jacal.sh				>> $@
+	chmod +x $@
+
+debian/jacal/usr/lib/jacal/go.scm:
+	echo ";;(use-modules (ice-9 slib))"		 > $@
+	echo "(slib:load \"/usr/lib/jacal/math\")"	>> $@
+	echo "(math)"					>> $@
+
+override_dh_auto_install: debian/jacal/usr/bin/jacal debian/jacal/usr/lib/jacal/go.scm
 	# Add here commands to install the package into debian/jacal.
 	$(MAKE) pinstall $(MAKEVARS)
-
-	# This is from upstream's install target, turned into correctness.
-	echo ";;(use-modules (ice-9 slib))"	 > debian/jacal/usr/lib/jacal/go.scm
-	echo "(slib:load \"/usr/lib/jacal/math\")"	 > debian/jacal/usr/lib/jacal/go.scm
-	echo "(math)"				>> debian/jacal/usr/lib/jacal/go.scm
-	echo '#! /bin/bash'			 > debian/jacal/usr/bin/jacal
-	echo JACALDIR=/usr/lib/jacal/		>> debian/jacal/usr/bin/jacal
-	echo VERSION=1b7			>> debian/jacal/usr/bin/jacal
-	cat jacal.sh				>> debian/jacal/usr/bin/jacal
-	chmod +x debian/jacal/usr/bin/jacal
-
 	rm debian/jacal/usr/lib/jacal/COPYING
-
-# Build architecture-dependent files here.
-binary-arch: build install
-# We have nothing to do by default.
-
-# Build architecture-independent files here.
-binary-indep: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs
-	dh_installdocs *.html
-	dh_installexamples
-#	dh_install
-#	dh_installmenu
-#	dh_installdebconf	
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_python
-#	dh_installinit
-#	dh_installcron
-	dh_installinfo
-	dh_installman
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-#	dh_perl
-#	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
