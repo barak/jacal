@@ -1,0 +1,24 @@
+From: "Barak A. Pearlmutter" <barak+git@pearlmutter.net>
+Date: Tue, 15 Dec 2015 16:13:24 +0000
+Subject: configure forgiveness
+
+---
+ configure | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/configure b/configure
+index ebd9bc8..f60f8ca 100755
+--- a/configure
++++ b/configure
+@@ -253,9 +253,8 @@ do
+   -sysconfdir=* | --sysconfdir=*)
+     sysconfdir=$ac_optarg ;;
+ 
+-  *) { echo "error: unrecognized option: $1
+-Try \`$0 --help' for more information." >&2
+-   { (exit 1); exit 1; }; } ;;
++  *) echo "warning: unrecognized option: $1
++Try \`$0 --help' for more information." >&2 ;;
+   esac
+   shift
+ done
