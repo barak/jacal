@@ -18,20 +18,8 @@ version:=$(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9A-Za-z.]+)[-].
 	dh $@ --parallel
 
 override_dh_auto_build:
-	# we rebuild jacal.info, but preserve original for later vapour-avoidance.
-	[ -e ORIG-jacal.info ] || mv jacal.info ORIG-jacal.info
-	$(MAKE) jacal.info $(MAKEVARS)
-	$(MAKE) jacal_toc.html $(MAKEVARS)
-	#docbook-to-man debian/jacal.sgml > jacal.1
-
-override_dh_clean:
-	# this deletes jacal.info, preserve original for later vapour-avoidance.
-	[ -e ORIG-jacal.info ] || mv jacal.info ORIG-jacal.info
-	# Add here commands to clean up after the build process.
-	[ ! -f Makefile ] || $(MAKE) realclean
-	# restore jacal.info to upstream state to avoid exciting gbp's vapours.
-	[ ! -e ORIG-jacal.info ] || mv ORIG-jacal.info jacal.info
-	dh_clean
+	makeinfo --info jacal.texi
+	makeinfo --no-split --html jacal.texi
 
 # These are from upstream's install target, turned into correctness.
 
