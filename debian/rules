@@ -39,7 +39,7 @@ build-indep: build
 
 build: build-stamp
 
-build-stamp: configure-stamp 
+build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
@@ -66,7 +66,7 @@ clean:
 	# restore jacal.info to upstream state to avoid exciting gbp's vapours.
 	[ ! -e ORIG-jacal.info ] || mv ORIG-jacal.info jacal.info
 
-	dh_clean 
+	dh_clean
 
 install: build
 	dh_testdir

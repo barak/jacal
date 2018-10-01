@@ -1,6 +1,7 @@
 jacal (1b9-8) UNRELEASED; urgency=medium
 
   * d/changelog: Remove trailing whitespaces
+  * d/rules: Remove trailing whitespaces
 
  -- Ondřej Nový <onovy@debian.org>  Mon, 01 Oct 2018 10:10:37 +0200
 
