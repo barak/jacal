@@ -1,3 +1,9 @@
+jacal (1b9-8) UNRELEASED; urgency=medium
+
+  * d/changelog: Remove trailing whitespaces
+
+ -- Ondřej Nový <onovy@debian.org>  Mon, 01 Oct 2018 10:10:37 +0200
+
 jacal (1b9-7) unstable; urgency=medium
 
   * fix typo in debian/rules, kudos Reiner Herrmann (closes: #815251)
@@ -65,12 +71,12 @@ jacal (1b9-2.1) unstable; urgency=medium
 jacal (1b9-2) unstable; urgency=low
 
   * debian/rules (MAKEVARS): Set man1dir.  (Closes: #467314)
-  
+
   * debian/control (Build-Depends): Move texi2html and texinfo to...
     (Build-Depends-Indep): ...here.
-    
+
   * jacal.1: Put title *before* section in TH directive.
-  
+
  -- Thomas Bushnell, BSG <tb@debian.org>  Sun, 24 Feb 2008 18:25:38 -0500
 
 jacal (1b9-1) unstable; urgency=low
@@ -78,7 +84,7 @@ jacal (1b9-1) unstable; urgency=low
   * New upstream release.
   * jacal.1: Repeat change from 1b7-1.
   * jacal.sh: Repeat second change from 1b7-2.
-  
+
   * jacal.sh: Specify #!/bin/bash.  (Closes: #464995)
 
  -- Thomas Bushnell, BSG <tb@debian.org>  Sun, 10 Feb 2008 19:12:17 -0500
@@ -93,15 +99,15 @@ jacal (1b8-2) unstable; urgency=low
 
   * debian/rules (clean): Don't ignore all errors on Make clean invocation.
     Fixes lintian warning debian-rules-ignores-make-clean-error.
-    
+
   * debian/control (Standards-Version): Update to 3.7.3.  No changes necessary.
-  
+
   * debian/jacal.doc-base: Remove extraneouse whitespace.  Fixes lintian
     warning doc-base-file-separator-extra-whitespace.
-  
+
   * debian/dirs: Delete usr/sbin.  Fixes lintian warning
     package-contains-empty-directory.
-  
+
  -- Thomas Bushnell, BSG <tb@debian.org>  Mon, 14 Jan 2008 15:52:21 -0500
 
 jacal (1b8-1) unstable; urgency=low
@@ -110,34 +116,34 @@ jacal (1b8-1) unstable; urgency=low
   * debian/control (Depends): Require version 3a5-1 or slib; that's the first
     Debian slib to put the init files in the usual place.  Thus the fix to
     jacal.sh closing bug 401030 is no longer needed.
-    
+
   * jacal.1: Repeat change from 1b7-1.
-  
+
   * jacal.sh: Repeat second change from 1b7-2.
-  
+
  -- Thomas Bushnell, BSG <tb@debian.org>  Sun, 30 Dec 2007 21:08:20 -0800
 
 jacal (1b7-2) unstable; urgency=high
 
   * jacal.sh: Find .init files in proper subdirectory of slib library location.
    (Closes: #401030)
-    
+
   * jacal.sh: Look for "guile-1.6" and not guile; likewise make the usage
     statement say to request "guile-1.6" if that's what you want.
   * debian/control (Depends): Require guile-1.6 and not just any guile.
     [These changes are further required for jacal to work right with guile.]
-  
+
  -- Thomas Bushnell, BSG <tb@debian.org>  Sat,  9 Dec 2006 16:18:06 -0800
 
 jacal (1b7-1) unstable; urgency=low
 
   * Initial release. (Closes: #395935)
-    
+
   * jacal.texi: Alter copyright notice to specify that there are no back
     cover or front cover texts, with permission of upstream copyright
     owner (Aubrey Jaffer) in accord with his new distribution zip archive.
-  
+
   * jacal.1 (TH): Include section number.
-  
+
  -- Thomas Bushnell, BSG <tb@debian.org>  Sat, 28 Oct 2006 13:18:38 -0700
 
