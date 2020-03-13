@@ -1,4 +1,4 @@
-JACAL(Dec 20 2007)                                          JACAL(Dec 20 2007)
+JACAL(1)                                                              JACAL(1)
 
 
 
@@ -6,8 +6,8 @@ NAME
        JACAL - symbolic mathematics system
 
 SYNOPSIS
-       jacal  [  scheme  | scm | gsi | mzscheme | guile | scheme48 | larceny |
-       scmlit | elk | sisc | kawa ]
+       jacal [ scheme | scm | gsi | gosh | guile | scheme48 | larceny | scmlit
+       | elk | sisc | kawa | mzscheme ]
 
 DESCRIPTION
        JACAL is a symbolic  mathematics  system  for  the  simplification  and
@@ -46,7 +46,7 @@ AUTHORS
 
 SEE ALSO
        The JACAL home-page:
-       http://swiss.csail.mit.edu/~jaffer/JACAL.html
+       http://people.csail.mit.edu/jaffer/JACAL.html
 
        The  full documentation for jacal is maintained as a Texinfo manual. If
        the info and jacal programs are properly installed at  your  site,  the
@@ -57,4 +57,4 @@ SEE ALSO
 
 
 
-4th Berkeley Distribution                                   JACAL(Dec 20 2007)
+4th Berkeley Distribution         Feb 1 2008                          JACAL(1)

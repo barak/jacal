@@ -1,38 +1,38 @@
-This is jacal.info, produced by makeinfo version 4.8 from jacal.texi.
+This is jacal-1c7.info, produced by makeinfo version 6.5 from                 |
+jacal.texi.
 
-This manual is for JACAL (version 1b9, February 2008), an interactive         |
+This manual is for JACAL (version 1c7, March 2020), an interactive            |
 symbolic mathematics system.
 
-  Copyright (C) 1993-1999, 2002, 2006, 2007 Free Software Foundation,
-Inc.
+  Copyright (C) 1993-1999, 2002, 2006, 2007, 2020 Free Software
+Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
-     Version 1.2 or any later version published by the Free Software
+     Version 1.3 or any later version published by the Free Software
      Foundation; with no Invariant Sections, no Front-Cover Texts, and
      no Back-Cover Texts.  A copy of the license is included in the
      section entitled "GNU Free Documentation License."
-
 INFO-DIR-SECTION Mathematics
 START-INFO-DIR-ENTRY
 * Jacal: (jacal).       Interactive Symbolic Mathematics.
 END-INFO-DIR-ENTRY
 
 
-File: jacal.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
-
+File: jacal-1c7.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
+                                                                              |
 JACAL
 *****
 
-This manual is for JACAL (version 1b9, February 2008), an interactive         |
+This manual is for JACAL (version 1c7, March 2020), an interactive            |
 symbolic mathematics system.
 
-  Copyright (C) 1993-1999, 2002, 2006, 2007 Free Software Foundation,
-Inc.
+  Copyright (C) 1993-1999, 2002, 2006, 2007, 2020 Free Software
+Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
-     Version 1.2 or any later version published by the Free Software
+     Version 1.3 or any later version published by the Free Software
      Foundation; with no Invariant Sections, no Front-Cover Texts, and
      no Back-Cover Texts.  A copy of the license is included in the
      section entitled "GNU Free Documentation License."
@@ -49,8 +49,8 @@ Inc.
 * Index::
 
 
-File: jacal.info,  Node: Overview,  Next: Algebra,  Prev: Top,  Up: Top
-
+File: jacal-1c7.info,  Node: Overview,  Next: Algebra,  Prev: Top,  Up: Top
+                                                                              |
 1 Overview
 **********
 
@@ -60,18 +60,18 @@ expressions constructed of numbers, variables, radicals, and algebraic
 functions, differential, and holonomic functions.  In addition, vectors
 and matrices of the above objects are included.
 
-  JACAL 1b9 was released February 2008.  Current information about            |
-JACAL can be found on JACAL's "WWW" home page:                                |
-                                                                              |
-              `http://swiss.csail.mit.edu/~jaffer/JACAL'                      |
-                                                                              |
-  JACAL, part of the GNU project, is free software, and you are welcome       |
-to redistribute it under certain conditions; See the file COPYING with        |
-this program or type `(terms)();' to JACAL for details.                       |
+  JACAL 1c7 was released March 2020.  Current information about JACAL         |
+can be found on JACAL's "WWW" home page:
+
+              <http://people.csail.mit.edu/jaffer/JACAL>
+
+  JACAL, part of the GNU project, is free software, and you are welcome
+to redistribute it under certain conditions; See the file COPYING with
+this program or type '(terms)();' to JACAL for details.
 
   For a list of the features that have changed since the last JACAL
-release, see the file `ANNOUNCE'.  For a list of the features that have
-changed over time, see the file `ChangeLog'.
+release, see the file 'ANNOUNCE'.  For a list of the features that have
+changed over time, see the file 'ChangeLog'.
 
 * Menu:
 
@@ -82,58 +82,57 @@ changed over time, see the file `ChangeLog'.
 * GNU Free Documentation License::
 
 
-File: jacal.info,  Node: Authors and Bibliography,  Next: Installation,  Prev: Overview,  Up: Overview
-
+File: jacal-1c7.info,  Node: Authors and Bibliography,  Next: Installation,  Prev: Overview,  Up: Overview
+                                                                              |
 1.1 Authors and Bibliography
 ============================
 
 Aubrey Jaffer
      Most of JACAL
-
 Michael Thomas
      Polynomial Factoring.
-
 Jerry D. Hedden
      Tensors.
 
-  The maintainer can be reached as `agj @ alum.mit.edu'.
+  The maintainer can be reached as 'agj@alum.mit.edu'.
 
 Bibliography
 ------------
 
 [ACP]
      Donald Ervin Knuth.
-     `The Art of Computer Programming : Seminumerical Algorithms (Vol
+     'The Art of Computer Programming : Seminumerical Algorithms (Vol
      2).'
      2nd Ed (1981) Addison-Wesley Pub Co; ISBN: 0-201-03822-6
 
 [GCL]
      Keith O. Geddes, Stephen R. Czapor, George Labahn.
-     `Algorithms for Computer Algebra.'
+     'Algorithms for Computer Algebra.'
      (October 1992) Kluwer Academic Pub; ISBN: 0-7923-9259-0
 
 [Siret]
      Y. Siret (Editor), E. Tournier, J. H. Davenport, F. Tournier.
-     `Computer Algebra: Systems and Algorithms for Algebraic
+     'Computer Algebra: Systems and Algorithms for Algebraic
      Computation'
      2nd edition (June 1993) Academic Press; ISBN: 0-122-04232-8
 
 [R5RS]
      Richard Kelsey and William Clinger and Jonathan (Rees, editors)
-     Revised(5) Report on the Algorithmic Language Scheme (r5rs_toc),
-     `Higher-Order and Symbolic Computation' Volume 11, Number 1 (1998),
+     Revised(5) Report on the Algorithmic Language Scheme (../r5rs_toc),
+     'Higher-Order and Symbolic Computation' Volume 11, Number 1 (1998),
      pp. 7-105, or
-     `ACM SIGPLAN Notices' 33(9), September 1998.
-     *Note Revised(5) Report on the Algorithmic Language Scheme:
+     'ACM SIGPLAN Notices' 33(9), September 1998.
+     *note Revised(5) Report on the Algorithmic Language Scheme:
      (r5rs)Top.
+
 [SLIB]
      Todd R. Eigenschink and Aubrey Jaffer.
-     SLIB; The Portable Scheme Library (slib_toc)
-     *Note SLIB; The Portable Scheme Library: (slib)Top.
+     SLIB; The Portable Scheme Library (../slib_toc)
+     *note SLIB; The Portable Scheme Library: (slib)Top.
 
 
-File: jacal.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
-
+File: jacal-1c7.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
+                                                                              |
 1.2 Installation
 ================
 
@@ -141,77 +140,77 @@ The JACAL program is written in the Algorithmic Language "Scheme".  So
 you must obtain and install a Scheme implementation in order to run it.
 The installation procedures given here use the SCM Scheme
 implementation.  If your system has a Scheme (or Guile) implementation
-installed, then the `scm' steps are unnecessary.
+installed, then the 'scm' steps are unnecessary.
 
   JACAL also requires the SLIB Portable Scheme library which is
-available from `http://swiss.csail.mit.edu/~jaffer/SLIB'.
+available from <http://people.csail.mit.edu/jaffer/SLIB>.
 
- -- System: i386 GNU/Linux with Redhat Package Manager (rpm)
-          wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5-1.i386.rpm       |
-          wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1-1.noarch.rpm    |
-          wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9-1.noarch.rpm   |
-          rpm -U scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm
-          rm scm-5e5-1.i386.rpm slib-3b1-1.noarch.rpm jacal-1b9-1.noarch.rpm  |
+ -- System: x86_64 GNU/Linux with Redhat Package Manager (rpm)
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.x86_64.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.noarch.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.noarch.rpm
+          rpm -U scm-5f3-1.x86_64.rpm slib-3b6-1.noarch.rpm jacal-1c7-1.noarch.rpm
+          rm scm-5f3-1.x86_64.rpm slib-3b6-1.noarch.rpm jacal-1c7-1.noarch.rpm
 
-     The command `jacal' will start an interactive session.
+     The command 'jacal' will start an interactive session.
 
  -- System: Unix
  -- System: GNU/Linux
-          wget http://swiss.csail.mit.edu/ftpdir/scm/scm-5e5.zip              |
-          wget http://swiss.csail.mit.edu/ftpdir/scm/slib-3b1.zip             |
-          wget http://swiss.csail.mit.edu/ftpdir/scm/jacal-1b9.zip            |
-          unzip -ao scm-5e5.zip                                               |
-          unzip -ao slib-3b1.zip                                              |
-          unzip -ao jacal-1b9.zip                                             |
-          (cd slib; make install)
-          (cd scm; make scm; make install)
-          (cd jacal; make install)
-          rm scm-5e5.zip slib-3b1.zip jacal-1b9.zip                           |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3.zip
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6.zip
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7.zip       |
+          unzip -ao scm-5f3.zip
+          unzip -ao slib-3b6.zip
+          unzip -ao jacal-1c7.zip                                             |
+          (cd slib; ./configure --prefix=/usr/local/; make install)
+          (cd scm; ./configure --prefix=/usr/local/; make scm; make install)
+          (cd jacal; ./configure --prefix=/usr/local/; make install)
+          rm scm-5f3.zip slib-3b6.zip jacal-1c7.zip                           |
 
-     The command `jacal' will start an interactive session using ELK,
-     Gambit, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48, SCM, or          |
-     SISC.  Type `jacal --help' for instructions.                             |
+     The command 'jacal' will start an interactive session using ELK,
+     Gambit, Gauche, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48,
+     SCM, or SISC. Type 'jacal --help' for instructions.
 
  -- System: Apple
-     `http://www.io.com/~cobblers/scm/' has downloads and utilities for
+     <http://www.io.com/~cobblers/scm/> has downloads and utilities for
      installing SCM and SLIB on Macintosh computers.
 
  -- System: x86 Microsoft
      Download and run
-     `http://swiss.csail.mit.edu/ftpdir/scm/SLIB-3b1-1.exe',                  |
-     `http://swiss.csail.mit.edu/ftpdir/scm/SCM-5e5-1.exe', and               |
-     `http://swiss.csail.mit.edu/ftpdir/scm/JACAL-1b9-1.exe'.                 |
+     <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.exe>,
+     <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.exe>, and
+     <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.exe>.            |
 
 Compiling Jacal
 ---------------
 
 For Scheme implementations with compilers, it is worthwhile to compile
-SLIB files, and the JACAL files `types.scm' and `poly.scm'.
+SLIB files, and the JACAL files 'types.scm' and 'poly.scm'.
 
 
-File: jacal.info,  Node: Running Jacal,  Next: Release Notes,  Prev: Installation,  Up: Overview
-
+File: jacal-1c7.info,  Node: Running Jacal,  Next: Release Notes,  Prev: Installation,  Up: Overview
+                                                                              |
 1.3 Running Jacal
 =================
 
 If you successfully executed one of the installations of the previous
-section, then typing `jacal' or clicking an icon will begin an
+section, then typing 'jacal' or clicking an icon will begin an
 interactive session.
 
   To manually start jacal, start your Scheme implementation with SLIB.
 This may involve setting up that implementation's initialization file or
-LOADing a `.init' file from the `slib' directory.  Then type:
+LOADing a '.init' file from the 'slib' directory.  Then type:
 
      (slib:load "/usr/local/lib/jacal/math")
 
-where `/usr/local/lib/jacal/' is a path to the JACAL directory.  JACAL
+where '/usr/local/lib/jacal/' is a path to the JACAL directory.  JACAL
 should then print:
 
-     JACAL version 1b9, Copyright 1989-1999, 2002 Aubrey Jaffer               |
+     JACAL version 1c7, Copyright 1989-2020 Aubrey Jaffer                     |
      JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
      This is free software, and you are welcome to redistribute it
      under certain conditions; type `(terms)' for details.
-     ;;; Type (math) to begin.
+     ;;; Type (math); to begin.                                               |
 
 Do as it says:
 
@@ -226,16 +225,14 @@ manual.
 Demonstrating Jacal
 -------------------
 
-There are several demonstration files in the `jacal' directory.  To
-run, use the batch command *Note batch: Miscellaneous.
+There are several demonstration files in the 'jacal' directory.  To run,
+use the batch command *note batch: Miscellaneous.
 
-`batch("demo");'
+'batch("demo");'
      Demonstrates a variety of JACAL features.
-
-`batch("test.math");'
+'batch("test.math");'
      Tests each operator.
-
-`batch("rw.math");'
+'batch("rw.math");'
      Demonstrates tensors and The Robertson-Walker Cosmology Model.
 
 Recovery from Errors
@@ -244,41 +241,42 @@ Recovery from Errors
 As JACAL is a complicated program there are bugs which will occasionally
 cause the program to stop with some sort of error reported by the
 underlying Scheme system.  In interactive implementations (such as SCM)
-you can usually continue your session by typing `(math)'.  The
+you can usually continue your session by typing '(math)'.  The
 expression which was input to JACAL just before the error will be lost
 but you should be able to otherwise continue with your session.
 
 Stopping Jacal
 --------------
 
-The command `quit();' will end your JACAL session.
+The command 'quit();' will end your JACAL session.
 
-  With non-interactive Scheme implementations the JACAL command
-`qed();' or typing the end-of-file character (<C-z> on MS-DOS and VMS,
-<C-d> on others) will end your JACAL session.
+  With non-interactive Scheme implementations the JACAL command 'qed();'
+or typing the end-of-file character (<C-z> on MS-DOS and VMS, <C-d> on
+others) will end your JACAL session.
 
-  The command `qed();' will return to the interactive Scheme session.
-Typing `(math)' will return to the JACAL session.
+  The command 'qed();' will return to the interactive Scheme session.
+Typing '(math)' will return to the JACAL session.
 
-  From the interactive Scheme session `(exit)' or possibly an
+  From the interactive Scheme session '(exit)' or possibly an
 end-of-file character will terminate the session.
 
 
-File: jacal.info,  Node: Release Notes,  Next: GNU Free Documentation License,  Prev: Running Jacal,  Up: Overview
+File: jacal-1c7.info,  Node: Release Notes,  Next: GNU Free Documentation License,  Prev: Running Jacal,  Up: Overview
                                                                               |
 1.4 Release Notes
 =================
 
-With the standard input grammar, the precedence of `-' as a prefix
-behaves strangely.  `a^-b*c' becomes `a^(-b*c)' while `a^b*c=> (a^b)*c'.
+With the standard input grammar, the precedence of '-' as a prefix
+behaves strangely.  'a^-b*c' becomes 'a^(-b*c)' while 'a^b*c' =>
+'(a^b)*c'.
 
-  Using `divide' to divide a polynomial by an integer does not work.
+  Using 'divide' to divide a polynomial by an integer does not work.
 
-  The command `example' executes the example it gives.  This can lead
-to unpredictable results if the variables and constants in the example
-have already been given values by the user.
+  The command 'example' executes the example it gives.  This can lead to
+unpredictable results if the variables and constants in the example have
+already been given values by the user.
 
-  The function `minor' should be modified to accept lists for ROW and
+  The function 'minor' should be modified to accept lists for ROW and
 COL.
 
   Resultant might be modified to compute the resultant of a system of
@@ -290,12 +288,12 @@ Conventions
 Things that are labeled as Operators can occur in expressions output by
 Jacal.  Things that are labeled as Commands act upon their arguments and
 do not generally occur in expressions output by Jacal.  Things that are
-labeled as flags are `set' to control aspects of the Jacal environment.
+labeled as flags are 'set' to control aspects of the Jacal environment.
 
-  The examples throughout this text were produced using `SCM'.
+  The examples throughout this text were produced using 'SCM'.
 
-  Jacal has several grammers it understands.  The `standard' grammar is
-used in this manual.  It is like simple `TeX' grammar and algol family
+  Jacal has several grammers it understands.  The 'standard' grammar is
+used in this manual.  It is like simple 'TeX' grammar and algol family
 computer languages.
 
   Identifier names are case sensitive and can be any number of
@@ -307,493 +305,529 @@ Manifest
 COPYING
      details the LACK OF WARRANTY for Jacal and the conditions for
      distributing Jacal.
-
 HELP
      is online introduction to using Jacal.
-
 ChangeLog
      documents changes to Jacal.
 
 jacal
      is a unix (sh) script to start an interactive jacal session.
-
 demo
      demonstrates batch file use.  "batch(demo);" to use in jacal.
-
 rw.math
      is a batch file of Robertson-Walker model of General Relativity.
-
 test.math
      is a batch file which tests Jacal.
-
 jacal.texi
      is documentation on how to use jacal in TeXinfo format.
-
 DOC
      has files telling about how jacal works.
 
-    algdenom
+     algdenom
           gives an algorithm for clearing radicals and other algebraic
           field extensions from denominators.
-
-    grammar
+     grammar
           explains how to create new grammars.
-
-    history
+     history
           gives a little history of jacal.
-
-    lambda
-          explains mid-level data formats. From a Dr. Dobbs article.
-
-    ratint.tex
-          article explaining jacal's eventual integration algorithm.
+     lambda
+          explains mid-level data formats.  From a Dr.  Dobbs article.
+     ratint.tex
+          article explaining jacal's integration algorithm.
 
 math.scm
      is the file you load into scheme in order to run jacal.
-
 toploads.scm
      contains comments describing the rest of the files.
-
 modeinit.scm
      has initializations for modes in Jacal.
-
 view.scm
      is a program for viewing TeX expressions.
 
 
-File: jacal.info,  Node: GNU Free Documentation License,  Prev: Release Notes,  Up: Overview
-                                                                              |
-1.5 GNU Free Documentation License                                            |
-==================================                                            |
-                                                                              |
-                      Version 1.2, November 2002                              |
-                                                                              |
-     Copyright (C) 2000,2001,2002 Free Software Foundation, Inc.              |
-     51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA                 |
-                                                                              |
-     Everyone is permitted to copy and distribute verbatim copies             |
-     of this license document, but changing it is not allowed.                |
-                                                                              |
-  0. PREAMBLE                                                                 |
-                                                                              |
-     The purpose of this License is to make a manual, textbook, or other      |
-     functional and useful document "free" in the sense of freedom: to        |
-     assure everyone the effective freedom to copy and redistribute it,       |
-     with or without modifying it, either commercially or                     |
-     noncommercially.  Secondarily, this License preserves for the            |
-     author and publisher a way to get credit for their work, while not       |
-     being considered responsible for modifications made by others.           |
-                                                                              |
-     This License is a kind of "copyleft", which means that derivative        |
-     works of the document must themselves be free in the same sense.         |
-     It complements the GNU General Public License, which is a copyleft       |
-     license designed for free software.                                      |
-                                                                              |
-     We have designed this License in order to use it for manuals for         |
-     free software, because free software needs free documentation: a         |
-     free program should come with manuals providing the same freedoms        |
-     that the software does.  But this License is not limited to              |
-     software manuals; it can be used for any textual work, regardless        |
-     of subject matter or whether it is published as a printed book.          |
-     We recommend this License principally for works whose purpose is         |
-     instruction or reference.                                                |
-                                                                              |
-  1. APPLICABILITY AND DEFINITIONS                                            |
-                                                                              |
-     This License applies to any manual or other work, in any medium,         |
-     that contains a notice placed by the copyright holder saying it          |
-     can be distributed under the terms of this License.  Such a notice       |
-     grants a world-wide, royalty-free license, unlimited in duration,        |
-     to use that work under the conditions stated herein.  The                |
-     "Document", below, refers to any such manual or work.  Any member        |
-     of the public is a licensee, and is addressed as "you".  You             |
-     accept the license if you copy, modify or distribute the work in a       |
-     way requiring permission under copyright law.                            |
-                                                                              |
-     A "Modified Version" of the Document means any work containing the       |
-     Document or a portion of it, either copied verbatim, or with             |
-     modifications and/or translated into another language.                   |
-                                                                              |
-     A "Secondary Section" is a named appendix or a front-matter section      |
-     of the Document that deals exclusively with the relationship of the      |
-     publishers or authors of the Document to the Document's overall          |
-     subject (or to related matters) and contains nothing that could          |
-     fall directly within that overall subject.  (Thus, if the Document       |
-     is in part a textbook of mathematics, a Secondary Section may not        |
-     explain any mathematics.)  The relationship could be a matter of         |
-     historical connection with the subject or with related matters, or       |
-     of legal, commercial, philosophical, ethical or political position       |
-     regarding them.                                                          |
-                                                                              |
-     The "Invariant Sections" are certain Secondary Sections whose            |
-     titles are designated, as being those of Invariant Sections, in          |
-     the notice that says that the Document is released under this            |
-     License.  If a section does not fit the above definition of              |
-     Secondary then it is not allowed to be designated as Invariant.          |
-     The Document may contain zero Invariant Sections.  If the Document       |
-     does not identify any Invariant Sections then there are none.            |
-                                                                              |
-     The "Cover Texts" are certain short passages of text that are            |
-     listed, as Front-Cover Texts or Back-Cover Texts, in the notice          |
-     that says that the Document is released under this License.  A           |
-     Front-Cover Text may be at most 5 words, and a Back-Cover Text may       |
-     be at most 25 words.                                                     |
-                                                                              |
-     A "Transparent" copy of the Document means a machine-readable copy,      |
-     represented in a format whose specification is available to the          |
-     general public, that is suitable for revising the document               |
-     straightforwardly with generic text editors or (for images               |
-     composed of pixels) generic paint programs or (for drawings) some        |
-     widely available drawing editor, and that is suitable for input to       |
-     text formatters or for automatic translation to a variety of             |
-     formats suitable for input to text formatters.  A copy made in an        |
-     otherwise Transparent file format whose markup, or absence of            |
-     markup, has been arranged to thwart or discourage subsequent             |
-     modification by readers is not Transparent.  An image format is          |
-     not Transparent if used for any substantial amount of text.  A           |
-     copy that is not "Transparent" is called "Opaque".                       |
-                                                                              |
-     Examples of suitable formats for Transparent copies include plain        |
-     ASCII without markup, Texinfo input format, LaTeX input format,          |
-     SGML or XML using a publicly available DTD, and                          |
-     standard-conforming simple HTML, PostScript or PDF designed for          |
-     human modification.  Examples of transparent image formats include       |
-     PNG, XCF and JPG.  Opaque formats include proprietary formats that       |
-     can be read and edited only by proprietary word processors, SGML or      |
-     XML for which the DTD and/or processing tools are not generally          |
-     available, and the machine-generated HTML, PostScript or PDF             |
-     produced by some word processors for output purposes only.               |
-                                                                              |
-     The "Title Page" means, for a printed book, the title page itself,       |
-     plus such following pages as are needed to hold, legibly, the            |
-     material this License requires to appear in the title page.  For         |
-     works in formats which do not have any title page as such, "Title        |
-     Page" means the text near the most prominent appearance of the           |
-     work's title, preceding the beginning of the body of the text.           |
-                                                                              |
-     A section "Entitled XYZ" means a named subunit of the Document           |
-     whose title either is precisely XYZ or contains XYZ in parentheses       |
-     following text that translates XYZ in another language.  (Here XYZ       |
-     stands for a specific section name mentioned below, such as              |
-     "Acknowledgements", "Dedications", "Endorsements", or "History".)        |
-     To "Preserve the Title" of such a section when you modify the            |
-     Document means that it remains a section "Entitled XYZ" according        |
-     to this definition.                                                      |
-                                                                              |
-     The Document may include Warranty Disclaimers next to the notice         |
-     which states that this License applies to the Document.  These           |
-     Warranty Disclaimers are considered to be included by reference in       |
-     this License, but only as regards disclaiming warranties: any other      |
-     implication that these Warranty Disclaimers may have is void and         |
-     has no effect on the meaning of this License.                            |
-                                                                              |
-  2. VERBATIM COPYING                                                         |
-                                                                              |
-     You may copy and distribute the Document in any medium, either           |
-     commercially or noncommercially, provided that this License, the         |
-     copyright notices, and the license notice saying this License            |
-     applies to the Document are reproduced in all copies, and that you       |
-     add no other conditions whatsoever to those of this License.  You        |
-     may not use technical measures to obstruct or control the reading        |
-     or further copying of the copies you make or distribute.  However,       |
-     you may accept compensation in exchange for copies.  If you              |
-     distribute a large enough number of copies you must also follow          |
-     the conditions in section 3.                                             |
-                                                                              |
-     You may also lend copies, under the same conditions stated above,        |
-     and you may publicly display copies.                                     |
-                                                                              |
-  3. COPYING IN QUANTITY                                                      |
-                                                                              |
-     If you publish printed copies (or copies in media that commonly          |
-     have printed covers) of the Document, numbering more than 100, and       |
-     the Document's license notice requires Cover Texts, you must             |
-     enclose the copies in covers that carry, clearly and legibly, all        |
-     these Cover Texts: Front-Cover Texts on the front cover, and             |
-     Back-Cover Texts on the back cover.  Both covers must also clearly       |
-     and legibly identify you as the publisher of these copies.  The          |
-     front cover must present the full title with all words of the            |
-     title equally prominent and visible.  You may add other material         |
-     on the covers in addition.  Copying with changes limited to the          |
-     covers, as long as they preserve the title of the Document and           |
-     satisfy these conditions, can be treated as verbatim copying in          |
-     other respects.                                                          |
-                                                                              |
-     If the required texts for either cover are too voluminous to fit         |
-     legibly, you should put the first ones listed (as many as fit            |
-     reasonably) on the actual cover, and continue the rest onto              |
-     adjacent pages.                                                          |
-                                                                              |
-     If you publish or distribute Opaque copies of the Document               |
-     numbering more than 100, you must either include a                       |
-     machine-readable Transparent copy along with each Opaque copy, or        |
-     state in or with each Opaque copy a computer-network location from       |
-     which the general network-using public has access to download            |
-     using public-standard network protocols a complete Transparent           |
-     copy of the Document, free of added material.  If you use the            |
-     latter option, you must take reasonably prudent steps, when you          |
-     begin distribution of Opaque copies in quantity, to ensure that          |
-     this Transparent copy will remain thus accessible at the stated          |
-     location until at least one year after the last time you                 |
-     distribute an Opaque copy (directly or through your agents or            |
-     retailers) of that edition to the public.                                |
-                                                                              |
-     It is requested, but not required, that you contact the authors of       |
-     the Document well before redistributing any large number of              |
-     copies, to give them a chance to provide you with an updated             |
-     version of the Document.                                                 |
-                                                                              |
-  4. MODIFICATIONS                                                            |
-                                                                              |
-     You may copy and distribute a Modified Version of the Document           |
-     under the conditions of sections 2 and 3 above, provided that you        |
-     release the Modified Version under precisely this License, with          |
-     the Modified Version filling the role of the Document, thus              |
-     licensing distribution and modification of the Modified Version to       |
-     whoever possesses a copy of it.  In addition, you must do these          |
-     things in the Modified Version:                                          |
-                                                                              |
-       A. Use in the Title Page (and on the covers, if any) a title           |
-          distinct from that of the Document, and from those of               |
-          previous versions (which should, if there were any, be listed       |
-          in the History section of the Document).  You may use the           |
-          same title as a previous version if the original publisher of       |
-          that version gives permission.                                      |
-                                                                              |
-       B. List on the Title Page, as authors, one or more persons or          |
-          entities responsible for authorship of the modifications in         |
-          the Modified Version, together with at least five of the            |
-          principal authors of the Document (all of its principal             |
-          authors, if it has fewer than five), unless they release you        |
-          from this requirement.                                              |
-                                                                              |
-       C. State on the Title page the name of the publisher of the            |
-          Modified Version, as the publisher.                                 |
-                                                                              |
-       D. Preserve all the copyright notices of the Document.                 |
-                                                                              |
-       E. Add an appropriate copyright notice for your modifications          |
-          adjacent to the other copyright notices.                            |
-                                                                              |
-       F. Include, immediately after the copyright notices, a license         |
-          notice giving the public permission to use the Modified             |
-          Version under the terms of this License, in the form shown in       |
-          the Addendum below.                                                 |
-                                                                              |
-       G. Preserve in that license notice the full lists of Invariant         |
-          Sections and required Cover Texts given in the Document's           |
-          license notice.                                                     |
-                                                                              |
-       H. Include an unaltered copy of this License.                          |
-                                                                              |
-       I. Preserve the section Entitled "History", Preserve its Title,        |
-          and add to it an item stating at least the title, year, new         |
-          authors, and publisher of the Modified Version as given on          |
-          the Title Page.  If there is no section Entitled "History" in       |
-          the Document, create one stating the title, year, authors,          |
-          and publisher of the Document as given on its Title Page,           |
-          then add an item describing the Modified Version as stated in       |
-          the previous sentence.                                              |
-                                                                              |
-       J. Preserve the network location, if any, given in the Document        |
-          for public access to a Transparent copy of the Document, and        |
-          likewise the network locations given in the Document for            |
-          previous versions it was based on.  These may be placed in          |
-          the "History" section.  You may omit a network location for a       |
-          work that was published at least four years before the              |
-          Document itself, or if the original publisher of the version        |
-          it refers to gives permission.                                      |
-                                                                              |
-       K. For any section Entitled "Acknowledgements" or "Dedications",       |
-          Preserve the Title of the section, and preserve in the              |
-          section all the substance and tone of each of the contributor       |
-          acknowledgements and/or dedications given therein.                  |
-                                                                              |
-       L. Preserve all the Invariant Sections of the Document,                |
-          unaltered in their text and in their titles.  Section numbers       |
-          or the equivalent are not considered part of the section            |
-          titles.                                                             |
-                                                                              |
-       M. Delete any section Entitled "Endorsements".  Such a section         |
-          may not be included in the Modified Version.                        |
-                                                                              |
-       N. Do not retitle any existing section to be Entitled                  |
-          "Endorsements" or to conflict in title with any Invariant           |
-          Section.                                                            |
-                                                                              |
-       O. Preserve any Warranty Disclaimers.                                  |
-                                                                              |
-     If the Modified Version includes new front-matter sections or            |
-     appendices that qualify as Secondary Sections and contain no             |
-     material copied from the Document, you may at your option                |
-     designate some or all of these sections as invariant.  To do this,       |
-     add their titles to the list of Invariant Sections in the Modified       |
-     Version's license notice.  These titles must be distinct from any        |
-     other section titles.                                                    |
-                                                                              |
-     You may add a section Entitled "Endorsements", provided it contains      |
-     nothing but endorsements of your Modified Version by various             |
-     parties--for example, statements of peer review or that the text         |
-     has been approved by an organization as the authoritative                |
-     definition of a standard.                                                |
-                                                                              |
-     You may add a passage of up to five words as a Front-Cover Text,         |
-     and a passage of up to 25 words as a Back-Cover Text, to the end         |
-     of the list of Cover Texts in the Modified Version.  Only one            |
-     passage of Front-Cover Text and one of Back-Cover Text may be            |
-     added by (or through arrangements made by) any one entity.  If the       |
-     Document already includes a cover text for the same cover,               |
-     previously added by you or by arrangement made by the same entity        |
-     you are acting on behalf of, you may not add another; but you may        |
-     replace the old one, on explicit permission from the previous            |
-     publisher that added the old one.                                        |
-                                                                              |
-     The author(s) and publisher(s) of the Document do not by this            |
-     License give permission to use their names for publicity for or to       |
-     assert or imply endorsement of any Modified Version.                     |
-                                                                              |
-  5. COMBINING DOCUMENTS                                                      |
-                                                                              |
-     You may combine the Document with other documents released under         |
-     this License, under the terms defined in section 4 above for             |
-     modified versions, provided that you include in the combination          |
-     all of the Invariant Sections of all of the original documents,          |
-     unmodified, and list them all as Invariant Sections of your              |
-     combined work in its license notice, and that you preserve all           |
-     their Warranty Disclaimers.                                              |
-                                                                              |
-     The combined work need only contain one copy of this License, and        |
-     multiple identical Invariant Sections may be replaced with a single      |
-     copy.  If there are multiple Invariant Sections with the same name       |
-     but different contents, make the title of each such section unique       |
-     by adding at the end of it, in parentheses, the name of the              |
-     original author or publisher of that section if known, or else a         |
-     unique number.  Make the same adjustment to the section titles in        |
-     the list of Invariant Sections in the license notice of the              |
-     combined work.                                                           |
-                                                                              |
-     In the combination, you must combine any sections Entitled               |
-     "History" in the various original documents, forming one section         |
-     Entitled "History"; likewise combine any sections Entitled               |
-     "Acknowledgements", and any sections Entitled "Dedications".  You        |
-     must delete all sections Entitled "Endorsements."                        |
-                                                                              |
-  6. COLLECTIONS OF DOCUMENTS                                                 |
-                                                                              |
-     You may make a collection consisting of the Document and other           |
-     documents released under this License, and replace the individual        |
-     copies of this License in the various documents with a single copy       |
-     that is included in the collection, provided that you follow the         |
-     rules of this License for verbatim copying of each of the                |
-     documents in all other respects.                                         |
-                                                                              |
-     You may extract a single document from such a collection, and            |
-     distribute it individually under this License, provided you insert       |
-     a copy of this License into the extracted document, and follow           |
-     this License in all other respects regarding verbatim copying of         |
-     that document.                                                           |
-                                                                              |
-  7. AGGREGATION WITH INDEPENDENT WORKS                                       |
-                                                                              |
-     A compilation of the Document or its derivatives with other              |
-     separate and independent documents or works, in or on a volume of        |
-     a storage or distribution medium, is called an "aggregate" if the        |
-     copyright resulting from the compilation is not used to limit the        |
-     legal rights of the compilation's users beyond what the individual       |
-     works permit.  When the Document is included in an aggregate, this       |
-     License does not apply to the other works in the aggregate which         |
-     are not themselves derivative works of the Document.                     |
-                                                                              |
-     If the Cover Text requirement of section 3 is applicable to these        |
-     copies of the Document, then if the Document is less than one half       |
-     of the entire aggregate, the Document's Cover Texts may be placed        |
-     on covers that bracket the Document within the aggregate, or the         |
-     electronic equivalent of covers if the Document is in electronic         |
-     form.  Otherwise they must appear on printed covers that bracket         |
-     the whole aggregate.                                                     |
-                                                                              |
-  8. TRANSLATION                                                              |
-                                                                              |
-     Translation is considered a kind of modification, so you may             |
-     distribute translations of the Document under the terms of section       |
-     4.  Replacing Invariant Sections with translations requires special      |
-     permission from their copyright holders, but you may include             |
-     translations of some or all Invariant Sections in addition to the        |
-     original versions of these Invariant Sections.  You may include a        |
-     translation of this License, and all the license notices in the          |
-     Document, and any Warranty Disclaimers, provided that you also           |
-     include the original English version of this License and the             |
-     original versions of those notices and disclaimers.  In case of a        |
-     disagreement between the translation and the original version of         |
-     this License or a notice or disclaimer, the original version will        |
-     prevail.                                                                 |
-                                                                              |
-     If a section in the Document is Entitled "Acknowledgements",             |
-     "Dedications", or "History", the requirement (section 4) to              |
-     Preserve its Title (section 1) will typically require changing the       |
-     actual title.                                                            |
-                                                                              |
-  9. TERMINATION                                                              |
-                                                                              |
-     You may not copy, modify, sublicense, or distribute the Document         |
-     except as expressly provided for under this License.  Any other          |
-     attempt to copy, modify, sublicense or distribute the Document is        |
-     void, and will automatically terminate your rights under this            |
-     License.  However, parties who have received copies, or rights,          |
-     from you under this License will not have their licenses                 |
-     terminated so long as such parties remain in full compliance.            |
-                                                                              |
- 10. FUTURE REVISIONS OF THIS LICENSE                                         |
-                                                                              |
-     The Free Software Foundation may publish new, revised versions of        |
-     the GNU Free Documentation License from time to time.  Such new          |
-     versions will be similar in spirit to the present version, but may       |
-     differ in detail to address new problems or concerns.  See               |
-     `http://www.gnu.org/copyleft/'.                                          |
-                                                                              |
-     Each version of the License is given a distinguishing version            |
-     number.  If the Document specifies that a particular numbered            |
-     version of this License "or any later version" applies to it, you        |
-     have the option of following the terms and conditions either of          |
-     that specified version or of any later version that has been             |
-     published (not as a draft) by the Free Software Foundation.  If          |
-     the Document does not specify a version number of this License,          |
-     you may choose any version ever published (not as a draft) by the        |
-     Free Software Foundation.                                                |
-                                                                              |
-ADDENDUM: How to use this License for your documents                          |
-====================================================                          |
-                                                                              |
-To use this License in a document you have written, include a copy of         |
-the License in the document and put the following copyright and license       |
-notices just after the title page:                                            |
-                                                                              |
-       Copyright (C)  YEAR  YOUR NAME.                                        |
-       Permission is granted to copy, distribute and/or modify this document  |
-       under the terms of the GNU Free Documentation License, Version 1.2     |
-       or any later version published by the Free Software Foundation;        |
-       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover    |
+File: jacal-1c7.info,  Node: GNU Free Documentation License,  Prev: Release Notes,  Up: Overview
+                                                                              |
+1.5 GNU Free Documentation License
+==================================
+
+                     Version 1.3, 3 November 2008
+
+     Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+     <http://fsf.org/>
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document "free" in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.  We
+     recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it can
+     be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You accept
+     the license if you copy, modify or distribute the work in a way
+     requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in the
+     notice that says that the Document is released under this License.
+     If a section does not fit the above definition of Secondary then it
+     is not allowed to be designated as Invariant.  The Document may
+     contain zero Invariant Sections.  If the Document does not identify
+     any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images composed
+     of pixels) generic paint programs or (for drawings) some widely
+     available drawing editor, and that is suitable for input to text
+     formatters or for automatic translation to a variety of formats
+     suitable for input to text formatters.  A copy made in an otherwise
+     Transparent file format whose markup, or absence of markup, has
+     been arranged to thwart or discourage subsequent modification by
+     readers is not Transparent.  An image format is not Transparent if
+     used for any substantial amount of text.  A copy that is not
+     "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and standard-conforming
+     simple HTML, PostScript or PDF designed for human modification.
+     Examples of transparent image formats include PNG, XCF and JPG.
+     Opaque formats include proprietary formats that can be read and
+     edited only by proprietary word processors, SGML or XML for which
+     the DTD and/or processing tools are not generally available, and
+     the machine-generated HTML, PostScript or PDF produced by some word
+     processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     The "publisher" means any person or entity that distributes copies
+     of the Document to the public.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow the
+     conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the title
+     equally prominent and visible.  You may add other material on the
+     covers in addition.  Copying with changes limited to the covers, as
+     long as they preserve the title of the Document and satisfy these
+     conditions, can be treated as verbatim copying in other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a machine-readable
+     Transparent copy along with each Opaque copy, or state in or with
+     each Opaque copy a computer-network location from which the general
+     network-using public has access to download using public-standard
+     network protocols a complete Transparent copy of the Document, free
+     of added material.  If you use the latter option, you must take
+     reasonably prudent steps, when you begin distribution of Opaque
+     copies in quantity, to ensure that this Transparent copy will
+     remain thus accessible at the stated location until at least one
+     year after the last time you distribute an Opaque copy (directly or
+     through your agents or retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of copies,
+     to give them a chance to provide you with an updated version of the
+     Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with the
+     Modified Version filling the role of the Document, thus licensing
+     distribution and modification of the Modified Version to whoever
+     possesses a copy of it.  In addition, you must do these things in
+     the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of previous
+          versions (which should, if there were any, be listed in the
+          History section of the Document).  You may use the same title
+          as a previous version if the original publisher of that
+          version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on the
+          Title Page.  If there is no section Entitled "History" in the
+          Document, create one stating the title, year, authors, and
+          publisher of the Document as given on its Title Page, then add
+          an item describing the Modified Version as stated in the
+          previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in the
+          "History" section.  You may omit a network location for a work
+          that was published at least four years before the Document
+          itself, or if the original publisher of the version it refers
+          to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the section
+          all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document, unaltered
+          in their text and in their titles.  Section numbers or the
+          equivalent are not considered part of the section titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option designate
+     some or all of these sections as invariant.  To do this, add their
+     titles to the list of Invariant Sections in the Modified Version's
+     license notice.  These titles must be distinct from any other
+     section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end of
+     the list of Cover Texts in the Modified Version.  Only one passage
+     of Front-Cover Text and one of Back-Cover Text may be added by (or
+     through arrangements made by) any one entity.  If the Document
+     already includes a cover text for the same cover, previously added
+     by you or by arrangement made by the same entity you are acting on
+     behalf of, you may not add another; but you may replace the old
+     one, on explicit permission from the previous publisher that added
+     the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination all
+     of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the documents
+     in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow this
+     License in all other respects regarding verbatim copying of that
+     document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of a
+     storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided under this License.  Any attempt
+     otherwise to copy, modify, sublicense, or distribute it is void,
+     and will automatically terminate your rights under this License.
+
+     However, if you cease all violation of this License, then your
+     license from a particular copyright holder is reinstated (a)
+     provisionally, unless and until the copyright holder explicitly and
+     finally terminates your license, and (b) permanently, if the
+     copyright holder fails to notify you of the violation by some
+     reasonable means prior to 60 days after the cessation.
+
+     Moreover, your license from a particular copyright holder is
+     reinstated permanently if the copyright holder notifies you of the
+     violation by some reasonable means, this is the first time you have
+     received notice of violation of this License (for any work) from
+     that copyright holder, and you cure the violation prior to 30 days
+     after your receipt of the notice.
+
+     Termination of your rights under this section does not terminate
+     the licenses of parties who have received copies or rights from you
+     under this License.  If your rights have been terminated and not
+     permanently reinstated, receipt of a copy of some or all of the
+     same material does not give you any rights to use it.
+
+  10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     <http://www.gnu.org/copyleft/>.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If the
+     Document does not specify a version number of this License, you may
+     choose any version ever published (not as a draft) by the Free
+     Software Foundation.  If the Document specifies that a proxy can
+     decide which future versions of this License can be used, that
+     proxy's public statement of acceptance of a version permanently
+     authorizes you to choose that version for the Document.
+
+  11. RELICENSING
+
+     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
+     World Wide Web server that publishes copyrightable works and also
+     provides prominent facilities for anybody to edit those works.  A
+     public wiki that anybody can edit is an example of such a server.
+     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
+     site means any set of copyrightable works thus published on the MMC
+     site.
+
+     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
+     license published by Creative Commons Corporation, a not-for-profit
+     corporation with a principal place of business in San Francisco,
+     California, as well as future copyleft versions of that license
+     published by that same organization.
+
+     "Incorporate" means to publish or republish a Document, in whole or
+     in part, as part of another Document.
+
+     An MMC is "eligible for relicensing" if it is licensed under this
+     License, and if all works that were first published under this
+     License somewhere other than this MMC, and subsequently
+     incorporated in whole or in part into the MMC, (1) had no cover
+     texts or invariant sections, and (2) were thus incorporated prior
+     to November 1, 2008.
+
+     The operator of an MMC Site may republish an MMC contained in the
+     site under CC-BY-SA on the same site at any time before August 1,
+     2009, provided the MMC is eligible for relicensing.
+
+ADDENDUM: How to use this License for your documents
+====================================================
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.3
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
        Texts.  A copy of the license is included in the section entitled ``GNU
-       Free Documentation License''.                                          |
-                                                                              |
-  If you have Invariant Sections, Front-Cover Texts and Back-Cover            |
-Texts, replace the "with...Texts." line with this:                            |
-                                                                              |
-         with the Invariant Sections being LIST THEIR TITLES, with            |
-         the Front-Cover Texts being LIST, and with the Back-Cover Texts      |
-         being LIST.                                                          |
-                                                                              |
-  If you have Invariant Sections without Cover Texts, or some other           |
-combination of the three, merge those two alternatives to suit the            |
-situation.                                                                    |
-                                                                              |
-  If your document contains nontrivial examples of program code, we           |
-recommend releasing these examples in parallel under your choice of           |
-free software license, such as the GNU General Public License, to             |
-permit their use in free software.                                            |
-                                                                              |
+       Free Documentation License''.
+
+  If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts."  line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+  If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+  If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of free
+software license, such as the GNU General Public License, to permit
+their use in free software.
+
 
-File: jacal.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
+File: jacal-1c7.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
                                                                               |
 2 Algebra
 *********
@@ -804,17 +838,19 @@ File: jacal.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
 * Algebraic Commands::
 * Rational Expression::
 * Polynomials::
+* Interpolation::
 * Factoring::
 
 
-File: jacal.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: Algebra,  Up: Algebra
-
+File: jacal-1c7.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: Algebra,  Up: Algebra
+                                                                              |
 2.1 Algebraic Operators
 =======================
 
  -- Operator: + augend addend
+
      Addition of scalar quantities or componentwise addition of bunches
-     is accomplished by means of the infix operator `+'. For example,
+     is accomplished by means of the infix operator '+'.  For example,
 
           e2 : a:[[1, 3, 5], [2, 4, 7]];
 
@@ -847,7 +883,8 @@ File: jacal.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: 
 
  -- Operator: - minuend subtrahend
  -- Operator: - subtrahend
-     The symbol `-' is used to denote either the binary infix operator
+
+     The symbol '-' is used to denote either the binary infix operator
      subtraction or the unary minus.
 
           e1 : -[1,2,3];
@@ -862,11 +899,12 @@ File: jacal.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: 
  -- Operator: -/+ minuend subtrahend
  -- Operator: +/- augend
  -- Operator: -/+ augend
-     Jacal allows the use of `+/-' and `-/+' as ambiguous signs (unary
+
+     Jacal allows the use of '+/-' and '-/+' as ambiguous signs (unary
      plus-or-minus, unary minus-or-plus) and as ambiguous infix
-     operators (binary plus-or-minus, binary minus-or-plus). The value
-     `+/-' is also represented by the constant `%sqrt1', while `-/+' is
-     represented by `-%sqrt1'.
+     operators (binary plus-or-minus, binary minus-or-plus).  The value
+     '+/-' is also represented by the constant '%sqrt1', while '-/+' is
+     represented by '-%sqrt1'.
 
           e7 : u:+/-3;
 
@@ -885,39 +923,42 @@ File: jacal.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: 
           e10: b-/+(3 %sqrt1, 3)
 
  -- Operator: * multiplicand1 multiplicand2
+
      Multiplication of scalar expressions such as numbers, polynomials,
      rational functions and algebraic functions is denoted by the infix
-     operator `*'.  For example,
+     operator '*'.  For example,
 
           e1 : (2 + 3 * a) * 4 * a * b^2;
 
                          2   2
           e1: (8 a + 12 a ) b
 
-     One can also use `*' as an infix operator on bunches.  In that
+     One can also use '*' as an infix operator on bunches.  In that
      case, it operates componentwise, in an appropriate sense.  If the
-     bunches are square matrices, the operator `*' multiplies
+     bunches are square matrices, the operator '*' multiplies
      corresponding entries of the two factors.  It does not perform
      matrix multiplication.  To multiply matrices one instead uses the
-     operator `.' (i.e., a period).  More generally, any binary scalar
-     operator other than `^' can be used on bunches and acts
+     operator '.' (i.e., a period).  More generally, any binary scalar
+     operator other than '^' can be used on bunches and acts
      componentwise.
 
  -- Operator: / dividend divisor
-     The symbol for division in Jacal is `/'.  For example, the value
-     returned by `6 / 2' is `3'.
+
+     The symbol for division in Jacal is '/'.  For example, the value
+     returned by '6 / 2' is '3'.
 
           e3 : (x^2 - y^2) / (x - y);
 
           e3: x + y
 
  -- Operator: ^ expression exponent
-     The infix operator `^' is used for exponentiation of scalar
+
+     The infix operator '^' is used for exponentiation of scalar
      quantitites or for componentwise exponentiation of bunches.  For
-     example, `2^5' returns 32.  Unlike the other scalar infix
-     operators, one cannot use `^' for component-wise operations on
-     bunches.  Furthermore, one should not try to use `^' to raise a
-     square matrix to a power.  Instead, one should use `^^'.
+     example, '2^5' returns 32.  Unlike the other scalar infix
+     operators, one cannot use '^' for component-wise operations on
+     bunches.  Furthermore, one should not try to use '^' to raise a
+     square matrix to a power.  Instead, one should use '^^'.
 
           e7 : (1+x)^4;
 
@@ -925,18 +966,20 @@ File: jacal.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: 
           e7: 1 + 4 x + 6 x  + 4 x  + x
 
  -- Operator: = expression1 expression2
-     In Jacal, the equals sign `=' is _not_ used for conditionals and
-     it is _not_ used for assignments.  To assign one value to another,
-     use either `:' or `:='.  The operator `=' merely returns a value
-     of the form `0 = EXPRESSION'.  The value returned by `a = b', for
-     example is `0 = a - b'.
+
+     In Jacal, the equals sign '=' is _not_ used for conditionals and it
+     is _not_ used for assignments.  To assign one value to another, use
+     either ':' or ':='.  The operator '=' merely returns a value of the
+     form '0 = EXPRESSION'.  The value returned by 'a = b', for example
+     is '0 = a - b'.
 
           e6 : 1=2;
 
           e6: 0 = -1
 
  -- Operator: || Z1 Z2
-     The infix operator `||' is from electrical engineering and
+
+     The infix operator '||' is from electrical engineering and
      represents the effective impedance of the parallel connection of
      components of impedances Z1 and Z2:
 
@@ -947,14 +990,15 @@ File: jacal.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: 
               Z1 + Z2
 
 
-File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: Algebraic Operators,  Up: Algebra
-
+File: jacal-1c7.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: Algebraic Operators,  Up: Algebra
+                                                                              |
 2.2 Algebraic Commands
 ======================
 
  -- Command: eliminate [eqn_1 eqn_2 ...] [var_1 var_2 ...]
+
      Here EQN_I is an equation for I = 1 ... N and where VAR_J is a
-     variable for J = 1 ... M.  `eliminate' returns a list of equations
+     variable for J = 1 ... M.  'eliminate' returns a list of equations
      obtained by eliminating the variables VAR_1, ..., VAR_M from the
      equations EQN_1, ..., EQN_N.
 
@@ -968,9 +1012,10 @@ File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: 
           e40: 0 = 1 - z
 
  -- Command: suchthat var eqn
+
      The equation EQN must contain an occurence of variable VAR.
-     `suchthat' returns an expression for all complex values of VAR
-     satisfying EQN.  `suchthat' is useful for extracting an expression
+     'suchthat' returns an expression for all complex values of VAR
+     satisfying EQN.  'suchthat' is useful for extracting an expression
      from an equation.
 
           e0 : a*x+b*y+c = 0;
@@ -984,8 +1029,9 @@ File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: 
                   a
 
  -- Command: suchthat var exp
-     If an expression rather than an equation is given to `suchthat', it
-     is as though the equation `EXP=0' was given.
+
+     If an expression rather than an equation is given to 'suchthat', it
+     is as though the equation 'EXP=0' was given.
 
           e2 : suchthat(x, e0);
 
@@ -994,15 +1040,15 @@ File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: 
                   a
 
  -- Operator: | var exp_or_eqn
-     An alternative infix notation is also available for `suchthat'.
+     An alternative infix notation is also available for 'suchthat'.
 
-     When used in combination with the `{ }' notation for `or', the set
+     When used in combination with the '{ }' notation for 'or', the set
      notation used by some textbooks results.
 
-     If VAR in EQN has multiple roots, a named "field extension" will
-     be introduced to represent any one of those roots.  When multiple
-     values are returned, the result (in `disp2d' and `standard'
-     grammars) is wrapped with `{ }'.
+     If VAR in EQN has multiple roots, a named "field extension" will be
+     introduced to represent any one of those roots.  When multiple
+     values are returned, the result (in 'disp2d' and 'standard'
+     grammars) is wrapped with '{ }'.
 
           e3 : x | a*x^2 + b*x + c;
 
@@ -1026,13 +1072,14 @@ File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: 
 
  -- Command: or expr_1 ...
  -- Command: or eqn_1 ...
-     The function `or' takes as inputs one or more equations or values.
-     If the inputs are equations, then `or' returns an equation which
-     is equivalent to the assertion that at least one of the input
-     equations holds. If the inputs to `or' are values instead of two
-     equations, then the function `or' returns a multiple value. If the
-     inputs to `or' consist of both equations and values, then `or'
-     will return the multiple values.
+
+     The function 'or' takes as inputs one or more equations or values.
+     If the inputs are equations, then 'or' returns an equation which is
+     equivalent to the assertion that at least one of the input
+     equations holds.  If the inputs to 'or' are values instead of two
+     equations, then the function 'or' returns a multiple value.  If the
+     inputs to 'or' consist of both equations and values, then 'or' will
+     return the multiple values.
 
           e1 : or(x=2,y=3);
 
@@ -1052,7 +1099,7 @@ File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: 
 
           e4: 17
 
-     `{EQN, ... }' can be used as an alternate syntax for `or':
+     '{EQN, ... }' can be used as an alternate syntax for 'or':
 
           e5 : {+1, -1};
 
@@ -1060,14 +1107,15 @@ File: jacal.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: 
           e5: {:@ | 0 = -1 + :@ }
 
 
-File: jacal.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebraic Commands,  Up: Algebra
-
+File: jacal-1c7.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebraic Commands,  Up: Algebra
+                                                                              |
 2.3 Rational Expression
 =======================
 
  -- Command: num expr
-     The function `num' takes a rational expression as input and
-     returns a numerator of the expression.
+
+     The function 'num' takes a rational expression as input and returns
+     a numerator of the expression.
 
           e25 : num((x^2+y^2)/(x^2-y^2));
 
@@ -1083,7 +1131,8 @@ File: jacal.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebra
           e27: 21
 
  -- Operator: denom rational-expression
-     The Jacal command `denom' is used to obtain the denominator of a
+
+     The Jacal command 'denom' is used to obtain the denominator of a
      rational expression.
 
           e26 : denom(4/5);
@@ -1091,7 +1140,8 @@ File: jacal.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebra
           e26: 5
 
  -- Command: listofvars expr
-     The command `listofvars' takes as input a rational expression and
+
+     The command 'listofvars' takes as input a rational expression and
      returns a list of the variables that occur in that expression.
 
           e7 : listofvars(x^2+y^3);
@@ -1103,28 +1153,30 @@ File: jacal.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebra
           e8: [z, x, y]
 
  -- Command: imagpart z
-     Returns the coefficient of `%i' in expression Z;
+     Returns the coefficient of '%i' in expression Z;
 
  -- Command: realpart z
-     Returns all but the coefficient of `%i' in expression Z;
+     Returns all but the coefficient of '%i' in expression Z;
 
  -- Command: abs z
  -- Command: cabs z
-     `| Z |'
+     '| Z |'
 
-     Returns the square root of the sum of the squares of the `realpart'
-     and the `imagpart' of Z.
+     Returns the square root of the sum of the squares of the 'realpart'
+     and the 'imagpart' of Z.
 
 
-File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expression,  Up: Algebra
-
+File: jacal-1c7.info,  Node: Polynomials,  Next: Interpolation,  Prev: Rational Expression,  Up: Algebra
+                                                                              |
 2.4 Polynomials
 ===============
 
  -- Operator: degree poly var
+
      Returns the degree of polynomial or equation POLY in variable VAR.
 
  -- Operator: degree poly
+
      Returns the total-degree, the degree of its highest degree
      monomial, of polynomial or equation POLY.
 
@@ -1139,12 +1191,13 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
  -- Operator: coeff poly var
  -- Operator: coeff poly var deg
  -- Operator: coeffs poly var
-     The command `coeff' is used to determine the coefficient of a
-     certain power of a variable in a given polynomial. Here POLY is a
-     polynomial and VAR is a variable. If the optional third argument
+
+     The command 'coeff' is used to determine the coefficient of a
+     certain power of a variable in a given polynomial.  Here POLY is a
+     polynomial and VAR is a variable.  If the optional third argument
      is omitted, then Jacal returns the coefficient of the variable VAR
-     in POLY. Otherwise it returns the coefficient of VAR^DEG in POLY.
-     The function `coeffs' returns a list of all of the coefficients.
+     in POLY.  Otherwise it returns the coefficient of VAR^DEG in POLY.
+     The function 'coeffs' returns a list of all of the coefficients.
      For example,
 
           e14 : coeff((x + 2)^4, x, 3);
@@ -1166,7 +1219,8 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
 
  -- Operator: poly var vect
  -- Operator: poly var coeff1 ...
-     The function `poly' provides an inverse to the function `coeffs',
+
+     The function 'poly' provides an inverse to the function 'coeffs',
      allowing one to recover a polynomial from its vector or list of
      coefficients.
 
@@ -1181,10 +1235,10 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
           e16: 16 + 32 y + 24 y  + 8 y  + y
 
  -- Operator: poly eqn
-     The function `poly' returns the expression equal to 0 in equation
-     EQN.  Be aware that the sign and scaling of the returned
-     polynomial will not necessarily match those in the equation
-     creating EQN.
+
+     The function 'poly' returns the expression equal to 0 in equation
+     EQN.  Be aware that the sign and scaling of the returned polynomial
+     will not necessarily match those in the equation creating EQN.
 
           e17 : 2*a = 4*c;
 
@@ -1195,10 +1249,11 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
           e18: - a + 2 c
 
  -- Operator: content poly var
+
      Returns a list of content and primitive part of a polynomial with
      respect to the variable.  The content is the GCD of the
-     coefficients of the polynomial in the variable.  The primitive
-     part is POLY divided by the content.
+     coefficients of the polynomial in the variable.  The primitive part
+     is POLY divided by the content.
 
           e24 : content(2*x*y+4*x^2*y^2,y);
 
@@ -1207,11 +1262,12 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
 
  -- Operator: divide dividend divisor var
  -- Operator: divide dividend divisor
-     The command `divide' treats DIVIDENT and DIVISOR as polynomials in
-     the variable VAR and returns a pair `[QUOTIENT, REMAINDER]' such
-     that `DIVIDEND = DIVISOR * QUOTIENT + REMAINDER'. If the third
+
+     The command 'divide' treats DIVIDENT and DIVISOR as polynomials in
+     the variable VAR and returns a pair '[QUOTIENT, REMAINDER]' such
+     that 'DIVIDEND = DIVISOR * QUOTIENT + REMAINDER'.  If the third
      argument VAR is omitted Jacal will choose a variable on its own
-     with respect to which it will do the division. In particular, of
+     with respect to which it will do the division.  In particular, of
      DIVIDEND and DIVISOR are both numerical, one can safely omit the
      third argument.
 
@@ -1247,7 +1303,6 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
 
  -- Command: mod poly1 n
      Returns POLY1 with all the coefficients taken modulo N.
-
  -- Command: mod poly1
      Returns POLY1 with all the coefficients taken modulo the current
      modulus.
@@ -1278,9 +1333,10 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
           e24: 8
 
  -- Command: gcd poly_1 poly_2
-     The Jacal function `gcd' takes as arguments two polynomials with
+
+     The Jacal function 'gcd' takes as arguments two polynomials with
      integer coefficients and returns a greatest common divisor of the
-     two polynomials. This includes the case where the polynomials are
+     two polynomials.  This includes the case where the polynomials are
      integers.
 
           e1 : gcd(x^4-y^4,x^6+y^6);
@@ -1293,6 +1349,7 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
           e2: 2
 
  -- Command: discriminant poly var
+
      Here POLY is a polynomial and VAR is a variable.  This function
      returns the square of the product of the differences of the roots
      of the polynomial POLY with respect to the variable VAR.
@@ -1302,7 +1359,8 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
           e7: -27
 
  -- Command: resultant poly_1 poly_2 var
-     The function `resultant' returns the resultant of the polynomials
+
+     The function 'resultant' returns the resultant of the polynomials
      POLY_1 and POLY_2 with respect to the variable VAR.
 
           e2 : resultant(x^2 + a, x^3 + a, x);
@@ -1310,24 +1368,94 @@ File: jacal.info,  Node: Polynomials,  Next: Factoring,  Prev: Rational Expressi
                2    3
           e2: a  + a
 
+
  -- Command: equatecoeffs z1 z2 var
      Returns the list of equations formed by equating each coefficient
      of variable VAR^n in Z1 to the corresponding coefficient of VAR^n
      in Z2.  Z1 and Z2 can be polynomials or ratios of polynomials.
 
 
-File: jacal.info,  Node: Factoring,  Prev: Polynomials,  Up: Algebra
+File: jacal-1c7.info,  Node: Interpolation,  Next: Factoring,  Prev: Polynomials,  Up: Algebra
+                                                                              |
+2.5 Interpolation
+=================
 
-2.5 Factoring
+ -- Command: interp mat
+ -- Command: interp vec1 vec2 ...
+     The only argument, MAT, must be an array having at least one row of
+     two expressions: [[X1,Y1],[X2,Y2],...].  It is an error if there
+     are any duplicates in the first column of the second argument,
+
+     'interp' returns a polynomial function POLY(@1) such that
+     MAT[1,2]=POLY(MAT[1,1]), MAT[2,2]=POLY(MAT[2,1]), etc.
+
+     There is a variant of the 'interp' command that takes multiple
+     vector arguments instead of a matrix.  These vectors represent
+     points to be interpolated over.  The same constraints apply as in
+     the matrix version.  All the variants of the interpolation
+     procedure described later have both these forms.
+
+          e9 : interp([[2, 3], [0, -1]]);
+
+          e9 : lambda([@1], -1 + 2 @1)
+
+          e10 : interp([[2, 3], [1, z]]);
+
+          e10 : lambda([@1], -3 + 2 z + (3 - z) @1)
+
+          e11 : interp([2, 3], [y, z]);
+
+                            3 y - 2 z + (-3 + z) @1
+          e11 : lambda([@1], -----------------------)
+                                    -2 + y
+
+ -- Command: interp.lagrange mat
+ -- Command: interp.lagrange vec1 vec2 ...
+     This is the same as the 'interp' command.
+
+ -- Command: interp.newton mat
+ -- Command: interp.newton vec1 vec2 ...
+     This is similar to 'interp' command with an added option of
+     including derivative values when defining points.  The same
+     constraints apply as in 'interp'.  You can choose to specify some
+     number of derivatives for each point.  That number does not have to
+     be the same for all points.
+
+          e0 : interp.newton([-1, 0], [0, 1], [1, 0]);
+
+                                 2
+          e0: lambda([@1], 1 - @1 )
+
+          e1 : interp.newton([-1, 0], [0, 1, 0, 20], [1, 0]);
+
+                                    2        4
+          e1: lambda([@1], 1 + 10 @1  - 11 @1 )
+
+          e2 : interp.newton([-1, 0], [0, 1, 0, a], [1, 0]);
+
+                                   2              4
+                           2 + a @1  + (-2 - a) @1
+          e2: lambda([@1], ------------------------)
+                                      2
+
+ -- Command: interp.neville mat
+ -- Command: interp.neville vec1 vec2 ...
+     The same as 'interp' in its functionality, but uses newtons form
+     when constructing the polynomial.
+
+
+File: jacal-1c7.info,  Node: Factoring,  Prev: Interpolation,  Up: Algebra
+                                                                              |
+2.6 Factoring
 =============
 
  -- Command: factor int
-     The Jacal command `factor' takes as input an integer and returns a
+     The Jacal command 'factor' takes as input an integer and returns a
      list of the prime numbers that divide it, each occurring with the
-     appropriate multiplicity in the list. If the number is negative,
+     appropriate multiplicity in the list.  If the number is negative,
      the list will begin with -1.
 
-     The results of the `factor' command are shown in a special
+     The results of the 'factor' command are shown in a special
      "factored" format, which appears as the product of the factors.
 
           e0 : factor(120);
@@ -1341,8 +1469,8 @@ File: jacal.info,  Node: Factoring,  Prev: Polynomials,  Up: Algebra
           e1: -1 2  3 5
 
  -- Command: factor polyratio
-     Given a univariate ratio of polynomials POLYRATIO, returns a
-     matrix of factors and exponents.
+     Given a univariate ratio of polynomials POLYRATIO, returns a matrix
+     of factors and exponents.
 
      As above, the results are shown in factored form.
 
@@ -1458,26 +1586,25 @@ File: jacal.info,  Node: Factoring,  Prev: Polynomials,  Up: Algebra
                           3
                     a (- b  + (a + u) z)
 
-
 The rest of this section documents commands from the factoring package.
 To use this package, execute the following command from the JACAL
 prompt:
 
-  `require("ff");'
+  'require("ff");'
 
 Several of these commands return a matrix.  The first column contains
 the factors and the second column contains the corresponding exponent.
 
  -- Command: sff poly
      Given a primitive univariate polynomial POLY, calculate the square
-     free factorisation of POLY. A "primitive" polynomial is one with
+     free factorisation of POLY.  A "primitive" polynomial is one with
      no factors (other than units) common to all its coefficients.
 
  -- Command: ffsff poly p
  -- Command: ffsff poly p m
-     Given a monic polynomial POLY, a prime P, and a positive integer
-     M, calculate the square free factorisation of POLY in GF(p^m)[x].
-     If M is not supplied, `1' is assumed.
+     Given a monic polynomial POLY, a prime P, and a positive integer M,
+     calculate the square free factorisation of POLY in GF(p^m)[x].  If
+     M is not supplied, '1' is assumed.
 
           e0 : ffsff(x^5+x^3+1, 53);
 
@@ -1487,9 +1614,9 @@ the factors and the second column contains the corresponding exponent.
               [       -13 + x          2]
 
  -- Command: berl poly n
-     Given a square-free univariate polynomial POLY and an integer
-     power of a prime, Q, returns (as a bunch) the irreducible factors
-     of POLY.
+     Given a square-free univariate polynomial POLY and an integer power
+     of a prime, Q, returns (as a bunch) the irreducible factors of
+     POLY.
 
           e2 : berl(x^5+x^3+2, 53);
 
@@ -1502,8 +1629,8 @@ the factors and the second column contains the corresponding exponent.
      free.  This code is still being developed.
 
 
-File: jacal.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra,  Up: Top
-
+File: jacal-1c7.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra,  Up: Top
+                                                                              |
 3 Calculus
 **********
 
@@ -1512,10 +1639,11 @@ File: jacal.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra, 
 
  -- Operator: differential expr
  -- Operator: ' expr
-     The Jacal command `differential' computes the derivative of the
-     expression EXPR with respect to a generic derivation. It is
+
+     The Jacal command 'differential' computes the derivative of the
+     expression EXPR with respect to a generic derivation.  It is
      generic in the sense that nothing is assumed about its effect on
-     the individual variables. The derivation is denoted by a right
+     the individual variables.  The derivation is denoted by a right
      quote.
 
           e6 : differential(x^2+y^3);
@@ -1528,11 +1656,12 @@ File: jacal.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra, 
                           2
           e7: 2 x x' + 3 y  y'
 
-3.2 Derivative Commands
-=======================
+3.2 Derivatives
+===============
 
  -- Command: diff expr var1 ...
-     The Jacal command `diff' computes the derivative of the expression
+
+     The Jacal command 'diff' computes the derivative of the expression
      EXPR with respect to VAR1, ....
 
           e6 : diff(x^2+y^3,y);
@@ -1541,7 +1670,8 @@ File: jacal.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra, 
           e6: 3 y
 
  -- Command: partial expr var1 ...
-     The Jacal command `partial' computes the partial derivative of the
+
+     The Jacal command 'partial' computes the partial derivative of the
      expression EXPR with respect to VAR1, ....
 
           e6 : partial(x^2+@1^3,1);
@@ -1550,19 +1680,62 @@ File: jacal.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra, 
           e6: 3 @1
 
  -- Command: PolyDiff poly var1 ...
-     The Jacal command `PolyDiff' computes the derivative of the
+
+     The Jacal command 'PolyDiff' computes the derivative of the
      expression POLY with respect to VAR1, ....  It is faster than
-     `diff' but POLY must be a polynomial.
+     'diff' but POLY must be a polynomial.
+
+3.3 Integration
+===============
+
+ -- Command: integrate expr var
+
+     Returns the indefinite integral of rational expression EXPR, if
+     that integral is a rational expression involving up to one radical       |
+     involving VAR.                                                           |
+          e1 : integrate((3+x^2)*(1+x^2)^(2/3)/(3+6*x^2+3*x^4),x);            |
+                                                                              |
+                      2 2/3                                                   |
+              x (1 + x )                                                      |
+          e1: -------------                                                   |
+                      2                                                       |
+                 1 + x                                                        |
+                                                                              |
+          e2 : integrate((1+x^2)^(2/3),x);                                    |
+                                                                              |
+          ;;; could-not-find-algebraic-anti-derivative                        |
+           non-decreasing-rxd 2 vs 0                                          |
+                                                                              |
+          e2 : integrate(x*(1+x^2)^(2/3),x);                                  |
+                                                                              |
+                      2        2 2/3                                          |
+              (3 + 3 x ) (1 + x )                                             |
+          e2: ----------------------                                          |
+                        10                                                    |
+
+ -- Command: integrate expr var a b
+
+     If the indefinite integral of rational expression EXPR is a
+     rational expression, then 'integrate' returns the difference of
+     that integral evaluated at B and A.                                      |
+          e3 : integrate(x*(1+x^2)^(2/3),x,0,1);                              |
+                                                                              |
+                      2/3                                                     |
+              -3 + 6 2                                                        |
+          e3: -----------                                                     |
+                  10                                                          |
 
 
-File: jacal.info,  Node: Matrices and Tensors,  Next: Lambda Calculus,  Prev: Calculus,  Up: Top
-
+File: jacal-1c7.info,  Node: Matrices and Tensors,  Next: Lambda Calculus,  Prev: Calculus,  Up: Top
+                                                                              |
 4 Matrices and Tensors
 **********************
 
-In JACAL, a matrix is just a `bunch' of equal length `bunch's, and this
-is the structure that the matrix operations currently supported by
-JACAL (ncmult(), ^^, transpose(), etc.) expect.
+In JACAL, a matrix is just a 'bunch' of equal length 'bunch's, and this
+is the structure that the matrix operations currently supported by JACAL
+(ncmult(), ^^, transpose(), etc.)  expect.  A row-vector is coded like
+'[[a,b,c]]'; a column-vector is coded by '[[a],[b],[c]]' or
+'[[a,b,c]]^^t' or '[a,b,c]^^t'.
 
 * Menu:
 
@@ -1576,19 +1749,19 @@ JACAL (ncmult(), ^^, transpose(), etc.) expect.
 * indexswap::                   Swaps two indices within a tensor
 
 
-File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matrices and Tensors,  Up: Matrices and Tensors
-
+File: jacal-1c7.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matrices and Tensors,  Up: Matrices and Tensors
+                                                                              |
 4.1 Generating Matrices
 =======================
 
  -- Operator: bunch elt_1 elt_2 ...
-     `[ELT_1, ELT_2, ...]'
+     '[ELT_1, ELT_2, ...]'
 
-     To collect any number of Jacal objects into a bunch, simply
-     enclose them in square brackets. For example, to make the bunch
-     whose elements are `1', `2', `4', type `[1, 2, 4]'. One can also
-     nest bunches, for example, `[1, [[1, 3], [2, 5]], [1, 4]]'.  Note
-     however that the bunch whose only element is `[1, 2, 3]' is `[1 2
+     To collect any number of Jacal objects into a bunch, simply enclose
+     them in square brackets.  For example, to make the bunch whose
+     elements are '1', '2', '4', type '[1, 2, 4]'.  One can also nest
+     bunches, for example, '[1, [[1, 3], [2, 5]], [1, 4]]'.  Note
+     however that the bunch whose only element is '[1, 2, 3]' is '[1 2
      3]'.  It is importance to notice that one has commas and the other
      doesn't.
 
@@ -1609,6 +1782,7 @@ File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matric
           e6: [[1, 2, 3]]
 
  -- Operator: flatten bnch
+
      Removes bunch nesting from BNCH, returning a single bunch of the
      constituent expressions and equations.
 
@@ -1617,9 +1791,9 @@ File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matric
           e0: [a, b, c, d, 5]
 
  -- Command: ident n
-     The command `ident' takes as argument a positive integer N and
-     returns an NxN identity matrix. This is sometimes more convenient
-     than obtaining this same matrix using the command `scalarmatrix'.
+     The command 'ident' takes as argument a positive integer N and
+     returns an NxN identity matrix.  This is sometimes more convenient
+     than obtaining this same matrix using the command 'scalarmatrix'.
 
           e6 : ident(4);
 
@@ -1632,9 +1806,9 @@ File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matric
               [0  0  0  1]
 
  -- Command: scalarmatrix size entry
-     The command `scalarmatrix' takes as inputs a positive integer SIZE
-     and an algebraic expression ENTRY and returns an `N * N' diagonal
-     matrix whose diagonal entries are all equal to ENTRY, where `N =
+     The command 'scalarmatrix' takes as inputs a positive integer SIZE
+     and an algebraic expression ENTRY and returns an 'N * N' diagonal
+     matrix whose diagonal entries are all equal to ENTRY, where 'N =
      SIZE'.
 
           e1 : scalarmatrix(3, 6);
@@ -1646,10 +1820,10 @@ File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matric
               [0  0  6]
 
  -- Command: diagmatrix list
-     The Jacal command `diagmatrix' takes as input a list of objects and
+     The Jacal command 'diagmatrix' takes as input a list of objects and
      returns the diagonal matrix having those objects as diagonal
-     entries. In case one wants all of the diagonal entries to be
-     equal, it is more convenient to use the command `scalarmatrix'.
+     entries.  In case one wants all of the diagonal entries to be
+     equal, it is more convenient to use the command 'scalarmatrix'.
 
           e3 : diagmatrix(12,3,a,s^2);
 
@@ -1669,15 +1843,14 @@ File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matric
               [  0     2]
 
  -- Command: sylvester poly_1 poly_2 var
-     Here, POLY_1 and POLY_2 are polynomials and VAR is a variable.
-     The function `sylvester' returns the matrix introduced by
-     Sylvester (`A Method of Determining By Mere Inspection the
-     Derivatives from Two Equations of Any Degree, Phil.Mag. `16' (1840)
-     pp. 132-135, Mathematical Papers, vol. I, pp. 54-57') for
-     computing the resultant of the two polynomials POLY_1 and POLY_2
-     with respect to the variable VAR. If one wants to compute the
-     resultant itself, one can simply use the command `resultant' with
-     the same syntax.
+     Here, POLY_1 and POLY_2 are polynomials and VAR is a variable.  The
+     function 'sylvester' returns the matrix introduced by Sylvester ('A
+     Method of Determining By Mere Inspection the Derivatives from Two
+     Equations of Any Degree, Phil.Mag. '16' (1840) pp. 132-135,
+     Mathematical Papers, vol. I, pp. 54-57') for computing the
+     resultant of the two polynomials POLY_1 and POLY_2 with respect to
+     the variable VAR.  If one wants to compute the resultant itself,
+     one can simply use the command 'resultant' with the same syntax.
 
           e5 : sylvester(a0 + a1*x + a2*x^2 + a3*x^3, b0 + b1*x + b2*x^2, x);
 
@@ -1691,11 +1864,12 @@ File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matric
               [                  ]
               [0   0   b2  b1  b0]
 
+
  -- Command: genmatrix function rows cols
-     The function `genmatrix' takes as arguments a FUNCTION of two
-     variables and two positive integers, ROWS and COLS. It returns a
+     The function 'genmatrix' takes as arguments a FUNCTION of two
+     variables and two positive integers, ROWS and COLS.  It returns a
      matrix with the indicated numbers of rows and columns in which the
-     $(i,j)$th entry is obtained by evaluating FUNCTION at $(i,j)$. The
+     $(i,j)$th entry is obtained by evaluating FUNCTION at $(i,j)$.  The
      function may be defined in any of the ways available in Jacal, i.e
      previously by an explicit algebraic definition, by an explicit
      lambda expression or by an implicit lambda expression.
@@ -1713,17 +1887,42 @@ File: jacal.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matric
               [                  ]
               [10  13  18  25  34]
 
-
-File: jacal.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating Matrices,  Up: Matrices and Tensors
 
+
+File: jacal-1c7.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating Matrices,  Up: Matrices and Tensors
+                                                                              |
 4.2 Matrix Parts
 ================
 
+ -- Command: rank matrix
+     The rank of MATRIX is the maximal number of linearly independent
+     columns of MATRIX, which is always equalt to the maximal number of
+     linearly independent rows of MATRIX.
+          e13 : rank([[0,0],[0,0]]);
+
+          e13: 0
+
+          e14 : rank([[0,0],[0,1]]);
+
+          e14: 1
+
+          e15 : rank([[2,0],[0,1]]);
+
+          e15: 2
+
+          e17 : rank([[b,c],[0,a]]);
+
+          e17: 2
+
+          e18 : rank([[b,c,d],[a,0,a],[e,f,a]]);
+
+          e18: 3
+
  -- Command: row matrix i
-     The command `row' returns the Ith row of the matrix MATRIX, where
-     `i = INT'.  If INT is larger than the number of rows of MATRIX,
+     The command 'row' returns the Ith row of the matrix MATRIX, where
+     'i = INT'.  If INT is larger than the number of rows of MATRIX,
      then Jacal prints an error message.  The corresponding command for
-     columns of a matrix is `col'.
+     columns of a matrix is 'col'.
 
           e3 : u:[[1, 2, 3], [1, 5, 3]];
 
@@ -1736,13 +1935,13 @@ File: jacal.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating
           e4: [1, 5, 3]
 
  -- Command: col matrix integer
-     The command `col' is used to extract a column of a matrix. Here,
-     MATRIX is a matrix and INTEGER is a positive integer. If that
+     The command 'col' is used to extract a column of a matrix.  Here,
+     MATRIX is a matrix and INTEGER is a positive integer.  If that
      integer exceeds the number of columns, an error message such as
 
           ERROR: list-ref: Wrong type in arg1 ()
 
-     appears. Here is an example of correct use of the command `col':
+     appears.  Here is an example of correct use of the command 'col':
 
           e19 : a:[[1,2,4],[2,5,6]];
 
@@ -1757,7 +1956,7 @@ File: jacal.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating
                [5]
 
  -- Command: minor matrix i j
-     The command `minor' returns the submatrix of MATRIX obtained by
+     The command 'minor' returns the submatrix of MATRIX obtained by
      deleting the Ith row and the Jth column.
 
           e21 : b:[[1,2,3],[3,1,5],[5,2,7]];
@@ -1775,18 +1974,18 @@ File: jacal.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating
                [1  5]
 
  -- Command: cofactor matrix i j
-     The command `cofactor' returns the determinant of the I, J `minor'
+     The command 'cofactor' returns the determinant of the I, J 'minor'
      of MATRIX.
 
  -- Command: rapply bunch int_1 int_2 ...
-     The function `rapply' is used to access elements of bunches.  It
+     The function 'rapply' is used to access elements of bunches.  It
      can also access elements nested at lower levels in a bunch.  In
      particular, it can also access matrix elements.  In the above
      syntax, BUNCH is the bunch whose parts one wishes to access, and N,
      INT_1, INT_2, ..., INT_N are positive integers.  It returns the
-     INT_N-th element of the INT_{N-1}-th element of ... of the
-     INT_2-th element of the INT_1-th element of BUNCH.  One can have
-     `n = 0'.  In that case, `rapply' simply returns the bunch.
+     INT_N-th element of the INT_{N-1}-th element of ... of the INT_2-th
+     element of the INT_1-th element of BUNCH.  One can have 'n = 0'.
+     In that case, 'rapply' simply returns the bunch.
 
           e2 : rapply([[1,2,3],[1,4,6],3],2,3);
 
@@ -1801,10 +2000,33 @@ File: jacal.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating
           e7: [a, b]
 
 
-File: jacal.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  Up: Matrices and Tensors
-
+File: jacal-1c7.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  Up: Matrices and Tensors
+                                                                              |
 4.3 Matrix commands
 ===================
+
+ -- Command: transpose matrix
+     Computes the transpose of '(MATRIX)'.
+
+ -- Command: determinant matrix
+     The Jacal command 'determinant' computes the determinant of a
+     square matrix.  Attempting to take the determinant of a non-square
+     matrix will produce an error message.
+
+          e1 : a:[[1,2],[6,7]];
+
+              [1  2]
+          e1: [    ]
+              [6  7]
+
+          e2 : determinant(a);
+
+          e2: -5
+
+ -- Command: charpoly matrix var
+     The characteristic polynomial of MATRIX:
+
+     determinant(MATRIX - I VAR)
 
  -- Command: . matrix1 matrix2
      Matrix multiplication.
@@ -1828,7 +2050,8 @@ File: jacal.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  
               [26  20  46]
 
  -- Command: ^^ matrix exponent
-     The infix operator `^^' is used for raising a square matrix to an
+
+     The infix operator '^^' is used for raising a square matrix to an
      integral power.
 
           e8 : a:[[1, 0], [-1, 1]];
@@ -1892,10 +2115,9 @@ File: jacal.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  
           e13: [    ]
                [0  1]
 
-
  -- Command: dotproduct vector_1 vector_2
-     The Jacal function `dotproduct' returns the dot product of two row
-     vectors of the same length. It will also give the dot product of
+     The Jacal function 'dotproduct' returns the dot product of two row
+     vectors of the same length.  It will also give the dot product of
      two matrices of the same size by computing the sum of the dot
      products of the corresponding rows or, what is the same, the trace
      of one matrix times the transpose of the other one.
@@ -1912,43 +2134,23 @@ File: jacal.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  
           e30: 20
 
  -- Command: crossproduct vector_1 vector_2
-     The Jacal command `crossproduct' computes the cross product of two
+     The Jacal command 'crossproduct' computes the cross product of two
      vectors.  By definition, the two vectors must each have three
      components.
-
-          e24: [2 x, y + 2 x y ]
 
           e25 : crossproduct([1,2,3],[4,2,5]);
 
           e25: [4, 7, -6]
 
- -- Command: determinant matrix
-     The Jacal command `determinant' computes the determinant of a
-     square matrix.  Attempting to take the determinant of a non-square
-     matrix will produce an error message.
-
-          e1 : a:[[1,2],[6,7]];
-
-              [1  2]
-          e1: [    ]
-              [6  7]
-
-          e2 : determinant(a);
-
-          e2: -5
-
- -- Command: transpose matrix
-     Computes the transpose of `(MATRIX)'.
-
 
-File: jacal.info,  Node: Tensors,  Next: tmult,  Prev: Matrix commands,  Up: Matrices and Tensors
-
+File: jacal-1c7.info,  Node: Tensors,  Next: tmult,  Prev: Matrix commands,  Up: Matrices and Tensors
+                                                                              |
 4.4 Tensors
 ===========
 
-The `tensors' supported by JACAL are an extension of the matrix
+The 'tensors' supported by JACAL are an extension of the matrix
 structure (i.e., a bunch of bunches of bunches ...) with the added
-stipulation that all `dimensions' of the tensor be the same length
+stipulation that all 'dimensions' of the tensor be the same length
 (e.g., 4x4x4).  The number of dimensions (indices) in a tensor is its
 rank: A scalar is a tensor of rank 0; a vector is a rank 1 tensor; a
 matrix has rank 2; and so on.
@@ -1956,8 +2158,8 @@ matrix has rank 2; and so on.
   Further, just as matrix binary operations place restrictions on the
 matrices involved (e.g., the row/column length requirement for matrix
 multiplication), the tensor binary operations require that the
-dimensions of each tensor be of the same length.  For example, you
-could not multiply a 3x3 tensor and a 4x4x4 tensor.
+dimensions of each tensor be of the same length.  For example, you could
+not multiply a 3x3 tensor and a 4x4x4 tensor.
 
   JACAL's tensors do not support the construct of contravariant and
 covariant indices.  Users must keep track of this information
@@ -1969,33 +2171,33 @@ command from the JACAL prompt:
 
   require("tensor");
 
-  This loads the file `tensor.scm' into JACAL, and makes the tensor
+  This loads the file 'tensor.scm' into JACAL, and makes the tensor
 operations available for use.
 
-  JACAL currently supports four tensor operations: `tmult', `contract',
-`indexshift', and `indexswap'.  Each of these is described in detail
+  JACAL currently supports four tensor operations: 'tmult', 'contract',
+'indexshift', and 'indexswap'.  Each of these is described in detail
 below.
 
 
-File: jacal.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices and Tensors
-
+File: jacal-1c7.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices and Tensors
+                                                                              |
 4.5 Tensor Multiplication
 =========================
 
  -- Command: tmult matrix_1 matrix_2 index_1 index_2
-     `tmult' takes a minimum of two arguments which are the tensors on
+     'tmult' takes a minimum of two arguments which are the tensors on
      which the multiplication operation is to be performed.
 
-     With no additional arguments, `tmult' will produce the outer
-     product of the two input tensors.  The rank of the resulting
-     tensor is the sum of the inputs' ranks, and the components of the
-     result are formed from the pair-wise products of components of the
-     inputs.  For example, for the input tensors `x[a,b]' and `y[c]'
-          z:tmult(x,y);=> z[a,b,c] = x[a,b]*y[c]
+     With no additional arguments, 'tmult' will produce the outer
+     product of the two input tensors.  The rank of the resulting tensor
+     is the sum of the inputs' ranks, and the components of the result
+     are formed from the pair-wise products of components of the inputs.
+     For example, for the input tensors 'x[a,b]' and 'y[c]'
+          z:tmult(x,y); => z[a,b,c] = x[a,b]*y[c]
 
-     With an additional argument, `tmult' will produce the inner product
+     With an additional argument, 'tmult' will produce the inner product
      of the two tensors on the specified index.  For example, given
-     `x[i,j]' and `y[k,l,m]'
+     'x[i,j]' and 'y[k,l,m]'
           z:tmult(x,y,3);
           =>
                                   length
@@ -2009,7 +2211,7 @@ File: jacal.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices a
      Note that in this case X only has 2 indices.  All of JACAL's tensor
      operations modify index inputs to be between 1 and the rank of the
      tensor.  Thus, in this example, the 3 is modified to 2 in the case
-     of X.  As another example, with `x[i,j,k]' and `y[l,m,n]'
+     of X.  As another example, with 'x[i,j,k]' and 'y[l,m,n]'
           z:tmult(x,y,2);
           =>
                                     length
@@ -2020,9 +2222,9 @@ File: jacal.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices a
                                     -----
                                     q = 1
 
-     With four arguments, `tmult' produces an inner product of the two
-     tensors on the specified indices.  For example, for `x[i,j]' and
-     `y[k,l,m]'
+     With four arguments, 'tmult' produces an inner product of the two
+     tensors on the specified indices.  For example, for 'x[i,j]' and
+     'y[k,l,m]'
           z:tmult(x,y,1,3);
           =>
                                   length
@@ -2034,43 +2236,44 @@ File: jacal.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices a
                                   q = 1
 
      Note that matrix multiplication is the special case of an inner
-     product (of two "two dimensional matrices") on the second and
-     first indices, respectively: `tmult(x,y,2,1) == ncmult(x,y)'
+     product (of two "two dimensional matrices") on the second and first
+     indices, respectively: 'tmult(x,y,2,1) == ncmult(x,y)'
 
      Finally, tmult handles the case of a scalar times a tensor, in
      which case each component of the tensor is multiplied by the
      scalar.
 
 
-File: jacal.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrices and Tensors
-
+File: jacal-1c7.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrices and Tensors
+                                                                              |
 4.6 Tensor contraction
 ======================
 
  -- Command: contract matrix index1 ...
-     The contraction operation produces a tensor of rank two less than
-     a given tensor.  It does this by performing a summation over two
-     of the indices of the given tensor, as clarified in the examples
+
+     The contraction operation produces a tensor of rank two less than a
+     given tensor.  It does this by performing a summation over two of
+     the indices of the given tensor, as clarified in the examples
      below.
 
-     `contract' takes at least one argument which is the tensor on
-     which the contraction operation is to be performed.  One or two
+     'contract' takes at least one argument which is the tensor on which
+     the contraction operation is to be performed.  One or two
      additional arguments may be provided to specify the indices to be
      used in the summation.  If no additional arguments are provided,
-     the summation is performed over the first and second indices.
-     With one additional argument, the summation is over the specified
-     index and the one following it (e.g., if 3 is specified, the third
-     and fourth indices are used).  With two additional arguments, the
+     the summation is performed over the first and second indices.  With
+     one additional argument, the summation is over the specified index
+     and the one following it (e.g., if 3 is specified, the third and
+     fourth indices are used).  With two additional arguments, the
      summation is performed over the indices specified.  The actual
      indices used will be constrained to be between 1 and the rank of
      the tensor.
 
      Examples:
 
-     1) For a square matrix (tensor of rank 2), `contract' returns a
+     1) For a square matrix (tensor of rank 2), 'contract' returns a
      scalar that is the sum of the diagonal elements of the matrix.
 
-     2) Given `x[i,j,k,l]', the command
+     2) Given 'x[i,j,k,l]', the command
           y:contract(x,2,4);
      produces:
                                   length
@@ -2081,29 +2284,30 @@ File: jacal.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrice
                                   -----
                                   q = 1
 
-     Special cases:  If `contract' is given a scalar (rank 0 tensor) as
+     Special cases: If 'contract' is given a scalar (rank 0 tensor) as
      input, it just returns the scalar.  For a vector (tensor of rank
-     1), `contract' returns a scalar that is the sum of the elements of
+     1), 'contract' returns a scalar that is the sum of the elements of
      the vector.
 
 
-File: jacal.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Matrices and Tensors
-
+File: jacal-1c7.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Matrices and Tensors
+                                                                              |
 4.7 Shifting of Tensor Indices
 ==============================
 
  -- Command: indexshift matrix index1 ...
-     `indexshift' rearranges the indices of a tensor.  It is one of two
-     generalizations of the matrix transpose operation (cf.
-     `indexswap').
 
-     `indexshift' takes at least one argument which is the tensor on
-     which the index shifting is to be performed.  One or two
-     additional arguments may be provided to specify the index and the
-     position to which it is to be shifted.  If no additional arguments
-     are provided, the first index of the tensor is shifted to the
-     second position (equivalent the matrix transpose operation).  If
-     one additional argument is provided, it specifies the index to be
+     'indexshift' rearranges the indices of a tensor.  It is one of two
+     generalizations of the matrix transpose operation (cf.
+     'indexswap').
+
+     'indexshift' takes at least one argument which is the tensor on
+     which the index shifting is to be performed.  One or two additional
+     arguments may be provided to specify the index and the position to
+     which it is to be shifted.  If no additional arguments are
+     provided, the first index of the tensor is shifted to the second
+     position (equivalent the matrix transpose operation).  If one
+     additional argument is provided, it specifies the index to be
      shifted, and that index will be shifted "to the right" one position
      (e.g., if 3 is specified, the third index will be shifted to the
      forth position).  If two additional arguments are provided, the
@@ -2112,66 +2316,64 @@ File: jacal.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Mat
      shifted position will be constrained to be between 1 and the rank
      of the tensor.
 
-     For example, given `x[a,b,c,d]', the command
-     `y:indexshift(x,1,3);' produces a tensor Y such that `y[a,b,c,d]
-     == x[b,c,a,d]'.  In this example, the element that was in position
-     `[a,b,c,d]' in X will be in position `[b,c,a,d]' in Y.
+     For example, given 'x[a,b,c,d]', the command 'y:indexshift(x,1,3);'
+     produces a tensor Y such that 'y[a,b,c,d] == x[b,c,a,d]'.  In this
+     example, the element that was in position '[a,b,c,d]' in X will be
+     in position '[b,c,a,d]' in Y.
 
-     Special cases:  If `indexshift' is given a scalar (rank 0 tensor)
-     as input, it just returns the scalar.  For a vector (tensor of
-     rank 1), `indexshift' transposes the 1-by-n matrix (row vector) to
-     an n-by-1 matrix (column vector).
+     Special cases: If 'indexshift' is given a scalar (rank 0 tensor) as
+     input, it just returns the scalar.  For a vector (tensor of rank
+     1), 'indexshift' transposes the 1-by-n matrix (row vector) to an
+     n-by-1 matrix (column vector).
 
 
-File: jacal.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
-
+File: jacal-1c7.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
+                                                                              |
 4.8 Swapping of Tensor Indices
 ==============================
 
  -- Command: indexswap tensor ...
-     `indexswap' rearranges the indices of a tensor.  It is one of two
-     generalizations of the matrix transpose operation (cf.
-     `indexshift').
 
-     `indexswap' takes at least one argument which is the tensor on
+     'indexswap' rearranges the indices of a tensor.  It is one of two
+     generalizations of the matrix transpose operation (cf.
+     'indexshift').
+
+     'indexswap' takes at least one argument which is the tensor on
      which index swapping is to be performed.  One or two additional
-     arguments may be provided to specify the indices to be swapped.
-     If no additional arguments are provided, the first and second
-     indices of the tensor are swapped (equivalent the matrix transpose
-     operation).   With one additional argument, the specified index is
+     arguments may be provided to specify the indices to be swapped.  If
+     no additional arguments are provided, the first and second indices
+     of the tensor are swapped (equivalent the matrix transpose
+     operation).  With one additional argument, the specified index is
      swapped with the one following it (e.g., if 2 is specified, the
      second and third indices will be swapped).  If two additional
      arguments are provided, they specify the indices to be swapped.
-     The actual indices used will be constrained to be between 1 and
-     the rank of the tensor.
+     The actual indices used will be constrained to be between 1 and the
+     rank of the tensor.
 
-     For example, given x[a,b,c,d], the command `y:indexswap(x,2,4);'
+     For example, given x[a,b,c,d], the command 'y:indexswap(x,2,4);'
      produces a tensor Y such that y[a,b,c,d] = x[a,d,c,b].  In this
-     example, the element that was in position [a,b,c,d] in X will be
-     in position [a,d,c,b] in Y.
+     example, the element that was in position [a,b,c,d] in X will be in
+     position [a,d,c,b] in Y.
 
-     Special cases:  If `indexswap' is given a scalar (rank 0 tensor)
-     as input, it just returns the scalar.  For a vector (tensor of
-     rank 1), `indexswap' transposes the 1-by-n matrix (row vector) to
-     an n-by-1 matrix (column vector).
+     Special cases: If 'indexswap' is given a scalar (rank 0 tensor) as
+     input, it just returns the scalar.  For a vector (tensor of rank
+     1), 'indexswap' transposes the 1-by-n matrix (row vector) to an
+     n-by-1 matrix (column vector).
 
 
-File: jacal.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices and Tensors,  Up: Top
-
+File: jacal-1c7.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices and Tensors,  Up: Top
+                                                                              |
 5 Lambda Calculus
 *****************
 
-5.1 Create a lambda expression
-==============================
-
  -- Operator: lambda varlist expression
      Jacal has the ability to work with lambda expressions, via the
-     command `lambda'. Furthermore, Jacal always converts user
+     command 'lambda'.  Furthermore, Jacal always converts user
      definitions of functions by any method into lambda expressions and
      converts the dummy variables of the function definition into
-     symbols such as 1, 2, .... Jacal can manipulate lambda expressions
-     by manipulating their function parts, as in `e14' below.  Jacal can
-     also invert a function using the command `finv'.
+     symbols such as 1, 2, ....  Jacal can manipulate lambda expressions
+     by manipulating their function parts, as in 'e14' below.  Jacal can
+     also invert a function using the command 'finv'.
 
           e12 : lambda([x],x^2);
 
@@ -2187,18 +2389,36 @@ File: jacal.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices 
                                       2
           e14: lambda([@1, @2, @3], @1  + @1 @2 @3)
 
-5.2 Compute inverse function
-============================
+ -- Command: elementwise function matrix1 matrix2 ...
+     The arguments MATRIX1, MATRIX2, ... must have the same shape.  The
+     command 'elementwise' returns a new matrix formed by applying
+     FUNCTION to each tuple of elements of MATRIX1, MATRIX2, ....
+
+          e9 : elementwise(foo,[a, b], [c, d]);
+
+          e9: [foo(a, c), foo(b, d)]
+
+          e10 : elementwise(@1+5*@2,[a, b], [c, d]);
+
+          e10: [a + 5 c, b + 5 d]
+
+          e1 : elementwise(@1-@2,[9,8,7],[[1,0],[4,5],[6,3]]);
+
+              [ 8  9 ]
+              [      ]
+          e1: [ 4  3 ]
+              [      ]
+              [ 1  4 ]
 
  -- Command: finv function
-     `FUNCTION^^-1'
+     'FUNCTION^^-1'
 
-     The command `finv' takes as input a function of one variable and
-     returns the inverse of that function. The function may be defined
-     in any of the ways permitted in Jacal, i.e. by an explicit
+     The command 'finv' takes as input a function of one variable and
+     returns the inverse of that function.  The function may be defined
+     in any of the ways permitted in Jacal, i.e.  by an explicit
      algebraic definition, by an explicit lambda expression or by an
-     implicit lamba expression. If F is the function, then typing
-     `f^^-1' has the same effect as typing `finv(F)'.
+     implicit lamba expression.  If F is the function, then typing
+     'f^^-1' has the same effect as typing 'finv(F)'.
 
           e0 : w(t):=t+1;
 
@@ -2209,14 +2429,14 @@ File: jacal.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices 
           e0: lambda([@1], -1 + @1)
 
 
-File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  Up: Top
-
+File: jacal-1c7.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  Up: Top
+                                                                              |
 6 Miscellaneous
 ***************
 
  -- Command: %
-     The symbol `%' represents the last expression obtained by Jacal. It
-     can be used in formulas like any other constant or variable or
+     The symbol '%' represents the last expression obtained by Jacal.
+     It can be used in formulas like any other constant or variable or
      expression.
 
           e21: 5
@@ -2230,39 +2450,88 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
           e23: 25
 
  -- Command: batch filename
-     The command `batch' is used to read in a file containing programs
-     written in Jacal. Here, FILENAME is a string in double quotes. The
-     precise way in which one refers to a file is, of course, system
+     The command 'batch' is used to read in a file containing programs
+     written in Jacal.  Here, FILENAME is a string in double quotes.
+     The precise way in which one refers to a file is, of course, system
      dependent.
 
           batch("demo");
-     of the file demo in the JACAL directory will give a
-     demonstration of JACAL's capabilities.
+     of the file demo in the JACAL directory will give a demonstration
+     of JACAL's capabilities.
+
+ -- Command: tex expr
+ -- Command: scheme expr
+ -- Command: disp2d expr
+ -- Command: standard expr
+     Displays EXPR in TeX, Jacal's two-dimensional output format, or
+     Jacal's infix input format, respectively.
+
+ -- Command: tex string
+     Read TeX expression STRING.
+
+ -- Command: scheme string
+     Read Scheme expression STRING.
+
+ -- Command: disp2d string
+ -- Command: standard string
+     Reads STRING in Jacal's infix input format.
+
+     e24 : b^2-4*a*c;
+
+           2
+     e24: b  - 4 a c
+
+     e25 : tex(e24);
+     b^{2} - 4\,a\,c
+     e25 : tex("b^{2} - 4\,a\,c");
+
+           2
+     e25: b  - 4 a c
+
+     e26 : disp2d(e25);
+      2
+     b  - 4 a c
+     e26 : disp2d("b^2-4*a*c");
+
+           2
+     e26: b  - 4 a c
+
+     e27 : scheme(e26);
+     (- (^ b 2) (* 4 a c))
+
+     e27 : scheme("(- (^ b 2) (* 4 a c))");
+
+           2
+     e27: b  - 4 a c
 
  -- Command: commands
-     The command `commands' produces a list of all of the command
-     available in Jacal. It is called as s function of no arguments.
-     Explicitly:
+     The command 'commands' produces a list of all of the command
+     available in Jacal.  It is called as a function of no arguments.         |
 
-          e21 : commands();
+e21 : commands();
 
-               u-/+ u+/- transpose transcript differential terms system
-               sylvester show set scalarmatrix row resultant rapply quit
-               qed discriminant poly or num negate mod minor matrix
-               load listofvars ident genmatrix gcd finv factor example
-               eliminate dotproduct divide diff diagmatrix determinant
-               describe denom crossproduct content commands col coeffs
-               coeff bunch batch b+/- ^^ ^ = / - + * %
+     % * + - / = ^ ^^ abs args augcoefmatrix b+/- b-/+ batch berl bunch cabs  |
+     cartprod chain charpoly coeff coeffs coefmatrix cofactor col commands
+     compose content continue crossproduct decompose degree denom depends     |
+     describe determinant diagmatrix diff differential discriminant disp2d    |
+     divide dotproduct elementwise eliminate equatecoeffs example extrule     |
+     factor factorial factors ffsff finv flatten func gcd genmatrix help ident
+     imagpart integrate interp interp.lagrange interp.neville interp.newton   |
+     jacobi jacobian listofvars load matrix minor mod ncmult negate num or    |
+     over parallel parfrac partial poly polydiff polyelim prime? qed quit rank
+     rapply realpart require restart resultant row scalarmatrix scheme set sff
+     shadow show standard sylvester system taylor terms tex transcript        |
+     transpose u+/- u-/+ usff verify wronski wronskian                        |
 
  -- Command: describe command
-     The command `describe' is the heart of the online help facility of
+     The command 'describe' is the heart of the online help facility of
      Jacal.  Here, COMMAND is a string which is the name of a command
-     and `describe' produces a brief description of the command and in
-     many cases includes an example of its use. Together with the
-     command `commands()', which prints a list of all available Jacal
-     commands, and the command `example', which gives an example of the
-     use of the command, one can in principle use Jacal without a
-     manual after one has learned how to get started.
+     and 'describe' produces a brief description of the command and in
+     many cases includes an example of its use.  Together with the
+     command 'commands()', which prints a list of all available Jacal
+     commands, and the command 'example', which gives an example of the
+     use of the command, one can in principle use Jacal without a manual
+     after one has learned how to get started.
 
           e27 : describe(col);
           column.  column of a matrix
@@ -2274,9 +2543,10 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
           a + b
 
  -- Command: example command
+
      Here, COMMAND is a string which is the name of a Jacal command.
-     `example' gives an example of the use of the command.  See also
-     *Note describe: Miscellaneous.
+     'example' gives an example of the use of the command.  See also
+     *note describe: Miscellaneous.
 
           e43 : example(+);
           a + b
@@ -2284,11 +2554,11 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
           e43: a + b
 
  -- Command: load string
-     The Jacal command `load' takes as input a string and reads in a
-     `Scheme' file whose name is obtained by appending the extension
-     `.scm' to the string.  If you want to read in a file of Jacal
-     commands, do not use `load'.  Instead use the command `batch'. To
-     load in the file `foo.scm',
+     The Jacal command 'load' takes as input a string and reads in a
+     'Scheme' file whose name is obtained by appending the extension
+     '.scm' to the string.  If you want to read in a file of Jacal
+     commands, do not use 'load'.  Instead use the command 'batch'.  To
+     load in the file 'foo.scm',
 
           e9 : load("foo");
 
@@ -2298,10 +2568,10 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
      Exit from Jacal to Scheme.  With interactive Scheme systems (such
      as SCM), It does not return you to the operating system.  Instead
      it suspends Jacal and returns you to the underlying scheme.  You
-     can return to the Jacal session where you left off by simply
-     typing `(math)'.  If you do not wish to return to Jacal but really
-     want to terminate the session and return to the operating system,
-     then after typing `qed();', type `(slib:exit)' or use `quit'.
+     can return to the Jacal session where you left off by simply typing
+     '(math)'.  If you do not wish to return to Jacal but really want to
+     terminate the session and return to the operating system, then
+     after typing 'qed();', type '(slib:exit)' or use 'quit'.
 
  -- Command: quit
      Exit directly from Jacal to the operating system.  You will not be
@@ -2317,9 +2587,9 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
 
  -- Command: system command
      One can issue commands to the operating system without leaving
-     Jacal. To do this, one uses the command `system'. For example, in
-     a UNIX operating system, the command `system("ls");' will print the
-     directory. One way in which the command `system' might be
+     Jacal.  To do this, one uses the command 'system'.  For example, in
+     a UNIX operating system, the command 'system("ls");' will print the
+     directory.  One way in which the command 'system' might be
      especially useful is to edit files containing Jacal scripts without
      leaving Jacal, particularly in non-UNIX machines or on machines
      without GNU emacs.
@@ -2333,21 +2603,21 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
      Prints a copy of the GNU General Public License
           e1 : terms();
                               GNU GENERAL PUBLIC LICENSE
-                                 Version 3, 29 June 2007                      |
+                                 Version 3, 29 June 2007
 
            Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
            Everyone is permitted to copy and distribute verbatim copies
            of this license document, but changing it is not allowed.
-                       [ rest deleted for brevity]
+     [ rest deleted for brevity]
 
  -- Command: transcript string
-     The command `transcript' allows one to record a Jacal session. It
-     is called with the syntax `transcript(STRING);', where STRING is
+     The command 'transcript' allows one to record a Jacal session.  It
+     is called with the syntax 'transcript(STRING);', where STRING is
      the name of the file in which one wants to keep the transcript of
-     the session. When one wishes to stop recording, one types
-     `transcript();'. One is then free to use `transcript' again later
-     in the session on another file. One can use it on the same file,
-     but the file is overwritten. Presently, the command `transcript'
+     the session.  When one wishes to stop recording, one types
+     'transcript();'.  One is then free to use 'transcript' again later
+     in the session on another file.  One can use it on the same file,
+     but the file is overwritten.  Presently, the command 'transcript'
      does not echo commands to a file.
 
           e9 : a:[1,2,3];
@@ -2378,54 +2648,61 @@ File: jacal.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  U
  -- Command: set flag value
      There are various flags that the Jacal user can control, namely the
      Jacal command line prompt, the priority for printing terms in Jacal
-     output, the input grammar and the output grammar.  For a
-     discussion of the various grammars please *Note Flags::.  The
-     command `show' is closely related, allowing one to see what the
-     current settings are.
+     output, the input grammar and the output grammar.  For a discussion
+     of the various grammars please *Note Flags::.  The command 'show'
+     is closely related, allowing one to see what the current settings
+     are.
 
  -- Command: show flag
-     The command `show' enables the Jacal user to examine the current
+     The command 'show' enables the Jacal user to examine the current
      setting of various flags as well as to list the flags that can be
-     set by the user and to display other information. To change the
-     settings of the flags, use the command `set'. To see all the
-     information accessible through the `show' command, type `show
-     all'. To see the available grammars, type `show grammars'.  To see
-     the current input grammar type `show ingrammar'. To see the
-     current output grammar, type `show outgrammar'. To see the current
-     priority for printing expressions, type `show priority'.
-          e1 : show all;
+     set by the user and to display other information.  To change the
+     settings of the flags, use the command 'set'.  To see all the
+     information accessible through the 'show' command, type 'show all'.
+     To see the available grammars, type 'show grammars'.  To see the
+     current input grammar type 'show ingrammar'.  To see the current
+     output grammar, type 'show outgrammar'.  To see the current
+     priority for printing expressions, type 'show priority'.
 
-               prompt priority outgrammar ingrammar grammars all
-          e1 : show prompt;
+e1 : show all;
 
-          e1: e1
+     all debug echogrammar grammars horner ingrammar linkradicals outgrammar
+     page phases priority prompt trace version width
 
-          e3 : show priority;
+e1 : show prompt;
 
-              :@ (differential :@) @3 @2 @1 %inftsl y x u-/+ u+/-
-              transpose transcript differential terms t system sylvester
-              showpriority show set scalarmatrix row resultant rapply quit
-              qed prompt priority discriminant poly or num negate mod
-              minor matrix load listofvars ident genmatrix gcd finv factor
-              example eliminate e1 dotproduct divide diff diagmatrix
-              determinant describe denom crossproduct content commands col
-              coeffs coeff c bunch batch b-/+ b+/- b all a ^^ ^ = / - + *
-              % %sqrt1 %i
+e1: e1
 
-          e3 : show outgrammar;
+e3 : show priority;
 
-          e3: disp2d
+     :@ (differential :@) @3 @2 @1 y x wronskian wronski verify u-/+ u+/-
+     transpose transcript tex terms t system sylvester standard show shadow
+     set scheme scalarmatrix row resultant restart require realpart rapply
+     rank quit qed prompt priority prime? polyelim polydiff poly partial
+     parallel over or num negate ncmult mod minor matrix load listofvars
+     jacobian jacobi interp.newton interp.neville interp.lagrange interp
+     imagpart ident help genmatrix gcd func flatten finv factors factorial
+     factor extrule example equatecoeffs eliminate elementwise e0 dotproduct
+     divide disp2d discriminant differential diff diagmatrix determinant
+     describe depends denom degree crossproduct continue content commands col
+     cofactor coefmatrix coeffs coeff charpoly chain cartprod cabs c bunch
+     batch b-/+ b+/- b augcoefmatrix args all abs a ^^ ^ ? = ::@ / - + * %
+     %sqrt1 %i
 
-          e4 : show ingrammar;
+e3 : show outgrammar;
 
-          e4: standard
+e3: disp2d
 
-          e5 : show grammars;
+e4 : show ingrammar;
 
-          e5: [disp2d, standard, schemepretty, scheme]
+e4: standard
+
+e5 : show grammars;
+
+e5: [scheme, null, schemepretty, standard, disp2d, tex]
 
 
-File: jacal.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
+File: jacal-1c7.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
                                                                               |
 7 Flags
 *******
@@ -2434,11 +2711,11 @@ File: jacal.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
      If one changes the prompt, STRING is a string of alphanumeric
      characters without quotes.  After this command is executed,
      subsequent commands will cause new prompts to be obtained from
-     STRING by incrementing it.  If the prompt ends in a letter, it
-     will be treated as a digit in base 26 and incremented.  If it ends
-     in a string of digits, that string will be treated as a number in
-     base 10 and incremented.  The remaining characters in the string
-     will play no role in this incrementation.
+     STRING by incrementing it.  If the prompt ends in a letter, it will
+     be treated as a digit in base 26 and incremented.  If it ends in a
+     string of digits, that string will be treated as a number in base
+     10 and incremented.  The remaining characters in the string will
+     play no role in this incrementation.
 
           e1 : set prompt az9Z;
           e1 : a+b;
@@ -2502,11 +2779,11 @@ File: jacal.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
 
      Note that in the above examples, it is possible to input and output
      expressions in scheme by setting the ingrammar and/or outgrammar to
-     `scheme'.  Doing so result in linear output (as with `standard
+     'scheme'.  Doing so result in linear output (as with 'standard
      grammar') as opposed to a two dimensional display (as with
-     `disp2d').  The analogue of `disp2d' for scheme output is scheme
+     'disp2d').  The analogue of 'disp2d' for scheme output is scheme
      pretty-printing.  To have such output, set the output grammar to
-     `schemepretty'.
+     'schemepretty'.
 
 
           e4 : set outgrammar schemepretty;
@@ -2522,8 +2799,8 @@ File: jacal.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
 
      Jacal also allows for output to be automatically typeset in TeX.
      This can be quite useful if one wants to use the results of one's
-     computations in published articles. Continuing with the example of
-     `(1+x)^5' above, we have:
+     computations in published articles.  Continuing with the example of
+     '(1+x)^5' above, we have:
 
           e5 : set outgrammar tex;
           e5 : e4;
@@ -2537,7 +2814,7 @@ File: jacal.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
                           6 x^{3} y^{2} - 4 x^{3} y^{3} + x^{3} y^{4}}
 
      That looks much better when formatted by TeX in an article than the
-     actual Jacal output in `disp2d' grammar.
+     actual Jacal output in 'disp2d' grammar.
 
  -- Flag: priority int
      The following examples show how to set the priority of printing
@@ -2570,7 +2847,7 @@ File: jacal.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
           e16 : b+c;
 
 
-File: jacal.info,  Node: Index,  Prev: Flags,  Up: Top
+File: jacal-1c7.info,  Node: Index,  Prev: Flags,  Up: Top
                                                                               |
 Index
 *****
@@ -2578,145 +2855,186 @@ Index
  [index ]
 * Menu:
 
-* %:                                     Miscellaneous.       (line   7)
-* ':                                     Calculus.            (line  11)
-* *:                                     Algebraic Operators. (line  79)
-* +:                                     Algebraic Operators. (line   7)
-* +/-:                                   Algebraic Operators. (line  53)
+* %:                                     Miscellaneous.       (line   6)
+* ':                                     Calculus.            (line  10)
+* *:                                     Algebraic Operators. (line  81)
+* +:                                     Algebraic Operators. (line   6)
+* +/-:                                   Algebraic Operators. (line  54)
+* +/- <1>:                               Algebraic Operators. (line  56)
 * -:                                     Algebraic Operators. (line  40)
-* -/+:                                   Algebraic Operators. (line  54)
-* .:                                     Matrix commands.     (line   7)
-* /:                                     Algebraic Operators. (line  98)
-* =:                                     Algebraic Operators. (line 119)
-* ^:                                     Algebraic Operators. (line 106)
-* ^^:                                    Matrix commands.     (line  28)
-* abs:                                   Rational Expression. (line  50)
+* - <1>:                                 Algebraic Operators. (line  41)
+* -/+:                                   Algebraic Operators. (line  55)
+* -/+ <1>:                               Algebraic Operators. (line  57)
+* .:                                     Matrix commands.     (line  29)
+* /:                                     Algebraic Operators. (line 101)
+* =:                                     Algebraic Operators. (line 124)
+* ^:                                     Algebraic Operators. (line 110)
+* ^^:                                    Matrix commands.     (line  50)
+* |:                                     Algebraic Commands.  (line  50)
+* ||:                                    Algebraic Operators. (line 136)
+* abs:                                   Rational Expression. (line  52)
 * Algebra:                               Algebra.             (line   6)
 * Algebraic Commands:                    Algebraic Commands.  (line   6)
 * Algebraic Operators:                   Algebraic Operators. (line   6)
-* Apple:                                 Installation.        (line  42)
+* Apple:                                 Installation.        (line  41)
 * Authors:                               Authors and Bibliography.
                                                               (line   6)
-* batch:                                 Miscellaneous.       (line  22)
-* berl:                                  Factoring.           (line 172)
+* batch:                                 Miscellaneous.       (line  21)
+* berl:                                  Factoring.           (line 170)
 * Bibliography:                          Authors and Bibliography.
                                                               (line   6)
-* bunch:                                 Generating Matrices. (line   7)
-* cabs:                                  Rational Expression. (line  51)
-* Calculus:                              Calculus.            (line   6)
-* coeff:                                 Polynomials.         (line  22)
-* coeffs:                                Polynomials.         (line  24)
-* cofactor:                              Matrix Parts.        (line  62)
-* col:                                   Matrix Parts.        (line  23)
-* commands:                              Miscellaneous.       (line  32)
+* Bibliography <1>:                      Authors and Bibliography.
+                                                              (line  18)
+* bunch:                                 Generating Matrices. (line   6)
+* cabs:                                  Rational Expression. (line  53)
+* Calculus:                              Calculus.            (line   5)
+* charpoly:                              Matrix commands.     (line  24)
+* coeff:                                 Polynomials.         (line  23)
+* coeff <1>:                             Polynomials.         (line  24)
+* coeffs:                                Polynomials.         (line  25)
+* cofactor:                              Matrix Parts.        (line  85)
+* col:                                   Matrix Parts.        (line  46)
+* commands:                              Miscellaneous.       (line  76)
 * Compiling Jacal:                       Installation.        (line  54)
-* content:                               Polynomials.         (line  80)
-* contract:                              contract.            (line   7)
-* Conventions:                           Release Notes.       (line  24)
-* crossproduct:                          Matrix commands.     (line 112)
-* degree:                                Polynomials.         (line   7)
+* content:                               Polynomials.         (line  83)
+* contract:                              contract.            (line   6)
+* Conventions:                           Release Notes.       (line  25)
+* crossproduct:                          Matrix commands.     (line 134)
+* degree:                                Polynomials.         (line   6)
+* degree <1>:                            Polynomials.         (line  10)
 * Demonstrating Jacal:                   Running Jacal.       (line  38)
 * denom:                                 Rational Expression. (line  24)
-* describe:                              Miscellaneous.       (line  47)
-* determinant:                           Matrix commands.     (line 123)
+* describe:                              Miscellaneous.       (line  95)
+* determinant:                           Matrix commands.     (line   9)
 * diagmatrix:                            Generating Matrices. (line  71)
 * diff:                                  Calculus.            (line  31)
-* differential:                          Calculus.            (line  10)
-* discriminant:                          Polynomials.         (line 178)
-* divide:                                Polynomials.         (line  91)
-* dotproduct:                            Matrix commands.     (line  94)
-* eliminate:                             Algebraic Commands.  (line   7)
-* equatecoeffs:                          Polynomials.         (line 196)
-* example:                               Miscellaneous.       (line  66)
-* extrule:                               Algebraic Commands.  (line  71)
-* factor:                                Factoring.           (line   7)
+* differential:                          Calculus.            (line   9)
+* discriminant:                          Polynomials.         (line 183)
+* disp2d:                                Miscellaneous.       (line  33)
+* disp2d <1>:                            Miscellaneous.       (line  44)
+* divide:                                Polynomials.         (line  95)
+* divide <1>:                            Polynomials.         (line  96)
+* dotproduct:                            Matrix commands.     (line 116)
+* elementwise:                           Lambda Calculus.     (line  29)
+* eliminate:                             Algebraic Commands.  (line   6)
+* equatecoeffs:                          Polynomials.         (line 204)
+* example:                               Miscellaneous.       (line 114)
+* extrule:                               Algebraic Commands.  (line  73)
+* factor:                                Factoring.           (line   6)
+* factor <1>:                            Factoring.           (line  25)
 * Factoring:                             Factoring.           (line   6)
-* ffsff:                                 Factoring.           (line 159)
-* finv:                                  Lambda Calculus.     (line  36)
-* flatten:                               Generating Matrices. (line  34)
-* gcd:                                   Polynomials.         (line 163)
+* ffsff:                                 Factoring.           (line 157)
+* ffsff <1>:                             Factoring.           (line 158)
+* finv:                                  Lambda Calculus.     (line  50)
+* flatten:                               Generating Matrices. (line  33)
+* gcd:                                   Polynomials.         (line 167)
 * genmatrix:                             Generating Matrices. (line 117)
-* GNU/Linux:                             Installation.        (line  26)
-* i386:                                  Installation.        (line  16)
+* GNU/Linux:                             Installation.        (line  25)
 * ident:                                 Generating Matrices. (line  42)
-* imagpart:                              Rational Expression. (line  44)
-* indexshift:                            indexshift.          (line   7)
-* indexswap:                             indexswap.           (line   7)
-* ingrammar:                             Flags.               (line  37)
-* lambda:                                Lambda Calculus.     (line  10)
-* listofvars:                            Rational Expression. (line  32)
-* load:                                  Miscellaneous.       (line  76)
-* Manifest:                              Release Notes.       (line  41)
-* minor:                                 Matrix Parts.        (line  44)
-* mod:                                   Polynomials.         (line 125)
-* num:                                   Rational Expression. (line   7)
-* or:                                    Algebraic Commands.  (line  79)
-* outgrammar:                            Flags.               (line  38)
+* imagpart:                              Rational Expression. (line  46)
+* indexshift:                            indexshift.          (line   6)
+* indexswap:                             indexswap.           (line   6)
+* ingrammar:                             Flags.               (line  36)
+* integrate:                             Calculus.            (line  60)
+* integrate <1>:                         Calculus.            (line  85)
+* interp:                                Interpolation.       (line   6)
+* interp <1>:                            Interpolation.       (line   7)
+* interp.lagrange:                       Interpolation.       (line  35)
+* interp.lagrange <1>:                   Interpolation.       (line  36)
+* interp.neville:                        Interpolation.       (line  64)
+* interp.neville <1>:                    Interpolation.       (line  65)
+* interp.newton:                         Interpolation.       (line  39)
+* interp.newton <1>:                     Interpolation.       (line  40)
+* Interpolation:                         Interpolation.       (line   6)
+* lambda:                                Lambda Calculus.     (line   6)
+* listofvars:                            Rational Expression. (line  33)
+* load:                                  Miscellaneous.       (line 125)
+* Manifest:                              Release Notes.       (line  42)
+* minor:                                 Matrix Parts.        (line  67)
+* mod:                                   Polynomials.         (line 130)
+* mod <1>:                               Polynomials.         (line 131)
+* mod <2>:                               Polynomials.         (line 132)
+* mod <3>:                               Polynomials.         (line 136)
+* mod <4>:                               Polynomials.         (line 138)
+* num:                                   Rational Expression. (line   6)
+* or:                                    Algebraic Commands.  (line  81)
+* or <1>:                                Algebraic Commands.  (line  82)
+* outgrammar:                            Flags.               (line  37)
 * Overview:                              Overview.            (line   6)
-* parfrac:                               Factoring.           (line 182)
-* partial:                               Calculus.            (line  40)
-* poly:                                  Polynomials.         (line  50)
-* PolyDiff:                              Calculus.            (line  49)
+* parfrac:                               Factoring.           (line 180)
+* partial:                               Calculus.            (line  41)
+* poly:                                  Polynomials.         (line  52)
+* poly <1>:                              Polynomials.         (line  53)
+* poly <2>:                              Polynomials.         (line  69)
+* PolyDiff:                              Calculus.            (line  51)
 * Polynomials:                           Polynomials.         (line   6)
-* priority:                              Flags.               (line 116)
-* prompt:                                Flags.               (line   7)
-* qed:                                   Miscellaneous.       (line  87)
-* quit:                                  Miscellaneous.       (line  96)
-* rapply:                                Matrix Parts.        (line  66)
+* priority:                              Flags.               (line 115)
+* prompt:                                Flags.               (line   6)
+* qed:                                   Miscellaneous.       (line 136)
+* quit:                                  Miscellaneous.       (line 145)
+* rank:                                  Matrix Parts.        (line   6)
+* rapply:                                Matrix Parts.        (line  89)
 * Rational Expression:                   Rational Expression. (line   6)
-* realpart:                              Rational Expression. (line  47)
-* Recovery from Errors:                  Running Jacal.       (line  53)
+* realpart:                              Rational Expression. (line  49)
+* Recovery from Errors:                  Running Jacal.       (line  51)
 * Release Notes:                         Release Notes.       (line   6)
-* resultant:                             Polynomials.         (line 187)
-* row:                                   Matrix Parts.        (line   7)
+* resultant:                             Polynomials.         (line 193)
+* row:                                   Matrix Parts.        (line  30)
 * Running Jacal:                         Running Jacal.       (line   6)
 * scalarmatrix:                          Generating Matrices. (line  57)
 * Scheme:                                Installation.        (line   6)
-* set:                                   Miscellaneous.       (line 168)
-* sff:                                   Factoring.           (line 154)
-* show:                                  Miscellaneous.       (line 176)
-* Stopping Jacal:                        Running Jacal.       (line  63)
+* scheme:                                Miscellaneous.       (line  32)
+* scheme <1>:                            Miscellaneous.       (line  41)
+* set:                                   Miscellaneous.       (line 217)
+* sff:                                   Factoring.           (line 152)
+* show:                                  Miscellaneous.       (line 225)
+* standard:                              Miscellaneous.       (line  34)
+* standard <1>:                          Miscellaneous.       (line  45)
+* Stopping Jacal:                        Running Jacal.       (line  61)
 * suchthat:                              Algebraic Commands.  (line  22)
+* suchthat <1>:                          Algebraic Commands.  (line  39)
 * sylvester:                             Generating Matrices. (line  94)
-* system:                                Miscellaneous.       (line 108)
-* terms:                                 Miscellaneous.       (line 122)
-* tmult:                                 tmult.               (line   7)
-* transcript:                            Miscellaneous.       (line 133)
-* transpose:                             Matrix commands.     (line 138)
-* Unix:                                  Installation.        (line  25)
-* x86:                                   Installation.        (line  46)
-* |:                                     Algebraic Commands.  (line  48)
-* ||:                                    Algebraic Operators. (line 130)
+* system:                                Miscellaneous.       (line 157)
+* terms:                                 Miscellaneous.       (line 171)
+* tex:                                   Miscellaneous.       (line  31)
+* tex <1>:                               Miscellaneous.       (line  38)
+* tmult:                                 tmult.               (line   6)
+* transcript:                            Miscellaneous.       (line 182)
+* transpose:                             Matrix commands.     (line   6)
+* Unix:                                  Installation.        (line  24)
+* x86:                                   Installation.        (line  45)
+* x86_64:                                Installation.        (line  15)
 
 
 
 Tag Table:
-Node: Top785
-Node: Overview1746
-Node: Authors and Bibliography3209
-Node: Installation4653
-Node: Running Jacal7309
-Node: Release Notes9757
-Node: GNU Free Documentation License12493
-Node: Algebra46987
-Node: Algebraic Operators47278
-Node: Algebraic Commands51173
-Node: Rational Expression54436
-Node: Polynomials55727
-Node: Factoring61521
-Node: Calculus67210
-Node: Matrices and Tensors68610
-Node: Generating Matrices69262
-Node: Matrix Parts73775
-Node: Matrix commands76226
-Node: Tensors79844
-Node: tmult81296
-Node: contract83988
-Node: indexshift85864
-Node: indexswap87650
-Node: Lambda Calculus89196
-Node: Miscellaneous90845
-Node: Flags98593
-Node: Index102443
+Node: Top812
+Node: Overview1862
+Node: Authors and Bibliography3147
+Node: Installation4677
+Node: Running Jacal7348
+Node: Release Notes9926
+Node: GNU Free Documentation License12653
+Node: Algebra37857
+Node: Algebraic Operators38170
+Node: Algebraic Commands42158
+Node: Rational Expression45510
+Node: Polynomials46887
+Node: Interpolation52779
+Node: Factoring55317
+Node: Calculus61093
+Node: Matrices and Tensors65114
+Node: Generating Matrices65970
+Node: Matrix Parts70572
+Node: Matrix commands73609
+Node: Tensors77391
+Node: tmult78926
+Node: contract81701
+Node: indexshift83661
+Node: indexswap85530
+Node: Lambda Calculus87159
+Node: Miscellaneous89390
+Node: Flags98801
+Node: Index102656
 
 End Tag Table

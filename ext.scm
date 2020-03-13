@@ -90,26 +90,28 @@
 		    exrls vars)
 	  ans))))
 
-(define (alg:clear-denoms poly)
+(define (alg:clear-leading-exts poly)
   (define p poly)
   (cond (math:trace
-	 (display-diag 'clear-denoms:) (newline-diag)))
-  (do ((v (poly:find-var-if? (rat:denom p) potent-extrule)
-	  (poly:find-var-if? (rat:denom p) potent-extrule))
+	 (display-diag 'clear-leading-exts:)
+	 (newline-diag)))
+  (do ((v (poly:find-var-if? (poly:leading-coeff p (car p)) potent-extrule)
+	  (poly:find-var-if? (poly:leading-coeff p (car p)) potent-extrule))
        (oldv "foo" (car v)))
       ((not v) p)
-    (if (eq? (car v) oldv)
-	(eval-error 'could-not-clear-denominator-of:- poly))
-    (set! p (alg:simplify (poly:* p (alg:conjugate (rat:denom p) v))))))
+    ;; (if (eq? (car v) oldv)
+    ;; 	(eval-error 'could-not-clear-denominator-of:- poly))
+    (set! p (alg:simplify
+	     (poly:* p (alg:conjugate (poly:leading-coeff p (car p)) v))))))
 
 ;;; This generates conjugates for any algebraic by a wonderful theorem of mine.
 ;;; 4/30/90 jaffer
 (define (alg:conjugate poly extpoly)
   (let* ((var (car extpoly))
 	 (poly (poly:promote var poly))
-	 (pdiv (univ:pdiv extpoly (if (shorter? poly extpoly)
-				      poly
-				      (univ:prem poly extpoly))))
+	 (pdiv (if (shorter? poly extpoly)
+		   (univ:pdiv extpoly poly)
+		   '(1 0)))
 	 (pquo (car pdiv))
 	 (prem (cadr pdiv)))
     (if (zero? (univ:degree prem var))

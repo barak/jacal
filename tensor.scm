@@ -47,7 +47,7 @@
       rank)))
 
 
-(defbltn 'indexshift
+(defbltn 'indexshift 1 #f
   (lambda (m . args)
     (let ((rank  (tnsr:rank m)))
       (cond
@@ -105,7 +105,7 @@
 					    mb)))))))))))))
 
 
-(defbltn 'indexswap
+(defbltn 'indexswap 1 #f
   (lambda (m . args)
     (let ((rank  (tnsr:rank m)))
       (cond
@@ -166,7 +166,7 @@
       (cxt (map cdr (cdr mm)) (app* $1+$2 ss (car (car mm)))))))
 
 
-(defbltn 'contract
+(defbltn 'contract 1 #f
   (lambda (m . args)
     (let ((rank  (tnsr:rank m)))
       (cond
@@ -222,7 +222,7 @@
 						 mc)))))))))))))))
 
 
-(defbltn 'tmult
+(defbltn 'tmult 2 #f
   (lambda (m1 m2 . args)
     (let ((r1  (tnsr:rank m1))
 	  (r2  (tnsr:rank m2)))

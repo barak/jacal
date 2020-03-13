@@ -16,67 +16,44 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-(require 'hash-table)
 (require 'fluid-let)
 (require 'polynomial-factors)
-(require-if '(and compiling (not inexact)) 'math-integer)
+(require 'math-integer)
 (require 'common-list-functions)
-
-;;; =================== Memoize procedure calls ===================
-;;; From Norvig "Artificial Intelligence Programming"
-;;; Examples:
-;;; (define fib
-;;;   (memon (lambda (n)
-;;;	 (if (<= n 1) 1
-;;;	    (+ (fib (+ -1 n)) (fib (+ -2 n)))))))
-;;;
-;;; (define sum
-;;;   (memon (lambda (x y)
-;;;	 (+ x y))))
-;;;
-(define (memon fn)
-  (let ((table (make-hash-table 100))
-	(gethash (hash-inquirer equal?))
-	(puthash (hash-associator equal?)))
-    (lambda x
-      (let ((val (gethash table x)))
-	(if val
-	    val
-	    (let ((fx (apply fn x)))
-	      (puthash table x fx)
-	      fx))))))
+(require 'combinatorics)		; for memon
 
 ;;;; GCL Algorithm 2.2 (p. 36)
 ;;;
 ;;; Extended Euclidean algorithm returns the list (g s t),
 ;;; where g is the gcd of a and b, and g = s*a + t*b.
 ;;; for univariate polynomials over Z mod n:
-(define (ff:eea-gcd a b n)
+(define (ff:eea-gcd a b mdls)
   (define var (car a))
-  (fluid-let ((*modulus* (symmetric:modulus n)))
+  (fluid-let ((*modulus* (symmetric:modulus mdls)))
     (letrec ((feg (lambda (c c1 c2 d d1 d2)
 		    (if (univ:zero? d)
 			(list c c1 c2)
-			(let* ((qr (ff:p/p->qr n c d))
-			       (r1 (number->poly
-				    (poly:- c1 (univ:* (car qr) d1))
-				    var))
-			       (r2 (number->poly
-				    (poly:- c2 (univ:* (car qr) d2))
-				    var)))
-			  (feg d d1 d2 (cadr qr) r1 r2))))))
+			(let ((qr (ff:p/p->qr mdls c d)))
+			  (feg d
+			       d1
+			       d2
+			       (cadr qr)
+			       (number->poly (poly:- c1 (univ:* (car qr) d1))
+					     var)
+			       (number->poly (poly:- c2 (univ:* (car qr) d2))
+					     var)))))))
       (let* ((aone (list var 1))
 	     (azero (list var 0))
-	     (result (feg (univ:make-monic a) aone azero
-			  (univ:make-monic b) azero aone))
-	     (c (car result)))
+	     (c-c1-c2 (feg (univ:make-monic a) aone azero
+			   (univ:make-monic b) azero aone))
+	     (c (car c-c1-c2)))
 	(cons
 	 (univ:make-monic c)
 	 (list
-	  (poly:* (cadr result)
-		  (coef:invert (* (ff:lc n a) (ff:lc n c))))
-	  (poly:* (caddr result)
-		  (coef:invert (* (ff:lc n b) (ff:lc n c))))))))))
+	  (poly:* (cadr c-c1-c2)
+		  (coef:invert (* (ff:lc mdls a) (ff:lc mdls c))))
+	  (poly:* (caddr c-c1-c2)
+		  (coef:invert (* (ff:lc mdls b) (ff:lc mdls c))))))))))
 
 (define (check-ext-gcd caller a s b t p)
   (define x (car a))
@@ -170,8 +147,7 @@
 	(cond ((not (univ:one? inner-prod x))
 	       (ff:print "In hen:multiterm-eea-lift: the result is not correct.")
 	       (ff:print " as = " as " bs = " bs " result = " result)
-	       (ff:print " inner-prod = " inner-prod " supposed result = " cn
-			 " p^k = " p^k)))))))
+	       (ff:print " inner-prod = " inner-prod " p^k = " p^k)))))))
 
 ;;;; GCL Algorithm 6.3 (p. 270)
 ;;;
@@ -186,6 +162,7 @@
 ;;;   a_i mod p, i = 1, ..., r, must be pairwise relatively prime in Z_p[x].
 (define hen:multiterm-eea-lift
   (memon (lambda (a p k)
+	   ;;(math:print 'hen:multiterm-eea-lift a p k)
 	   (let* ((r (length a))
 		  (var (car (car a)))
 		  (r-1 (+ -1 r))
@@ -204,36 +181,12 @@
 		   (let ((sigma (hen:diophantine
 				 (list (vector-ref q j) (list-ref a j))
 				 (vector-ref beta j) p k)))
-		     (vector-set! beta (+ 1 j) (car sigma))
+		     (vector-set! beta (+ 1 j) (car sigma)) ;book says j
 		     (vector-set! s j  (cadr sigma))
 		     (loop (+ 1 j)))))
 	     (vector-set! s r-1 (vector-ref beta r-1))
 	     (check-mel a p k (vector->list s))
 	     (vector->list s)))))
-
-
-;;; Checks:
-;;;   p must not divide lcoeff(a_i), i = 1, ..., r;
-;;;   a_i mod p, i = 1, ..., r, must be pairwise relatively prime in Z_p[x].
-(define (ff:check-pairwise-relatively-prime p a x1)
-  (do ((as (map (lambda (a)
-		  (cond ((eqv? 0 (modulo (univ:lc a) p))
-			 (math:error 'lc-0-divider a)))
-		  (ff:unorm p a))
-		a)
-	   (cdr as))
-       (oas a (cdr oas)))
-      ((null? as))
-    (let ((af (car as))
-	  (oaf (car oas)))
-      (for-each (lambda (ao oao)
-		  (define g-s-t (ff:eea-gcd af ao p))
-		  (cond ((not (equal? x1 (car g-s-t)))
-			 (math:warn oaf oao 'mod p)
-			 (math:error 'not-relatively-prime
-				     af ao '==> (car g-s-t)))))
-		(cdr as)
-		(cdr oas)))))
 
 (define (check-hd as c p k result)
   (define p^k (expt p k))
@@ -327,7 +280,15 @@
 ;;; The value returned is the list S = [S_1, ..., S_r].
 (define hen:univariate-diophant
   (memon (lambda (a x m p k)
-	   (ff:check-pairwise-relatively-prime p a (list x 1))
+	   (if math:debug
+	       (ff:check-pairwise-relatively-prime
+		'hen:univariate-diophant
+		(map (lambda (a_i)
+		       (cond ((zero? (modulo (univ:lc a_i) p))
+			      (math:error 'lc-0-divider a_i)))
+		       (ff:unorm p a_i))
+		     a)
+		p))
 	   (let ((r (length a))
 		 (p^k (expt p k))
 		 (xm (poly:^ (var->expl x) m)))
@@ -349,7 +310,7 @@
 					   (car a)))
 			  (q (car q-r))
 			  (result (list (cadr q-r)
-					(poly:+ (poly:* xm (cadr s)) ;ff:p+p p^k
+					(poly:+ (poly:* xm (cadr s)) ; mod p^k
 						(poly:* q (cadr a))))))
 		     (check-hd1 a x m p k result)
 		     result)))))))
@@ -487,22 +448,16 @@
 		(sqrt (apply + (map (lambda (x) (* x x)) (cdr p))))
 		(expt 2 (univ:deg p))))))))
    (else
-    (require 'math-integer)
     (lambda (p)
       (abs (* 2
 	      (integer-sqrt (apply + (map (lambda (x) (* x x)) (cdr p))))
 	      (expt 2 (univ:deg p))))))))
 
-;;; ceiling integer logarithm of y base b
-(define (cilog b y)
-  (do ((t 1 (* t b))
-       (e 0 (+ 1 e)))
-      ((> t y) e)))
-
 ;;; Return a suitable power for the prime p to be raised to, to
 ;;; cover all possible coefficients of poly and its factors.
 (define (u:prime-power poly p)
-  (cilog p (landau-mignotte-bound*2 poly)))
+  ;; ceiling integer logarithm base p
+  (+ 1 (integer-log p (landau-mignotte-bound*2 poly))))
 
 ;;; Find a modulus good for factoring a square-free univariate polynomial
 (define (squarefreeness-preserving-modulus poly)
@@ -586,5 +541,4 @@
 				   (reduce-init univ:* (list var lf) factors)))
 				answer)))))))))
 
-;;(require 'debug-jacal) (trace-all "hensel.scm") (trace poly:eval-ideal lcsubst hen:multivariate-diophant hen:multivariate-hensel) ;poly:evaln make-random-ideal
-;;(require 'debug-jacal) (trace make-random-ideal unlucky?)
+;;(require 'debug-jacal) (trace-all "uv-hensel.scm")

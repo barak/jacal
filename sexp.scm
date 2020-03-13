@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1996, 1997 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1996, 1997, 2019 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -39,23 +39,25 @@
 (require 'hash-table)
 
 ;;; our local environments
-;(define heqput! (alist-associator eq?))
-;(define heqrem! (alist-remover eq?))
-;(define hassq (predicate->asso eq?))
-;(define (list-of-procedure-defsyms)
-;  (define proc-defs '())
-;  (alist-for-each (lambda (k v) (if (procedure? (var:def v))
-;				    (set! proc-defs (cons k proc-defs))))
-;		  var-tab)
-;  proc-defs)
+;; (define heqput! (alist-associator eq?))
+;; (define heqrem! (alist-remover eq?))
+;; (define hassq (predicate->asso eq?))
+;; (define (list-of-procedure-defsyms)
+;;   (define proc-defs '())
+;;   (alist-for-each (lambda (k v)
+;; 		    (if (procedure? (var:def v))
+;; 			(set! proc-defs (cons k proc-defs))))
+;; 		  var-tab)
+;;   proc-defs)
 
 (define heqput! (hash-associator eq?))
 (define heqrem! (hash-remover eq?))
 (define hassq (predicate->hash-asso eq?))
 (define (list-of-procedure-defsyms)
   (define proc-defs '())
-  (hash-for-each (lambda (k v) (if (procedure? (var:def v))
-				   (set! proc-defs (cons k proc-defs))))
+  (hash-for-each (lambda (k v)
+		   (if (procedure? (var:def v))
+		       (set! proc-defs (cons k proc-defs))))
 		 var-tab)
   proc-defs)
 
@@ -76,16 +78,15 @@
        (cond ((null? pr) alst)
 	     (else (math:error 'defbltn 'odd-length-proto-list protos))))))
 
-;; (define (defbltn syms . protos)
-;;   (define alst (pairs->alist protos))
-;;   (for-each (lambda (sym) (var:set-def! (sexp->var sym) alst))
-;; 	    (if (list? syms) syms (list syms)))
-;;   syms)
-
-(define (defbltn syms val)
-  (for-each (lambda (sym) (var:set-def! (sexp->var sym) val))
-	    (if (list? syms) syms (list syms)))
-  syms)
+(define (defbltn sym low high val)
+  (var:set-def! (sexp->var sym)
+		(lambda args
+		  (if (if high
+			  (<= low (length args) high)
+			  (<= low (length args)))
+		      (apply val args)
+		      (math:error sym 'wna args))))
+  sym)
 
 ;;; hdns here is a list of lexically bound symbols as in lambda or suchthat.
 ;;; so it is really a list of things not to look up.
@@ -171,13 +172,10 @@
 		  ((output-port? cip)
 		   (let ((cip cip))
 		     (display math:prompt cip)
-		     (force-output cip)
-		     (tok:bump-column (string-length math:prompt) cip)))
+		     (force-output cip)))
 		  (else (display math:prompt)
-			(force-output)
-			(tok:bump-column (string-length math:prompt) cip)))
-	    (set! obj (read-sexp *input-grammar*))
-	    (tok:bump-column 0 cip)
+			(force-output)))
+	    (set! obj (read-sexp *input-grammar* (string-length math:prompt)))
 	    (cond ((not obj) (loop))
 		  ((eof-object? obj) (math:exit #t))
 		  ((and (symbol? obj) (symdef-lookup obj '()))
@@ -191,34 +189,34 @@
 			  (write-sexp obj *echo-grammar*)
 			  (newline)))
 		   (if (and (pair? obj) (eq? 'define (car obj)))
-		       (let* ((var (cadr obj))
-			      (val (define-label var (caddr obj) '())))
+		       (let* ((dvar (cadr obj))
+			      (val (define-label dvar (caddr obj))))
 			 (out-new-vars var-news)
 			 (newline)
 			 (cond ((novalue? val)
-				(define-label var var '())
+				(define-label dvar dvar)
 				(eval-error 'no-value-to-set (cadr obj)))
 			       ((eq? 'null (grammar-name *output-grammar*))
 				(set! % val))
 			       (else
 				(set! % val)
-				(write-sexp (list 'define var
-						  (symdef-lookup-sexp var '()))
+				(write-sexp (list 'define dvar
+						  (symdef-lookup-sexp dvar '()))
 					    *output-grammar*)
 				(newline))))
-		       (let* ((var newlabelsym)
-			      (val (define-label var obj '())))
+		       (let* ((dvar newlabelsym)
+			      (val (define-label dvar obj)))
 			 (out-new-vars var-news)
 			 (newline)
 			 (cond ((novalue? val)
-				(define-label var var '())
+				(define-label dvar dvar)
 				(loop))
 			       ((eq? 'null (grammar-name *output-grammar*))
 				(set! % val))
 			       (else
 				(set! % val)
-				(write-sexp (list 'define var
-						  (symdef-lookup-sexp var '()))
+				(write-sexp (list 'define dvar
+						  (symdef-lookup-sexp dvar '()))
 					    *output-grammar*)
 				(newline))))))))
 	  #f))
@@ -244,14 +242,17 @@
 (define (fcexpt fc pow)
   (if (negative? pow)
       (fcexpt (fcinverse fc) (- pow))
-    (ipow-by-squaring fc pow cidentity app*)))
+      (ipow-by-squaring fc pow cidentity app*)))
 
 (define (rapply ob . arglist)
   (cond ((null? arglist) ob)
 	((bunch? ob)
-	 (apply rapply
-		(list-ref ob (+ -1 (plicit->integer (car arglist))))
-		(cdr arglist)))
+	 (let ((idx (plicit->integer (car arglist))))
+	   (if (<= 1 idx (length ob))
+	       (apply rapply
+		      (list-ref ob (+ -1 idx))
+		      (cdr arglist))
+	       (eval-error 'rapply 'coordinate-out-of-range:-- idx ob))))
 	((expl? ob) (apply deferop _rapply ob arglist))
 	(else (eval-error 'rapply 'wta ob))))
 
@@ -264,26 +265,36 @@
 
 (define (app* fun . args) (sapply fun args))
 
-(define (seval-norm f hdns)
-  (let ((ans (seval f hdns)))
-    (if (sexp? ans) ans (normalize ans))))
-
-(define (define-label label sexp hdns)
+(define (define-label label sexp)
+  (define (seval-norm f hdns)
+    (let ((ans (seval f hdns)))
+      (if (sexp? ans) ans (normalize ans))))
   (cond ((symbol? label)
 	 (if (eq? label sexp)
 	     (undefsym label)
-	     (defsym label
-	       (seval-norm sexp (cons label hdns)))))
+	     (defsym label (seval-norm sexp (list label)))))
 	((not (pair? label))
 	 (jacal:found-bug 'define-label label))
-	((eqv? (car label) 'rapply)
-	 (defsym-cano (cadr label)
-	   (rlambda (cddr label)
-		    (seval-norm sexp (cons (cdr label) hdns)))))
+	;; ((eqv? (car label) 'rapply)
+	;;  (defsym-cano (cadr label)
+	;;    (rlambda (cddr label)	; rlambda not written yet.
+	;; 	    (seval-norm sexp (list (cdr label))))))
 	(else				;must be capply
 	 (defsym-cano (car label)
-	   (clambda (variables (cdr label))
-		    (seval-norm sexp (cons label hdns)))))))
+	   (seval-norm (list 'lambda (cdr label) sexp)
+		       (list (car label)))))))
+
+(define (sexp:alpha-convert vars sexp)
+  (define len (length vars))
+  (define (ac sxp)
+    (cond ((list? sxp) (map ac sxp))
+	  ((vector? sxp) (list->vector (map sxp (vector->list sxp))))
+	  ((and (symbol? sxp) (memq sxp vars))
+	   => (lambda (rst)
+		(string->symbol
+		 (string-append "@" (number->string (- len (length rst) -1))))))
+	  (else sxp)))
+  (ac sexp))
 
 (define (seval f hdns)
   (cond ((number? f)
@@ -296,12 +307,12 @@
 	((null? f) f)
 	((not (pair? f)) (eval-error 'eval 'wta f))
 	((eq? 'lambda (car f))
-	 (let ((vars (variables
-		      (cond ((symbol? (cadr f)) (list (cadr f)))
-			    ((vector? (cadr f)) (vector->list (cadr f)))
-			    ((pair? (cadr f)) (cadr f))
-			    (else (eval-error 'lambda 'bad-arglist f))))))
-	   (clambda vars (seval (caddr f) (cons vars hdns)))))
+	 (if (not (= 3 (length f))) (eval-error 'lambda 'bad-form f))
+	 (let ((vars (cond ((symbol? (cadr f)) (list (cadr f)))
+			   ((vector? (cadr f)) (vector->list (cadr f)))
+			   ((pair? (cadr f)) (cadr f))
+			   (else (eval-error 'lambda 'bad-arglist f)))))
+	   (seval (sexp:alpha-convert vars (caddr f)) hdns)))
 	((eqv? (car f) 'suchthat)
 	 (suchthat (sexp->var (cadr f))
 		   (seval (caddr f) (cons (cadr f) hdns))))
@@ -514,7 +525,7 @@
 
 (define (sexp:decompose-rationally func expr)
   (cond ((rat? expr) (sexp:over (func (num expr))
-			     (func (denom expr))))
+				(func (denom expr))))
 	(else (func expr))))
 
 ;;;	Copyright 1989, 1990, 1991, 1992, 1993, 1996, 1997 Aubrey Jaffer.

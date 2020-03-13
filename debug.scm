@@ -1,5 +1,5 @@
 ;;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1996, 1997, 2002 Aubrey Jaffer.
+;;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1996, 1997, 2002, 2009 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -56,10 +56,12 @@
 	   (cons cont math:break-continuation-stack))
      (math:exit #f))))
 
-(define (qpn . args)
+(define (qp . args)
   (force-output)
-  (for-each (lambda (x) (math:print x)
-		    (if (symbol? x) (display-diag #\space) (newline-diag)))
+  (for-each (lambda (x)
+	      (math:print x)
+	      ;;(if (symbol? x) (display-diag #\space) (newline-diag))
+	      )
 	    args))
 
 (define (print . args)

@@ -127,3 +127,5 @@
 	    (append (poly:factorz (num poly))
 		    (negate-factors-exps (poly:factorz (denom poly)))))
 	   (else (poly:factorz poly))))))
+
+;;(require 'debug-jacal) (trace rat:factors rat:factor->sexp)

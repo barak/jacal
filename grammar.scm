@@ -52,6 +52,17 @@
   (alist-for-each (lambda (k v) (set! grammars (cons k grammars))) *grammars*)
   grammars)
 
+(define (flush-input-whitespace port)
+  (do ((chr (peek-char port) (peek-char port))
+       (col 0 (case chr
+		((#\space) (+ 1 col))
+		((#\tab) (mod (+ 7 col) 8))
+		((#\newline) 0)
+		(else col))))
+      ((or (eof-object? chr)
+	   (not (char-whitespace? chr)))
+       col)
+    (read-char port)))
 
 (defgrammar 'scheme
   (make-grammar 'scheme
@@ -80,8 +91,8 @@
 		    (force-output))
 		  #f)))
 
-(define (read-sexp grm)
-  ((grammar-reader grm) grm))
+(define (read-sexp grm icol)
+  ((grammar-reader grm) grm icol))
 (define (write-sexp sexp grm)
   ((grammar-writer grm) sexp grm))
 (define (math:write e grm)
@@ -147,22 +158,21 @@ message and a description of what you were doing to agj @ alum.mit.edu.
     (if (equal? ans res) #t (math:warn 'trouble-with fun))))
 
 ;;; outputs list of strings with as much per line as possible.
-(define (block-write-strings l)
+(define (block-write-strings lst)
   (let* ((column 5)
 	 (width (- (get-page-width) column))
 	 (ps (make-string column #\space)))
     (set! column width)
     (for-each (lambda (ap)
-		(set! column (+ (string-length ap) column))
+		(set! column (+ (string-length ap) column 1))
 		(cond ((and (positive? width) (>= column width))
 		       (newline)
 		       (display ps)
-		       (set! column (string-length ap)))
+		       (set! column (+ 1 (string-length ap))))
 		      (else
-		       (display " ")
-		       (set! column (+ 1 column))))
+		       (display " ")))
 		(display ap))
-	      l)
+	      lst)
     (newline)))
 
 (define (get-page-height)

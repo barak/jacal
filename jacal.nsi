@@ -4,7 +4,7 @@
 ; placed in the public domain
 
 ; *** version numbers ***
-!define PRODUCT_VERSION "1b9-1"
+!define PRODUCT_VERSION "1c7-1"
 
 ; ----------------[ NO CHANGES BELOW ]----------------
 
@@ -20,7 +20,7 @@
 !define PRODUCT_NAME "JACAL"
 !define PRODUCT_COMPANY "Voluntocracy"
 !define PRODUCT_PUBLISHER "Aubrey Jaffer"
-!define PRODUCT_WEB_SITE "http://swissnet.ai.mit.edu/~jaffer/JACAL"
+!define PRODUCT_WEB_SITE "http://people.csail.mit.edu/jaffer/JACAL"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\jacal-${PRODUCT_VERSION}.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
@@ -114,6 +114,7 @@ Section "MainSection" SEC01
   File "hensel.scm"
   File "hist.scm"
   File "info.scm"
+  File "interpolate.scm"
   File "jacal.html"
   File "jacal.nsi"
   File "jacal.spec"
@@ -206,6 +207,7 @@ Section Uninstall
   Delete "$INSTDIR\jacal.spec"
   Delete "$INSTDIR\jacal.nsi"
   Delete "$INSTDIR\jacal.html"
+  Delete "$INSTDIR\interpolate.scm"
   Delete "$INSTDIR\info.scm"
   Delete "$INSTDIR\hist.scm"
   Delete "$INSTDIR\hensel.scm"
