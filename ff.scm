@@ -162,10 +162,12 @@
 
 ;;; Reduce univariate poly mod modulus and remove leading zero coefficients
 (define (ff:unorm modulus poly)
-  (cons (car poly)
-	(cons (sym:sym modulus (cadr poly))
-	      (map-no-end-0s (lambda (coeff) (sym:sym modulus coeff))
-			     (cddr poly)))))
+  (if (number? poly)
+      poly
+      (cons (car poly)
+	    (cons (sym:sym modulus (cadr poly))
+		  (map-no-end-0s (lambda (coeff) (sym:sym modulus coeff))
+				 (cddr poly))))))
 
 ;;; Degree of (ff:unorm modulus poly)
 (define (ff:degree modulus poly)

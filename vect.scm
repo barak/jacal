@@ -18,19 +18,19 @@
 (require 'rev4-optional-procedures)
 (require 'common-list-functions)
 
-(define (bunch:norm x)
-  (if (null? (cdr x))
-      (car x)
-      x))
-
 (define (copymatrix m)
   (if (matrix? m)
       (map copy-list m)
       (math:error 'not-a-matrix:- m)))
 
-(define (row? a)
+(define (row-vector? a)
   (and (bunch? a)
-       (notevery bunch? a)))
+       (or (null? a)
+	   (and (null? (cdr a)) (bunch? (car a))))))
+
+(define (column-vector? a)
+  (and (matrix? a)
+       (every (lambda (r) (null? (cdr r))) a)))
 
 (define (matrix? a)
   (and (bunch? a)
@@ -44,28 +44,28 @@
 (define (matrix . lst)
   (if (matrix? lst) lst (matrix lst)))
 
-(define (butnth n lst)
+(define (mtrx:butnth n lst)
   (cond ((null? lst) (math:error 'coordinate-out-of-range:- n " " lst))
 	((zero? n) (cdr lst))
 	(else (cons (car lst)
-		    (butnth (+ -1 n) (cdr lst))))))
+		    (mtrx:butnth (+ -1 n) (cdr lst))))))
 
 (define (mtrx:minor m i j)
-  (butnth (+ -1  i)
-	  (map (lambda (x) (butnth (+ -1 j) x))
+  (mtrx:butnth (+ -1  i)
+	  (map (lambda (x) (mtrx:butnth (+ -1 j) x))
 	       m)))
 
 (define (transpose m)
   (cond ((matrix? m)
-	 (bunch:norm (apply map list m)))
+	 (apply map list m))
 	((bunch? m) (map list m))
 	(else m)))
 
 (define (mtrx:square? m)
   (if (not (matrix? m))
       #f
-    (let ((rows (length m)))
-      (every (lambda (r) (= (length r) rows)) m))))
+      (let ((rows (length m)))
+	(every (lambda (r) (= (length r) rows)) m))))
 
 (define (mtrx:genmatrix fun i2 j2 i1 j1)
   (do ((i i2 (+ -1 i))
@@ -75,8 +75,7 @@
 		  (row '() (cons (app* fun i j) row)))
 		 ((< j j1) row))
 	     mat)))
-      ((< i i1)
-       (bunch:norm mat))))
+      ((< i i1) mat)))
 
 ;;;Create a matrix of indeterminates
 
@@ -84,6 +83,10 @@
   (apply genmatrix
 	 (lambda subs (apply rapply var subs))
 	 rst))
+
+(define (row? a)
+  (and (bunch? a)
+       (notevery bunch? a)))
 
 (define (dotproduct a b)
   (let ((cols (matrix? a))
@@ -115,16 +118,16 @@
 	       (math:error 'matrix-product-of-unequal-size-matrices:- a
 			   " " b))
 	   (or cols (set! a (matrix a)))
-	   (bunch:norm
-	    (map (lambda (arow)
-		   (apply map
-			  (lambda bcol
-			    (dotproduct bcol arow))
-			  b))
-		 a)))
+	   (map (lambda (arow)
+		  (apply map
+			 (lambda bcol
+			   (dotproduct bcol arow))
+			 b))
+		a))
 	  (else (deferop _ncmult a b)))))
 
 (define (mtrx:expt a pow)
+  (if (not (mtrx:square? a)) (math:error 'not-a-square-matrix:-- a))
   (cond ((zero? pow) 1)
 	((one? pow) a)
 	((negative? pow) (mtrx:expt (mtrx:inverse a) (- pow)))
@@ -242,6 +245,7 @@
 ;;; Addison Wesley, Reading, MA 1969.
 ;;; pp 425-426
 (define (rank m)
+  (if (not (matrix? m)) (math:error 'not-a-matrix:-- m))
   (let* ((cols (matrix? m))
 	 (n (length m))
 	 (c (make-list n -1))

@@ -65,7 +65,7 @@
   (if (expl? p) (set! p (expl->impl p)))
   (expr:norm-or-unitcan
    (poly:square-free-var
-    (alg:simplify (if (rat? p) (alg:clear-denoms p) p))
+    (alg:simplify (if (impl? p) (alg:clear-leading-exts p) p))
     $)))
 (define (extize p)
   (cond ((bunch? p) (eval-error 'cannot-suchthat-a-vector p))
@@ -83,7 +83,7 @@
 
 ;(trace normalize normalize1 extize unitcan
 ;       expr:norm-or-unitcan expr:normalize
-;       alg:simplify alg:clear-denoms
+;       alg:simplify alg:clear-leading-exts
 ;       poly:square-free-var poly:square-and-num-cont-free)
 
 ;; differentials
@@ -197,7 +197,7 @@
 (define (expl:t? e) (equal? e expl:t))
 (define (ncexpt a pow)
   (cond ((not (or (integer? pow) (expl:t? pow)))
-	 (deferop _^^ a pow))
+	 (math:error 'only-integers-and-t-allowed-for-ncexpt pow))
 	((eqns? a) (math:error 'expt-of-equation?:- a))
 	((not (bunch? a)) (fcexpt a pow))
 	((expl:t? pow) (transpose a))

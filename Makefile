@@ -46,7 +46,7 @@ intro:	config.status
 	@echo "to learn how to run and use JACAL."
 	@echo
 
-VERSION = 1c4
+VERSION = 1c7
 RELEASE = 1
 
 # ./configure --distdir=${HOME}/dist/ --snapdir=${HOME}/pub/ --docdir=${HOME}/public_html/
@@ -66,7 +66,8 @@ cfiles = math.scm modeinit.scm debug.scm view.scm toploads.scm
 sfiles = types.scm func.scm poly.scm elim.scm vect.scm ext.scm		\
 	norm.scm sqfree.scm hist.scm sexp.scm grammar.scm unparse.scm	\
 	builtin.scm info.scm tensor.scm combin.scm ff.scm factors.scm	\
-	uv-hensel.scm hensel.scm interpolate.scm decompose.scm
+	uv-hensel.scm hensel.scm interpolate.scm decompose.scm		\
+	anti-diff.scm
 gfiles = English.scm
 mfiles = ANNOUNCE COPYING HELP configure Makefile jacalcat jacal.texi	\
 	fdl.texi jacal.1 demo rw.math jacal.spec jacal.sh elk.scm	\
@@ -139,7 +140,7 @@ DOC/ratint.dvi: DOC/ratint.tex DOC/eqalign.sty DOC/ratint.aux
 	cd DOC/; latex ratint.tex
 
 $(DESTDIR)$(pdfdir)ratint.pdf: DOC/ratint.tex DOC/eqalign.sty
-	cd DOC/; pdflatex ratint.tex
+	cd DOC/; make ratint.pdf
 	$(INSTALL_DATA) DOC/ratint.pdf $(DESTDIR)$(pdfdir)
 
 jacal-$(VERSION).info: jacal.texi version.txi
@@ -151,7 +152,7 @@ jacal.info: jacal-$(VERSION).info
 $(DESTDIR)$(infodir)jacal.info:	jacal.info
 	$(INSTALL_DATA) $< $@
 	-$(INSTALL_INFO) $@ $(DESTDIR)$(infodir)dir
-	-rm $(DESTDIR)$(infodir)-jacal.info.gz
+	-rm $(DESTDIR)$(infodir)jacal.info.gz
 install-info:	$(DESTDIR)$(infodir)jacal.info
 info:	install-info
 $(DESTDIR)$(infodir)jacal.info.gz: $(DESTDIR)$(infodir)jacal.info
@@ -217,11 +218,6 @@ uninstall: unjacal48
 #	$(POST_UNINSTALL)     # Post-uninstall commands follow.
 	-rmdir $(DESTDIR)$(jacallibdir)
 
-## to build a windows installer
-## make sure makeinfo and NSIS are available on the commandline
-w32install: jacal.nsi jacal.html
-	makensis $<
-
 check:
 	scm -l math -e'(batch "test.math")'
 t:
@@ -248,9 +244,9 @@ $(prevdocsdir)jacal_toc.html:
 $(prevdocsdir)jacal.info: Makefile
 	cd $(prevdocsdir); unzip -a $(distdir)jacal*.zip
 	rm $(prevdocsdir)jacal/jacal*.info
-	cd $(prevdocsdir)jacal; make jacal.info; make jacal_toc.html
+	cd $(prevdocsdir)jacal; make jacal.info #; make jacal_toc.html
 	cd $(prevdocsdir); mv -f jacal/jacal*.info ./
-	cd $(prevdocsdir); mv -f jacal/*.html ./
+#	cd $(prevdocsdir); mv -f jacal/*.html ./
 	rm -rf $(prevdocsdir)jacal
 	-rm -f jacal-$(VERSION).info
 
@@ -298,6 +294,12 @@ rpm:	pubzip
 	rm $(rpm_prefix)SOURCES/jacal-$(VERSION).zip
 	mv $(rpm_prefix)RPMS/noarch/jacal-$(VERSION)-$(RELEASE).noarch.rpm \
 	   $(rpm_prefix)SRPMS/jacal-$(VERSION)-$(RELEASE).src.rpm $(distdir)
+
+## to build a windows installer
+## make sure makeinfo and NSIS are available on the commandline
+w32install: $(distdir)jacal-$(VERSION)-$(RELEASE).exe
+$(distdir)jacal-$(VERSION)-$(RELEASE).exe: jacal.nsi jacal.html
+	makensis $< "-XOutFile $@"
 
 shar:	jacal.shar
 jacal.shar:	temp/jacal/

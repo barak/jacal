@@ -118,28 +118,31 @@
 		       (func-arglist var))))
 	  (else (math:error 'elimination-type-not-handled var)))))
 
+;; bunch:norm is used only by eliminate
+(define (bunch:norm x)
+  (if (null? (cdr x)) (car x) x))
+
 ;;; This tries to solve the equations no matter what is involved.
 ;;; It will eliminate variables in vectors of equations.
 (define (eliminate eqns vars)
-  (bunch:norm
-   (if (some bunch? eqns)
-       (let ((len #f))
-	 (for-each (lambda (eqn)
-		     (cond ((not (bunch? eqn)))
-			   ((not len) (set! len (length eqn)))
-			   ((eqv? (length eqn) len))
-			   (else (math:error
-				  'bunches-to-eliminate-not-same-length
-				  len eqns))))
-		   eqns)
-	 (apply map
-		(lambda arglist (eliminate arglist vars))
-		(map (lambda (eqn)
-		       (if (bunch? eqn)
-			   eqn
-			   (make-list len eqn)))
-		     eqns)))
-       (ext:elim eqns vars))))
+  (if (some bunch? eqns)
+      (let ((len #f))
+	(for-each (lambda (eqn)
+		    (cond ((not (bunch? eqn)))
+			  ((not len) (set! len (length eqn)))
+			  ((eqv? (length eqn) len))
+			  (else (math:error
+				 'bunches-to-eliminate-not-same-length
+				 len eqns))))
+		  eqns)
+	(apply map
+	       (lambda arglist (eliminate arglist vars))
+	       (map (lambda (eqn)
+		      (if (bunch? eqn)
+			  eqn
+			  (make-list len eqn)))
+		    eqns)))
+      (bunch:norm (ext:elim eqns vars))))
 
 (define (elim:test)
   (define a (sexp->var 'a))
@@ -152,6 +155,7 @@
 	      (list y (list x (list a -1 3) 5) -1))
 	(list x y)))
 
+;; bunch:map is used only by diffargs
 (define (bunch:map proc b)
   (cond ((bunch? b) (map (lambda (x) (bunch:map proc x)) b))
 	(else (proc b))))
@@ -181,18 +185,19 @@
   (licits:map (lambda (poly) (poly:do-vars proc poly))
 	      licit))
 
+;;; replaced by sexp:alpha-convert
 ;;;; Canonical Lambda
 ;;;; This needs to handle algebraic extensions as well.
-(define (clambda symlist body)
-  (let ((num-new-vars (length (remove-if lambdavar? symlist))))
-    (licits:do-vars
-     (lambda (var)
-       (let ((pos (position (var:nodiffs var) symlist)))
-	 (cond (pos (lambda-var (+ 1 pos) (var:diff-depth var)))
-	       ((lambdavar? var) (var:lambda-bump var num-new-vars))
-	       ((lambdavarext? var) (bump-lambda-ext))
-	       (else var))))
-     body)))
+;; (define (clambda symlist body)
+;;   (let ((num-new-vars (length (remove-if lambdavar? symlist))))
+;;     (licits:do-vars
+;;      (lambda (var)
+;;        (let ((pos (position (var:nodiffs var) symlist)))
+;; 	 (cond (pos (lambda-var (+ 1 pos) (var:diff-depth var)))
+;; 	       ((lambdavar? var) (var:lambda-bump var num-new-vars))
+;; 	       ((lambdavarext? var) (bump-lambda-ext))
+;; 	       (else var))))
+;;      body)))
 
 (define (clambda? cexp)
   (cond ((number? cexp) #f)
@@ -221,7 +226,7 @@
        (do-sexp-symbols
 	(lambda (s)
 	  (define st (symbol->string s))
-	  (if (and (char=? #\@ (string-ref st 0)) (> (string-length st) 1))
+	  (if (and (> (string-length st) 1) (char=? #\@ (string-ref st 0)))
 	      (var:sexp (lambda-var
 			 (+ delta (string->number
 				   (substring st 1 (string-length st))))

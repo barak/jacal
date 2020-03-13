@@ -16,7 +16,7 @@
 This manual is for JACAL (version @value{JACALVERSION}, @value{JACALDATE}),
 an interactive symbolic mathematics system.
 
-Copyright @copyright{} 1993-1999, 2002, 2006, 2007
+Copyright @copyright{} 1993-1999, 2002, 2006, 2007, 2020
 Free Software Foundation, Inc.
 
 @quotation
@@ -188,11 +188,11 @@ from @uref{http://people.csail.mit.edu/jaffer/SLIB}.
 
 @deftp System x86_64 GNU/Linux with Redhat Package Manager (rpm)
 @example
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2-1.x86_64.rpm
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5-1.noarch.rpm
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4-1.noarch.rpm
-rpm -U scm-5f2-1.x86_64.rpm slib-3b5-1.noarch.rpm jacal-1c4-1.noarch.rpm
-rm scm-5f2-1.x86_64.rpm slib-3b5-1.noarch.rpm jacal-1c4-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.x86_64.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.noarch.rpm
+rpm -U scm-5f3-1.x86_64.rpm slib-3b6-1.noarch.rpm jacal-1c7-1.noarch.rpm
+rm scm-5f3-1.x86_64.rpm slib-3b6-1.noarch.rpm jacal-1c7-1.noarch.rpm
 @end example
 
 The command @samp{jacal} will start an interactive session.
@@ -202,16 +202,16 @@ The command @samp{jacal} will start an interactive session.
 @deftp System Unix
 @deftpx System GNU/Linux
 @example
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2.zip
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5.zip
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4.zip
-unzip -ao scm-5f2.zip
-unzip -ao slib-3b5.zip
-unzip -ao jacal-1c4.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7.zip
+unzip -ao scm-5f3.zip
+unzip -ao slib-3b6.zip
+unzip -ao jacal-1c7.zip
 (cd slib; ./configure --prefix=/usr/local/; make install)
 (cd scm; ./configure --prefix=/usr/local/; make scm; make install)
 (cd jacal; ./configure --prefix=/usr/local/; make install)
-rm scm-5f2.zip slib-3b5.zip jacal-1c4.zip
+rm scm-5f3.zip slib-3b6.zip jacal-1c7.zip
 @end example
 
 The command @samp{jacal} will start an interactive session using ELK,
@@ -228,9 +228,9 @@ installing SCM and SLIB on Macintosh computers.
 
 @deftp System x86 Microsoft
 Download and run
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b5-1.exe},@*
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f2-1.exe}, and@*
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c4-1.exe}.
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.exe},@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.exe}, and@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.exe}.
 @end deftp
 
 
@@ -274,11 +274,11 @@ where @file{/usr/local/lib/jacal/} is a path to the JACAL directory.
 JACAL should then print:
 
 @example
-JACAL version @value{JACALVERSION}, Copyright 1989-1999, 2002 Aubrey Jaffer
+JACAL version @value{JACALVERSION}, Copyright 1989-2020 Aubrey Jaffer
 JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `(terms)' for details.
-;;; Type (math) to begin.
+;;; Type (math); to begin.
 @end example
 
 @noindent
@@ -343,7 +343,7 @@ end-of-file character will terminate the session.
 
 With the standard input grammar, the precedence of @samp{-} as a prefix
 behaves strangely.  @code{a^-b*c} becomes @code{a^(-b*c)} while
-@code{@result{a^b*c} (a^b)*c}.
+@code{a^b*c} @result{} @code{(a^b)*c}.
 
 Using @code{divide} to divide a polynomial by an integer does not work.
 
@@ -411,7 +411,7 @@ gives a little history of jacal.
 @item lambda
 explains mid-level data formats. From a Dr. Dobbs article.
 @item ratint.tex
-article explaining jacal's eventual integration algorithm.
+article explaining jacal's integration algorithm.
 @end table
 
 @item math.scm
@@ -675,8 +675,9 @@ e1 : suchthat(x, e0);
 e1: ---------
         a
 @end example
+@end deffn
 
-@deffnx Command suchthat var exp
+@deffn Command suchthat var exp
 
 If an expression rather than an equation is given to @code{suchthat}, it
 is as though the equation @code{@var{exp}=0} was given.
@@ -688,9 +689,9 @@ e2 : suchthat(x, e0);
 e2: ---------
         a
 @end example
+@end deffn
 
-@deffnx Operator | var exp_or_eqn
-
+@deffn Operator | var exp_or_eqn
 An alternative infix notation is also available for @code{suchthat}.
 
 When used in combination with the @samp{@{ @}} notation for @code{or},
@@ -857,8 +858,9 @@ and the @code{imagpart} of @var{z}.
 
 Returns the degree of polynomial or equation @var{poly} in variable
 @var{var}.
+@end deffn
 
-@deffnx Operator degree poly
+@deffn Operator degree poly
 
 Returns the total-degree, the degree of its highest degree monomial,
 of polynomial or equation @var{poly}.
@@ -1016,10 +1018,12 @@ e15: [- x - y + z, 2 x  + 2 x y + 2 y ]
 Returns @var{poly1} reduced with respect to @var{poly2} (or @var{eqn})
 and @var{var}.  If @var{poly2} is univariate, the third argument is not
 needed.
+@end deffn
 
-@deffnx Command mod poly1 n
+@deffn Command mod poly1 n
 Returns @var{poly1} with all the coefficients taken modulo @var{n}.
-@deffnx Command mod poly1
+@end deffn
+@deffn Command mod poly1
 Returns @var{poly1} with all the coefficients taken modulo the
 current modulus.
 
@@ -1220,8 +1224,9 @@ e1 : factor(-120);
 e1: -1 2  3 5
 @end group
 @end example
+@end deffn
 
-@deffnx Command factor polyratio
+@deffn Command factor polyratio
 Given a univariate ratio of polynomials @var{polyratio}, returns a
 matrix of factors and exponents.
 
@@ -1427,7 +1432,7 @@ e7: 2 x x' + 3 y  y'
 @end example
 @end deffn
 
-@section Derivative Commands
+@section Derivatives
 
 @deffn Command diff expr var1 @dots{}
 
@@ -1466,12 +1471,63 @@ expression @var{poly} with respect to @var{var1}, @dots{}.  It is faster
 than @code{diff} but @var{poly} must be a polynomial.
 @end deffn
 
+@section Integration
+
+@deffn Command integrate expr var
+
+Returns the indefinite integral of rational expression @var{expr}, if
+that integral is a rational expression involving up to one radical
+involving @var{var}.
+@example
+@group
+e1 : integrate((3+x^2)*(1+x^2)^(2/3)/(3+6*x^2+3*x^4),x);
+
+            2 2/3
+    x (1 + x )
+e1: -------------
+            2
+       1 + x
+
+e2 : integrate((1+x^2)^(2/3),x);
+
+;;; could-not-find-algebraic-anti-derivative
+ non-decreasing-rxd 2 vs 0
+
+e2 : integrate(x*(1+x^2)^(2/3),x);
+
+            2        2 2/3
+    (3 + 3 x ) (1 + x )
+e2: ----------------------
+              10
+@end group
+@end example
+@end deffn
+
+@deffn Command integrate expr var a b
+
+If the indefinite integral of rational expression @var{expr} is a
+rational expression, then @code{integrate} returns the difference of
+that integral evaluated at @var{b} and @var{a}.
+@example
+@group
+e3 : integrate(x*(1+x^2)^(2/3),x,0,1);
+
+            2/3
+    -3 + 6 2
+e3: -----------
+        10
+@end group
+@end example
+@end deffn
+
 @node Matrices and Tensors, Lambda Calculus, Calculus, Top
 @chapter Matrices and Tensors
 
-In JACAL, a matrix is just a @code{bunch} of equal length @code{bunch}s,
-and this is the structure that the matrix operations currently supported
-by JACAL (ncmult(), ^^, transpose(), etc.) expect.
+In JACAL, a matrix is just a @code{bunch} of equal length
+@code{bunch}s, and this is the structure that the matrix operations
+currently supported by JACAL (ncmult(), ^^, transpose(), etc.) expect.
+A row-vector is coded like @code{[[a,b,c]]}; a column-vector is coded
+by @code{[[a],[b],[c]]} or @code{[[a,b,c]]^^t} or @code{[a,b,c]^^t}.
 
 @menu
 * Generating Matrices::         
@@ -1975,8 +2031,6 @@ components.
 
 @example
 @group
-e24: [2 x, y + 2 x y ]
-
 e25 : crossproduct([1,2,3],[4,2,5]);
 
 e25: [4, 7, -6]
@@ -2028,7 +2082,7 @@ the sum of the inputs' ranks, and the components of the result are
 formed from the pair-wise products of components of the inputs.  For
 example, for the input tensors @code{x[a,b]} and @code{y[c]}
 @example
-@result{z:tmult(x,y);} z[a,b,c] = x[a,b]*y[c]
+z:tmult(x,y); @result{} z[a,b,c] = x[a,b]*y[c]
 @end example
 
 With an additional argument, @code{tmult} will produce the inner product
@@ -2374,25 +2428,25 @@ e27: b  - 4 a c
 
 @deffn Command commands
 The command @code{commands} produces a list of all of the command
-available in Jacal. It is called as s function of no arguments.
+available in Jacal.  It is called as a function of no arguments.
 @end deffn
 
 @example
 @group
 @exdent e21 : commands();
 
-% * + - / = ^ ^^ abs args augcoefmatrix b+/- b-/+ batch bunch cabs
+% * + - / = ^ ^^ abs args augcoefmatrix b+/- b-/+ batch berl bunch cabs
 cartprod chain charpoly coeff coeffs coefmatrix cofactor col commands
-content continue crossproduct degree denom depends describe
-determinant diagmatrix diff differential discriminant disp2d divide
-dotproduct elementwise eliminate equatecoeffs example extrule factor
-factorial factors finv flatten func gcd genmatrix help ident imagpart
-interp interp.lagrange interp.neville interp.newton jacobi jacobian
-listofvars load matrix minor mod ncmult negate num or over parallel
-partial poly polydiff polyelim prime? qed quit rank rapply realpart
-require restart resultant row scalarmatrix scheme set shadow show
-standard sylvester system terms tex transcript transpose u+/- u-/+
-verify wronski wronskian
+compose content continue crossproduct decompose degree denom depends
+describe determinant diagmatrix diff differential discriminant disp2d
+divide dotproduct elementwise eliminate equatecoeffs example extrule
+factor factorial factors ffsff finv flatten func gcd genmatrix help ident
+imagpart integrate interp interp.lagrange interp.neville interp.newton
+jacobi jacobian listofvars load matrix minor mod ncmult negate num or
+over parallel parfrac partial poly polydiff polyelim prime? qed quit rank
+rapply realpart require restart resultant row scalarmatrix scheme set sff
+shadow show standard sylvester system taylor terms tex transcript
+transpose u+/- u-/+ usff verify wronski wronskian
 @end group
 @end example
 
@@ -2464,8 +2518,9 @@ to the Jacal session where you left off by simply typing @code{(math)}.
 If you do not wish to return to Jacal but really want to terminate the
 session and return to the operating system, then after typing
 @code{qed();}, type @code{(slib:exit)} or use @code{quit}.
+@end deffn
 
-@deffnx Command quit
+@deffn Command quit
 Exit directly from Jacal to the operating system.  You will not be able
 to continue your Jacal session.
 

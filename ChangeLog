@@ -1,3 +1,170 @@
+2020-03-02  Aubrey Jaffer  <jaffer@jaffer-Lenovo-Z70-80>
+
+	* toploads.scm (*jacal-version*): Bumped from 1c6 to 1c7.
+
+2020-03-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex, anti-diff.scm (rat:integrate): Corrected
+	algorithm.
+
+2020-02-29  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Calculus): Broadened domain of application and added
+	examples.
+
+	* anti-diff.scm (independent-of-var?): Ignore integration
+	constants when checking result.
+	(indef-integrate): Return novalue when integration fails.
+	(rat:integrate): Debugged for rational expressions with single
+	algebraic field extension.
+
+2020-02-24  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* anti-diff.scm (sqfr-splits): Fixed variable ordering bug.
+	(indef-integrate): Normalize return value.
+	(rat:integrate): Code cleanup.
+	(rat:integrate): Long-division by extension var first.
+	(indef-integrate): Use _$ as dummy extension var.
+
+2020-02-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Algebraic field extension}): Tracking
+	anti-diff.scm.
+
+	* anti-diff.scm (rat:integrate, indef-integrate): Nearly working
+	with algebraic field extension.
+	(poly:integrate): No longer needed.
+
+	* ff.scm (ff:unorm): Fail gracefully when argument is number.
+
+2020-02-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Algebraic field extension}): Fixed
+	coeff() argument order.
+	(section{Rational Function Integration}): Expanded explanation.
+
+	* anti-diff.scm (rat:integrate): Put all numerator factors into
+	p_1(x).  Tighten bounds check for M vs. N.
+	(indef-integrate): Workaround negated integration bug.
+
+	* Makefile (w32install): Output to dist directory.
+
+2020-02-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Algebraic field extension}): Redevelop
+	algorithm to handle algebraic field extensions.
+
+	* anti-diff.scm (indef-integrate): Warn if derivative of integral
+	does not equal original integrand.
+	(rat:integrate): Reorganized along path to handling algebraic
+	extensions.
+
+2020-02-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* t.math, test.math: Added high power integration test.
+
+2020-02-16  Aubrey Jaffer  <jaffer@jaffer-Lenovo-Z70-80>
+
+	* toploads.scm (*jacal-version*): Bumped from 1c5 to 1c6.
+
+2020-02-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* anti-diff.scm, builtin.scm: (integrate): Evaluate integral at
+	definite limits.
+	(rat:integrate): Removed special treatment for M = 0.
+
+	* t.math, test.math: Added integration test cases.
+
+	* jacal.texi (Calculus): Integration section added.
+
+	* DOC/ratint.tex, anti-diff.scm: Algorithm simplified to use only
+	square-free factorization.
+
+2020-02-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex, anti-diff.scm, t.math: Integration works!
+
+	* anti-diff.scm (rat:integrate, integrate): Reorganized code for
+	splitting unsquared factors in numerator.
+
+2020-02-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* anti-diff.scm: Works for many cases.  p_2(x) not handled yet.
+	(rat:integrate): Fixed off-by-one.  Fixed powfacts argument.
+	(sqfr-splits): Fixed constant return.
+	(rat:integrate): Corrected powers of M+.
+	(poly:integrate): univ:demote corrects for variable ordering.
+	(integrate): Call poly:integrate when denominator independent of
+	integration variable.
+
+	* DOC/ratint.tex: Both p_1(x) and p_2(x) require special treatment.
+
+2020-02-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile, anti-diff.scm, builtin.scm, jacalcat, vect.scm:
+	(anti-diff.scm): Added.
+
+	* DOC/ratint.tex: Revised algorithm to extract p_1(x).
+
+2020-02-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacalcat, anti-diff.scm, builtin.scm: Developing indefinite
+	integration.
+
+	* English.scm (prec:prefix): Corrected '^-' binding power.
+
+2019-05-11  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (sexp->new-var): Handle differential shadow-var.
+
+2019-05-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* test.math: Added radical test case.
+
+	* ext.scm (alg:clear-leading-exts): Overly cautious check removed.
+	(alg:conjugate): fixed (a/4)^(1/2) and ((4/a)^(1/3))^3.
+
+2019-04-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ext.scm (alg:clear-leading-exts): Renamed from
+	alg:clear-denom; extended to all implicits.
+
+2019-04-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (sexp:alpha-convert): Handles arguments in
+	non-canonical expressions, replacing clambda.
+
+2019-04-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): lambda takes exactly 2 arguments.
+
+	* English.scm (tran:translations): Added
+	not-a-scalar-expression-or-equation:--
+
+	* builtin.scm (factors, factor): Type check argument.
+
+2019-04-12  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* toploads.scm (*jacal-version*): Bumped from 1c4 to 1c5.
+
+	* English.scm (tran:translations): Added not-a-square-matrix:--
+
+	* vect.scm (ncmult, transpose): Removed gratuitous calls to
+	bunch:norm.
+
+	* builtin.scm (describe): Improved description of matrices.
+
+	* elim.scm (eliminate): Fixed long-standing bug where [a]*5 ==> 5 a.
+
+	* norm.scm (ncexpt): Fail gracefully when given funky exponent.
+
+	* jacal.texi: Described how to code row-vectors (as opposed to
+	bunches) and column-vectors.
+
+2019-04-08  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (rapply): Catch out-of-range index.
+
 2015-01-14  Aubrey Jaffer  <jaffer@dv7t>
 
 	* toploads.scm (*jacal-version*): Bumped from 1c3 to 1c4.

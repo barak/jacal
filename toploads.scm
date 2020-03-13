@@ -22,7 +22,7 @@
 (require-if 'compiling 'info)
 (require-if 'compiling 'precedence-parse)
 
-(define *jacal-version* "1c4")
+(define *jacal-version* "1c7")
 
 (define (jacal:dot) (display ".") (force-output))
 (jacal:dot)
@@ -109,11 +109,11 @@
 
 (newline)
 (display "JACAL version ") (display *jacal-version*)
-(display ", Copyright 1989-2011 Aubrey Jaffer
+(display ", Copyright 1989-2020 Aubrey Jaffer
 JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `(terms)' for details.
 ")
-(display ";;; Type (math) to begin.")
+(display ";;; Type (math); to begin.")
 (newline)
 (force-output)

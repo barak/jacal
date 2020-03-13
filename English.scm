@@ -31,6 +31,7 @@
     (non-rational-radicand:-- . "Non-rational radicand: ")
     (not-a-number . "Not a Number")
     (not-a-matrix:-- . "Not a matrix: ")
+    (not-a-square-matrix:-- . "Not a square matrix: ")
     (row-of-non-matrix?:-- . "Row of non-matrix?: ")
     (application . "application ")
     (argument . " argument ")
@@ -49,7 +50,6 @@
     (cannot-suchthat-a-vector . "cannot suchthat a vector")
     (cc-of . "cc of ")
     (column-vector . "column vector")
-    (could-not-clear-denominator-of:- . "could not clear denominator of: ")
     (delimiter-expected--ignoring-rest . "delimiter expected-ignoring rest")
     (determinant-of-non-square-matrix . "determinant of non-square matrix")
     (differential- . "differential ")
@@ -90,6 +90,7 @@
     (normalize-symbol?- . "normalize symbol? ")
     (normalizing: . "normalizing:")
     (not-a-function? . "not a function?")
+    (not-a-scalar-expression-or-equation:-- . "not a scalar expression or equation")
     (not-a-polynomial-equation . "not a polynomial equation")
     (not-a-polynomial? . "not a polynomial?")
     (not-a-simple-variable:- . "not a simple variable: ")
@@ -325,7 +326,7 @@
 
 ;;;prefix operators
 (prec:define-grammar (prec:prefix '+ #f 100))
-(prec:define-grammar (prec:prefix '- 'negate 100))
+(prec:define-grammar (prec:prefix '- 'negate 120))
 (prec:define-grammar (prec:prefix "+/-" 'u+/- 100))
 (prec:define-grammar (prec:prefix "-/+" 'u-/+ 100))
 (prec:define-grammar (prec:prefix '(not ~) 'impl:not 70))

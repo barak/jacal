@@ -9,4 +9,5 @@
  (hensel		. "hensel")
  (debug-jacal		. "debug")
  (info			. "info")
+ (antidiff		. "anti-diff")
  )

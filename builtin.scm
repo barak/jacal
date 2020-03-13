@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2005, 2007, 2010 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2005, 2007, 2010, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -346,6 +346,7 @@
 (defbltn 'describe 1 1
   (lambda (x)
     (cond
+     ((null? x) (tran:display 'empty))
      ((and (expl:var? x)
 	   (info:describe (var:sexp (expl->var x)))))
      ((bunch? x) (display (bunch-type x)) (newline))
@@ -376,9 +377,11 @@
 	(else 'unknown)))
 
 (define (bunch-type x)
-  (cond ((matrix? x) 'matrix)
-	((row? x) 'row-vector)
-	((column? x) 'column-vector)
+  (cond ((and (row-vector? x) (column-vector? x))
+	 'single-element-matrix)
+	((row-vector? x) 'row-vector)
+	((column-vector? x) 'column-vector)
+	((matrix? x) 'matrix)
 	(else 'bunch)))
 
 (defbltn 'example 1 1
@@ -392,6 +395,9 @@
 
 (define (boolify x)
   (var->expl (sexp->var (if x 'true 'false))))
+
+(defbltn 'normalize 1 1
+  normalize)
 
 (defbltn 'verify 2 2
   (lambda (try expect)
@@ -758,7 +764,8 @@
 	      (else (require 'hensel)
 		    (rat:factor->sexp e1)))))
     (cond ((eqn? e0) (*->or-eqns (fctr (eqn->poly e0))))
-	  (else (fctr e0)))))
+	  ((licit? e0) (fctr e0))
+	  (else (bltn:error 'not-a-scalar-expression-or-equation:-- e0)))))
 
 (define (int:factors e1)
   (require 'factor)			;autoload from SLIB
@@ -776,7 +783,8 @@
 (defbltn 'factors 1 1
   (lambda (e1)
     (cond ((eqn? e1) (rat:factors-list (eqn->poly e1)))
-	  (else (rat:factors-list (expr:normalize e1))))))
+	  ((licit? e1) (rat:factors-list (expr:normalize e1)))
+	  (else (bltn:error 'not-a-scalar-expression-or-equation:-- e1)))))
 
 (defbltn 'prime? 1 1
   (lambda (n)
@@ -868,16 +876,6 @@
 
 (defbltn 'transpose 1 1
   (lambda (m) (transpose m)))
-
-(defbltn 'cartprod 1 1
-  (lambda (m)
-    (require 'combinatorics)
-    (cart-prod m)))
-
-(defbltn 'factorial 1 1
-  (lambda (m)
-    (require 'combinatorics)
-    (factorial m)))
 
 (defbltn 'elementwise 1 #f
   (lambda (f . args)
@@ -1008,6 +1006,25 @@
 
 (defbltn 'extrule 1 1
   (lambda (x) (poly->eqn (or (extrule (expl->var x)) 0))))
+
+;;; combinatorics commands
+
+(defbltn 'cartprod 1 1
+  (lambda (m)
+    (require 'combinatorics)
+    (cart-prod m)))
+
+(defbltn 'factorial 1 1
+  (lambda (m)
+    (require 'combinatorics)
+    (factorial m)))
+
+;;; integration
+
+(defbltn 'integrate 2 #f
+  (lambda args
+    (require 'antidiff)
+    (apply integrate args)))
 
 ;;; commands for polynomial interpolation:
 

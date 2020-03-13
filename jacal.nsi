@@ -4,7 +4,7 @@
 ; placed in the public domain
 
 ; *** version numbers ***
-!define PRODUCT_VERSION "1c4-1"
+!define PRODUCT_VERSION "1c7-1"
 
 ; ----------------[ NO CHANGES BELOW ]----------------
 

@@ -43,6 +43,7 @@
 
 ;;; A VAR is a vector which consists of:
 ;;; 0 var:sexp		- s-expression	;lambda vars have leading "@"
+					;shadow vars have trailing ":"
 ;;; 1 var:pri		- string	;ordering priority
 					;first char is priority override
 					;last char is differential order
@@ -188,7 +189,7 @@
 	(lambda? (and (pair? v) (eq? 'lambda (car v)))))
     (do () ((not (and (pair? base) (eq? 'differential (car base)))))
       (set! base (cadr base))
-      (set! diffs (+ 2 diffs)))		;leave space for shadow priority.
+      (set! diffs (+ 2 diffs)))	     ;leave space for shadow priority.
     (let* ((s (object->string base))
 	   (sl (string-length s))
 	   (arglist (if (pair? v) (map sexp->math (if lambda? (caddr v) v))
@@ -220,7 +221,9 @@
 	   (and (char=? #\@ (string-ref s 0))
 		(not (= sl 1))
 		(not (char=? #\^ (string-ref s 1)))
-		(string->number (substring s 1 sl)))
+		(or (string->number (substring s 1 sl))
+		    ;; handle trailing ":" in shadow-var
+		    (string->number (substring s 1 (- sl 1)))))
 	   (var:build-depends arglist)
 	   #f
 	   arglist

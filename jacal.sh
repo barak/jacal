@@ -148,7 +148,7 @@ case $implementation in
 	exec $command -f ${SCHEME_LIBRARY_PATH}mzscheme.init -f ${JACALDIR}go.scm "$@";;
     umb) echo umb-scheme does not run jacal; exit 1;;
     s48) if [ -f "${JACALDIR}scheme48.image" ]; then
-	echo ";;; Type (math) to begin."
+	echo ";;; Type (math); to begin."
 	echo scheme48 -h 4500000 -i ${JACALDIR}scheme48.image "$@"
 	exec scheme48 -h 4500000 -i ${JACALDIR}scheme48.image "$@"
 	else

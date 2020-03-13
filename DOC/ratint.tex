@@ -1,142 +1,277 @@
-\documentstyle [eqalign] {article}
-\def\({\left(}
-\def\){\right)}
-\title{Solving Algebraic First Order Differential Equations}
-\author{Aubrey Jaffer}
-\date{December 6, 1990}    % Deleting this command produces today's date.
+%% pdftex -interaction nonstopmode ratint.tex
+%% tex -interaction nonstopmode ratint.tex
 
-\begin{document}           % End of preamble and beginning of text.
+\input macros.tex
 
-\maketitle                 % Produces the title.
-\newtheorem{lemma}{Lemma}
+\centerline{\bf{Rational Function Integration}}
+\centerline{Aubrey G. Jaffer}
+\centerline{e-mail: agj@alum.mit.edu}
+%% \centerline{December 6, 1990}
 
-The derivative of any algebraic expression is algebraic.  First solve
-the problem of finding antiderivatives where the solution is a
-rational expression.  Work backwards from the form of the solution to
-completely characterize those derivatives which can lead to the
-algebraic solution.
+\beginsection{Abstract}
+
+{\narrower
+
+  The derivative of any rational function is a rational function.  An
+  algorithm and decision procedure for finding the rational function
+  anti-derivative of a rational function is presented.  This algorithm
+  is then extended to derivatives of rational functions including
+  instances of a radical involving the integration variable.
+
+  \par}
+
+%% \beginsection{Keywords}
+%% {\narrower symbolic integration\par}
+
+%% \beginsection{Table of Contents}
+%% \readtocfile
+
+\def\lc{{\rm lc}\,}
+\def\coeff{{\rm coeff}\,}
 
 \section{Rational Function Differentiation}
 
-Let $$y=\prod_{i=1}^k p_i(x)^{n_i} \label{product}$$ be a rational
-function of x where the polynomials $p_i(x)$ are squarefree and
-mutually relatively prime.
+Let
+$$f(x)=\prod_{j\ne0} p_j(x)^j\eqdef{f(x)}$$ be a rational
+function of $x$ where the primitive polynomials $p_j(x)$ are
+square-free and mutually relatively prime.
 
-The derivative of $y$ is
-\begin{equation}
-{y'} = {x'} \sum_{i=1}^k n_i p_i(x)^{n_i-1} {p_i'}(x)
-\prod_{j \neq i} p_j(x)^{n_j}\label{product'}
-\end{equation}
+The derivative of $f(x)$ is
+$${d{f}\over d{x}}(x)=\sum_{j} j\,p_j(x)^{j-1}\,{p_j'}(x)\prod_{k\neq j}p_k(x)^k
+  \eqdef{f(x)'}$$
 
-\begin{lemma}
-\label{comfact}
-The expression $\sum_{i=1}^k n_i {p_i'}(x) \prod_{j \neq i} p_j(x)$
-has no factors in common with $p_i(x)$.
-\end{lemma}
-Assume that the expression has a common factor $p_h(x)$. Then
-$$p_h(x) \quad\mbox{divides}\quad
-\sum_{i=1}^k n_i {p_i'}(x) \prod_{j \neq i} p_j(x)$$.
+\proclaim Lemma 1. {
+Given square-free and relatively prime primitive polynomials $p_j(x)$,
+$\sum_jj\,{p_j'}(x)\prod_{k\neq j}p_k(x)$ has no factors in common
+with $p_j(x)$.}\par
 
-Now, $p_h(x)$ divides all terms for $i \neq h$ and since it divides
-the whole sum, $p_h(x)$ must divide the remaining term $n_h p_h'(x)
-\prod_{j \neq h} p_j(x)$.  But, from the above conditions, $p_h(x)$
-does not divide $p_h'(x)$ [$p_h(x)$ is squarefree] and $p_h(x)$ does
-not divide $p_h(x)$ for $j \neq h$ [relatively prime condition].
+Assume that the sum has a common factor $p_h(x)$ such that:
+$$p_h(x)\left|\sum_jj\,{p_j'}(x)\prod_{k\neq j}p_k(x)\right.$$
+
+$p_h(x)$ divides all terms for $j\neq h$.  Because it divides the
+whole sum, $p_h(x)$ must divide the remaining term $h\,p_h'(x)
+\prod_{k\neq h} p_k(x)$.  From the given conditions, $p_h(x)$
+does not divide $p_h'(x)$ because $p_h(x)$ is square-free; and $p_h(x)$
+does not divide $p_k(x)$ for $k\neq h$ because they are relatively
+prime.
 
 \section{Rational Function Integration}
 
-Now
-\begin{equation}
-{y'} = {x'} \( \prod_{i=1}^k p_i(x)^{n_i-1} \)
-\sum_{i=1}^k n_i {p_i'}(x) \prod_{j \neq i} p_j(x)\label{'fact}
-\end{equation}
+Separating square-and-higher factors from the sum in
+equation~\eqref{f(x)'}:
+$${d{f}\over d{x}}(x) = \left[ \prod_j p_j(x)^{j-1} \right]
+\left[\sum_j j\,{p_j'}(x)\prod_{k\neq j} p_k(x)\right]\eqdef{f(x)'2}$$
+
 There are no common factors between the sum and product terms of
-equation~\ref{'fact} because of the relatively prime condition of
-equation~\ref{product} and because of Lemma~\ref{comfact}.  Hence,
-this equation cannot be reduced and is canonical.
+equation~\eqref{f(x)'2} because of the relatively prime condition of
+equation~\eqref{f(x)} and because of Lemma~1.  Hence, this equation
+cannot be reduced and is canonical.
 
-Split equation \ref{'fact} into factors with positive and negative
-exponents and renumber $i$ to be negative when $n_i$ is negative, giving
-\begin{equation}
-{y'} \prod_{-i} p_i(x)^{-n_i+1} =
-{x'} \( \prod_{+i} p_i(x)^{n_i-1} \)
-\sum_{i} n_i {p_i'}(x) \prod_{j \neq i} p_j(x)\label{renum}
-\end{equation}
+Split equation \eqref{f(x)'2} into factors by the sign of the exponents,
+giving:
+$${d{f}\over d{x}}(x)
+ ={\prod_{j>2}p_j(x)^{j-1}\over\prod_{j<0} p_j(x)^{1-j}}\,
+ \overbrace{p_2(x)\,{\sum_jj\,{p_j'}(x)\prod_{k\neq j}p_k(x)}}^{\bf L}
+\eqdef{renum}$$
 
-Now to integrate equation~\ref{renum} note that exponents $-n_i+1 >
-1$ because $n_i~<~0$.  Hence $\prod_{-i} p_i(x)^{-n_i+1}$ can factored
-(easily in fact by squarefree factorization).  Now segregate the terms
-in the sum of equation~\ref{'fact} as well.
-$$\eqalign{&\sum_{i} n_i {p_i'}(x) \prod_{j \neq i} p_j(x) = \cr
-&\sum_{-i} n_i {p_i'}(x) \prod_{-j \neq -i} p_j(x) \prod_{+k} p_k(x) +
-\sum_{+i} n_i {p_i'}(x) \prod_{+j \neq +i} p_j(x) \prod_{-k} p_k(x) \cr}$$
-Substituting into equation~\ref{renum} yields
-\begin{equation}
-\label{bigone}
-\eqalign{
-&{y'} \prod_{-i} p_i(x)^{-n_i+1} = \cr
-&{x'} \( \prod_{+i} p_i(x)^{n_i} \)
-\sum_{-i} n_i {p_i'}(x) \prod_{-j \neq -i} p_j(x) + \cr
-&{x'} \( \prod_{+i} p_i(x)^{n_i-1} \)
-\sum_{+i} n_i {p_i'}(x) \prod_{+j \neq +i} p_j(x) \prod_{-k} p_k(x) \cr}
-\end{equation}
+The denominator is $\prod_{j\le0} p_j(x)^{1-j}$.  Its individual
+$p_j(x)$ can be separated by square-free factorization.  The $p_j(x)$
+for $j>2$ can also be separated by square-free factorization of the
+numerator.  Neither $p_2(x)$ nor
+${\sum_jj\,{p_j'}(x)\prod_{k\neq{j}}p_k(x)}$ have square factors; so
+square-free factorization will not separate them.  Treating $p_2(x)$
+as 1 lets its factor be absorbed into $p_1(x)$.  Note that $p_j(x)=1$
+for factor exponents $j$ which don't occur in the factorization of
+$d{f}/d{x}$.  All the $p_j(x)$ are now known except $p_1(x)$.  Once
+$p_1(x)$ is known, $f(x)$ can be recovered by equation \eqref{f(x)}.
+Let polynomial ${\tt{L}}$ be the result of dividing the numerator of
+$d{f}/d{x}$ by $\prod_{j>2}p_j(x)^{j-1}$.
+$$\overbrace{\sum_jj\,{p_j'}(x)\prod_{k\neq j} p_k(x)}^{\bf L}=
+  \overbrace{\sum_{j\ne1}j\,{p_j'}(x)\prod_{1\neq k\neq j}p_k(x)}^{{\bf M}}\,p_1(x)
+  +{p_1'}(x)\,\overbrace{\prod_{k\neq1}p_k(x)}^{{\bf N}}\eqdef{sep-p1}$$
 
-The right side of this equqtion is now grouped into four polynomial
-terms $A {B'} + {A'} B$ where
-$$\eqalign{A &=  \prod_{+i} p_i(x)^{n_i} \cr
-	   B' &= \sum_{-i} n_i {p_i'}(x) \prod_{-j \neq -i} p_j(x) \cr
-	   A' &=  \( \prod_{+i} p_i(x)^{n_i-1} \)
-\sum_{+i} n_i {p_i'}(x) \prod_{+j \neq +i} p_j(x) \cr
-           B &= \prod_{-k} p_k(x) \cr}$$
-$A$ is the original numerator and $A'$ it's derivative.  $B$ and $B'$
-can be derived from the squarefree factorization of the denominator of
-the integrand.  $A$ and $A'$ can be recovered by a kind of long
-division of the right side of equation~\ref{bigone} by $B$ and $B'$
-simultaneously.  In addition to subtracting a term times $B'$ subtract
-the term's derivative times $B$.
+Because they don't involve $p_1(x)$, polynomials ${\tt{M}}$ and
+${\tt{N}}$ in equation \eqref{sep-p1} can be computed from the
+square-free factorizations of the numerator and denominator.  This
+allows $p_1(x)$ to be constructed by a process resembling long
+division.  The trick at each step is to construct a monomial $q(x)$
+such that ${\tt{M}}\,q(x)+q'(x)\,{\tt{N}}$ cancels the highest term of
+dividend ${\tt{R}}$ (which is initially ${\tt{L}}$).
 
-\section{A First Order Differential Equation}
+Let ${\tt{deg}}(p)$ be the degree of $x$ in polynomial $p\ne0$ and
+${\tt{deg}}(0)=-1$.  Let ${\tt{coeff}}(p,w)$ be the coefficient of the
+$x^w$ term of polynomial $p$ for $w\ge0$.
 
-Starting with equation~\ref{product'} multiply through by
-$\prod_{i=1}^k p_i(x)$ and replace $\prod_{i=1}^k p_i(x)^{n_i}$ on the
-right side by $y$.
+Note that ${\tt{deg}}({\tt{M}})={\tt{deg}}({\tt{N}})-1$ because the
+derivative of exactly one of the $p_j(x)$ occurs instead of $p_j(x)$
+in each term of ${\tt{M}}$.  And
+${\tt{deg}}(q(x)\,{\tt{M}})={\tt{deg}}(q'(x)\,{\tt{N}})$ because
+${\tt{deg}}(q'(x))={\tt{deg}}(q(x))-1$.
 
-\begin{equation}
-{y'} \prod_{i=1}^k p_i(x) = {x'} y \sum_{i=1}^k n_i {p_i'}(x)
-\prod_{j \neq i} p_j(x)\label{y'y}
-\end{equation}
+The polynomial $p_1(x)$ can be constructed by the following procedure.
+Let ${\tt{A}}$, ${\tt{C}}$, and ${\tt{R}}$ be rational expressions.
+Only the numerators of ${\tt{A}}$ and ${\tt{R}}$ contain powers of
+$x$.  Starting from polynomials ${\tt{L}}$, ${\tt{M}}$, and
+${\tt{N}}$:
+\medskip
+\verbatim
+  A := 0;
+  R := L;
+  Nxd := deg(N);
+  while ( ( g := deg(num(R)) - Nxd + 1 ) >= 0 ) do
+    Rxd := deg(num(R));
+    RxC := coeff(num(R),Rxd);
+    C := RxC / ( coeff(M,Nxd-1) + g*coeff(N,Nxd) ) / denom(R);
+    A := A + C * x^g;
+    R := R - C * ( M*x^g + N*diff(x^g,x) );
+    if ( deg(num(R)) > Rxd ) then fail;
+    if ( 0 = R ) then return ( A );
+|endverbatim
+\medskip
+At the end of this process, if ${\tt{R}}=0$, then $p_1(x)$ is the
+numerator of ${\tt{A}}$ and $f(x)=\prod_jp_j(x)^j$ divided by the
+denominator of ${\tt{A}}$.  Otherwise the anti-derivative is not a
+rational function.
 
-By Lemma~\ref{comfact} this cannot be simplified because the
-two sides have no factor in common.  Hence, this form is
-canonical.
+\medskip
+Just as this algorithm works with $p_2(x)$ absorbed into $p_1(x)$, it
+works with all of the $p_j(x)$ for $j>1$ absorbed into $p_1(x)$.  This
+removes the need to factor the numerator and provides the opportunity
+to enhance the algorithm to handle algebraic field extensions.
 
-Therefore, given an equation of form ${y'} q(x) = {x'} {y } r(x)$, if
-it can be put into the form of equation~\ref{y'y}, it can be solved as
-in equation~\ref{product}.  In order to do this we need to factor
-$q(x)$.  This factoring can be seen as the same complexity as the
-partial fraction decomposition in Risch's algorithm.
+\section{Algebraic field extension}
 
-Once we have factored $q(x)$, we need to find a set of $n_i$ so that
-$$\sum_{i=1}^k n_i {p_i'}(x) \prod_{j \neq i} p_j(x) = r(x)$$.  Now in
-order for this solution to be unique we need to show that the terms
-${p_i'}(x) \prod_{j \neq i} p_j(x)$ are lineraly independent and hence
-form the basis for a vector space.  Let's assume that they were not
-independent.
+Let $y$ be a variable representing one of the solutions of its
+defining equation (reduction rule) represented by a polynomial
+${\tt{Y}}=0$.  For example ${\tt{Y}}$ would be $y^3-x$ for a cube root
+of $x$.
 
-Suppose there existed a set of integers $m_i$ such that $$\sum_{i=1}^k
-m_i {p_i'}(x) \prod_{j \neq i} p_j(x) = 0$$ and there exists some $m_i
-\neq 0$.  If only one $m_i \neq 0$ then ${p_i'}(x) \prod_{j \neq i}
-p_j(x) = 0$.  Since $p_j(x) \neq 0$ then ${p_i}'(x) = 0$.  But then
-$p_i(x)$ would not be a polynomial in x.  So then
-\begin{equation}
--m_i {p_i'} \prod_{j \neq i} p_j(x) = \sum_{h \neq i} m_h {p_h'}(x)
-\prod_{j \neq h} p_j(x)\label{lindep}
-\end{equation}
-Now, $p_i(x)$ divides every term on the right side of
-equation~\ref{lindep} so $p_i(x)$ must also divide $-m {p_i'}(x)
-\prod_{j \neq i} p_j(x)$.  But, because of squarefree, $p_i(x)$ does
-not divide ${p_i'}(x)$ and $p_i(x)$ does
-not divide ${p_j}(x)$ when $j \neq i$.  Hence, there exists a unique
-set of coefficients satisfying equation~\ref{y'y}.
+As discussed by Caviness and
+Fateman\cite{Caviness:1976:SRE:800205.806352}, multiple field
+extensions involving the same variable can be combined into a single
+field extension.  For the purposes of integration, combine the field
+extensions involving the variable of integration $x$ into a single
+variable $y$ with its defining equation ${\tt{Y}}$.
 
-\end{document}
+In order to normalize polynomials with regard to ${\tt{Y}}$, each
+polynomial ${\tt{P}}$ containing $y$ is replaced by
+${\tt{prem(P,Y)}}$, the remainder of pseudo-division of ${\tt{P}}$ by
+${\tt{Y}}$, as described by Knuth Volume 2\cite{KnuthVol2}.
+
+While that process normalizes polynomials, it doesn't fully normalize
+ratios of polynomials, for instance:
+$$1/y^2=1/(\root3\of{x})^2=\root3\of{x}/x=y/x$$
+
+After the polynomials are normalized, if the denominator still
+contains the field extension $y$, it is possible to move $y$ to
+the numerator by multiplying both numerator and denominator by the
+$y$-conjugate of the denominator, then normalizing both numerator and
+denominator by ${\tt{Y}}$.  The conjugate of a polynomial ${\tt{P}}$
+with respect to ${\tt{Y}}$ can be computed by the following procedure
+where ${\tt{deg}}(q)$ is the degree of $y$ in polynomial~$q$ and
+${\tt{pquo(Y,P)}}$ and ${\tt{prem(Y,P)}}$ are the quotient and
+remainder of pseudo-division of ${\tt{Y}}$ by ${\tt{P}}$:
+\medskip
+\verbatim
+  conj(P):
+    if ( deg(P) < deg(Y) ) then
+      Q := pquo(Y,P);
+      R := prem(Y,P);
+    else
+      Q := 1;
+      R := 0;
+    if ( deg(R) = 0 )
+      then return ( Q );
+      else return ( Q * conj(R) );
+|endverbatim
+\medskip
+
+With a single algebraic field extension $y$ which is a function of
+$x$, and the denominator free of $y$, and all the numerator factors in
+$p_1(x,y)$, the previous development can be reformulated:
+$$f(x,y)=\prod_{j\le1}p_j(x,y)^j\eqdef{f(x,y)}$$
+
+The derivative of $f(x,y)$ with respect to $x$ is
+$${d{f}\over d{x}}(x,y)=\sum_{j\le1}j\,p_j(x,y)^{j-1}\,{p_j'}(x,y)\prod_{k\neq j}p_k(x,y)^k
+  \eqdef{f(x,y)'}$$
+
+Separating into numerator and denominator:
+$${d{f}\over d{x}}(x,y)
+ ={\sum_jj\,{p_j'}(x,y)\prod_{k\neq j}p_k(x,y)
+ \over\prod_{j\le0}p_j(x,y)^{1-j}}
+\eqdef{renum2}$$
+
+This time, ${\tt{L}}$ is the whole numerator of
+equation \eqref{renum2}.  Note that the denominator includes
+$p_0(x,y)$; $p_0(x,y)$ does not contribute to ${\tt{M}}$ because its
+coefficient $j$ is 0.  Separating $p_1(x,y)$ from the denominator
+factors:
+$$\overbrace{\sum_jj\,{p_j'}(x,y)\prod_{k\neq j} p_k(x,y)}^{\bf L}=
+  \overbrace{\sum_{j\le0}j\,{p_j'}(x,y)\prod_{k\neq j}p_k(x,y)}^{{\bf M}}\,p_1(x,y)
+  +{p_1'}(x,y)\,\overbrace{\prod_{k\le0}p_k(x,y)}^{{\bf N}}$$
+
+Because they don't involve $p_1(x,y)$, polynomials ${\tt{M}}$ and
+${\tt{N}}$ can be computed from the square-free factorization of the
+denominator.  The trick at each step is to construct a polynomial
+$t$ such that ${\tt{M}}\,t+t'\,{\tt{N}}$ cancels the
+highest term of dividend ${\tt{R}}$ (initial ${\tt{R}}={\tt{L}}$).
+
+Let ${\tt{A}}$, ${\tt{C}}$, and ${\tt{R}}$ be rational expressions.
+Let ${\tt{Q}}$ and ${\tt{T}}$ be polynomials of $x$ containing no
+algebraic extensions.  Let $g=\deg({\tt{R}},x)-\deg({\tt{N}},x)+1$.
+
+When there is no algebraic extension, $t=x^g$.  If there is an
+algebraic extension $y$, let $q$ be the denominator of normalized
+${d{y}/d{x}}$, $f$ be the integer quotient ${g/\deg(q,x)}$, and set
+$g$ to the remainder of ${g/\deg(q,x)}$.  Then:
+$$t=q^f\,x^g\,y^h$$
+
+%% Because $y$ is algebraic function of $x$, $\deg(dy/dx,x)=\deg(y,x)-1$.
+
+The polynomial $p_1(x,y)$ can be constructed by the following
+procedure.  Starting from polynomials ${\tt{L}}$, ${\tt{M}}$, and
+${\tt{N}}$:
+\medskip
+\verbatim
+  A := 0;
+  R := L;
+  Q := denom( normalize( diff(y,x) ) );
+  Nyd := deg(N,y);
+  NyC := coeff(N,y,Nyd);
+  Nxd := deg(NyC,x);
+  loop
+    Ryd := deg(num(R),y);
+    RyC := coeff(num(R),y,Ryd);
+    Rxd := deg(RyC,x);
+    h := Ryd - Nyd;
+    g := ( Rxd - Nxd + 1 );
+    if ( 0 = deg(Q,x) )
+      T := x^g;
+    else
+      f := quotient(g,deg(Q,x));
+      g := remainder(g,deg(Q,x));
+      T := Q^f * x^g * y^h;
+    dT := diff(T,x);
+    B := normalize( N*dT + M*T );
+    C := coeff(RyC,x,Rxd) * denom(B) / denom(R)
+         / coeff(coeff(num(B),y,Ryd),x,Rxd);
+    A := A + C * T;
+    R := R - C * B;
+    if ( 0 = R ) then return ( A );
+    if ( deg(num(R),y) > Ryd ) then fail;
+    if ( deg(num(R),y) = Ryd and
+         deg(coeff(num(R),y,deg(num(R),y)),x) >= Rxd ) then fail;
+|endverbatim
+\medskip
+The looping continues only as long as the degree of ${\tt{R}}$
+decreases.  If this process succeeds, then $p_1(x,y)$ is the numerator
+of ${\tt{A}}$ and $f(x,y)=\prod_jp_j(x,y)^j$ divided by the
+denominator of ${\tt{A}}$.
+
+\beginsection{References}
+
+\bibliographystyle{unsrt}
+\bibliography{ratint}
+
+\vfill\eject
+\bye
