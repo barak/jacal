@@ -15,7 +15,7 @@ MAKEVARS=prefix=$(CURDIR)/debian/jacal/usr/ \
 version:=$(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9A-Za-z.]+)[-].*$$/\1/p')
 
 %:
-	dh $@ --parallel
+	dh $@
 
 override_dh_auto_build:
 	makeinfo --info jacal.texi
