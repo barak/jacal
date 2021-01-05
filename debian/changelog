@@ -6,8 +6,9 @@ jacal (1c4-2) UNRELEASED; urgency=medium
   * Drop unnecessary dh arguments: --parallel
   * Remove empty maintainer scripts: jacal (prerm)
   * Update watch file format version to 4.
+  * Bump policy
 
- -- Barak A. Pearlmutter <bap@debian.org>  Tue, 05 Jan 2021 22:42:24 -0000
+ -- Barak A. Pearlmutter <bap@debian.org>  Tue, 05 Jan 2021 22:44:21 +0000
 
 jacal (1c4-1) unstable; urgency=medium
 
