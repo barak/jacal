@@ -18,8 +18,9 @@ jacal (1c7-1) unstable; urgency=medium
   * Bump policy
   * Remove no-longer-needed quilt patches
   * Debhelper 13
+  * Rules-Requires-Root: no
 
- -- Barak A. Pearlmutter <bap@debian.org>  Wed, 06 Jan 2021 11:50:46 +0000
+ -- Barak A. Pearlmutter <bap@debian.org>  Wed, 06 Jan 2021 11:51:47 +0000
 
 jacal (1b9-7) unstable; urgency=medium
 
