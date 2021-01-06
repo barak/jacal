@@ -7,7 +7,7 @@ Subject: configure forgiveness
  1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/configure b/configure
-index ebd9bc8..f60f8ca 100755
+index ebd9bc8..f60f8ca 100644
 --- a/configure
 +++ b/configure
 @@ -253,9 +253,8 @@ do
