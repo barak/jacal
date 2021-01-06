@@ -17,6 +17,9 @@ version:=$(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9A-Za-z.]+)[-].
 %:
 	dh $@
 
+execute_before_dh_auto_configure:
+	chmod +x ./configure
+
 override_dh_auto_build:
 	makeinfo --info jacal.texi
 	makeinfo --no-split --html jacal.texi
