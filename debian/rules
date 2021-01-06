@@ -7,6 +7,7 @@ export TEXI2HTML=texi2html
 
 MAKEVARS=DESTDIR=$(CURDIR)/debian/jacal \
 	prefix=/usr/ \
+	libdir=/usr/lib/ \
 	infodir=/usr/share/info/ \
 	htmldir=/usr/share/doc/jacal/ \
 	mandir=/usr/share/man/ \
@@ -44,7 +45,11 @@ override_dh_auto_install: debian/jacal/usr/bin/jacal debian/jacal/usr/lib/jacal/
 	# Add here commands to install the package into debian/jacal.
 	-mkdir -p debian/jacal/usr/share/info
 	$(MAKE) install $(MAKEVARS)
+	-rm --verbose debian/jacal/usr/share/info/dir*
 	-rm --verbose debian/jacal/usr/lib/jacal/COPYING
 
 override_dh_auto_test:
 	@echo "Testing requires running Scheme at build time."
+
+override_dh_auto_clean:
+	@echo "configure might not be executable..."

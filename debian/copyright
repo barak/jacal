@@ -5,7 +5,7 @@ It was downloaded from http://www-swiss.ai.mit.edu/~jaffer/JACAL.html.
 
 Upstream Author: Aubrey Jaffer, agj@alum.mit.edu.
 
-Copyright: 
+Copyright:
   1989-2006, Aubrey Jaffer
   1993-1995, Mike Thomas
   1993, 1997, Jerry D. Hadden
@@ -29,7 +29,7 @@ License:
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License with
-  the Debian GNU/Linux distribution in file /usr/share/common-licenses/GPL;
+  the Debian GNU/Linux distribution in file /usr/share/common-licenses/GPL-3;
   if not, write to the Free Software Foundation, Inc., 51 Franklin
   Street, Fifth Floor, Boston, MA 02110-1301 USA
 
@@ -37,6 +37,6 @@ License:
   License, version 3, can be found in /usr/share/common-licenses/GPL-3.
 
 The Debian packaging is (C) 2006, Thomas Bushnell, BSG <tb@debian.org> and
-is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+is licensed under the GPL, see `/usr/share/common-licenses/GPL-3'.
 Packaging updates (C) 2013, Barak A. Pearlmutter <bap@debian.org>,
 are placed in the public domain.
