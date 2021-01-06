@@ -5,11 +5,11 @@
 
 export TEXI2HTML=texi2html
 
-MAKEVARS=prefix=$(CURDIR)/debian/jacal/usr/ \
-	infodir=$(CURDIR)/debian/jacal/usr/share/info/ \
-	htmldir=$(CURDIR)/debian/jacal/usr/share/doc/jacal/ \
-	mandir=$(CURDIR)/debian/jacal/usr/share/man/ \
-	man1dir=$(CURDIR)/debian/jacal/usr/share/man/man1/ \
+MAKEVARS=DESTDIR=$(CURDIR)/debian/jacal \
+	prefix=/usr/ \
+	infodir=/usr/share/info/ \
+	htmldir=/usr/share/doc/jacal/ \
+	mandir=/usr/share/man/ \
 	TEXI2HTML=${TEXI2HTML}
 
 version:=$(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9A-Za-z.]+)[-].*$$/\1/p')
@@ -27,6 +27,7 @@ override_dh_auto_build:
 # These are from upstream's install target, turned into correctness.
 
 debian/jacal/usr/bin/jacal:
+	-mkdir -p $$(dirname $@)
 	echo '#! /bin/bash'			 > $@
 	echo JACALDIR=/usr/lib/jacal/		>> $@
 	echo VERSION=$(version)			>> $@
@@ -34,11 +35,16 @@ debian/jacal/usr/bin/jacal:
 	chmod +x $@
 
 debian/jacal/usr/lib/jacal/go.scm:
+	-mkdir -p $$(dirname $@)
 	echo ";;(use-modules (ice-9 slib))"		 > $@
 	echo "(slib:load \"/usr/lib/jacal/math\")"	>> $@
 	echo "(math)"					>> $@
 
 override_dh_auto_install: debian/jacal/usr/bin/jacal debian/jacal/usr/lib/jacal/go.scm
 	# Add here commands to install the package into debian/jacal.
-	$(MAKE) pinstall $(MAKEVARS)
-	rm debian/jacal/usr/lib/jacal/COPYING
+	-mkdir -p debian/jacal/usr/share/info
+	$(MAKE) install $(MAKEVARS)
+	-rm --verbose debian/jacal/usr/lib/jacal/COPYING
+
+override_dh_auto_test:
+	@echo "Testing requires running Scheme at build time."
