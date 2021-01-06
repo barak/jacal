@@ -6,7 +6,7 @@ jacal (1c7-1) unstable; urgency=medium
   * d/control: Set Vcs-* to salsa.debian.org
 
   [ Barak A. Pearlmutter ]
-  * New upstream release.
+  * New upstream release (closes: #731785, #815250)
   * Update packaging scripts
   * Patch to ./configure to warn instead of fail on unknown options
   * Trim trailing whitespace.
