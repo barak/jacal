@@ -3,19 +3,33 @@ Date: Wed, 6 Jan 2021 14:19:46 +0000
 Subject: SCHEME_LIBRARY_PATH
 
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 0164081..2bd281b 100644
+index 0164081..a545b13 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -196,7 +196,7 @@ install-script: jacal.sh installdirs
+@@ -195,12 +195,16 @@ install-script: jacal.sh installdirs
+ 	echo "(math)"				  >> go-scm
  	$(INSTALL_DATA) go-scm $(DESTDIR)$(jacallibdir)go.scm
  	rm go-scm
- 	echo '#! /bin/sh'			   > jacal-script
+-	echo '#! /bin/sh'			   > jacal-script
 -	grep -h ^SCHEME_LIBRARY_PATH= `which slib`>> jacal-script
-+	echo SCHEME_LIBRARY_PATH=/usr/share/slib  >> jacal-script
- 	echo export SCHEME_LIBRARY_PATH		  >> jacal-script
- 	echo JACALDIR=$(DESTDIR)$(jacallibdir)	  >> jacal-script
- 	echo VERSION=$(VERSION)			  >> jacal-script
+-	echo export SCHEME_LIBRARY_PATH		  >> jacal-script
+-	echo JACALDIR=$(DESTDIR)$(jacallibdir)	  >> jacal-script
+-	echo VERSION=$(VERSION)			  >> jacal-script
+-	cat $<					  >> jacal-script
++	echo '#! /bin/sh'				> jacal-script
++	echo 'if [ -z $${SCHEME_LIBRARY_PATH} ]; then'	>> jacal-script
++	echo '  SCHEME_LIBRARY_PATH=/usr/share/slib/'	>> jacal-script
++	echo 'fi'					>> jacal-script
++	echo 'export SCHEME_LIBRARY_PATH'		>> jacal-script
++	echo 'if [ -z $${JACALDIR} ]; then'		>> jacal-script
++	echo '  JACALDIR=$(jacallibdir)'		>> jacal-script
++	echo 'fi'					>> jacal-script
++	echo 'VERSION=$(VERSION)'			>> jacal-script
++	cat $<						>> jacal-script
+ 	$(INSTALL_PROGRAM) jacal-script $(DESTDIR)$(bindir)jacal
+ 	rm jacal-script
+ 
