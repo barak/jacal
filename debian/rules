@@ -3,6 +3,8 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+include /usr/share/dpkg/pkg-info.mk
+
 export TEXI2HTML=texi2html
 
 MAKEVARS=DESTDIR=$(CURDIR)/debian/jacal \
@@ -12,8 +14,6 @@ MAKEVARS=DESTDIR=$(CURDIR)/debian/jacal \
 	htmldir=/usr/share/doc/jacal/ \
 	mandir=/usr/share/man/ \
 	TEXI2HTML=${TEXI2HTML}
-
-version:=$(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9A-Za-z.]+)[-].*$$/\1/p')
 
 %:
 	dh $@
@@ -31,7 +31,7 @@ debian/jacal/usr/bin/jacal:
 	-mkdir -p $$(dirname $@)
 	echo '#! /bin/bash'			 > $@
 	echo JACALDIR=/usr/lib/jacal/		>> $@
-	echo VERSION=$(version)			>> $@
+	echo VERSION=$(DEB_VERSION_UPSTREAM)	>> $@
 	cat jacal.sh				>> $@
 	chmod +x $@
 
