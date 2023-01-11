@@ -1,6 +1,6 @@
 ;; "factors.scm" Polynomial factors.		-*-scheme-*-
 ;; Copyright 1994, 1995 Mike Thomas
-;; Copyright 1995, 1997, 1998, 1999, 2001, 2002 Aubrey Jaffer
+;; Copyright 1995, 1997, 1998, 1999, 2001, 2002, 2020, 2021 Aubrey Jaffer
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,15 +17,31 @@
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 (require 'finite-fields)
-(require 'fluid-let)
 (require 'sort)
 (require 'common-list-functions)
 
 ;;; NUMCONT is the integer numeric content.
 (define (prepend-integer-factor numcont factors)
   (cond ((one? numcont) factors)
-	(*sort-int-factors* (append (int:factors numcont) factors))
+	((number? (caaar factors))
+	 (cons (list (list (* numcont (caaar factors))) 1)
+	       (cdr factors)))
 	(else (cons (list (list numcont) 1) factors))))
+
+(define (expand-integer-factors factors)
+  (cond ((number? (caar factors))
+	 (append (int:factors (caar factors)) (cdr factors)))
+	((number? (caaar factors))
+	 (append (int:factors (caaar factors)) (cdr factors)))
+	(else factors)))
+
+(define (rat:cont-can nufa defa)
+  (cond ((negative? (sign (cond ((number? defa) defa)
+				((number? (caaar defa)) (caaar defa))
+				(else 1))))
+	 (list (prepend-integer-factor -1 nufa)
+	       (prepend-integer-factor -1 defa)))
+	(else (list nufa defa))))
 
 (define (negate-factors-exps fact-exps)
   (reverse
@@ -76,10 +92,11 @@
 	(else
 	 (slib:error "poly:factor<: unknown type" x y))))
 
-(define (poly:sort-factors fs) (sort! fs poly:factor<))
+(define (poly:sort-factors fs)
+  (cond ((null? fs) fs)
+	(else (sort! fs poly:factor<))))
 
 (define (poly:sort-merge-factors fs)
-  (define factors-list (poly:sort-factors fs))
   (define (doit facts exp factors-list)
     (cond ((null? factors-list) (list (list (poly:sort-factors facts) exp)))
 	  ((equal? exp (cadar factors-list))
@@ -88,7 +105,11 @@
 		      (doit (caar factors-list)
 			    (cadar factors-list)
 			    (cdr factors-list))))))
-  (doit (caar factors-list) (cadar factors-list) (cdr factors-list)))
+  (cond
+   ((null? fs) fs)
+   (else
+    (let ((factors-list (poly:sort-factors fs)))
+      (doit (caar factors-list) (cadar factors-list) (cdr factors-list))))))
 ;;; ================================================================
 
 ;;; FACTORS-LIST is a list of lists of a list of factors and exponent.
@@ -103,29 +124,26 @@
 		 (cadr fact-exp)))
 	      (poly:sort-factors (factors-list->fact-exps factors-list)))))
 
-(define *sort-int-factors* #f)
-
 ;;; Factorise over the Rationals (Q)
 ;;; return an sexp product of sorted factors of the polynomial POLY
 ;;; over the integers (Z)
 (define (rat:factor->sexp poly)
-  (fluid-let ((*sort-int-factors* #f))
-    (cond ((rat? poly)
-	   (let ((nu (num poly))
-		 (de (denom poly)))
-	     (sexp:over (if (number? nu)
-			    (int:factor nu)
-			    (factors->sexp (poly:factorz nu)))
-			(if (number? de)
-			    (int:factor de)
-			    (factors->sexp (poly:factorz de))))))
-	  (else (factors->sexp (poly:factorz poly))))))
+  (cond ((rat? poly)
+	 (let ((nufa (poly:factorz (num poly)))
+	       (defa (poly:factorz (denom poly))))
+	   (define nufa-defa (rat:cont-can nufa defa))
+	   (sexp:over (factors->sexp (expand-integer-factors (car nufa-defa)))
+		      (factors->sexp (expand-integer-factors (cadr nufa-defa))))))
+	(else (factors->sexp (expand-integer-factors (poly:factorz poly))))))
 (define (rat:factors poly)
-  (fluid-let ((*sort-int-factors* #t))
-    (poly:sort-merge-factors
-     (cond ((rat? poly)
-	    (append (poly:factorz (num poly))
-		    (negate-factors-exps (poly:factorz (denom poly)))))
-	   (else (poly:factorz poly))))))
+  (poly:sort-merge-factors
+   (cond ((rat? poly)
+	  (let ((nufa (poly:factorz (num poly)))
+		(defa (poly:factorz (denom poly))))
+	    (define nufa-defa (rat:cont-can nufa defa))
+	    (append (expand-integer-factors (car nufa-defa))
+		    (negate-factors-exps
+		     (expand-integer-factors (cadr nufa-defa))))))
+	 (else (expand-integer-factors (poly:factorz poly))))))
 
-;;(require 'debug-jacal) (trace rat:factors rat:factor->sexp)
+;; (require 'debug-jacal) (trace rat:factors rat:factor->sexp expand-integer-factors rat:cont-can)

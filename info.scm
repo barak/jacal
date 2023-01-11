@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 2005, 2010 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 2005, 2010, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 	   (for-each (lambda (i)
 		       (cond ((string? i) (display i))
 			     ((sexp? i) (write-sexp i *output-grammar*))
-			     (else (eval-error 'bad-info-entry)))
+			     (else (eval:error 'bad-info-entry)))
 		       (newline))
 		     (or (info:get x) '()))
 	   #t)
@@ -201,7 +201,7 @@ numbers"
   "quit.  This leaves the math system and scheme")
 
 (definfo 'listofvars
-  "This returns a list of variables occuring in the argument"
+  "This returns a list of variables occurring in the argument"
   '(listofvars (+ a (/ b c))))
 
 (definfo 'coeff
@@ -373,7 +373,22 @@ list.")
   "Given var and coefficients, construct polynomial")
 
 (definfo 'diff
-  "Derivative of exp with respect to var(s)")
+  "Derivative of its first argument with respect to var(s) argument")
 
 (definfo 'partial
   "Partial derivative of function with respect to argument(s) n or `@n'")
+
+(definfo 'integrate
+  "Integrate of the first argment with respect to the second argument.")
+
+(definfo 'compose
+  "Compose the first polynomial argument with the second polynomial
+argument with respect to the third argument variable.")
+
+(definfo 'decompose
+  "Decompose the first polynomial argument with respect to the second
+argument variable.")
+
+(definfo 'normalize
+  "Normalize the argument into canonical form.  Common factors are
+reduced and radicals are removed from the denominator.")

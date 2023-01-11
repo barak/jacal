@@ -1,5 +1,5 @@
 ;;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1996, 1997, 2002, 2009 Aubrey Jaffer.
+;;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1996, 1997, 2002, 2009, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@
 ;;; jacal variable errobj to OBJ, saves its continuation and breaks to
 ;;; the jacal prompt.
 
-(require 'polynomial-factors)
+;; (require 'polynomial-factors)
 (require 'debug)
 
 (define math:break-continuation-stack '())
@@ -59,9 +59,9 @@
 (define (qp . args)
   (force-output)
   (for-each (lambda (x)
-	      (math:print x)
-	      ;;(if (symbol? x) (display-diag #\space) (newline-diag))
-	      )
+	      (cond ((symbol? x) (write-diag x) (display-diag #\space))
+		    ((poly:var? x) (write-diag (var:sexp x)) (display-diag #\space))
+		    (else (math:print x))))
 	    args))
 
 (define (print . args)

@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1992, 1993, 1996, 1997 Aubrey Jaffer.
+;; Copyright 1992, 1993, 1996, 1997, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -66,14 +66,14 @@
 
 (defgrammar 'scheme
   (make-grammar 'scheme
-		(lambda (grm) (read))
+		(lambda (grm column) (read))
 		#f
 		(lambda (sexp grm) (write sexp) (force-output))
 		#f))
 
 (defgrammar 'null
   (make-grammar 'null
-		(lambda (grm) (math:error 'cannot-read-null-grammar))
+		(lambda (grm column) (math:error 'cannot-read-null-grammar))
 		#f
 		(lambda (sexp grm) #t)
 		#f))
@@ -82,7 +82,7 @@
 (defgrammar 'schemepretty
   (let ((pploaded #f))
     (make-grammar 'schemepretty
-		  (lambda (grm) (read))
+		  (lambda (grm column) (read))
 		  #f
 		  (lambda (sexp grm)
 		    (or pploaded (begin (require 'pretty-print)
@@ -124,8 +124,10 @@
   (define ans '())
   (for-each (lambda (obj)
 	      (display-diag #\space)
+	      (set! ans obj)
 	      (cond ((symbol? obj) (display-diag (tran:translate obj)))
-		    (else (print1 obj) (set! ans obj))))
+		    ((sexp? obj) (write-diag obj))
+		    (else (print1 obj))))
 	    args)
   (newline-diag)
   ans)
@@ -142,8 +144,10 @@
 (define (math:error . args)
   (force-output)
   (apply math:warn args)
-  (if math:debug (slib:error "") (math:exit #f)))
-(define eval-error math:error)
+  (if math:debug (slib:error "return to scheme for debugging.") (math:exit #f))
+  ;; novalue
+  )
+(define eval:error math:error)
 (define (jacal:found-bug . args)
   (newline-diag)
   (display-diag

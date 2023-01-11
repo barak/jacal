@@ -1,16 +1,16 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1992, 1993 Aubrey Jaffer.
+;; Copyright 1992, 1993, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or (at
 ;; your option) any later version.
-;; 
+;;
 ;; This program is distributed in the hope that it will be useful, but
 ;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;; General Public License for more details.
-;; 
+;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -20,7 +20,7 @@
 ;;; which appear there on one horizontal line.
 
 ;;; a BOX is a list of pairs of line-numbers and LINEs.
-;;; a PBOX consists of a BP (binding power) and a list of boxes.
+;;; a PBOX consists of a BP (binding power) and a list of BOXes.
 
 ;;; a TEMPLATE is an HBOX.  An HBOX is a list of strings, symbols and
 ;;; VBOXes.  A VBOX is a list of pairs of a row position and an HBOX
@@ -43,6 +43,9 @@
 
 ;(require 'rev3-procedures)
 (require 'common-list-functions)
+
+(define unprs:lincnt 0)
+(define unprs:linum 0)
 
 ;;; TEXT-WIDTH
 
@@ -105,55 +108,55 @@
 	(else (set-car! lst (+ inc (car lst)))
 	      (shift-numbers! (cddr lst) inc))))
 
-;;; routines for actually writing the 2d formated output to a port.
+;;; routines for actually writing the 2d formatted output to a port.
 ;;; These can be replaced with code which does cursor positioning.
 
 (define (flush-blanks box)
   (cond ((null? box) box)
-	((> (top-edge box) (+ 1 lte))
-	 (newline)
-	 (set! lte (+ -1 (top-edge box)))
+	((> (top-edge box) (+ 1 unprs:linum))
+	 ;; (newline)
+	 (set! unprs:linum (+ -1 (top-edge box)))
 	 (flush-blanks box))
 	((null? (cdar box))
-	 (newline)
-	 (set! lte (top-edge box))
+	 ;; (newline)
+	 (set! unprs:linum (top-edge box))
 	 (flush-blanks (cdr box)))
 	(else box)))
 
 (define (chunk-height box)
-  (let ((base lte))
+  (let ((base unprs:linum))
     (do ((b box (cdr b))
-	 (lte base (top-edge b)))
-	((or (null? b) (null? (cdar b)) (not (= (+ 1 lte) (top-edge b))))
-	 (if (zero? (- lte base)) 1 (- lte base)))
-      (set! lte (top-edge b)))))
+	 (unprs:linum base (top-edge b)))
+	((or (null? b) (null? (cdar b)) (not (= (+ 1 unprs:linum) (top-edge b))))
+	 (if (zero? (- unprs:linum base)) 1 (- unprs:linum base)))
+      (set! unprs:linum (top-edge b)))))
 
 (define (display-box box)
   (define h (get-page-height))
   (set! box (flush-blanks box))
-  (set! lte (+ -1 (top-edge box)))
+  (set! unprs:linum (+ -1 (top-edge box)))
   (let loop ((box box))
     (cond ((null? box) box)
 	  ((begin (set! box (flush-blanks box))
-		  (< (+ linum (chunk-height box)) h))
+		  (< (+ unprs:lincnt (chunk-height box)) h))
 	   (loop (display-chunk box)))
-	  ((or (zero? h) (zero? linum)) (loop (display-chunk box)))
+	  ((or (zero? h) (zero? unprs:lincnt)) (loop (display-chunk box)))
 	  ((do-more)
-	   (set! linum 0)
+	   (set! unprs:lincnt 0)
 	   (loop (display-chunk box)))
 	  (else #f))))
 
 (define (display-chunk box)
   (do ((b box (cdr b)))
-      ((or (null? b) (not (= (+ 1 lte) (top-edge b))) (null? (cdar b)))
-;;;       (print (+ 1 lte) (and (not (null? b)) (top-edge b)) linum)
+      ((or (null? b) (not (= (+ 1 unprs:linum) (top-edge b))) (null? (cdar b)))
+;;;       (print (+ 1 unprs:linum) (and (not (null? b)) (top-edge b)) unprs:lincnt)
        b)
     (display-line 0 #\space (cdar b))
     (if (not (null? (cdr b)))
 	(newline)
 	(force-output))
-    (set! lte (top-edge b))
-    (set! linum (+ 1 linum))
+    (set! unprs:linum (top-edge b))
+    (set! unprs:lincnt (+ 1 unprs:lincnt))
     (and (null? (cdar b)) (not (zero? (get-page-height)))
 	 (not (do-more)) (set! b '(())))))
 
@@ -340,11 +343,12 @@
 
 ;;; Driver for 2d output
 
+(define (reset-line-count!)
+  (set! unprs:lincnt 0))
+
 (define (print-using-grammar exp grm)
   (template-print exp (grammar-write-tab grm)))
 
-(define linum 0)
-(define lte 0)
 (define (template-print exp tps)
   (define owidth (get-page-width))
   (if (zero? owidth) (set! owidth 99999)) ;essentially infinite

@@ -46,7 +46,7 @@ intro:	config.status
 	@echo "to learn how to run and use JACAL."
 	@echo
 
-VERSION = 1c7
+VERSION = 1c8
 RELEASE = 1
 
 # ./configure --distdir=${HOME}/dist/ --snapdir=${HOME}/pub/ --docdir=${HOME}/public_html/
@@ -68,13 +68,14 @@ sfiles = types.scm func.scm poly.scm elim.scm vect.scm ext.scm		\
 	builtin.scm info.scm tensor.scm combin.scm ff.scm factors.scm	\
 	uv-hensel.scm hensel.scm interpolate.scm decompose.scm		\
 	anti-diff.scm
-gfiles = English.scm
+gfiles = English.scm init.math
 mfiles = ANNOUNCE COPYING HELP configure Makefile jacalcat jacal.texi	\
 	fdl.texi jacal.1 demo rw.math jacal.spec jacal.sh elk.scm	\
 	jacal.nsi
 tfiles = test.math interp_test.scm
 allfiles = README ChangeLog $(mfiles) $(sfiles) $(cfiles) $(gfiles)	\
-	$(tfiles) jacal.info jacal.doc version.txi
+	$(tfiles) jacal.info jacal.doc version.txi			\
+	factor-call-graph.txt
 #dfiles Document internals of Jacal.
 dfiles = algdenom grammar history lambda ratint.tex eqalign.sty
 # Common Lisp not currently supported.
@@ -169,8 +170,7 @@ pdfs:	$(DESTDIR)$(pdfdir)jacal.pdf $(DESTDIR)$(pdfdir)ratint.pdf
 dvis:	jacal.dvi DOC/ratint.dvi
 
 docs: $(DESTDIR)$(infodir)jacal.info.gz \
-      $(DESTDIR)$(htmldir)jacal_toc.html \
-      $(DESTDIR)$(htmldir)DOC/ratint.dvi \
+      $(DESTDIR)$(htmldir)jacal \
       $(DESTDIR)$(pdfdir)jacal.pdf \
       jacal.doc
 
@@ -219,9 +219,9 @@ uninstall: unjacal48
 	-rmdir $(DESTDIR)$(jacallibdir)
 
 check:
-	scm -l math -e'(batch "test.math")'
+	time scm -l math -e'(batch "test.math")'
 t:
-	scm -l math -e'(batch "t.math")'
+	time scm -l math -e'(batch "t.math")'
 
 #### Stuff for maintaining JACAL below ####
 

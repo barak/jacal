@@ -189,10 +189,10 @@ from @uref{http://people.csail.mit.edu/jaffer/SLIB}.
 @deftp System x86_64 GNU/Linux with Redhat Package Manager (rpm)
 @example
 wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.x86_64.rpm
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.noarch.rpm
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.noarch.rpm
-rpm -U scm-5f3-1.x86_64.rpm slib-3b6-1.noarch.rpm jacal-1c7-1.noarch.rpm
-rm scm-5f3-1.x86_64.rpm slib-3b6-1.noarch.rpm jacal-1c7-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.noarch.rpm
+rpm -U scm-5f3-1.x86_64.rpm slib-3b7-1.noarch.rpm jacal-1c8-1.noarch.rpm
+rm scm-5f3-1.x86_64.rpm slib-3b7-1.noarch.rpm jacal-1c8-1.noarch.rpm
 @end example
 
 The command @samp{jacal} will start an interactive session.
@@ -203,15 +203,15 @@ The command @samp{jacal} will start an interactive session.
 @deftpx System GNU/Linux
 @example
 wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3.zip
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6.zip
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8.zip
 unzip -ao scm-5f3.zip
-unzip -ao slib-3b6.zip
-unzip -ao jacal-1c7.zip
+unzip -ao slib-3b7.zip
+unzip -ao jacal-1c8.zip
 (cd slib; ./configure --prefix=/usr/local/; make install)
 (cd scm; ./configure --prefix=/usr/local/; make scm; make install)
 (cd jacal; ./configure --prefix=/usr/local/; make install)
-rm scm-5f3.zip slib-3b6.zip jacal-1c7.zip
+rm scm-5f3.zip slib-3b7.zip jacal-1c8.zip
 @end example
 
 The command @samp{jacal} will start an interactive session using ELK,
@@ -228,9 +228,9 @@ installing SCM and SLIB on Macintosh computers.
 
 @deftp System x86 Microsoft
 Download and run
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.exe},@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.exe},@*
 @uref{http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.exe}, and@*
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.exe}.
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.exe}.
 @end deftp
 
 
@@ -368,7 +368,7 @@ environment.
 
 The examples throughout this text were produced using @code{SCM}.
 
-Jacal has several grammers it understands.  The @code{standard} grammar
+Jacal has several grammars it understands.  The @code{standard} grammar
 is used in this manual.  It is like simple @code{TeX} grammar and algol
 family computer languages.
 
@@ -659,7 +659,7 @@ e40: 0 = 1 - z
 
 @deffn Command suchthat var eqn
 
-The equation @var{eqn} must contain an occurence of variable @var{var}.
+The equation @var{eqn} must contain an occurrence of variable @var{var}.
 @code{suchthat} returns an expression for all complex values of
 @var{var} satisfying @var{eqn}.  @code{suchthat} is useful for
 extracting an expression from an equation.
@@ -1106,7 +1106,6 @@ e2 : resultant(x^2 + a, x^3 + a, x);
 
      2    3
 e2: a  + a
-
 @end group
 @end example
 @end deffn
@@ -1119,6 +1118,18 @@ variable @var{var}^n in @var{z1} to the corresponding coefficient of
 ratios of polynomials.
 @end deffn
 
+@deffn Command decompose poly_1 var
+Returns the polynomial decomposition of @var{poly_1} with respect to
+@var{var}.
+@example
+@group
+e7 : decompose(((x+1)^6),x);
+
+                2           2    3
+e7: [1 + 2 x + x , 3 x + 3 x  + x ]
+@end group
+@end example
+@end deffn
 
 @node Interpolation, Factoring, Polynomials, Algebra
 @section Interpolation
@@ -1464,19 +1475,12 @@ e6: 3 @@1
 @end example
 @end deffn
 
-@deffn Command PolyDiff poly var1 @dots{}
-
-The Jacal command @code{PolyDiff} computes the derivative of the
-expression @var{poly} with respect to @var{var1}, @dots{}.  It is faster
-than @code{diff} but @var{poly} must be a polynomial.
-@end deffn
-
 @section Integration
 
 @deffn Command integrate expr var
 
 Returns the indefinite integral of rational expression @var{expr}, if
-that integral is a rational expression involving up to one radical
+that integral is a rational expression containing at most one radical
 involving @var{var}.
 @example
 @group
@@ -1506,8 +1510,9 @@ e2: ----------------------
 @deffn Command integrate expr var a b
 
 If the indefinite integral of rational expression @var{expr} is a
-rational expression, then @code{integrate} returns the difference of
-that integral evaluated at @var{b} and @var{a}.
+rational expression (optionally including a radical involving
+@var{var}), then @code{integrate} returns the difference of that
+integral evaluated at @var{b} and @var{a}.
 @example
 @group
 e3 : integrate(x*(1+x^2)^(2/3),x,0,1);
@@ -2376,8 +2381,9 @@ JACAL's capabilities.
 @deffnx Command scheme expr
 @deffnx Command disp2d expr
 @deffnx Command standard expr
-Displays @var{expr} in TeX, Jacal's two-dimensional output format, or
-Jacal's infix input format, respectively.
+@deffnx Command std expr
+Displays @var{expr} in TeX, Jacal's two-dimensional output format,
+Jacal's infix input format, or compressed infix format respectively.
 @end deffn
 
 @deffn Command tex string
@@ -2390,6 +2396,7 @@ Read Scheme expression @var{string}.
 
 @deffn Command disp2d string
 @deffnx Command standard string
+@deffnx Command std string
 Reads @var{string} in Jacal's infix input format.
 @end deffn
 
@@ -2445,7 +2452,7 @@ imagpart integrate interp interp.lagrange interp.neville interp.newton
 jacobi jacobian listofvars load matrix minor mod ncmult negate num or
 over parallel parfrac partial poly polydiff polyelim prime? qed quit rank
 rapply realpart require restart resultant row scalarmatrix scheme set sff
-shadow show standard sylvester system taylor terms tex transcript
+shadow show standard std sylvester system taylor terms tex transcript
 transpose u+/- u-/+ usff verify wronski wronskian
 @end group
 @end example

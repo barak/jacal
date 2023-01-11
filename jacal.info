@@ -1,7 +1,7 @@
-This is jacal-1c7.info, produced by makeinfo version 6.5 from                 |
+This is jacal-1c8.info, produced by makeinfo version 6.8 from                 |
 jacal.texi.
 
-This manual is for JACAL (version 1c7, March 2020), an interactive            |
+This manual is for JACAL (version 1c8, January 2023), an interactive          |
 symbolic mathematics system.
 
   Copyright (C) 1993-1999, 2002, 2006, 2007, 2020 Free Software
@@ -19,12 +19,12 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: jacal-1c7.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
+File: jacal-1c8.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
                                                                               |
 JACAL
 *****
 
-This manual is for JACAL (version 1c7, March 2020), an interactive            |
+This manual is for JACAL (version 1c8, January 2023), an interactive          |
 symbolic mathematics system.
 
   Copyright (C) 1993-1999, 2002, 2006, 2007, 2020 Free Software
@@ -49,7 +49,7 @@ Foundation, Inc.
 * Index::
 
 
-File: jacal-1c7.info,  Node: Overview,  Next: Algebra,  Prev: Top,  Up: Top
+File: jacal-1c8.info,  Node: Overview,  Next: Algebra,  Prev: Top,  Up: Top
                                                                               |
 1 Overview
 **********
@@ -60,7 +60,7 @@ expressions constructed of numbers, variables, radicals, and algebraic
 functions, differential, and holonomic functions.  In addition, vectors
 and matrices of the above objects are included.
 
-  JACAL 1c7 was released March 2020.  Current information about JACAL         |
+  JACAL 1c8 was released January 2023.  Current information about JACAL       |
 can be found on JACAL's "WWW" home page:
 
               <http://people.csail.mit.edu/jaffer/JACAL>
@@ -82,7 +82,7 @@ changed over time, see the file 'ChangeLog'.
 * GNU Free Documentation License::
 
 
-File: jacal-1c7.info,  Node: Authors and Bibliography,  Next: Installation,  Prev: Overview,  Up: Overview
+File: jacal-1c8.info,  Node: Authors and Bibliography,  Next: Installation,  Prev: Overview,  Up: Overview
                                                                               |
 1.1 Authors and Bibliography
 ============================
@@ -131,7 +131,7 @@ Bibliography
      *note SLIB; The Portable Scheme Library: (slib)Top.
 
 
-File: jacal-1c7.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
+File: jacal-1c8.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
                                                                               |
 1.2 Installation
 ================
@@ -147,25 +147,25 @@ available from <http://people.csail.mit.edu/jaffer/SLIB>.
 
  -- System: x86_64 GNU/Linux with Redhat Package Manager (rpm)
           wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.x86_64.rpm
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.noarch.rpm
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.noarch.rpm
-          rpm -U scm-5f3-1.x86_64.rpm slib-3b6-1.noarch.rpm jacal-1c7-1.noarch.rpm
-          rm scm-5f3-1.x86_64.rpm slib-3b6-1.noarch.rpm jacal-1c7-1.noarch.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.noarch.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.noarch.rpm
+          rpm -U scm-5f3-1.x86_64.rpm slib-3b7-1.noarch.rpm jacal-1c8-1.noarch.rpm
+          rm scm-5f3-1.x86_64.rpm slib-3b7-1.noarch.rpm jacal-1c8-1.noarch.rpm
 
      The command 'jacal' will start an interactive session.
 
  -- System: Unix
  -- System: GNU/Linux
           wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3.zip
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6.zip
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7.zip       |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7.zip        |
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8.zip       |
           unzip -ao scm-5f3.zip
-          unzip -ao slib-3b6.zip
-          unzip -ao jacal-1c7.zip                                             |
+          unzip -ao slib-3b7.zip                                              |
+          unzip -ao jacal-1c8.zip                                             |
           (cd slib; ./configure --prefix=/usr/local/; make install)
           (cd scm; ./configure --prefix=/usr/local/; make scm; make install)
           (cd jacal; ./configure --prefix=/usr/local/; make install)
-          rm scm-5f3.zip slib-3b6.zip jacal-1c7.zip                           |
+          rm scm-5f3.zip slib-3b7.zip jacal-1c8.zip                           |
 
      The command 'jacal' will start an interactive session using ELK,
      Gambit, Gauche, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48,
@@ -177,9 +177,9 @@ available from <http://people.csail.mit.edu/jaffer/SLIB>.
 
  -- System: x86 Microsoft
      Download and run
-     <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.exe>,
+     <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.exe>,             |
      <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.exe>, and
-     <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.exe>.            |
+     <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.exe>.            |
 
 Compiling Jacal
 ---------------
@@ -188,7 +188,7 @@ For Scheme implementations with compilers, it is worthwhile to compile
 SLIB files, and the JACAL files 'types.scm' and 'poly.scm'.
 
 
-File: jacal-1c7.info,  Node: Running Jacal,  Next: Release Notes,  Prev: Installation,  Up: Overview
+File: jacal-1c8.info,  Node: Running Jacal,  Next: Release Notes,  Prev: Installation,  Up: Overview
                                                                               |
 1.3 Running Jacal
 =================
@@ -206,7 +206,7 @@ LOADing a '.init' file from the 'slib' directory.  Then type:
 where '/usr/local/lib/jacal/' is a path to the JACAL directory.  JACAL
 should then print:
 
-     JACAL version 1c7, Copyright 1989-2020 Aubrey Jaffer                     |
+     JACAL version 1c8, Copyright 1989-2020 Aubrey Jaffer                     |
      JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
      This is free software, and you are welcome to redistribute it
      under certain conditions; type `(terms)' for details.
@@ -261,7 +261,7 @@ Typing '(math)' will return to the JACAL session.
 end-of-file character will terminate the session.
 
 
-File: jacal-1c7.info,  Node: Release Notes,  Next: GNU Free Documentation License,  Prev: Running Jacal,  Up: Overview
+File: jacal-1c8.info,  Node: Release Notes,  Next: GNU Free Documentation License,  Prev: Running Jacal,  Up: Overview
                                                                               |
 1.4 Release Notes
 =================
@@ -292,7 +292,7 @@ labeled as flags are 'set' to control aspects of the Jacal environment.
 
   The examples throughout this text were produced using 'SCM'.
 
-  Jacal has several grammers it understands.  The 'standard' grammar is
+  Jacal has several grammars it understands.  The 'standard' grammar is       |
 used in this manual.  It is like simple 'TeX' grammar and algol family
 computer languages.
 
@@ -345,7 +345,7 @@ view.scm
      is a program for viewing TeX expressions.
 
 
-File: jacal-1c7.info,  Node: GNU Free Documentation License,  Prev: Release Notes,  Up: Overview
+File: jacal-1c8.info,  Node: GNU Free Documentation License,  Prev: Release Notes,  Up: Overview
                                                                               |
 1.5 GNU Free Documentation License
 ==================================
@@ -827,7 +827,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: jacal-1c7.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
+File: jacal-1c8.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
                                                                               |
 2 Algebra
 *********
@@ -842,7 +842,7 @@ File: jacal-1c7.info,  Node: Algebra,  Next: Calculus,  Prev: Overview,  Up: Top
 * Factoring::
 
 
-File: jacal-1c7.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: Algebra,  Up: Algebra
+File: jacal-1c8.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Prev: Algebra,  Up: Algebra
                                                                               |
 2.1 Algebraic Operators
 =======================
@@ -990,7 +990,7 @@ File: jacal-1c7.info,  Node: Algebraic Operators,  Next: Algebraic Commands,  Pr
               Z1 + Z2
 
 
-File: jacal-1c7.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: Algebraic Operators,  Up: Algebra
+File: jacal-1c8.info,  Node: Algebraic Commands,  Next: Rational Expression,  Prev: Algebraic Operators,  Up: Algebra
                                                                               |
 2.2 Algebraic Commands
 ======================
@@ -1013,7 +1013,7 @@ File: jacal-1c7.info,  Node: Algebraic Commands,  Next: Rational Expression,  Pr
 
  -- Command: suchthat var eqn
 
-     The equation EQN must contain an occurence of variable VAR.
+     The equation EQN must contain an occurrence of variable VAR.             |
      'suchthat' returns an expression for all complex values of VAR
      satisfying EQN.  'suchthat' is useful for extracting an expression
      from an equation.
@@ -1107,7 +1107,7 @@ File: jacal-1c7.info,  Node: Algebraic Commands,  Next: Rational Expression,  Pr
           e5: {:@ | 0 = -1 + :@ }
 
 
-File: jacal-1c7.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebraic Commands,  Up: Algebra
+File: jacal-1c8.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Algebraic Commands,  Up: Algebra
                                                                               |
 2.3 Rational Expression
 =======================
@@ -1166,7 +1166,7 @@ File: jacal-1c7.info,  Node: Rational Expression,  Next: Polynomials,  Prev: Alg
      and the 'imagpart' of Z.
 
 
-File: jacal-1c7.info,  Node: Polynomials,  Next: Interpolation,  Prev: Rational Expression,  Up: Algebra
+File: jacal-1c8.info,  Node: Polynomials,  Next: Interpolation,  Prev: Rational Expression,  Up: Algebra
                                                                               |
 2.4 Polynomials
 ===============
@@ -1368,14 +1368,20 @@ File: jacal-1c7.info,  Node: Polynomials,  Next: Interpolation,  Prev: Rational 
                2    3
           e2: a  + a
 
-
  -- Command: equatecoeffs z1 z2 var
      Returns the list of equations formed by equating each coefficient
      of variable VAR^n in Z1 to the corresponding coefficient of VAR^n
      in Z2.  Z1 and Z2 can be polynomials or ratios of polynomials.
 
+ -- Command: decompose poly_1 var                                             |
+     Returns the polynomial decomposition of POLY_1 with respect to VAR.      |
+          e7 : decompose(((x+1)^6),x);                                        |
+                                                                              |
+                          2           2    3                                  |
+          e7: [1 + 2 x + x , 3 x + 3 x  + x ]                                 |
+                                                                              |
 
-File: jacal-1c7.info,  Node: Interpolation,  Next: Factoring,  Prev: Polynomials,  Up: Algebra
+File: jacal-1c8.info,  Node: Interpolation,  Next: Factoring,  Prev: Polynomials,  Up: Algebra
                                                                               |
 2.5 Interpolation
 =================
@@ -1444,7 +1450,7 @@ File: jacal-1c7.info,  Node: Interpolation,  Next: Factoring,  Prev: Polynomials
      when constructing the polynomial.
 
 
-File: jacal-1c7.info,  Node: Factoring,  Prev: Interpolation,  Up: Algebra
+File: jacal-1c8.info,  Node: Factoring,  Prev: Interpolation,  Up: Algebra
                                                                               |
 2.6 Factoring
 =============
@@ -1629,7 +1635,7 @@ the factors and the second column contains the corresponding exponent.
      free.  This code is still being developed.
 
 
-File: jacal-1c7.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra,  Up: Top
+File: jacal-1c8.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algebra,  Up: Top
                                                                               |
 3 Calculus
 **********
@@ -1678,21 +1684,15 @@ File: jacal-1c7.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algeb
 
                   2
           e6: 3 @1
-
- -- Command: PolyDiff poly var1 ...
-
-     The Jacal command 'PolyDiff' computes the derivative of the
-     expression POLY with respect to VAR1, ....  It is faster than
-     'diff' but POLY must be a polynomial.
-
+                                                                              |
 3.3 Integration
 ===============
 
  -- Command: integrate expr var
 
      Returns the indefinite integral of rational expression EXPR, if
-     that integral is a rational expression involving up to one radical       |
-     involving VAR.                                                           |
+     that integral is a rational expression containing at most one            |
+     radical involving VAR.                                                   |
           e1 : integrate((3+x^2)*(1+x^2)^(2/3)/(3+6*x^2+3*x^4),x);            |
                                                                               |
                       2 2/3                                                   |
@@ -1716,8 +1716,9 @@ File: jacal-1c7.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algeb
  -- Command: integrate expr var a b
 
      If the indefinite integral of rational expression EXPR is a
-     rational expression, then 'integrate' returns the difference of
-     that integral evaluated at B and A.                                      |
+     rational expression (optionally including a radical involving VAR),      |
+     then 'integrate' returns the difference of that integral evaluated       |
+     at B and A.                                                              |
           e3 : integrate(x*(1+x^2)^(2/3),x,0,1);                              |
                                                                               |
                       2/3                                                     |
@@ -1726,7 +1727,7 @@ File: jacal-1c7.info,  Node: Calculus,  Next: Matrices and Tensors,  Prev: Algeb
                   10                                                          |
 
 
-File: jacal-1c7.info,  Node: Matrices and Tensors,  Next: Lambda Calculus,  Prev: Calculus,  Up: Top
+File: jacal-1c8.info,  Node: Matrices and Tensors,  Next: Lambda Calculus,  Prev: Calculus,  Up: Top
                                                                               |
 4 Matrices and Tensors
 **********************
@@ -1749,7 +1750,7 @@ is the structure that the matrix operations currently supported by JACAL
 * indexswap::                   Swaps two indices within a tensor
 
 
-File: jacal-1c7.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matrices and Tensors,  Up: Matrices and Tensors
+File: jacal-1c8.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Matrices and Tensors,  Up: Matrices and Tensors
                                                                               |
 4.1 Generating Matrices
 =======================
@@ -1889,7 +1890,7 @@ File: jacal-1c7.info,  Node: Generating Matrices,  Next: Matrix Parts,  Prev: Ma
 
 
 
-File: jacal-1c7.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating Matrices,  Up: Matrices and Tensors
+File: jacal-1c8.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Generating Matrices,  Up: Matrices and Tensors
                                                                               |
 4.2 Matrix Parts
 ================
@@ -2000,7 +2001,7 @@ File: jacal-1c7.info,  Node: Matrix Parts,  Next: Matrix commands,  Prev: Genera
           e7: [a, b]
 
 
-File: jacal-1c7.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  Up: Matrices and Tensors
+File: jacal-1c8.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Parts,  Up: Matrices and Tensors
                                                                               |
 4.3 Matrix commands
 ===================
@@ -2143,7 +2144,7 @@ File: jacal-1c7.info,  Node: Matrix commands,  Next: Tensors,  Prev: Matrix Part
           e25: [4, 7, -6]
 
 
-File: jacal-1c7.info,  Node: Tensors,  Next: tmult,  Prev: Matrix commands,  Up: Matrices and Tensors
+File: jacal-1c8.info,  Node: Tensors,  Next: tmult,  Prev: Matrix commands,  Up: Matrices and Tensors
                                                                               |
 4.4 Tensors
 ===========
@@ -2179,7 +2180,7 @@ operations available for use.
 below.
 
 
-File: jacal-1c7.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices and Tensors
+File: jacal-1c8.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matrices and Tensors
                                                                               |
 4.5 Tensor Multiplication
 =========================
@@ -2244,7 +2245,7 @@ File: jacal-1c7.info,  Node: tmult,  Next: contract,  Prev: Tensors,  Up: Matric
      scalar.
 
 
-File: jacal-1c7.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrices and Tensors
+File: jacal-1c8.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Matrices and Tensors
                                                                               |
 4.6 Tensor contraction
 ======================
@@ -2290,7 +2291,7 @@ File: jacal-1c7.info,  Node: contract,  Next: indexshift,  Prev: tmult,  Up: Mat
      the vector.
 
 
-File: jacal-1c7.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Matrices and Tensors
+File: jacal-1c8.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up: Matrices and Tensors
                                                                               |
 4.7 Shifting of Tensor Indices
 ==============================
@@ -2327,7 +2328,7 @@ File: jacal-1c7.info,  Node: indexshift,  Next: indexswap,  Prev: contract,  Up:
      n-by-1 matrix (column vector).
 
 
-File: jacal-1c7.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
+File: jacal-1c8.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Tensors
                                                                               |
 4.8 Swapping of Tensor Indices
 ==============================
@@ -2361,7 +2362,7 @@ File: jacal-1c7.info,  Node: indexswap,  Prev: indexshift,  Up: Matrices and Ten
      n-by-1 matrix (column vector).
 
 
-File: jacal-1c7.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices and Tensors,  Up: Top
+File: jacal-1c8.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matrices and Tensors,  Up: Top
                                                                               |
 5 Lambda Calculus
 *****************
@@ -2429,7 +2430,7 @@ File: jacal-1c7.info,  Node: Lambda Calculus,  Next: Miscellaneous,  Prev: Matri
           e0: lambda([@1], -1 + @1)
 
 
-File: jacal-1c7.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  Up: Top
+File: jacal-1c8.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus,  Up: Top
                                                                               |
 6 Miscellaneous
 ***************
@@ -2463,8 +2464,10 @@ File: jacal-1c7.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus
  -- Command: scheme expr
  -- Command: disp2d expr
  -- Command: standard expr
-     Displays EXPR in TeX, Jacal's two-dimensional output format, or
-     Jacal's infix input format, respectively.
+ -- Command: std expr                                                         |
+     Displays EXPR in TeX, Jacal's two-dimensional output format,             |
+     Jacal's infix input format, or compressed infix format                   |
+     respectively.                                                            |
 
  -- Command: tex string
      Read TeX expression STRING.
@@ -2474,6 +2477,7 @@ File: jacal-1c7.info,  Node: Miscellaneous,  Next: Flags,  Prev: Lambda Calculus
 
  -- Command: disp2d string
  -- Command: standard string
+ -- Command: std string                                                       |
      Reads STRING in Jacal's infix input format.
 
      e24 : b^2-4*a*c;
@@ -2520,7 +2524,7 @@ e21 : commands();
      jacobi jacobian listofvars load matrix minor mod ncmult negate num or    |
      over parallel parfrac partial poly polydiff polyelim prime? qed quit rank
      rapply realpart require restart resultant row scalarmatrix scheme set sff
-     shadow show standard sylvester system taylor terms tex transcript        |
+     shadow show standard std sylvester system taylor terms tex transcript    |
      transpose u+/- u-/+ usff verify wronski wronskian                        |
 
  -- Command: describe command
@@ -2702,7 +2706,7 @@ e5 : show grammars;
 e5: [scheme, null, schemepretty, standard, disp2d, tex]
 
 
-File: jacal-1c7.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
+File: jacal-1c8.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
                                                                               |
 7 Flags
 *******
@@ -2847,7 +2851,7 @@ File: jacal-1c7.info,  Node: Flags,  Next: Index,  Prev: Miscellaneous,  Up: Top
           e16 : b+c;
 
 
-File: jacal-1c7.info,  Node: Index,  Prev: Flags,  Up: Top
+File: jacal-1c8.info,  Node: Index,  Prev: Flags,  Up: Top
                                                                               |
 Index
 *****
@@ -2894,31 +2898,32 @@ Index
 * coeffs:                                Polynomials.         (line  25)
 * cofactor:                              Matrix Parts.        (line  85)
 * col:                                   Matrix Parts.        (line  46)
-* commands:                              Miscellaneous.       (line  76)
+* commands:                              Miscellaneous.       (line  79)
 * Compiling Jacal:                       Installation.        (line  54)
 * content:                               Polynomials.         (line  83)
 * contract:                              contract.            (line   6)
 * Conventions:                           Release Notes.       (line  25)
 * crossproduct:                          Matrix commands.     (line 134)
+* decompose:                             Polynomials.         (line 208)
 * degree:                                Polynomials.         (line   6)
 * degree <1>:                            Polynomials.         (line  10)
 * Demonstrating Jacal:                   Running Jacal.       (line  38)
 * denom:                                 Rational Expression. (line  24)
-* describe:                              Miscellaneous.       (line  95)
+* describe:                              Miscellaneous.       (line  98)
 * determinant:                           Matrix commands.     (line   9)
 * diagmatrix:                            Generating Matrices. (line  71)
 * diff:                                  Calculus.            (line  31)
 * differential:                          Calculus.            (line   9)
 * discriminant:                          Polynomials.         (line 183)
 * disp2d:                                Miscellaneous.       (line  33)
-* disp2d <1>:                            Miscellaneous.       (line  44)
+* disp2d <1>:                            Miscellaneous.       (line  46)
 * divide:                                Polynomials.         (line  95)
 * divide <1>:                            Polynomials.         (line  96)
 * dotproduct:                            Matrix commands.     (line 116)
 * elementwise:                           Lambda Calculus.     (line  29)
 * eliminate:                             Algebraic Commands.  (line   6)
-* equatecoeffs:                          Polynomials.         (line 204)
-* example:                               Miscellaneous.       (line 114)
+* equatecoeffs:                          Polynomials.         (line 203)
+* example:                               Miscellaneous.       (line 117)
 * extrule:                               Algebraic Commands.  (line  73)
 * factor:                                Factoring.           (line   6)
 * factor <1>:                            Factoring.           (line  25)
@@ -2935,8 +2940,8 @@ Index
 * indexshift:                            indexshift.          (line   6)
 * indexswap:                             indexswap.           (line   6)
 * ingrammar:                             Flags.               (line  36)
-* integrate:                             Calculus.            (line  60)
-* integrate <1>:                         Calculus.            (line  85)
+* integrate:                             Calculus.            (line  54)
+* integrate <1>:                         Calculus.            (line  79)
 * interp:                                Interpolation.       (line   6)
 * interp <1>:                            Interpolation.       (line   7)
 * interp.lagrange:                       Interpolation.       (line  35)
@@ -2948,7 +2953,7 @@ Index
 * Interpolation:                         Interpolation.       (line   6)
 * lambda:                                Lambda Calculus.     (line   6)
 * listofvars:                            Rational Expression. (line  33)
-* load:                                  Miscellaneous.       (line 125)
+* load:                                  Miscellaneous.       (line 128)
 * Manifest:                              Release Notes.       (line  42)
 * minor:                                 Matrix Parts.        (line  67)
 * mod:                                   Polynomials.         (line 130)
@@ -2966,12 +2971,11 @@ Index
 * poly:                                  Polynomials.         (line  52)
 * poly <1>:                              Polynomials.         (line  53)
 * poly <2>:                              Polynomials.         (line  69)
-* PolyDiff:                              Calculus.            (line  51)
 * Polynomials:                           Polynomials.         (line   6)
 * priority:                              Flags.               (line 115)
 * prompt:                                Flags.               (line   6)
-* qed:                                   Miscellaneous.       (line 136)
-* quit:                                  Miscellaneous.       (line 145)
+* qed:                                   Miscellaneous.       (line 139)
+* quit:                                  Miscellaneous.       (line 148)
 * rank:                                  Matrix Parts.        (line   6)
 * rapply:                                Matrix Parts.        (line  89)
 * Rational Expression:                   Rational Expression. (line   6)
@@ -2984,22 +2988,24 @@ Index
 * scalarmatrix:                          Generating Matrices. (line  57)
 * Scheme:                                Installation.        (line   6)
 * scheme:                                Miscellaneous.       (line  32)
-* scheme <1>:                            Miscellaneous.       (line  41)
-* set:                                   Miscellaneous.       (line 217)
+* scheme <1>:                            Miscellaneous.       (line  43)
+* set:                                   Miscellaneous.       (line 220)
 * sff:                                   Factoring.           (line 152)
-* show:                                  Miscellaneous.       (line 225)
+* show:                                  Miscellaneous.       (line 228)
 * standard:                              Miscellaneous.       (line  34)
-* standard <1>:                          Miscellaneous.       (line  45)
+* standard <1>:                          Miscellaneous.       (line  47)
+* std:                                   Miscellaneous.       (line  35)
+* std <1>:                               Miscellaneous.       (line  48)
 * Stopping Jacal:                        Running Jacal.       (line  61)
 * suchthat:                              Algebraic Commands.  (line  22)
 * suchthat <1>:                          Algebraic Commands.  (line  39)
 * sylvester:                             Generating Matrices. (line  94)
-* system:                                Miscellaneous.       (line 157)
-* terms:                                 Miscellaneous.       (line 171)
+* system:                                Miscellaneous.       (line 160)
+* terms:                                 Miscellaneous.       (line 174)
 * tex:                                   Miscellaneous.       (line  31)
-* tex <1>:                               Miscellaneous.       (line  38)
+* tex <1>:                               Miscellaneous.       (line  40)
 * tmult:                                 tmult.               (line   6)
-* transcript:                            Miscellaneous.       (line 182)
+* transcript:                            Miscellaneous.       (line 185)
 * transpose:                             Matrix commands.     (line   6)
 * Unix:                                  Installation.        (line  24)
 * x86:                                   Installation.        (line  45)
@@ -3012,29 +3018,34 @@ Node: Top812
 Node: Overview1862
 Node: Authors and Bibliography3147
 Node: Installation4677
-Node: Running Jacal7348
-Node: Release Notes9926
-Node: GNU Free Documentation License12653
-Node: Algebra37857
-Node: Algebraic Operators38170
-Node: Algebraic Commands42158
-Node: Rational Expression45510
-Node: Polynomials46887
-Node: Interpolation52779
-Node: Factoring55317
-Node: Calculus61093
-Node: Matrices and Tensors65114
-Node: Generating Matrices65970
-Node: Matrix Parts70572
-Node: Matrix commands73609
-Node: Tensors77391
-Node: tmult78926
-Node: contract81701
-Node: indexshift83661
-Node: indexswap85530
-Node: Lambda Calculus87159
-Node: Miscellaneous89390
-Node: Flags98801
-Node: Index102656
+Node: Running Jacal7418
+Node: Release Notes9996
+Node: GNU Free Documentation License12731
+Node: Algebra37935
+Node: Algebraic Operators38248
+Node: Algebraic Commands42236
+Node: Rational Expression45603
+Node: Polynomials46980
+Node: Interpolation53431
+Node: Factoring55969
+Node: Calculus61745
+Node: Matrices and Tensors65723
+Node: Generating Matrices66579
+Node: Matrix Parts71181
+Node: Matrix commands74218
+Node: Tensors78000
+Node: tmult79535
+Node: contract82310
+Node: indexshift84270
+Node: indexswap86139
+Node: Lambda Calculus87768
+Node: Miscellaneous89999
+Node: Flags99694
+Node: Index103549
 
 End Tag Table
+                                                                              |
+
+Local Variables:
+coding: utf-8                                                                 |
+End:                                                                          |

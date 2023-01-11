@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1997 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -29,8 +29,8 @@
 (define (poly:sqfr-var c var)
   (poly:sqfr-split c (poly:diff c var)))
 
-(define (poly:sqfr-all c)
-  (poly:sqfr-split c (poly:diff-all c)))
+;; (define (poly:sqfr-all c)
+;;   (poly:sqfr-split c (poly:diff-all c)))
 
 ;;; This algorithm is due to:
 ;;; Multivariate Polynomial Factorization
@@ -71,12 +71,12 @@
       (cond ((eqv? 1 c) (cons (list w i) output))
 	    (else (set! y (unitcan (poly:gcd w c)))
 		  (set! z (poly:/ w y))
-;;;		  (ff:print "y = " y " w = " w " c = " c " z = " z)
+;;;		  (math:print "y = " y " w = " w " c = " c " z = " z)
 		  (if (not (number? z))
 		      (set! output (cons (list z i) output)))
 		  (set! w y)
 		  (set! c (poly:/ c y))
-;;;		  (ff:print "c = " c)
+;;;		  (math:print "c = " c)
 		  (loop (+ 1 i)))))))
 
 ;;;; Yun's Square-Free Factorization
@@ -91,8 +91,9 @@
 (define (yuniv:square-free-factorization a v)
   (define b (poly:diff a v))
   (cond (math:trace
-	 (math:print 'yuniv:square-free-factorization v)
-	 (math:print a)))
+	 (math:print 'yuniv:square-free-factorization a)
+	 ;; (math:print a)
+	 ))
   (let ((c (unitcan (poly:gcd a b))))
     (cond ((eqv? 1 c)
 	   (if math:trace
@@ -141,19 +142,19 @@
 	       (cvl (cdr varlist)))
 	   (if (unit? p0)
 	       (univ:split pe cvl)
-	     (nconc (univ:split (poly:/ pe p0) cvl)
-		    (univ:split p0 cvl)))))))
+	       (nconc (univ:split (poly:/ pe p0) cvl)
+		      (univ:split p0 cvl)))))))
 
 (define (univ:split-all poly) (univ:split poly (poly:vars poly)))
 
 (define (sqfr-free-var p var)
   (poly:gcd p (poly:subst0 var p)))
 
-(define (sqfr:test)
-  (define x 'x)
-  (test (list (list x -1 -2) (list x -1 0 1))
-        poly:sqfr-all
-        (list x -1 -4 -3 4 4)))
+;; (define (sqfr:test)
+;;   (define x 'x)
+;;   (test (list (list x -1 -2) (list x -1 0 1))
+;;         poly:sqfr-all
+;;         (list x -1 -4 -3 4 4)))
 
 ;;(require 'debug-jacal) (trace yuniv:square-free-factorization)
 ;;(trace poly:sqfr-all poly:diff-all poly:sqfr-split)

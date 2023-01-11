@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1997 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -47,12 +47,16 @@
 ;;; with z higher order than A.
 
 (define (univ:one? p var)
-  (if (not (eqv? (car p) var)) (jacal:found-bug 'expecting var 'univ p))
-  (and (= (length p) 2) (= (cadr p) 1)))
+  (cond ((number? p) (eqv? 1 p))
+	((not (eqv? (car p) var)) (jacal:found-bug 'expecting var 'univ p))
+	(else (and (= (length p) 2) (= (cadr p) 1)))))
 (define (univ:zero? p)
-  (and (= (length p) 2) (zero? (cadr p))))
+  (if (number? p)
+      (zero? p)
+      (and (= (length p) 2) (zero? (cadr p)))))
 (define (univ:const? p)
-  (and (= (length p) 2) (number? (cadr p)) (cadr p)))
+  (or (number? p)
+      (and (= (length p) 2) (number? (cadr p)) (cadr p))))
 
 ;;; Degree of already normalized p
 (define (univ:deg p)
@@ -60,24 +64,42 @@
 
 ;;; Return a polynomial in variable v if given a number, otherwise
 ;;; returns its first argument.
-(define (number->poly a v)
+(define (number->univ a v)
   (if (number? a) (list v a) a))
 
-(define (poly:find-var? poly var)
-  (poly:find-var-if? poly (lambda (x) (eqv? var x))))
-
 (define (poly:find-var-if? poly proc)
+  (cond ((not (expr? poly)) (math:error 'poly:find-var-if? poly)))
   (cond ((number? poly) #f)
 	((proc (car poly)))
 	(else (some (lambda (x) (poly:find-var-if? x proc)) (cdr poly)))))
 
+(define (poly:find-var? poly var)
+  (poly:find-var-if? poly (lambda (x) (eqv? var x))))
+
 ;;; This can call proc more than once per var
 (define (poly:for-each-var proc poly)
+  (cond ((not (expr? poly)) (math:error 'poly:for-each-var poly)))
   (cond ((number? poly))
 	(else
 	 (proc (car poly))
 	 (for-each (lambda (b) (poly:for-each-var proc b))
 		   (cdr poly)))))
+
+(define (licit:for-each proc b)
+  (cond ((bunch? b) (for-each (lambda (x) (licit:for-each proc x)) b))
+	((eqn? b) (proc (eqn->poly b)))
+	((licit? b) (proc b))
+	(else (math:error 'licit:for-each b))))
+
+(define (licit:for-each-var proc polys)
+  (licit:for-each (lambda (poly) (poly:for-each-var proc poly)) polys))
+
+(define (poly:find-var-exts poly var)
+  (define elts '())
+  (poly:for-each-var (lambda (v) (if (memq var (var:depends v))
+				     (set! elts (adjoin v elts))))
+		     poly)
+  elts)
 
 ;;;POLY:VARS returns a list of all vars used in POLY
 (define (poly:vars poly)
@@ -149,8 +171,6 @@
 	 (univ:norm0 (car p1) (map2c-no-end-0s poly:+ (cdr p1) (cdr p2))))
 	((var:> (car p2) (car p1)) (poly:add-const p1 p2))
 	(else (poly:add-const p2 p1))))
-(define (univ:+ p1 p2)
-  (cons (car p1) (map2c-no-end-0s poly:+ (cdr p1) (cdr p2))))
 
 ;;; UNIV:* is called from POLY:*.  If *MODULUS* has 0-divisors, an
 ;;; unnormalized polynomial may be returned (leading 0 coefficients).
@@ -258,7 +278,11 @@
 ;;;; Routines used in normalizing IMPL polynomials
 
 (define (univ:lc p)
-  (car (last-pair p)))
+  (cond ((number? p) p)
+	((not (pair? p)) (math:error 'univ:lc 'p= p))
+	;;; disabled so it works with unnormalized univs.
+	;; ((eqv? 0 (car (last-pair p))) (math:error 'univ:lc 0))
+	(else (car (last-pair p)))))
 
 (define (leading-number p)
   (if (number? p) p (leading-number (univ:lc p))))
@@ -275,7 +299,10 @@
 	 p)
 	(else (univ:make-monic p))))
 
-(define (shorter? x y) (< (length x) (length y)))
+(define (univ:shorter? x y)
+  (cond ((number? x) (not (number? y)))
+	((number? y) #f)
+	(else (< (length x) (length y)))))
 
 (define (univ:degree p var)
   (if (or (number? p) (not (eq? (car p) var))) 0 (length (cddr p))))
@@ -403,7 +430,7 @@
 	 (c (poly:gcd cu cv))
 	 (ppu (poly:/ u cu))
 	 (ppv (poly:/ v cv))
-	 (ans (if (shorter? ppv ppu)
+	 (ans (if (univ:shorter? ppv ppu)
 		  (univ:prs ppu ppv)
 		  (univ:prs ppv ppu))))
     (if (zero? (univ:degree ans (car u)))
@@ -429,7 +456,7 @@
 	  (if (= 1 gnum) 1
 	      (reduce-init poly:gcd gnum (remove-if number? li)))))))
 
-(define (univ:cont p) (apply poly:gcd* (cdr p)))
+(define (univ:cont p) (if (number? p) p (apply poly:gcd* (cdr p))))
 (define (univ:primpart p) (poly:/ p (univ:cont p)))
 (define (poly:num-cont p)
   (if (number? p)
@@ -447,17 +474,11 @@
 (define (poly:unitz p var)
   (sign (leading-number (poly:leading-coeff p var))))
 
-(define (poly:primative? poly var)
+(define (poly:primitive? poly var)
   (unit? (apply poly:gcd* (cdr (poly:promote var poly)))))
 
 (define (u:primz p)
   (univ/scalar p (* (u:unitz p) (univ:cont p))))
-
-;;; Primitive part of a multivariate polynomial p, with respect to var.
-(define (poly:primz p var)
-  (if (number? p)
-      (abs p)
-      (unitcan (poly:/ p (univ:cont p)))))
 
 (define (list-ref? l n)
   (cond ((null? l) #f)
@@ -566,7 +587,7 @@
 	(math:error var 'does-not-appear-in- p1 'or- p2))
     (let ((res (cond ((zero? (univ:degree u1 var)) p1)
 		     ((zero? (univ:degree u2 var)) p2)
-		     ((shorter? u1 u2) (univ:prs u2 u1))
+		     ((univ:shorter? u1 u2) (univ:prs u2 u1))
 		     (else (univ:prs u1 u2)))))
       (if (zero? (univ:degree res var)) res
 	  0))))
@@ -577,7 +598,7 @@
 	 (display-diag (var:sexp var))
 	 (display-diag " from:")
 	 (newline-diag)
-	 (let ((grm (get-grammar 'standard)))
+	 (let ((grm (get-grammar 'std)))
 	   (math:write (poleqn->licit p1) grm)
 	   (math:write (poleqn->licit p2) grm))))
   (let* ((u1 (poly:promote var p1))
@@ -588,7 +609,7 @@
 	(math:error var 'does-not-appear-in- p1 'or- p2))
     (let* ((res (cond ((zero? (univ:degree u1 var)) p1)
 		      ((zero? (univ:degree u2 var)) p2)
-		      ((shorter? u1 u2) (univ:prs u2 u1))
+		      ((univ:shorter? u1 u2) (univ:prs u2 u1))
 		      (else (univ:prs u1 u2))))
 	   (e (if (zero? (univ:degree res var)) res 0)))
       (set! res (if (number? pg)
@@ -597,7 +618,7 @@
 		      (if (number? q) e (univ:primpart q)))))
       (cond (math:trace (display-diag 'yielding:)
 			(newline-diag)
-			(math:write res (get-grammar 'standard))))
+			(math:write res (get-grammar 'std))))
       res)))
 
 (define (poly:modularize modulus poly)
@@ -635,24 +656,29 @@
 		(set! end (cons (vector-ref r j) end)))))))
 
 (define (univ:frem u v)
-  (let* ((r (list->vector (cdr u)))
-	 (m (length (cddr u)))
-	 (n (length (cddr v)))
-	 (vni (poly:negate (coef:invert (univ:lc v)))))
-    (do ((k (- m n) (+ -1 k))
-	 (rnk 0))
-	((< k 0))
-      (set! rnk (poly:* vni (vector-ref r (+ n k))))
-      (do ((j (+ n k -1) (+ -1 j)))
-	  ((< j k))
-	(vector-set! r j (poly:+ (vector-ref r j)
-				 (poly:* (list-ref v (+ (- j k) 1)) rnk)))))
-    (do ((j (+ -1 n) (+ -1 j))
-	 (end '()))
-	((< j 0) (univ:norm0 (car u) end))
-      (if (and (null? end) (eqv? 0 (vector-ref r j)))
-	  #f
-	  (set! end (cons (vector-ref r j) end))))))
+  (cond
+   ((and (pair? u) (pair? v) (eq? (car u) (car v)))    
+    (let* ((r (list->vector (cdr u)))
+	   (m (length (cddr u)))
+	   (n (length (cddr v)))
+	   (vni (poly:negate (coef:invert (univ:lc v)))))
+      (do ((k (- m n) (+ -1 k))
+	   (rnk 0))
+	  ((< k 0))
+	(set! rnk (poly:* vni (vector-ref r (+ n k))))
+	(do ((j (+ n k -1) (+ -1 j)))
+	    ((< j k))
+	  (vector-set! r j (poly:+ (vector-ref r j)
+				   (poly:* (list-ref v (+ (- j k) 1)) rnk)))))
+      (do ((j (+ -1 n) (+ -1 j))
+	   (end '()))
+	  ((< j 0) (univ:norm0 (car u) end))
+	(if (and (null? end) (eqv? 0 (vector-ref r j)))
+	    #f
+	    (set! end (cons (vector-ref r j) end))))))
+   ((number? v) (if (number? u) (remainder u v) u))
+   ((number? u) (list (car v) u))
+   (else (math:error 'univ:frem u v))))
 
 ;;; Remainder Sequence for Polynomials with a Coefficient Field
 (define (univ:frs u v)
@@ -664,12 +690,12 @@
       (set! v r))))
 
 (define (univ:fgcd u v)
-  (let* ((ans (if (shorter? v u)
+  (let* ((ans (if (univ:shorter? v u)
 		  (univ:frs u v)
 		  (univ:frs v u))))
-    (if (zero? (univ:degree ans (car u)))
-	1				; (list (car u) 1)
-	(univ:make-monic ans))))
+    (if (poly:poly? ans)
+	(univ:make-monic ans)
+	1)))
 
 (define (univ:make-monic p)
   (poly:* p (coef:invert (univ:lc p))))

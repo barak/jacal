@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@
 (slib:load (in-vicinity (program-vicinity) "toploads"))
 ;;	Initialize modes to something reasonable.
 (slib:load (in-vicinity (program-vicinity) "modeinit"))
+;;	Load functions defined in standard grammar.
+(batch-quietly (in-vicinity (program-vicinity) "init.math"))
 
 ;;;; error and interrupt response for SCM.
 ;;; Put appropriate handlers for other systems here.
@@ -59,3 +61,5 @@
   (set! arithmetic-error #f)
 ;;  (set! user-interrupt #f)
   (set! end-of-program #f))
+
+;; (trace make-shadow memshad var:shadow simple-shadowed-lambdavar? capply ext:elim var:elim deferop)

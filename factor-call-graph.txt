@@ -1,0 +1,62 @@
+factor command call graph:
+
+  rat:factor->sexp
+    factors->sexp
+      int:factor
+        sexp:terms->product-of-powers
+	sort! (slib)
+	factor (slib)
+      cano->sexp
+      poly:sort-factors
+        sort! poly:factor<
+      factors-list->fact-exps
+    int:factor ...
+    poly:factorz
+      poly:factorz ...
+      prepend-integer-factor
+      u:factorsz
+        ff:berlekamp
+          ff:generate-field
+          ff:null-space-basis [KV2 4.6.2]
+        hen:ulhenseln
+          hen:diophantine  &  check-hd
+            hen:univariate-diophant  &  check-hd1 [GCL 6.3 p 270]
+              pairwise-relatively-prime?
+              hen:multiterm-eea-lift  &  check-mel [GCL 6.3 p 271]
+                hen:diophantine ...
+              hen:eea-lift  &  check-ext-gcd
+                ff:eea-gcd [GCL 2.2 p 36]
+?       hen:ulhensel3
+          hen:diophantine ...
+?       hen:ulhensel2
+          ff:eea-gcd ...
+      map-svpf-factors
+        yuniv:square-free-factorization [GCL 8.2 p 342]
+        poly:factorszpp
+          poly:factorz ...
+          u:factorsz ...
+          yuniv:square-free-factorization ...
+          hen:multivariate-hensel [GCL 6.4 p 272]
+            taylor-coefficient
+            pairwise-relatively-prime? ...
+            hen:univariate-diophant ...
+            hen:multivariate-diophant  &  check-hd1 [GCL 6.2 p 268]
+              hen:multivariate-diophant ...
+              taylor-coefficient ...
+              pairwise-relatively-prime? ...
+  rat:factors
+    poly:sort-merge-factors
+      poly:sort-factors ...
+    negate-factors-exps
+    poly:factorz ...
+
+? = using hen:ulhenseln instead does not affect operations
+... occured previously in graph
+[GCL x.x] refers to algorithm numbers in:
+  Algorithms for Computer Algebra
+  by Keith O. Geddes, Stephen R. Czapor, George Labahn
+  (October 1992) Kluwer Academic Pub; ISBN: 0-7923-9259-0
+[KV2 4.6.2] refers to algorithm in:
+  The Art of Computer Programming : Seminumerical Algorithms (Vol 2)
+  by Donald Ervin Knuth
+  2nd Ed (1981) Addison-Wesley Pub Co; ISBN: 0-201-03822-6

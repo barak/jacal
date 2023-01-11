@@ -1,4 +1,4 @@
-This message announces the availability of JACAL release jacal-1c7.
+This message announces the availability of JACAL release jacal-1c8.
 
 JACAL is an interactive symbolic mathematics program.  JACAL can
 manipulate and simplify equations, scalars, vectors, and matrices of
@@ -24,68 +24,32 @@ Links to distributions of JACAL and related softwares are at the end
 of this message.
 
 			       -=-=-=-
-jacal-1c7 news:
-
-Jacal now does integration of rational functions whose integrals
-are rational functions possibly involving a radical involving the
-integration variable.  The integration algorithm is documented in
-<http://people.csail.mit.edu/jaffer/ratint.pdf>
+jacal-1c8 news:
 
 Details at
 <http://cvs.savannah.gnu.org/viewvc/*checkout*/jacal/jacal/ChangeLog>
 
-  * DOC/ratint.tex, anti-diff.scm (rat:integrate): Corrected
-  algorithm.
-  * jacal.texi (Calculus): Broadened domain of application and added
-  examples.
-  * anti-diff.scm (independent-of-var?): Ignore integration
-  constants when checking result.
-  (indef-integrate): Return novalue when integration fails.
-  (rat:integrate): Debugged for rational expressions with single
-  algebraic field extension.
-  * anti-diff.scm (sqfr-splits): Fixed variable ordering bug.
-  (indef-integrate): Normalize return value.
-  (rat:integrate): Code cleanup.
-  (rat:integrate): Long-division by extension var first.
-  (indef-integrate): Use _$ as dummy extension var.
-  * DOC/ratint.tex (section{Algebraic field extension}): Tracking
-  anti-diff.scm.
-  * anti-diff.scm (rat:integrate, indef-integrate): Nearly working
-  with algebraic field extension.
-  (poly:integrate): No longer needed.
-  * ff.scm (ff:unorm): Fail gracefully when argument is number.
-  * DOC/ratint.tex (section{Algebraic field extension}): Fixed
-  coeff() argument order.
-  (section{Rational Function Integration}): Expanded explanation.
-  * anti-diff.scm (rat:integrate): Put all numerator factors into
-  p_1(x).  Tighten bounds check for M vs. N.
-  (indef-integrate): Workaround negated integration bug.
-  * Makefile (w32install): Output to dist directory.
-  * DOC/ratint.tex (section{Algebraic field extension}): Redevelop
-  algorithm to handle algebraic field extensions.
-  * anti-diff.scm (indef-integrate): Warn if derivative of integral
-  does not equal original integrand.
-  (rat:integrate): Reorganized along path to handling algebraic
-  extensions.
-  * t.math, test.math: Added high power integration test.
+From: Kris Katterjohn
+  * anti-diff.scm (integrate): Check and handle "novalue?".
+  * builtin.scm: Fixed missing quotes in error messages.
 
 			       -=-=-=-
 
 JACAL is available from:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7.zip>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8.zip>
 Also available as RPM:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.src.rpm>
- <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.noarch.rpm>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.src.rpm>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.noarch.rpm>
 Also available as MS-Windows installer:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c7-1.exe>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.exe>
 
 SLIB is a portable scheme library which JACAL requires:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6.zip>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7.zip>
 Also available as RPM:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.src.rpm>
- <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.noarch.rpm>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.src.rpm>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.noarch.rpm>
 Also available as MS-Windows installer:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b6-1.exe>
+ <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.exe>
 
 SCM is a small Scheme implementation under which JACAL will run.
 SCM source is available from:
