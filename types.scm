@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2005, 2006 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2005, 2006, 2020, 2021 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -28,17 +28,17 @@
 ;;; Jonathan Rees and William Clinger, editors. The Revised^3
 ;;; Report on the algorithmic language Scheme, ACM SIGPLAN Notices
 ;;; 21(12), ACM, December 1986.
-;;; If the types are not disjoint you WILL lose.
+;;; If the types are not disjoint, you WILL lose.
 
 ;;; The following types are mutually exclusive:
-;;; SEXP, VARIABLE, EXPL, IMPL, EQLT, BUNCH
+;;; SEXP, VARIABLE, EXPL, IMPL, EQN, BUNCH
 ;;; INTEGERs are EXPL
 ;;; An EXPR is an EXPL or IMPL
-;;; A LICIT is an EXPL, IMPL, or EQLT.
-;;; VARIBLEs can only occur as part of EXPRS and EQLTS.
+;;; A LICIT is an EXPL, IMPL, or EQN.
+;;; VARIABLEs can only occur as part of EXPRS and EQNS.
 ;;; SYMBOLs can only occur in SEXP.
 ;;; BUNCHES can contain SYMBOLs, LICITs, and BUNCHEs.
-;;; An EXPL, IMPL, or EQLT, or BUNCH of these can be a
+;;; An EXPL, IMPL, or EQN, or BUNCH of these can be a
 ;;; lambda expression.
 
 ;;; A VAR is a vector which consists of:
@@ -54,13 +54,8 @@
 ;;; 4 var:shadow	- var		;shadow copies of this lambda var or #f
 ;;;;		   THE REST ARE FOR FUNCTIONS ONLY
 ;;; 5 func-arglist			;list of (function and) argument values.
-;;; 6 func-parity	- list of atoms	;EVEN, ODD, 0, or #F
-;;; 7 func-syms		- list of lists	;of positions of arguments
-;;; 8 func-anti-syms	- list of lists	;of positions of arguments
-;;; 9 func-dists	- list of lists	;of functions which distribute
-;;; 10 func-anti-dists	- list of lists	;of functions which anti-distribute
-;;; 11 func-idems	- list		;of positions of arguments
-					; perserved in idempotency
+;;; 6 func-inst-alst	;list of (arg . inst-var) of this transcendental function.
+;;; 7 var:atdef		- poleq		;ext defining @ value
 
 (define make-var vector)
 (define poly:var? vector?)
@@ -68,27 +63,40 @@
 (define (var:pri v) (char->integer (string-ref (vector-ref v 1) 0)))
 (define (var:set-pri! v i) (string-set! (vector-ref v 1) 0 (integer->char i)))
 (define (var:def v) (vector-ref v 2))
-(define (var:set-def! v i) (vector-set! v 2 i) v)
+(define (var:set-def! v i) (vector-set! v 2 i)) ; v
 (define (var:depends v) (vector-ref v 3))
 (define (var:set-depends! v i) (vector-set! v 3 i) v)
 
 (define (func-arglist f) (vector-ref f 5))
-(define (func-set-arglist f i) (vector-set! f 5 i))
+(define (func-set-arglist! f i) (vector-set! f 5 i))
 
 (define func? func-arglist)
 
-(define (func-parity f) (vector-ref f 6))
-(define (func-set-parity! f v) (vector-set! f 6 v))
-(define (func-syms f) (vector-ref f 9))
-(define (func-set-syms! f v) (vector-set! f 9 v))
-(define (func-anti-syms f) (vector-ref f 10))
-(define (func-set-anti-syms! f v) (vector-set! f 10 v))
-(define (func-dists f) (vector-ref f 11))
-(define (func-set-dists! f v) (vector-set! f 11 v))
-(define (func-anti-dists f) (vector-ref f 12))
-(define (func-set-anti-dists! f v) (vector-set! f 12 v))
-(define (func-idems f) (vector-ref f 13))
-(define (func-set-idems! f v) (vector-set! f 13 v))
+(define (func-inst-alst f) (vector-ref f 6))
+(define (func-set-inst-alst! f i) (vector-set! f 6 i))
+(define (var:atdef v) (vector-ref v 7))
+(define (var:set-atdef! v i) (vector-set! v 7 i))
+    
+;;;; Idea for handling partially described functions
+;;;  8 func-parity	- list of atoms	;EVEN, ODD, 0, or #F
+;;;  9 func-syms	- list of lists	;of positions of arguments
+;;; 10 func-anti-syms	- list of lists	;of positions of arguments
+;;; 11 func-dists	- list of lists	;of functions which distribute
+;;; 12 func-anti-dists	- list of lists	;of functions which anti-distribute
+;;; 13 func-idems	- list		;of positions of arguments
+					; perserved in idempotency
+;; (define (func-parity f) (vector-ref f 8))
+;; (define (func-set-parity! f v) (vector-set! f 8 v))
+;; (define (func-syms f) (vector-ref f 9))
+;; (define (func-set-syms! f v) (vector-set! f 9 v))
+;; (define (func-anti-syms f) (vector-ref f 10))
+;; (define (func-set-anti-syms! f v) (vector-set! f 10 v))
+;; (define (func-dists f) (vector-ref f 11))
+;; (define (func-set-dists! f v) (vector-set! f 11 v))
+;; (define (func-anti-dists f) (vector-ref f 12))
+;; (define (func-set-anti-dists! f v) (vector-set! f 12 v))
+;; (define (func-idems f) (vector-ref f 13))
+;; (define (func-set-idems! f v) (vector-set! f 13 v))
 
 (define (copy-vector v)
   (define iv (make-vector (vector-length v)))
@@ -150,7 +158,7 @@
 		   var))
 	     (var:depends v)))
     (if (var:def v)
-	(var:set-def! nv (licits:do-vars
+	(var:set-def! nv (licit:do-vars
 			  (lambda (var)
 			    (if (lambdavardep? var)
 				(if (eq? var v) nv
@@ -158,11 +166,11 @@
 				var))
 			  (var:def v))))
     (if (>= (vector-length v) 5)
-	(func-set-arglist nv (licits:do-vars
-			      (lambda (var)
-				(if (lambdavardep? var)
-				    (var:shadow var arglist-length) var))
-			      (func-arglist v))))
+	(func-set-arglist! nv (licit:do-vars
+			       (lambda (var)
+				 (if (lambdavardep? var)
+				     (var:shadow var arglist-length) var))
+			       (func-arglist v))))
     nv))
 
 (define (var:> v2 v1)
@@ -176,6 +184,7 @@
 (define var-tab (make-hash-table 43))
 (define var-tab-lookup (predicate->hash-asso equal?))
 (define var-tab-define (hash-associator equal?))
+(define var-tab-undefine (hash-remover equal?))
 (define var-tab-for-each hash-for-each)
 
 (define (list-of-vars)
@@ -183,55 +192,62 @@
   (var-tab-for-each (lambda (k v) (set! vars (cons v vars))) var-tab)
   vars)
 
-(define (sexp->new-var v)
-  (let ((base v)
+(define (undefvar sexp)
+  (var-tab-undefine var-tab sexp))
+(define (sexp->new-var sxp)
+  (let ((base sxp)
 	(diffs 0)
-	(lambda? (and (pair? v) (eq? 'lambda (car v)))))
+	(lambda? (and (pair? sxp) (eq? 'lambda (car sxp)))))
     (do () ((not (and (pair? base) (eq? 'differential (car base)))))
       (set! base (cadr base))
-      (set! diffs (+ 2 diffs)))	     ;leave space for shadow priority.
+      (set! diffs (+ 2 diffs)))	     ;leave room for shadow priority.
     (let* ((s (object->string base))
 	   (sl (string-length s))
-	   (arglist (if (pair? v) (map sexp->math (if lambda? (caddr v) v))
+	   (arglist (if (pair? sxp)
+			(map sexp->math (if lambda? (caddr sxp) sxp))
 			'())))
       (if lambda?
 	  (make-var
-	   (caddr v)
+	   (caddr sxp)			; var:sexp
 	   (string-append (case (string-ref s 0)
 			    ((#\@) lambda-var-pri-str)
 			    (else lambda-var-pri-str))
 			  s
-			  (string (integer->char diffs)))
+			  (string (integer->char diffs))) ; var:pri
 	   (and (char=? #\@ (string-ref s 0))
-		(not (= sl 1))
+		(> sl 1)
 		(not (char=? #\^ (string-ref s 1)))
-		(string->number (substring s 1 sl)))
-	   (var:build-depends arglist)
-	   #f
-	   arglist
-	   #f #f #f #f #f #f		; function properties
+		(string->number (substring s 1 sl))) ; var:def
+	   (var:build-depends arglist)		     ; var:depends
+	   #f					     ; var:shadow
+	   arglist				     ; func-arglist
+	   '()					     ; func-inst-alst
+	   #f					     ; var:atdef
 	   )
 	  (make-var
-	   v
+	   sxp				; var:sexp
 	   (string-append (case (string-ref s 0)
 			    ((#\@) lambda-var-pri-str)
 			    (else median-pri-str))
 			  s
-			  (string (integer->char diffs)))
+			  (string (integer->char diffs))) ; var:pri
 	   (and (char=? #\@ (string-ref s 0))
-		(not (= sl 1))
+		(> sl 1)
 		(not (char=? #\^ (string-ref s 1)))
 		(or (string->number (substring s 1 sl))
 		    ;; handle trailing ":" in shadow-var
-		    (string->number (substring s 1 (- sl 1)))))
-	   (var:build-depends arglist)
-	   #f
-	   arglist
+		    (string->number (substring s 1 (- sl 1))))) ; var:def
+	   (var:build-depends arglist)		     ; var:depends
+	   #f					     ; var:shadow
+	   arglist				     ; func-arglist
+	   '()					     ; func-inst-alst
+	   #f					     ; var:atdef
 	   )))))
 
 (define (sexp->var sexp)
   (let ((vcell (var-tab-lookup sexp var-tab)))
-    (if vcell (cdr vcell)
+    (if vcell
+	(cdr vcell)
 	(let ((val (sexp->new-var sexp)))
 	  (set! var-tab (var-tab-define var-tab sexp val))
 	  val))))
@@ -243,11 +259,14 @@
 		(poly:for-each-var
 		 (lambda (v)
 		   (cond (($var? v))
-			 ((symbol? (var:sexp v)) (set! deps (adjoin v deps)))
-			 (else
-			  (set! deps
-				(adjoin v (union
-					   (var:depends v) deps))))))
+			 ((var:differential? v)
+			  (let ((vnd (var:nodiffs v)))
+			    (cond ((lambdavar? vnd))
+				  ((symbol? (var:sexp vnd))
+				   (set! deps (adjoin vnd deps))))))
+			 (else (set! deps (adjoin v deps)))
+			 ;; (else (set! deps (adjoin v (union (var:depends v) deps))))
+			 ))
 		 e))
 	      args)
     deps))
@@ -264,20 +283,31 @@
     (if (symbol? sexp) (symbol->string sexp)
 	(math:error 'expected-simple-symbol sexp))))
 
+;; radical-defs is the list of radical extension defining poleqns
 (define (make-rad-var radicand exponent-reciprocal)
   (let ((e (univ:monomial -1 exponent-reciprocal $)))
     (set-car! (cdr e) radicand)
     (let ((v (defext (sexp->var (list '^ (bunch->sexp radicand #t)
 				      (list '/ 1 exponent-reciprocal)))
 	       e)))
-      (func-set-arglist v (list _^ radicand (make-rat 1 exponent-reciprocal)))
+      (func-set-arglist! v (list _^ radicand (make-rat 1 exponent-reciprocal)))
       (set! radical-defs (cons (extrule v) radical-defs))
       v)))
 
+(define (register-trn-var! symv arg impl)
+  (define deps (remove symv (var:build-depends (list impl))))
+  (var:set-depends! symv deps)
+  (var:set-pri! symv (if (null? deps)
+			 10		;must be a constant.
+			 (+ 1 (apply max (map var:pri deps)))))
+  (var:set-def! symv (poly:coeff impl $ 0))
+  (var:set-atdef! symv impl)
+  (set! trn-defs (cons impl trn-defs)))
+
 (define (var:nodiffs v)
-  (do ((base (vector-ref v 0) (cadr base)))
+  (do ((base (var:sexp v) (cadr base)))
       ((not (and (pair? base) (eq? 'differential (car base))))
-       (if (eq? base (vector-ref v 0)) v (sexp->var base)))))
+       (if (eq? base (var:sexp v)) v (sexp->var base)))))
 (define (var:differential? v)
   (not (zero? (var:diff-depth v))))
 (define (var:diff-depth v)
@@ -303,7 +333,7 @@
 (define (lambdavardep? v)
   (< (+ -1 lambda-var-pri) (var:pri v) $-pri))
 (define ($var? v)
-  (char=? #\:  (string-ref (vector-ref v 1) 1)))
+  (char=? #\: (string-ref (vector-ref v 1) 1)))
 (define (lambda-var i diff-depth)
   (if (zero? diff-depth)
       (let ((v (sexp->var
@@ -329,18 +359,21 @@
   (let ((vd (var:def e)))
     (and (pair? vd) vd)))
 (define (potent-extrule e)
-  (let ((vd (var:def e)))
-    (and (pair? vd) (not (eqv? 0 (cadr vd))) vd)))
+  (and (poly:var? e)
+       (let ((vd (var:def e)))
+	 (and (pair? vd)
+	      ;; differentials have higher priority than regular vars
+	      (not (var:differential? (car vd)))
+	      (not (eqv? 0 (cadr vd))) vd))))
 (define (defext var impl)
-  (let ((deps (var:depends var)))
-    (set! deps
-	  (if (null? deps) (remove var (var:build-depends (list impl)))
-	      (remove (car _^) deps)))
-    (var:set-depends! var deps)
-    (var:set-pri! var (if (null? deps) 10 ;must be a constant.
-			  (+ 1 (apply max (map var:pri deps)))))
-    (var:set-def! var (vsubst var $ impl))
-    var))
+  (define deps (remove var (var:build-depends (list impl))))
+  (var:set-depends! var deps)
+  (var:set-pri! var (if (null? deps)
+			10		;must be a constant.
+			(+ 1 (apply max (map var:pri deps)))))
+  (var:set-atdef! var impl)
+  (var:set-def! var (vsubst var $ impl))
+  var)
 
 ;;; IMPL is a data type consisting of a poly with major variable
 ;;; $.  The value of the IMPL is negative of the poly solved for $.
@@ -449,7 +482,7 @@
        (equal? (cdr p) '(0 1))))
 (define (expl->var p)
   (cond ((symbol? p) (sexp->var p))
-;	((poly:var? p) p)
+	;; ((poly:var? p) p)
 	((expl:var? p)
 	 (car p))
 	(else (math:error 'not-a-simple-variable:- p))))
@@ -469,7 +502,7 @@
 (define (expr:norm p)
   (if (and (rat? p) (rat:unit-denom? p))
       (poly:* (rat:num p) (rat:denom p))
-    p))
+      p))
 (define (expr:norm-or-unitcan p)
   (if (and (rat? p) (rat:unit-denom? p))
       (poly:* (rat:num p) (rat:denom p))
@@ -488,7 +521,9 @@
   (cond ((number? e) #t)
 	((symbol? e) #t)
 	((pair? e) (symbol? (car e)))
-	((vector? e) #t)
+	((vector? e)
+	 (not (and (memv (vector-length e) '(6 12))
+		   (string? (vector-ref e 1)))))
 	(else #f)))
 
 ;;; A useful companion for ZERO?

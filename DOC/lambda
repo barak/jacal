@@ -161,7 +161,7 @@ be @2-@1.  But if we curry an argument we get @2-@2 -> 0 applied to
 
 This problem is similar to the inadvertent capture of free identifiers
 by macros in languages like C and Lisp.  The solution to this problem
-is called alpha-conversion in the lambda calculus and Hygenic Macro
+is called alpha-conversion in the lambda calculus and Hygienic Macro
 Expansion in a paper of that title by E.E.Kohlbecker, D.P.Friedman,
 M.Fellinson, and B.Duba [6].
 
@@ -197,11 +197,11 @@ vector or matrix with the same shape as the function.
 The case of a scalar function applied vector arguments can work if the
 multiplication used by the function is of a type compatible with the
 arguments.  Inner product is commutative while matrix multiplication
-is not.  Another possiblity here is to have a mechanism for allowing
+is not.  Another possibility here is to have a mechanism for allowing
 lambda expressions to reference elements vector and matrix arguments.
 
 The case of vector or matrix functions applied to vector or matrix
-arguments gets stickier.  Allowing only elements of the arguements to
+arguments gets stickier.  Allowing only elements of the arguments to
 be operated on is one solution; Another is to incorporate the
 structure of the arguments inside the structure of the function or
 vice versa.
@@ -244,7 +244,7 @@ variables are consumed. (@1'/@2')((x+y)^2) gives
 We don't want to set x' and y' to 0 in the numerator because the
 result would be 0.  We don't know which differential until @1' is
 substituted for.  I think the solution here is to set to zero
-differentials occuring only in the numerator and only for those
+differentials occurring only in the numerator and only for those
 expressions containing no lambda variables or their derivatives.
 
 			      CONCLUSION
@@ -271,7 +271,7 @@ variable elimination from polynomials.
 [5] Geddes, K.O., Czapor, S.R., Labahn, G.: Algorithms for Computer
     Algebra. Kluwer Academic Publishers
 
-[6] Hygenic Macro Expansion
+[6] Hygienic Macro Expansion
     E.E.Kohlbecker, D.P.Friedman, M.Fellinson, and B.Duba
     1986 ACM Conference on Lisp and Functional Programming
     Pages 151-159

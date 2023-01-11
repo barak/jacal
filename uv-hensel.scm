@@ -1,6 +1,6 @@
 ;; "uv-hensel.scm" Univariate Hensel Lifting.	-*-scheme-*-
 ;; Copyright 1994, 1995 Mike Thomas
-;; Copyright 2002 Aubrey Jaffer
+;; Copyright 2002, 2020 Aubrey Jaffer
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@
 			       d1
 			       d2
 			       (cadr qr)
-			       (number->poly (poly:- c1 (univ:* (car qr) d1))
+			       (number->univ (poly:- c1 (univ:* (car qr) d1))
 					     var)
-			       (number->poly (poly:- c2 (univ:* (car qr) d2))
+			       (number->univ (poly:- c2 (univ:* (car qr) d2))
 					     var)))))))
       (let* ((aone (list var 1))
 	     (azero (list var 0))
@@ -64,10 +64,10 @@
     (math:warn "(>= (univ:deg s) (univ:deg b))" s b))
    ((not (< (univ:deg t) (univ:deg a)))
     (math:warn "(>= (univ:deg t) (univ:deg a))" t a)))
-  (fluid-let ((*modulus* p))
+  (fluid-let ((*modulus* (symmetric:modulus p)))
     (let ((inner-prod (ff:unorm
 		       p
-		       (number->poly (poly:+ (poly:* a s) (poly:* b t))
+		       (number->univ (poly:+ (poly:* a s) (poly:* b t))
 				     x))))
       (cond ((not (univ:one? inner-prod x))
 	     (math:warn caller "result is not correct.")
@@ -92,6 +92,8 @@
   (memon
    (lambda (a b p k)
      (define p^k (expt p k))
+     ;; (set! a (univ:demote a))
+     ;; (set! b (univ:demote b))
      (if (not (equal? (car a) (car b)))
 	 (math:error 'hen:eea-lift "polys not in the same variable." a b))
      (let* ((x (car a))
@@ -108,22 +110,22 @@
        (check-ext-gcd 'ff:eea-gcd a s b t p)
        (do ((j 1 (+ 1 j)))
 	   ((>= j k)
-;	    (check-ext-gcd 'hen:eea-lift amodp s bmodp t p^k)
+	    (check-ext-gcd 'hen:eea-lift amodp s bmodp t p)
 	    (list s t))
-	 (let* ((e  (number->poly
-		     (poly:- (list x 1) (poly:+ (poly:* s a) (poly:* t b)))
-		     x))
-		(c  (ff:unorm p (univ/scalar e modulus)))
-		(sb (number->poly (poly:* smodp c) x))
-		(tb (number->poly (poly:* tmodp c) x))
-		(qr (ff:p/p->qr p sb bmodp))
-		(q  (car qr))
-		(si (cadr qr))
-		(ta (fluid-let ((*modulus* (symmetric:modulus p)))
-		      (poly:+ tb (poly:* q amodp)))))
-	   (set! s (number->poly (poly:+ s (poly:* si modulus)) x))
-	   (set! t (number->poly (poly:+ t (poly:* ta modulus)) x))
-	   (set! modulus (* modulus p))))))))
+	 (fluid-let ((*modulus* (symmetric:modulus p^k)))
+	   (let* ((e  (number->univ
+		       (poly:- (list x 1) (poly:+ (poly:* s a) (poly:* t b)))
+		       x))
+		  (c  (univ/scalar e modulus))
+		  (sb (number->univ (poly:* smodp c) x))
+		  (tb (number->univ (poly:* tmodp c) x))
+		  (qr (ff:p/p->qr p sb bmodp))
+		  (q  (car qr))
+		  (si (cadr qr))
+		  (ta (poly:+ tb (poly:* q amodp))))
+	     (set! s (number->univ (poly:+ s (poly:* si modulus)) x))
+	     (set! t (number->univ (poly:+ t (poly:* ta modulus)) x))
+	     (set! modulus (* modulus p)))))))))
 
 (define (check-mel as p k result)
   (define p^k (expt p k))
@@ -142,14 +144,16 @@
 		       (else (vector-set! bs i acc))))
 	       (loop (+ 1 i)))))
       (set! bs (vector->list bs))
-      (let ((inner-prod
-	     (number->poly (reduce poly:+ (map poly:* bs result)) x)))
-	(cond ((not (univ:one? inner-prod x))
-	       (ff:print "In hen:multiterm-eea-lift: the result is not correct.")
-	       (ff:print " as = " as " bs = " bs " result = " result)
-	       (ff:print " inner-prod = " inner-prod " p^k = " p^k)))))))
+      (cond ((null? result) (math:print 'check-mel 'null 'result 'argument))
+	    (else
+	     (let ((inner-prod
+		    (number->univ (reduce poly:+ (map poly:* bs result)) x)))
+	       (cond ((not (univ:one? inner-prod x))
+		      (math:print "In hen:multiterm-eea-lift: the result is not correct.")
+		      (math:print " as = " as " bs = " bs " result = " result)
+		      (math:print " inner-prod = " inner-prod " p^k = " p^k)))))))))
 
-;;;; GCL Algorithm 6.3 (p. 270)
+;;;; GCL Algorithm 6.3 (p. 271)
 ;;;
 ;;; Compute s_1, ..., s_r such that
 ;;;   S_1 * b_1 + ... + S_r * b_r = x^m (mod p^k)
@@ -189,31 +193,31 @@
 	     (vector->list s)))))
 
 (define (check-hd as c p k result)
+  (define la (length as))
   (define p^k (expt p k))
+  (define bs (make-vector la 0))
+  (define x (car c))
   (fluid-let ((*modulus* (symmetric:modulus p^k)))
-    (let* ((la (length as))
-	   (x (car c))
-	   (bs (make-vector la 0)))
-      (let loop ((i 0))
-	(cond ((< i la)
-	       (let loop1 ((j 0)
-			   (acc (list x 1)))
-		 (cond ((< j la)
-			(if (not (= i j))
-			    (loop1 (+ 1 j) (poly:* acc (list-ref as j)))
-			    (loop1 (+ 1 j) acc)))
-		       (else (vector-set! bs i acc))))
-	       (loop (+ 1 i)))))
-      (set! bs (vector->list bs))
-      (let ((inner-prod
-	     (ff:unorm
-	      p^k (number->poly (reduce poly:+ (map poly:* bs result)) x)))
-	    (cn (ff:unorm p^k c)))
-	(cond ((not (equal? cn inner-prod))
-	       (print "In hen:diophantine: the result is not correct.")
-	       (print " as = " as " bs = " bs " result = " result)
-	       (print " inner-prod = " inner-prod " cn = " cn " p^k = " p^k)
-	       ))))))
+    (let loop ((i 0))
+      (cond ((< i la)
+	     (let loop1 ((j 0)
+			 (acc (list x 1)))
+	       (cond ((< j la)
+		      (if (not (= i j))
+			  (loop1 (+ 1 j) (poly:* acc (list-ref as j)))
+			  (loop1 (+ 1 j) acc)))
+		     (else (vector-set! bs i acc))))
+	     (loop (+ 1 i)))))
+    (set! bs (vector->list bs))
+    (let ((inner-prod
+	   (ff:unorm
+	    p^k (number->univ (reduce poly:+ (map poly:* bs result)) x)))
+	  (cn (ff:unorm p^k c)))
+      (cond ((equal? cn inner-prod) result)
+	    (else
+	     (math:print 'check-hd 'incorrect-result= result 'as= as 'bs= bs
+			 'inner-prod= inner-prod 'cn= cn 'p^k= p^k)
+	     result)))))
 
 ;;; memoised diophantine equation solver is much faster
 (define hen:diophantine
@@ -229,39 +233,38 @@
 			  (ds (hen:univariate-diophant a x1 (+ -1 m) p k)))
 		     (set! ds (map (lambda (x) (poly:* x cm)) ds))
 		     (set! sigma (map (lambda (x y)
-					(number->poly (poly:+ x y) x1))
+					(number->univ (poly:+ x y) x1))
 				      sigma ds))
 		     (loop (+ 1 m)))
 		   (let ((result (map (lambda (x) (ff:unorm p^k x)) sigma)))
-		     (check-hd a c p k result)
-		     result)))))))
+		     (check-hd a c p k result))))))))
 
 (define (check-hd1 as x m p k result)
-  (let* ((la (length as))
-	 (p^k (expt p k))
-	 (bs (make-vector la 0)))
-    (fluid-let ((*modulus* (symmetric:modulus p^k)))
-      (let loop ((i 0))
-	(cond ((< i la)
-	       (let loop1 ((j 0)
-			   (acc (list x 1)))
-		 (cond ((< j la)
-			(loop1 (+ 1 j)
-			       (if (= i j) acc
-				   (univ:* acc (list-ref as j)))))
-		       (else (vector-set! bs i acc))))
-	       (loop (+ 1 i)))))
-      (set! bs (vector->list bs))
-      (let ((inner-prod
-	     (ff:unorm
-	      p^k (number->poly (reduce poly:+ (map poly:* bs result))
-				x)))
-	    (x^m (number->poly (poly:^ (var->expl x) m) x)))
-	(cond ((not (equal? x^m inner-prod))
-	       (ff:print "In hen:univariate-diophant: the result is not correct.")
-	       (ff:print " as = " as " bs = " bs " result = " result)
-	       (ff:print " inner-prod = " inner-prod " x^m = " x^m " x = " x
-			 " m = " m " p^k = " p^k)))))))
+  (define la (length as))
+  (define p^k (expt p k))
+  (define bs (make-vector la 0))
+  (fluid-let ((*modulus* (symmetric:modulus p^k)))
+    (let loop ((i 0))
+      (cond ((< i la)
+	     (let loop1 ((j 0)
+			 (acc (list x 1)))
+	       (cond ((< j la)
+		      (loop1 (+ 1 j)
+			     (if (= i j)
+				 acc
+				 (univ:* acc (list-ref as j)))))
+		     (else (vector-set! bs i acc))))
+	     (loop (+ 1 i)))))
+    (set! bs (vector->list bs))
+    (let ((inner-prod
+	   (ff:unorm
+	    p^k (number->univ (reduce poly:+ (map poly:* bs result)) x)))
+	  (x^m (number->univ (poly:^ (var->expl x) m) x)))
+      (cond ((equal? x^m inner-prod) result)
+	    (else
+	     (math:print 'check-hd1 'incorrect-result= result 'as= as 'bs= bs
+			 'inner-prod= inner-prod 'x^m= x^m 'x= x 'm= m 'p^k= p^k)
+	     result)))))
 
 ;;;; GCL Algorithm 6.3 (p 270)
 ;;;
@@ -279,41 +282,40 @@
 ;;;
 ;;; The value returned is the list S = [S_1, ..., S_r].
 (define hen:univariate-diophant
-  (memon (lambda (a x m p k)
-	   (if math:debug
-	       (ff:check-pairwise-relatively-prime
-		'hen:univariate-diophant
-		(map (lambda (a_i)
-		       (cond ((zero? (modulo (univ:lc a_i) p))
-			      (math:error 'lc-0-divider a_i)))
-		       (ff:unorm p a_i))
-		     a)
-		p))
-	   (let ((r (length a))
-		 (p^k (expt p k))
-		 (xm (poly:^ (var->expl x) m)))
-	     (fluid-let ((*modulus* (symmetric:modulus p^k)))
-	       (if (> r 2)
-		   (let ((s (hen:multiterm-eea-lift a p k))
-			 (result '()))
-		     (do ((j 0 (+ 1 j)))
-			 ((>= j r)
-			  (check-hd1 a x m p k result)
-			  result)
-		       (set! result (append result
-					    (cdr (ff:p/p->qr
-						  p^k
-						  (poly:* xm (list-ref s j))
-						  (list-ref a j)))))))
-		   (let* ((s (hen:eea-lift (cadr a) (car a) p k))
-			  (q-r (ff:p/p->qr p^k (poly:* xm (car s))
-					   (car a)))
-			  (q (car q-r))
-			  (result (list (cadr q-r)
-					(poly:+ (poly:* xm (cadr s)) ; mod p^k
-						(poly:* q (cadr a))))))
-		     (check-hd1 a x m p k result)
-		     result)))))))
+  (memon
+   (lambda (a x m p k)
+     (define a_i-mod-p
+       (map (lambda (a_i) (ff:unorm p a_i)) a))
+     (cond
+      ((some (lambda (a_i) (zero? (modulo (univ:lc a_i) p))) a_i-mod-p)
+       (math:error 'hen:univariate-diophant 'lc-0-divider a 'mod p)
+       '())
+      ((not (pairwise-relatively-prime? a_i-mod-p p (caar a)))
+       (math:warn 'not-relatively-prime 'mod p) '())
+      (else
+       (let ((r (length a))
+	     (p^k (expt p k))
+	     (xm (poly:^ (var->expl x) m)))
+	 (fluid-let ((*modulus* (symmetric:modulus p^k)))
+	   (if (> r 2)
+	       (let ((s (hen:multiterm-eea-lift a p k))
+		     (result '()))
+		 (do ((j 0 (+ 1 j)))
+		     ((>= j r)
+		      (check-hd1 a x m p k result))
+		   (set! result (append result
+					(cdr (ff:p/p->qr
+					      p^k
+					      (poly:* xm (list-ref s j))
+					      (list-ref a j)))))))
+	       (let* ((s (hen:eea-lift (cadr a) (car a) p k))
+		      (q-r (ff:p/p->qr p^k (poly:* xm (car s))
+				       (car a)))
+		      (q (car q-r))
+		      (result (list (cadr q-r)
+				    (poly:+ (poly:* xm (cadr s)) ; mod p^k
+					    (poly:* q (cadr a))))))
+		 (check-hd1 a x m p k result))))))))))
 
 ;;; 2 factor univariate linear Hensel lifting algorithm
 (define (hen:ulhensel2 f g1 h1 p k)
@@ -331,14 +333,14 @@
 	  (let* ((discrepancy
 		  (univ/scalar
 		   (fluid-let ((*modulus* (symmetric:modulus modulus*p)))
-		     (number->poly (poly:- (poly:* f (coef:invert lf))
+		     (number->univ (poly:- (poly:* f (coef:invert lf))
 					   (poly:* g h))
 				   x))
 		   modulus))
 		 (gc (cadr (ff:p/p->qr
-			    p (number->poly (poly:* hrecip discrepancy) x) g1)))
+			    p (number->univ (poly:* hrecip discrepancy) x) g1)))
 		 (hc (cadr (ff:p/p->qr
-			    p (number->poly (poly:* grecip discrepancy) x)
+			    p (number->univ (poly:* grecip discrepancy) x)
 			    h1))))
 	    (set! g (poly:+ g (poly:* gc modulus)))
 	    (set! h (poly:+ h (poly:* hc modulus)))
@@ -359,7 +361,7 @@
 	  (let* ((diff
 		  (univ/scalar
 		   (fluid-let ((*modulus* (symmetric:modulus modulus*p)))
-		     (number->poly (poly:- (poly:* f (coef:invert lf))
+		     (number->univ (poly:- (poly:* f (coef:invert lf))
 					   (poly:* (poly:* g h) i))
 				   x))
 		   modulus))
@@ -384,7 +386,7 @@
 	  (let* ((diff
 		  (univ/scalar
 		   (fluid-let ((*modulus* (symmetric:modulus modulus*p)))
-		     (number->poly (poly:- (poly:* f (coef:invert lf))
+		     (number->univ (poly:- (poly:* f (coef:invert lf))
 					   (reduce poly:* as))
 				   x))
 		   modulus))
@@ -421,37 +423,31 @@
 ;;; Algebra - Symbolic and Algebraic computation, ed. B. Buchberger,
 ;;; G.E. Collins and R. Loos, Springer-Verlag (1982).
 
-;;; Mignotte's paper conflicts with the theorem from Davenport in that
-;;; the ratio of the two leading coefficients is the reciprocal of the
-;;; ratio in Mignotte.
-
-;;;; From jaffer:
+;;;; Jaffer 2020:
 
 ;;; There seemed to be some confusion regarding the correct formula,
-;;; so I tried all 4 variations (Monte Carlo, see "test/mignotte.scm")
-;;; and they all work!  The formulas which divided bq by ap tended to
-;;; be smaller; but we don't have bq unless we factor ap.  Dividing by
-;;; ap alone or sqrt(ap) yielded errors.  Removing that term worked
-;;; and yields smaller numbers than multiplying by ap.
+;;; so I tried 5 variations.  factor(x^n-1) for various n stressed the
+;;; formula, allowing the correct one to be chosen.  Reducing the
+;;; factor of 4 causes some factorings to fail.
 
-;;; We don't have the degree of Q available when computing this, so
-;;; assume the degree(P)-1 (which I tested).
-
-;;; Return twice the Landau-Mignotte Bound of the coefficients of f
+;;; Return twice the Landau-Mignotte Bound of the coefficients of p
 (define landau-mignotte-bound*2
   (cond
    ((provided? 'inexact)
     (lambda (p)
       (inexact->exact
        (ceiling
-	(abs (* 2
-		(sqrt (apply + (map (lambda (x) (* x x)) (cdr p))))
-		(expt 2 (univ:deg p))))))))
+	(sqrt (* 4
+		 (abs (univ:lc p))
+		 (sqrt (apply + (map (lambda (x) (* x x)) (cdr p))))
+		 (expt 2 (- (univ:deg p) 1))))))))
    (else
     (lambda (p)
-      (abs (* 2
-	      (integer-sqrt (apply + (map (lambda (x) (* x x)) (cdr p))))
-	      (expt 2 (univ:deg p))))))))
+      (integer-sqrt
+       (* 4
+	  (abs (univ:lc p))
+	  (integer-sqrt (apply + (map (lambda (x) (* x x)) (cdr p))))
+	  (expt 2 (- (univ:deg p) 1))))))))
 
 ;;; Return a suitable power for the prime p to be raised to, to
 ;;; cover all possible coefficients of poly and its factors.
@@ -471,7 +467,7 @@
 					      ply)
 			       (car poly))))
 	   (loop (car (primes> (+ 1 prime) 1))))
-	  (math:debug (print 'squarefreeness-preserving-modulus prime))
+	  ;; (math:debug (print 'squarefreeness-preserving-modulus prime))
 	  (else prime))))
 
 ;;; Factorise a square-free univariate polynomial over the integers

@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1997 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2019, 2020 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -28,88 +28,94 @@
 
 ;;; algebraic extensions
 ;;; we want to find all extensions used by this poly except this poly.
-(define (alg:exts poly)
-  (let ((elts '()))
-    (poly:for-each-var
-     (lambda (v)
-       (let ((er (extrule v)))
-	 (if (and er (not (eq? er poly)))
-	     (set! elts (adjoin v elts)))))
-     poly)
-    elts))
+(define (poly:exts poly)
+  (define elts '())
+  (poly:for-each-var
+   (lambda (v)
+     (let ((er (extrule v)))
+       (if (and er (not (eq? er poly)))
+	   (set! elts (adjoin v elts)))))
+   poly)
+  elts)
 
-(define (application? v)
-  (and (not (extrule v)) (pair? (var:sexp v))
-       (not (eq? 'differential (car (var:sexp v))))))
-
-;;; we want to find all functionals used by this poly except.
-(define (var:funcs poly)
-  (let ((elts '()))
-    (poly:for-each-var
-     (lambda (v)
-       (if (application? v)
-	   (set! elts (adjoin v elts))))
-     poly)
-    elts))
-
-;;; algebraic and applications
-(define (chainables poly)
-  (let ((elts '()))
-    (poly:for-each-var
-     (lambda (v)
-       (let ((er (extrule v)))
-	 (if (or (and er (not (eq? er poly))) (application? v))
-	     (set! elts (adjoin v elts)))))
-     poly)
-    elts))
+(define (poly:aexts poly)
+  (define elts '())
+  (poly:for-each-var
+   (lambda (v)
+     (let ((er (extrule v)))
+       (if (and er
+		(not (eq? er poly))
+		(not (poly:find-var? er (var:differential v))))
+	   (set! elts (adjoin v elts)))))
+   poly)
+  elts)
 
 ;;;alg:vars returns a list of all terminal vars used in this or in extensions
 ;;;used in this.
 (define (alg:vars poly)
-  (let ((deps '()))
-    (poly:for-each-var
-     (lambda (v)
-       (if (and (not (extrule v)) (null? (var:depends v)))
-	   (set! deps (adjoin v deps)))
-       (set! deps (union (var:depends v) deps)))
-     poly)
-    deps))
+  (define deps '())
+  (poly:for-each-var
+   (lambda (v)
+     (if (and (not (extrule v)) (null? (var:depends v)))
+	 (set! deps (adjoin v deps)))
+     (set! deps (union (var:depends v) deps)))
+   poly)
+  deps)
 
-(define (alg:square-free-var p var)
-  (alg:/ p (alg:gcd p (alg:diff p var))))
+(define (application? v)
+  (and (not (extrule v))
+       (pair? (var:sexp v))
+       ;; (not (eq? 'differential (car (var:sexp v))))
+       ))
 
-;;; This is for equations
+;;; we want to find all functionals used by this poly except.
+(define (var:funcs poly)
+  (define elts '())
+  (poly:for-each-var
+   (lambda (v)
+     (if (application? v)
+	 (set! elts (adjoin v elts))))
+   poly)
+  elts)
+
+;;; algebraic and applications
+(define (chainables poly)
+  (define elts '())
+  (poly:for-each-var
+   (lambda (v)
+     (let ((er (extrule v)))
+       (if (or (and er (not (eq? er poly)))
+	       (application? v))
+	   (set! elts (adjoin v elts)))))
+   poly)
+  elts)
+
+;;; This is for poleqn
 ;;; Don't simplify a rule with itself
+;;; Don't simplify differential rules
 (define (alg:simplify p)
-  (let* ((vars (sort (alg:exts p) var:>))
-	 (exrls (map extrule vars)))
-    (if (memv p exrls)
-	p
-	(let ((ans p))
-	  (for-each (lambda (r v) (set! ans (poly:prem ans r v)))
-		    exrls vars)
-	  ans))))
+  (let ((vars (sort (poly:aexts p) var:>)))
+    (define exrls (map extrule vars))
+    (define ans p)
+    (for-each (lambda (r v) (set! ans (poly:prem ans r v))) exrls vars)
+    ans))
 
 (define (alg:clear-leading-exts poly)
   (define p poly)
-  (cond (math:trace
-	 (display-diag 'clear-leading-exts:)
-	 (newline-diag)))
-  (do ((v (poly:find-var-if? (poly:leading-coeff p (car p)) potent-extrule)
-	  (poly:find-var-if? (poly:leading-coeff p (car p)) potent-extrule))
-       (oldv "foo" (car v)))
-      ((not v) p)
-    ;; (if (eq? (car v) oldv)
-    ;; 	(eval-error 'could-not-clear-denominator-of:- poly))
-    (set! p (alg:simplify
-	     (poly:* p (alg:conjugate (poly:leading-coeff p (car p)) v))))))
+  ;; (cond (math:trace (display-diag 'clear-leading-exts:) (newline-diag)))
+  (let loop ((lc (poly:leading-coeff p (car p))))
+    (define v (poly:find-var-if? lc potent-extrule))
+    (cond ((not v) p)
+	  (else
+	   (set! p (alg:simplify (poly:* p (alg:conjugate lc v))))
+	   (loop (poly:leading-coeff p (car p)))))))
 
 ;;; This generates conjugates for any algebraic by a wonderful theorem of mine.
 ;;; 4/30/90 jaffer
 (define (alg:conjugate poly extpoly)
   (let* ((var (car extpoly))
 	 (poly (poly:promote var poly))
-	 (pdiv (if (shorter? poly extpoly)
+	 (pdiv (if (univ:shorter? poly extpoly)
 		   (univ:pdiv extpoly poly)
 		   '(1 0)))
 	 (pquo (car pdiv))
@@ -117,6 +123,7 @@
     (if (zero? (univ:degree prem var))
 	(univ:demote pquo)
 	(poly:* (univ:demote pquo) (alg:conjugate prem extpoly)))))
+;; (trace alg:simplify alg:clear-leading-exts alg:conjugate poly:aexts)
 
 ;;; This section attempts to implement an incremental version of
 ;;; Caviness, B.F., Fateman, R.:
@@ -133,7 +140,7 @@
 
 ;;; this is actually alg:depth
 ;(define (rad:depth imp)
-;  (let ((exts (alg:exts imp)))
+;  (let ((exts (poly:aexts imp)))
 ;    (if (null? exts)
 ;	0
 ;      (+ 1 (apply max (map (lambda (x) (rad:depth (extrule x))) exts))))))
@@ -191,6 +198,7 @@
 				     (cadr fact-exp)))
 			     (factors-list->fact-exps (rat:factors-list p)))))
 
+;; radical-defs is the list of radical extension defining poleqns
 (define (make-radical-ext p r)
   (set! p (licit->polxpr p))
   (let ((e (member-if (lambda (e) (equal? p (cadr e))) radical-defs)))
@@ -201,5 +209,3 @@
 
 (define (radpow radrule r)
   (univ:monomial 1 (quotient (length (cddr radrule)) r) (car radrule)))
-
-;;;	Copyright 1989, 1990, 1991, 1992, 1993 Aubrey Jaffer.

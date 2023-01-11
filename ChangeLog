@@ -1,3 +1,355 @@
+2023-01-05  Aubrey Jaffer  <jaffer@jaffer-Lenovo-Z70-80>
+
+	* toploads.scm (*jacal-version*): Bumped from 1c7 to 1c8.
+
+2023-01-05  Kris Katterjohn
+
+	* anti-diff.scm (integrate): Check and handle "novalue?".
+	* builtin.scm: Fixed missing quotes in error messages.
+
+2021-03-08  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm: Commented out FINITE DIFFERENCES section.
+
+2021-03-07  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sqfree.scm (poly:sqfr-all, sqfr:test)
+	* norm.scm (poly:diff-all): Commented out currently unused code.
+
+	* builtin.scm (make-grammar-bltn): Removed special case for expl:var?
+
+2021-03-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (load): Fixed.
+
+	* sexp.scm (app*): Do expr:norm.
+	(sapply): Applying rational numbers to arguments?
+
+	* factors.scm (expand-integer-factors): Fix segfault on
+	factor(-1/(1+x^2));
+
+2020-05-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* debug.scm (qp): Print var:sexp for var arguments.
+
+2020-05-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Algebraic field extension}): Normalizing
+	transcendental field extensions.
+	(section{Transcendental constants}): Added.
+
+	* debug.scm (qp): Keep symbols on one line for trace output.
+
+	* sqfree.scm (yuniv:square-free-factorization): Prevented infinite
+	output from transcendental var.
+
+	* ext.scm (alg:clear-leading-exts): Simplified using named let.
+
+	* types.scm (potent-extrule): Don't include transcendentals.
+	(var:atdef, var:set-atdef!): Added extrule value.
+
+	* builtin.scm (varpri): Added.
+
+2020-05-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/Makefile (upload): Added.
+
+2020-04-26  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Transcendental field extension}): Found
+	formula for Phi given recurrence y_b.
+
+2020-04-25  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Transcendental field extension}): Only
+	two polynomials lead to algebraic reduction of nested
+	transcendental functions.
+
+2020-04-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Transcendental field extension}):
+	Removed tanh examples.
+
+2020-04-20  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Transcendental field extension}):
+	Generalized to rational scales.
+
+2020-04-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Transcendental field extension}):
+	Algebraic reduction of nested transcendentals.
+
+	* init.math (tanh, atanh): Added.
+
+2020-04-17  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* English.scm (tps:tex): Corrected precedence for negate.
+
+2020-04-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* English.scm (tps:tex): Removed spacing; wrapped "over" with braces.
+
+	* builtin.scm (make-grammar-bltn): Added newline at end.
+
+2020-04-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Transcendental field extension}): Moving
+	toward canonical transcendental functions.
+
+2020-04-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): Make application of a differential-lambda
+	define a transcendental instance.
+
+	* builtin.scm (describe-var): Improved.
+
+	* elim.scm (dlambda?): Added predicate for differential equation
+	functions.
+
+	* types.scm (func-inst-alst, func-set-inst-alst!): Added alist of
+	transcendental funcition instances to var.
+
+2020-04-08  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (describe-var): Show application form.
+
+	* poly.scm (licit:for-each): Now works on bunches.
+
+2020-04-07  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (describe): Fixing newlines.
+
+	* sexp.scm (out-new-vars, batch1): Corrected output for labeled
+	newvars.
+
+2020-04-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): Transcendental operators can now take
+	expression (vs. plain variable) as argument.
+	(check-valid-sym!): Added to prevent choke on @a5 and @0.
+	(vet-sym): Renamed; normalize lambda-variable index.
+
+	* types.scm (register-trn-var!): Added for transcendental field
+	extensions.
+
+	* builtin.scm (trn-defs): Added list of transendental extension
+	instance defining poleqns.
+
+2020-04-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (check, t): Time regression tests.
+
+2020-03-30  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* English.scm (tps:2d, tps:standard, tps:std, tps:tex): Added
+	"satisfying" operator.
+
+2020-03-29  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* hensel.scm (poly:evaln): Only use the general method; no effect
+	on speed.
+
+	* factors.scm (rat:factors, rat:factor->sexp, rat:cont-can): Clear
+	-1 from denominators.
+
+2020-03-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* factors.scm (prepend-integer-factor, cont->integer-factors):
+	(rat:factor->sexp, rat:factors): Accumulate integer factors up to
+	top-level.
+	(*sort-int-factors*): Removed.
+
+	* ff.scm: (ff:print): replaced by math:print.
+
+	* unparse.scm (reset-line-count!): Replaces use of global variable.
+
+	* poly.scm (number->univ): Renamed from number->poly.
+
+2020-03-27  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* unparse.scm (flush-blanks): Eliminate extra blank lines when
+	breaking output over multiple lines.
+
+	* uv-hensel.scm (check-mel, hen:univariate-diophant):
+	* poly.scm (univ:one?):
+	* hensel.scm (hen:multivariate-diophant, poly:factorszpp):
+	* ff.scm (ff:unorm, pairwise-relatively-prime?): Code cleanup.
+
+2020-03-26  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* English.scm (tps:std):
+	* builtin.scm (std): Added compressed infix output grammar.
+
+	* test.math (factors): Added failing test cases.
+
+	* ff.scm, uv-hensel.scm (*modulus* fluid-let): expanded scope.
+	Code cleanup.
+
+	* hensel.scm ((poly:0-degree-norm): Removed.
+
+2020-03-25  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* hensel.scm (hen:multivariate-hensel, hen:multivariate-diophant):
+	(map-svpf-factors, poly:factorz, poly:factorszpp): Return empty
+	list on failure.
+	(poly:factorszpp): Don't cycle through vars.
+
+	* uv-hensel.scm (check-hd, hen:diophantine, check-hd1)
+	(hen:univariate-diophant): Return empty list on failure.
+	(u:factorsz): Reenabled hen:ulhensel2 and hen:ulhensel3.
+
+	* ff.scm (ff:unorm): Don't choke on integers.  Check that poly is
+	univariate.
+
+	* poly.scm (univ:zero?, univ:lc, univ:shorter?, univ:cont)
+	(univ:frem, univ:fgcd): Don't choke on integer arguments.
+
+	* factors.scm (poly:sort-factors, poly:sort-merge-factors): Don't
+	choke on empty list.
+
+2020-03-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* poly.scm (univ:lc): Fail if leading coefficient is 0.
+
+	* ff.scm (ff:unorm): Get rid of
+	u-product-mod-p^l-ideal-not-equal-to-a messages.
+
+2020-03-22  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* uv-hensel.scm (u:factorsz): Skipping hen:ulhensel2 and
+	hen:ulhensel3 makes no difference on test.math.
+
+	* hensel.scm (hen:multivariate-hensel): Missing argument e.
+	(hen:multivariate-diophant): Better error message.
+	(poly:factorszpp): Try all variables if needed.
+	(make-random-ideal): Keep numbers in range, r-1.
+	(poly:factorszpp): nvars reps are as good as 30.
+
+	* uv-hensel.scm (landau-mignotte-bound*2): Added missing abs().
+
+	* factor-call-graph.txt: Added.
+
+	* Makefile (gfiles): Added init.math.
+
+	* hensel.scm: Moved factor call graph to factor-call-graph.txt.
+
+2020-03-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* uv-hensel.scm (check-hd1, check-hd): Return 0 or result.
+
+	* poly.scm (poly:primz): No longer used; commented out.
+
+	* ff.scm (the-variable-in, ff:check-pairwise-relatively-prime):
+	removed.
+
+	* hensel.scm (hen:multivariate-diophant): Added x1 argument.
+	(poly:factorz): Rewritten to cycle spec-var through vars.
+
+	* test.math: Added factors tests for x^28-1, x^29-1, and x^30-1.
+
+	* uv-hensel.scm (landau-mignotte-bound*2): Corrected formula.
+
+2020-03-20  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* hensel.scm (hen:multivariate-hensel): Reorganized to pass
+	through 0 for failure.
+
+	* uv-hensel.scm (hen:univariate-diophant): Return 0 for failure.
+
+	* ff.scm (pairwise-relatively-prime?): Replacement for
+	ff:check-pairwise-relatively-prime.
+
+	* hensel.scm (poly:0-degree-norm, poly:evaln): univ:demote result.
+	(map-svpf-factors): Pass through 0 for failure.
+
+	* poly.scm (poly:primz): Promote var.
+
+	* test.math: Added cases; updated comments.
+
+	* grammar.scm (math:print): Always return last arg.
+
+2020-03-18  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (batch-quietly): Fluid-let page-height to #f.
+	(eval:error): Renamed from eval-error.
+
+	* builtin.scm, ext.scm, grammar.scm, info.scm, norm.scm (eval:error):
+	Renamed from eval-error.
+
+	* test.math (radicals): Don't reuse defined variable "a".
+
+2020-03-17  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* test.math (wronskian): e^x --> exp(x).
+
+	* sexp.scm (seval): Defines transcendental field extensions using
+	:: (satisfying) command.
+	(batch-quietly): Handle top-level :: commands.
+
+	* norm.scm (suchthat, satisfying): Inlined into seval.
+
+	* init.math (log, exp, erf, arctan): Added.
+
+2020-03-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* grammar.scm (scheme, null, schemepretty): Reader was missing
+	argument.
+
+2020-03-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): Working on differential field extensions.
+
+2020-03-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ext.scm (poly:aexts): Renamed from poly:exts (algebraic only).
+
+	* sexp.scm (batch1): Removed gratuitous blank lines.  Top-level
+	suchthat and satisfying operations don't advance "e" label.
+
+2020-03-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (defext): Differential field extensions.
+	(undefvar): Undefine before redefining extension.
+
+	* sexp.scm (out-new-vars): Don't substitute @ for var.
+	(seval): Undefine before redefining extension.
+
+	* elim.scm (licits:do-vars, implicit:map, licit:map)
+	(licit:max-lambda-position): Names regularized.
+
+	* norm.scm (extize, total-chain-exts, satisfying): Differential
+	field extension rules.
+
+	* poly.scm (licit:for-each, licit:for-each-var)
+	(poly:find-var-exts): Moved to poly.scm; names regularized.
+
+2020-03-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): Reorganized; start implementing :: (satisfying).
+
+	* jacal.texi, builtin.scm (polydiff): Removed.
+
+	* norm.scm (vsubst): Use promote/demote instead of poly:resultant.
+
+2020-03-07  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Transcendental field extension}):
+	started.
+
+2020-03-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (batch-quietly): Added for "init.math".
+
+	* init.math (sqrt, cbrt): Added.
+
+2020-03-02  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Polynomials): Added documentation.
+
+	* info.scm (integrate, compose, decompose, normalize): Added
+	descriptions.
+
 2020-03-02  Aubrey Jaffer  <jaffer@jaffer-Lenovo-Z70-80>
 
 	* toploads.scm (*jacal-version*): Bumped from 1c6 to 1c7.
@@ -258,11 +610,11 @@
 
 2010-06-23  Vytautas Jancauskas
 
-	* interploate.scm: Added Neville's algorithm for polynomial
+	* interpolate.scm: Added Neville's algorithm for polynomial
 	interpolation.  Removed the requirement to specify the same number
 	of derivatives for each point in newtons interpolation.  Added
 	simple memoization for newtons interpolation since it makes it
-	ALOT faster.
+	a LOT faster.
 
 	* builtin.scm (interp.neville): Added.
 
@@ -466,7 +818,7 @@
 
 2008-01-09  Aubrey Jaffer  <agj@alum.mit.edu>
 
-	* Makefile (doszip): Added eqaul.ico.
+	* Makefile (doszip): Added equal.ico.
 
 	* equal.ico: Added equal-sign icon.
 
@@ -1309,7 +1661,7 @@ Mar 2 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
 
 Mar 1 1995  Mike Thomas  (mjt@octavia.anu.edu.au)
 	* ff.scm: Added sorting of results from poly:sff, u:factorz,
-	ff:berlekamp, to accomodate algorithmic changes I might choose to
+	ff:berlekamp, to accommodate algorithmic changes I might choose to
 	make later, and to make the output more consistent.
 	* ff.scm: Fixed ff:sff.
 	* ff.scm: Added argument checks to bltn's berl, ffsff and sff.
@@ -1408,7 +1760,7 @@ Sun May 15 10:27:09 1994  Aubrey Jaffer  (jaffer@jacal)
 Sat May 14 23:49:51 1994  Aubrey Jaffer  (jaffer@jacal)
 
 	* sexp.scm ((list-of-procedure-defsyms)): hash version was not
-	filtering wiht procedure?
+	filtering with procedure?
 
 	* elim.scm ((implicits:map proc b)): fixed [a,b,c]=0 says "not a
 	polynomial equation".
@@ -1465,7 +1817,7 @@ Sun Oct  3 14:46:36 1993    (jaffer at jacal)
 	* norm.scm (expr:normalize): fixed ({@|@^2=3}/3)^2; being 3/9
 	bug;
 	* types.scm (var:depends): now includes all var and func
-	depenencies, rather than just terminal dependencies.  Eliminate of
+	dependencies, rather than just terminal dependencies.  Eliminate of
 	funcs now works.
 	* types.scm (defext): greatly simplified thanks to new
 	var:depends.
@@ -1784,7 +2136,7 @@ Wed Dec  5 16:28:00 1990  Aubrey Jaffer  (jaffer at foxkid)
 	* poly (): - now only takes 2 arguments (more are not required
 	in Scheme^4).
 
-	* BUG: ((x+a)^(1/2))^3 ==> x+a.  Proably due to previous change.
+	* BUG: ((x+a)^(1/2))^3 ==> x+a.  Probably due to previous change.
 
 Mon Oct 29 13:48:00 1990  Aubrey Jaffer  (jaffer at foxkid)
 
@@ -2002,7 +2354,7 @@ Tue Mar 20 00:08:31 1990  Aubrey Jaffer  (jaffer at lammert)
 
 	* poly.lisp (degree&lc):
 	eliminated in favor of much simpler degree.  This sidesteps Common
-	Lisp compiler problem.  It also means lc is not contructed unless
+	Lisp compiler problem.  It also means lc is not constructed unless
 	it is needed.  Should speed things up.
 
 	* scl.scm:
@@ -2101,7 +2453,7 @@ Tue Feb 13 00:25:04 1990  Aubrey Jaffer  (jaffer at lammert)
 Mon Feb 12 01:23:56 1990  Aubrey Jaffer  (jaffer at lammert)
 
 	* cgol, syntax:
-	parsing rewritten.  some minor bugs and incompatabilities
+	parsing rewritten.  some minor bugs and incompatibilities
 	introduced.  Nary parsing introduced; not supported in seval.
 
 Thu Feb  8 23:33:23 1990  Aubrey Jaffer  (jaffer at lammert)
@@ -2165,7 +2517,7 @@ Thu Jan 18 01:28:51 1990  Aubrey Jaffer  (jaffer at gerber)
 Tue Jan 16 01:33:59 1990  Aubrey Jaffer  (jaffer at crispy-critters)
 
 	* scm.lisp:
-	the Scheme compatability definitions created.  Some char and
+	the Scheme comparability definitions created.  Some char and
 	string functions changed in all files.
 
 Mon Jan 15 01:06:58 1990  Aubrey Jaffer  (jaffer at crispy-critters)

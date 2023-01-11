@@ -159,16 +159,12 @@
 (define (bunch:map proc b)
   (cond ((bunch? b) (map (lambda (x) (bunch:map proc x)) b))
 	(else (proc b))))
-(define (licits:for-each proc b)
-  (cond ((bunch? b) (for-each (lambda (x) (licits:for-each proc x)) b))
-	((eqn? b) (proc (eqn->poly b)))
-	(else (proc b))))
-(define (licits:map proc b)
-  (cond ((bunch? b) (map (lambda (x) (licits:map proc x)) b))
+(define (licit:map proc b)
+  (cond ((bunch? b) (map (lambda (x) (licit:map proc x)) b))
 	((eqn? b) (poleqn->licit (proc (eqn->poly b))))
 	(else (proc b))))
-(define (implicits:map proc b)
-  (cond ((bunch? b) (map (lambda (x) (implicits:map proc x)) b))
+(define (implicit:map proc b)
+  (cond ((bunch? b) (map (lambda (x) (implicit:map proc x)) b))
 	((eqn? b) (poleqns->licits (proc (eqn->poly b))))
 	((expl? b) (proc (expl->impl b)))
 	(else (proc b))))
@@ -181,8 +177,8 @@
       (univ:demote (cons (proc (car poly))
 			 (map (lambda (b) (poly:do-vars proc b))
 			      (cdr poly))))))
-(define (licits:do-vars proc licit)
-  (licits:map (lambda (poly) (poly:do-vars proc poly))
+(define (licit:do-vars proc licit)
+  (licit:map (lambda (poly) (poly:do-vars proc poly))
 	      licit))
 
 ;;; replaced by sexp:alpha-convert
@@ -190,7 +186,7 @@
 ;;;; This needs to handle algebraic extensions as well.
 ;; (define (clambda symlist body)
 ;;   (let ((num-new-vars (length (remove-if lambdavar? symlist))))
-;;     (licits:do-vars
+;;     (licit:do-vars
 ;;      (lambda (var)
 ;;        (let ((pos (position (var:nodiffs var) symlist)))
 ;; 	 (cond (pos (lambda-var (+ 1 pos) (var:diff-depth var)))
@@ -201,17 +197,27 @@
 
 (define (clambda? cexp)
   (cond ((number? cexp) #f)
+	((eqn? cexp) (poly:find-var-if? (eqn->poly cexp) lambdavardep?))
 	((bunch? cexp) (some clambda? cexp))
 	((expr? cexp) (poly:find-var-if? cexp lambdavardep?))
-	((eqn? cexp) (poly:find-var-if? (eqn->poly cexp) lambdavardep?))
 	(else #f)))
 
-;;;In order to keep the lambda application hygenic (in case a function
+(define (lambdadiffvar? v)
+  (and (lambdavardep? v) (var:differential? v)))
+
+(define (dlambda? cexp)
+  (cond ((number? cexp) #f)
+	((eqn? cexp) (poly:find-var-if? (eqn->poly cexp) lambdadiffvar?))
+	((bunch? cexp) (some dlambda? cexp))
+	((expr? cexp) (poly:find-var-if? cexp lambdadiffvar?))
+	(else #f)))
+
+;;;In order to keep the lambda application hygienic (in case a function
 ;;;of a function is called), we need to substitute occurences of
 ;;;lambda variables in the body with shadowed versions of the
 ;;;variables before we eliminate them.  See:
 ;;;	Technical Report No. 194
-;;;	Hygenic Macro Expansion
+;;;	Hygienic Macro Expansion
 ;;;	E.E.Kohlbecker, D.P.Friedman, M.Fellinson, and B.Duba
 ;;;	Indiana University
 ;;;	May, 1986
@@ -241,42 +247,37 @@
 ;;; currently capply puts the structure of the clambda inside the
 ;;; structure of the arguments.
 (define (capply body larglist)
-  (let* ((arglist (licits->impls larglist))
-	 (arglist-length (length arglist))
-	 (svlist '())
-	 (sbody
-	  (licits:do-vars
-	   (lambda (var)
-	     (cond
-	      ((lambdavardep? var)
-	       (set! var (var:shadow var arglist-length))
-	       (set! svlist (union (remove-if-not
-				    simple-shadowed-lambdavar?
-				    (cons var (var:depends var)))
-				   svlist))
-	       var)
-	      (else var)))
-	   body))
-	 (dargs (diffargs svlist arglist)))
-    (implicits:map (lambda (p) (eliminate (cons p dargs) svlist)) sbody)))
+  (define svlist '())
+  (define arglist (licits->impls larglist))
+  (define arglist-length (length arglist))
+  (define sbody
+    (licit:do-vars (lambda (var)
+		     (cond ((lambdavardep? var)
+			    (set! var (var:shadow var arglist-length))
+			    (set! svlist (union (remove-if-not
+						 simple-shadowed-lambdavar?
+						 (cons var (var:depends var)))
+						svlist))
+			    var)
+			   (else var)))
+		   body))
+  (define dargs (diffargs svlist arglist))
+  (implicit:map (lambda (p) (eliminate (cons p dargs) svlist)) sbody))
 
 (define (diffargs vlist args)
   (map (lambda (var)
 	 (bunch:map (lambda (e)
 		      (univ:demote (cons var (cdr (licit->impl e)))))
-	   (diffarg var args)))
-    vlist))
+		    (diffarg var args)))
+       vlist))
 (define (diffarg var args)
   (cond ((var:differential? var)
 	 (total-differential (diffarg (var:undiff var) args)))
 	(else (list-ref args (- (lambda-position var) 1)))))
 
-(define (licits:for-each-var proc polys)
-  (licits:for-each (lambda (poly) (poly:for-each-var proc poly)) polys))
-
-(define (licits:max-lambda-position polys)
+(define (licit:max-lambda-position polys)
   (let ((maxpos 0) (deps '()))
-    (licits:for-each-var
+    (licit:for-each-var
      (lambda (v) (cond ((lambdavardep? v)
 			(set! maxpos (max maxpos (var:max-lambda-position v)))
 			(set! deps (adjoin v deps)))))

@@ -1,5 +1,5 @@
 ;; "anti-diff.scm" rational-function anti-derivative.	-*-scheme-*-
-;; Copyright 2020 Aubrey Jaffer
+;; Copyright 2020, 2023 Aubrey Jaffer
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@
       (define g (+ 1 (- Rxd Nxd)))
       (define h (- Ryd Nyd))
       (define T
-	(cond ((negative? g) (math:warn 'g g '<0) 1)
+	(cond ((negative? g) (math:warn 'g= g '<0) 1)
 	      ((number? Q) (univ:monomial 1 g var))
 	      ((<= Qxd g)
 	       (poly:* (ipow-by-squaring Q (quotient g Qxd) 1 poly:*)
@@ -118,13 +118,6 @@
 		   'vs Rxd))
 	    (else (lp (poly:degree (num R) ver)))))))
 
-(define (poly:find-var-exts poly var)
-  (define elts '())
-  (poly:for-each-var (lambda (v) (if (memq var (var:depends v))
-				     (set! elts (adjoin v elts))))
-		     poly)
-  elts)
-
 (define (poly:cont2 ve v p)
   (apply poly:gcd*
 	 (map (lambda (c) (univ:cont (promote v c)))
@@ -164,7 +157,7 @@
 		    novalue)))))))
 
 (define (integrate . args)
-  (if (not (<= 2 (length args) 4)) (bltn:error 'integrate wna args))
+  (if (not (<= 2 (length args) 4)) (bltn:error 'integrate 'wna args))
   (let ((expr (normalize (car args)))
 	(var (expl->var (cadr args)))
 	(lo (if (null? (cddr args)) #f (caddr args)))
@@ -175,8 +168,9 @@
 	   (let ((sexp (sexp:alpha-convert (list (var:sexp var))
 					   (cano->sexp expr horner))))
 	     (define ifun (indef-integrate (sexp->math sexp) $1))
-	     (cond ((case (length args)
+	     (cond ((novalue? ifun) ifun)
+		   ((case (length args)
 		      ((3) (app* ifun lo))
 		      ((4) (app* $1-$2 (app* ifun hi) (app* ifun lo)))))))))))
 
-(defbltn 'integrate 2 #f integrate)
+(defbltn 'integrate 2 4 integrate)

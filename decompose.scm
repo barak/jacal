@@ -162,7 +162,7 @@
     (define (helper divs)
       (if (null? divs)
 	  (list (make-poly var coeffs)
-		(make-poly var '(0 1)))
+		(var->expl var))
 	  (let* ((k (car divs))
 		 (m (/ n k))
 		 (result (decompose-1 coeffs var m k))

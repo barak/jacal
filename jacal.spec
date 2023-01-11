@@ -1,5 +1,5 @@
 %define name jacal
-%define version 1c7
+%define version 1c8
 %define release 1
 
 Name:         %{name}
@@ -26,8 +26,6 @@ manipulate and simplify equations, scalars, vectors, and matrices of
 single and multiple valued algebraic expressions containing numbers,
 variables, radicals, and algebraic differential, and holonomic
 functions.
-
-#%define __os_install_post /usr/lib/rpm/brp-compress
 
 %prep
 %setup -n jacal -c -T
@@ -67,6 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/jacal
 %dir %{prefix}/lib/jacal
 %{prefix}/lib/jacal/*.scm
+%{prefix}/lib/jacal/init.math
 %{prefix}/lib/jacal/jacalcat
 %{prefix}/lib/jacal/COPYING
 %{prefix}/lib/jacal/HELP

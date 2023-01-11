@@ -1,6 +1,6 @@
 ;; "ff.scm" Polynomial factorization.		-*-scheme-*-
 ;; Copyright 1994, 1995 Mike Thomas
-;; Copyright 1995, 1997, 1998, 1999, 2001, 2002 Aubrey Jaffer
+;; Copyright 1995, 1997, 1998, 1999, 2001, 2002, 2020 Aubrey Jaffer
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@
 ;;; The Art of Computer Programming : Seminumerical Algorithms (Vol 2)
 ;;;  by Donald Ervin Knuth
 ;;;  2nd Ed (1981) Addison-Wesley Pub Co; ISBN: 0-201-03822-6
-;;; A new edition of this book is availble:
+;;; A new edition of this book is available:
 ;;;  3rd Ed (November 1997) Addison-Wesley Pub Co; ISBN: 0-201-89684-2
 
 ;;; DEVELOPMENT LANGUAGE
@@ -162,12 +162,18 @@
 
 ;;; Reduce univariate poly mod modulus and remove leading zero coefficients
 (define (ff:unorm modulus poly)
-  (if (number? poly)
-      poly
-      (cons (car poly)
-	    (cons (sym:sym modulus (cadr poly))
-		  (map-no-end-0s (lambda (coeff) (sym:sym modulus coeff))
-				 (cddr poly))))))
+  (cond ((number? poly) (sym:sym modulus poly))
+	((null? poly) (math:error 'ff:unorm 'called-with-null))
+	((poly:univariate? poly)
+;;; Use univ:norm0 to eliminate unnormalized poly.
+	 ;; (univ:norm0 (car poly)
+	 ;; 	     (map-no-end-0s (lambda (coeff) (sym:sym modulus coeff))
+	 ;; 			    (cdr poly)))
+	 (cons (car poly)
+	       (cons (sym:sym modulus (cadr poly))
+		     (map-no-end-0s (lambda (coeff) (sym:sym modulus coeff))
+				    (cddr poly)))))
+	(else (math:error 'ff:unorm 'called-with-multivariate poly))))
 
 ;;; Degree of (ff:unorm modulus poly)
 (define (ff:degree modulus poly)
@@ -178,15 +184,6 @@
 
 (define (ff:monic? modulus poly)
   (and (not (univ:const? poly)) (eqv? 1 (ff:lc modulus poly))))
-
-;;; Printer for diagnostic information
-(define ff:print math:print)
-
-(define (the-variable-in a)
-  (cond ((null? a) #f)
-	((number? (car a))
-	 (the-variable-in (cdr a)))
-	(else (caar a))))
 
 ;;;================================================================
 ;;; Standard Euclidean algorithm for polynomial gcd over Z mod n
@@ -201,43 +198,32 @@
       (let ((ans (univ:fgcd x y)))
 	(if (number? ans) (list (car x) ans) ans))))))
 
-(define (ff:check-pairwise-relatively-prime caller u p)
-  (define x1 (list (the-variable-in u) 1))
-  (do ((us u (cdr us)))
-      ((null? us))
-    (for-each (lambda (uo)
-		(define g (ff:euclid-gcd p (car us) uo))
-		(cond ((not (equal? x1 g))
-		       (math:warn 'in caller)
-		       (math:error 'not-relatively-prime 'mod p
-				   (car us) uo '==> g))))
-	      (cdr us))))
+(define (pairwise-relatively-prime? ulst prm x1)
+  (define (prp1 us)
+    (every (lambda (u)
+	     (univ:one? (ff:euclid-gcd prm (car us) u) x1))
+	   (cdr us)))
+  (do ((us ulst (cdr us)))
+      ((or (null? us)
+	   (not (prp1 us)))
+       (null? us))))
 
 ;;; ===================== Truncating Division =====================
-(define ff:p/p->qr
-  ;;(debug:check ff:p/p->qr-mjt
-  (lambda (modulus x y)
-    (set! x (ff:unorm modulus x))
-    (set! y (ff:unorm modulus y))
-    (if (< (length x) (length y))
-	(list (list (car x) 0) (ff:unorm modulus x))
-	(fluid-let ((*modulus* (symmetric:modulus modulus)))
-	  (map (lambda (ans)
-		 (if (number? ans) (list (car x) ans) ans))
-	       (univ:fdiv x y)))))
-  ;;'ff:p/p->qr-mjt
-  ;;'univ:fdiv)
-  )
+(define (ff:p/p->qr modulus x y)
+  ;; (set! x (ff:unorm modulus x))
+  ;; (set! y (ff:unorm modulus y))
+  (if (< (length x) (length y))
+      (list (list (car x) 0) x)
+      (fluid-let ((*modulus* (symmetric:modulus modulus)))
+	(map (lambda (ans)
+	       (if (number? ans) (list (car x) ans) ans))
+	     (univ:fdiv x y)))))
 (define (ff:p/p p a b)
-  (let ((u (ff:unorm p a))
-	(v (ff:unorm p b)))
-    (let ((m (univ:deg u))
-	  (n (univ:deg v)))
-      (cond
-       ((univ:zero? v)
-	(slib:error 'ff:p/p "Division by 0 is undefined."))
-       (else
-	(car (ff:p/p->qr p u v)))))))
+  (cond
+   ((univ:zero? b)
+    (slib:error 'ff:p/p "Division by 0 is undefined."))
+   (else
+    (car (ff:p/p->qr p a b)))))
 
 ;;; ===================== Top-Level Factoring =====================
 (define (u:sff a)
@@ -319,7 +305,7 @@
 		 (array-map! (make-shared-array
 			      q (lambda (j) (list (quotient i p) j)) n)
 			     identity r))
-	     ;;(ff:print i "  r = " r "  q = " q)
+	     ;;(math:print i "  r = " r "  q = " q)
 	     (loop (+ 1 i)))))))
 
 ;;; Converts a list of vectors to a vector of polynomials.
@@ -345,7 +331,7 @@
 ;;;  2nd Ed (1981) Addison-Wesley Pub Co; ISBN: 0-201-03822-6
 ;;; 4.6.2 Algorithm N (null-space-algorithm)
 ;;;
-;;; P is prime modulus of coeffient field.
+;;; P is prime modulus of coefficient field.
 ;;; Q-I is an N by N matrix of elements of Z mod P.
 ;;; Returns a list of {N - rank(Q-I)} basis vectors.
 (define (ff:null-space-basis p Q-I)
@@ -412,7 +398,7 @@
 (define (ff:null-space-basis-gcl-bug p Q-I var)
   (let* ((n (car (array-dimensions Q-I)))
 	 (m (make-array '#(#f) n n)))
-    (ff:print " Q-I = " Q-I)
+    (math:print " Q-I = " Q-I)
     (array:copy! m Q-I)
     (do ((k 0 (+ 1 k)))
 	((>= k n))
@@ -438,13 +424,13 @@
 				  (lambda (x y)
 				    (sym:sym p (- x (sym:sym p (* mkj y)))))
 				  mcolj mcolk))))
-;;;(ff:print " m = " m)
+;;;(math:print " m = " m)
 	      ))))
     (let ((mdiag (make-shared-array m (lambda (a) (list a a)) n)))
       (array-map! mdiag (lambda (x) (sym:sym p (+ -1 x))) mdiag))
-;;;    (ff:print "  After subtraction of 1 along the diagonal,	m = " m)
+;;;    (math:print "  After subtraction of 1 along the diagonal,	m = " m)
 ;;;	 (array-map! m (lambda (x) (sym:sym p (* -1 x))) m)
-;;;    (ff:print "  After multiplication of -1 along the diagonal,  m = " m)
+;;;    (math:print "  After multiplication of -1 along the diagonal,  m = " m)
     (let ( ;;(i 0)
 	  (ret '()))
       (let loop1 ((j 0))
@@ -461,12 +447,12 @@
 			(mrowj (make-shared-array
 				m (lambda (a) (list j a)) n)))
 		    ;;(set! i (+ 1 i))
-;;;			 (ff:print " mrowj = " mrowj)
+;;;			 (math:print " mrowj = " mrowj)
 		    (array:copy! v mrowj)
-;;;			 (ff:print " v = " v)
+;;;			 (math:print " v = " v)
 		    (set! ret (cons v ret))
 		    (loop1 (+ 1 j)))))))
-;;;	  (ff:print " ret = " ret)
+;;;	  (math:print " ret = " ret)
       (map (lambda (x) (ff:unorm p (cons var (vector->list x))))
 	   (reverse ret)))))
 
@@ -480,12 +466,12 @@
 ;;; Return a sorted list of factors of a mod p, where a is square free
 ;;; and p is a prime number.
 (define (ff:berlekamp p a)
-  (let* ((q	(ff:q-matrix p a))
-	 (n	(car (array-dimensions q)))
-	 (var	(car a))
-	 (qdiag (make-shared-array q (lambda (a) (list a a)) n)))
-    (array-map! qdiag (lambda (x) (sym:sym p (+ -1 x))) qdiag)
-    (fluid-let ((*modulus* (symmetric:modulus p)))
+  (fluid-let ((*modulus* (symmetric:modulus p)))
+    (let* ((q	(ff:q-matrix p a))
+	   (n	(car (array-dimensions q)))
+	   (var	(car a))
+	   (qdiag (make-shared-array q (lambda (a) (list a a)) n)))
+      (array-map! qdiag (lambda (x) (sym:sym p (+ -1 x))) qdiag)
       (let* ((vs (basis->polys (ff:null-space-basis p q) var))
 	     (factors (list a))
 	     (ffp (ff:generate-field p))
@@ -525,17 +511,17 @@
 	 (k 5)
 	 (ss   (hen:diophantine drfs (list (car (car drfs)) 1) p k)))
     (let ((res (map (lambda (x y) (make-rat (poly:* nr x) y)) ss drfs)))
-      (ff:print res)
+      (math:print res)
       res)))
 
 (define (remove-exponents fs fs1)
   (cond
    ((null? fs) fs1)
    ((number? (caar fs))
-    (ff:print "n " (caar fs))
+    (math:print "n " (caar fs))
     (remove-exponents (cdr fs) (fs1)))
    (else
-    (ff:print "e " (caar fs))
+    (math:print "e " (caar fs))
     (remove-exponents (cdr fs) (append (caar fs) fs1)))))
 
 (define (ff:check-arg e)

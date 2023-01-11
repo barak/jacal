@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2005, 2007, 2010, 2020 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2005, 2007, 2010, 2020, 2021, 2023 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@
 (define cidentity (list $1 0 1))
 (define $1!!$2 (list $ (list $2 0 (list $1 0 1)) (list $2 (list $1 0 -1) -1)))
 
-;;; Canoncial functions for vect.scm
+;;; Canonical functions for vect.scm
 (define $1-$2*$3 (list $3 (list $1 0 1) (list $2 0 -1)))
 (define $1*$2+$3 (list $3 (list $2 0 (list $1 0 1)) 1))
 (define _-$1/$2 (make-rat (list $1 0 -1) (list $2 0 1)))
@@ -81,7 +81,10 @@
 (var:set-pri! %sqrt1 5)
 (define %i (defext (sexp->var '%i) (list $ -1 0 -1)))
 (var:set-pri! %i 5)
+;; radical-defs is the list of radical extension defining poleqns
 (define radical-defs (list (extrule %i) (extrule %sqrt1)))
+;; trn-defs is the list of transendental extension instance defining poleqns
+(define trn-defs '())
 (define _+/-$1 (list $1 0 (list %sqrt1 0 1)))
 (define _-/+$1 (list $1 0 (list %sqrt1 0 -1)))
 (define $1+/-$2 (list $2 (list $1 0 1) (list %sqrt1 0 1)))
@@ -286,8 +289,9 @@
 
 (defflag 'priority
   (lambda (f v p)
-    (if (not (and (number? p) (< 0 p lambda-var-pri))) (math:error))
-    (var:set-pri! (expl->var v) p))
+    (cond ((and (number? p) (< 0 p lambda-var-pri))
+	   (var:set-pri! (expl->var v) p))
+	  (else (bltn:error 'priority-argument-out-of-range:- p))))
   (lambda args
     (if (null? (cdr args))
 	(let ((l (list-of-vars)))
@@ -333,14 +337,14 @@
   (lambda (x)
     (define fa (func-arglist (expl->var x)))
     (if (null? fa)
-	(math:error 'args 'not-a-function? x)
+	(bltn:error 'args 'not-a-function? x)
 	(cdr fa))))
 
 (defbltn 'func 1 1
   (lambda (x)
     (define fa (func-arglist (expl->var x)))
     (if (null? fa)
-	(math:error 'func 'not-a-function? x)
+	(bltn:error 'func 'not-a-function? x)
 	(car fa))))
 
 (defbltn 'describe 1 1
@@ -349,24 +353,33 @@
      ((null? x) (tran:display 'empty))
      ((and (expl:var? x)
 	   (info:describe (var:sexp (expl->var x)))))
-     ((bunch? x) (display (bunch-type x)) (newline))
+     ((bunch? x) (display (bunch-type x)))
      ((not (expl:var? x)) (display (scalar-type x)))
      (else (describe-var (expl->var x))))
     (if (clambda? x)
-	(let ((hlv (licits:max-lambda-position (if (eqn? x) (eqn->poly x) x))))
+	(let ((hlv (licit:max-lambda-position (if (eqn? x) (eqn->poly x) x))))
 	  (tran:display 'function-of-)
 	  (display hlv)
 	  (if (= 1 hlv) (tran:display 'argument) (tran:display 'arguments))))
+    (newline)
     novalue))
 
 (define (describe-var v)
   (cond ((var:differential? v)
 	 (tran:display 'differential-)
 	 (set! v (var:nodiffs v))))
-  (display
-   (cond ((radicalvar? v) 'radical)
-	 ((not (symbol? (var:sexp v))) 'application)
-	 (else 'variable))))
+  (cond ((radicalvar? v) (tran:display 'radical))
+	((not (symbol? (var:sexp v)))
+	 (tran:display 'application)
+	 (write-sexp (map (lambda (xpr) (cano->sexp xpr horner))
+			  (func-arglist v))
+		     *input-grammar*))
+	((procedure? (var:def v))
+	 (tran:display 'built-in-operation))
+	((and (func-arglist v)
+	      (= 2 (length (func-arglist v))))
+	 (tran:display 'transcendental-function-of-1-argument))
+	(else (tran:display 'variable))))
 
 (define (scalar-type x)
   (cond ((number? x) 'number)
@@ -521,8 +534,8 @@
 (defbltn 'listofvars 1 1
   (lambda (exp)
     (let ((deps '()))
-      (licits:for-each (lambda (poly) (set! deps (union (alg:vars poly) deps)))
-		       exp)
+      (licit:for-each (lambda (poly) (set! deps (union (alg:vars poly) deps)))
+		      exp)
       (map var->expl (remove $ deps)))))
 
 (defbltn 'degree 1 2
@@ -567,7 +580,7 @@
 	   (coeffs p (car p)))
 	  ((rat? p)
 	   (coeffs p (car (rat:num p))))
-	  (else (bltn:error not-a-polynomial? p)))))
+	  (else (bltn:error 'not-a-polynomial? p)))))
 
 (define (remove-tautologies l)
   (cond ((null? l) l)
@@ -808,7 +821,7 @@
 	    ((begin (set! j1 (car i1j1))
 		    (set! i1j1 (cdr i1j1))
 		    (null? i1j1)))
-	    (else (math:error 'genmatrix wna)))
+	    (else (bltn:error 'genmatrix 'wna)))
       (mtrx:genmatrix
        fun
        (plicit->integer i2)
@@ -887,11 +900,12 @@
 
 (defbltn 'load 1 1
   (lambda (file)
-    (cond ((file-exists? file)
-	   (slib:load (var->string (expl->var file)))
+    (define fil (var->string (expl->var file)))
+    (cond ((file-exists? fil)
+	   (slib:load fil)
 	   file)
 	  (else
-	   (math:warn 'file-not-found file)
+	   (math:warn 'file-not-found fil)
 	   novalue))))
 
 (defbltn 'require 1 1
@@ -905,12 +919,12 @@
     (batch (var->string (expl->var file)))
     novalue))
 
-(defbltn 'transcript 0 #f
+(defbltn 'transcript 0 1
   (lambda files
     (cond ((null? files)
 	   (transcript-off)
 	   novalue)
-	  ((not (null? (cdr files))) (bltn:error 'transcript wna files))
+	  ((not (null? (cdr files))) (bltn:error 'transcript 'wna files))
 	  (else
 	   (let ((file (var->string (expl->var (car files)))))
 	     (transcript-on file)
@@ -926,10 +940,6 @@
   (lambda (exp . args)
     (reduce-init diff exp (map expl->var args))))
 
-(defbltn 'polydiff 1 #f
-  (lambda (exp . args)
-    (reduce-init expls:diff exp (map expl->var args))))
-
 (defbltn 'partial 1 #f
   (lambda (func . args)
     (cond ((number? func) (bltn:error 'not-a-function? func))
@@ -941,7 +951,7 @@
 	    (map (lambda (a)
 		   (cond ((and (number? a) (positive? a)) (lambda-var a 0))
 			 ((clambda? a) (expl->var a))
-			 (else (math:error 'partial-with-respect-to? a))))
+			 (else (bltn:error 'partial-with-respect-to? a))))
 		 args))))))
 
 (defbltn 'scheme 1 1
@@ -956,18 +966,13 @@
 
 (define (make-grammar-bltn name)
   (lambda (expr)
-    (define grammar (get-grammar name))
-    (cond ((expl:var? expr)
-	   (sexp->math
-	    (call-with-input-string (var->string (expl->var expr))
-	      (lambda (port)
-		(prec:parse (grammar-read-tab grammar) #\; 0 port)))))
-	  (else
-	   (write-sexp (if (sexp? expr) expr (cano->sexp expr horner))
-		       grammar)
-	   novalue))))
+    (write-sexp (if (sexp? expr) expr (cano->sexp expr horner))
+		(get-grammar name))
+    (newline)
+    novalue))
 
 (defbltn 'tex 1 1 (make-grammar-bltn 'tex))
+(defbltn 'std 1 1 (make-grammar-bltn 'std))
 (defbltn 'standard 1 1 (make-grammar-bltn 'standard))
 (defbltn 'disp2d 1 1 (make-grammar-bltn 'disp2d))
 
@@ -1005,7 +1010,14 @@
 	    (else (bltn:error 'abs-of-non-rational-expression exp))))))
 
 (defbltn 'extrule 1 1
-  (lambda (x) (poly->eqn (or (extrule (expl->var x)) 0))))
+  (lambda (x)
+    (define xtrl (extrule (expl->var x)))
+    (cond (xtrl (poly->eqn xtrl))
+	  (else (math:warn 'no-extrule-for x)
+		novalue))))
+
+(defbltn 'varpri 1 1
+  (lambda (x) (var:pri (expl->var x))))
 
 ;;; combinatorics commands
 
@@ -1021,7 +1033,7 @@
 
 ;;; integration
 
-(defbltn 'integrate 2 #f
+(defbltn 'integrate 2 4
   (lambda args
     (require 'antidiff)
     (apply integrate args)))

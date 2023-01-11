@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright (C) 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2007, 2009, 2010 Aubrey Jaffer.
+;; Copyright (C) 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2007, 2009, 2010, 2020, 2021 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -14,8 +14,6 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-(require 'fluid-let)
 
 (define tran:translations
   '((last-expression-lost . "; Last expression lost.")
@@ -116,6 +114,7 @@
     (to- . " to ")
     (to-return-to- . " to return to ")
     (trouble-with . "trouble with ")
+    (transcendental-function-of-1-argument . "transcendental function of 1 argument")
     (true . "true")
     (type . "type ")
     (type- . ", type ")
@@ -149,6 +148,7 @@
 		      (0 #\-)
 		      (1 "%" #d2140)) " " #d1140)
     (suchthat 40 "{" #d1190 " | " #d2040 "}")
+    (satisfying 40 "{" #d1190 " :: " #d2040 "}")
     (define 200 #d1120 ": " ((0 #d2010)))
     (rapply 200 #d1200 ((1 #d2030 #(rest "," #d3010))))
     (abs 200 (#\|) #d1010 (#\|))
@@ -218,7 +218,7 @@
     (show 20 "show " #d1120)
     ))
 
-(define tps:std
+(define tps:standard
   '(
     (template:default 140 #d0140 "(" #d1010 #(rest ", " #d2010) ")")
     (template:bunch 140 "[" #d0010 #(rest ", " break #d1010) "]")
@@ -233,6 +233,7 @@
     (^ 140 #d1141 "^" #d2140)
     (differential 170 #d1170 "'")
     (suchthat 40 "{" #d1190 " | " #d2040 "}")
+    (satisfying 40 "{" #d1190 " :: " #d2040 "}")
     (rapply 200 #d1200 "[" #d2030 #(rest "," #d3010) "]")
     (box 200 ((-1 #\")
 	      (0 (#\") #d1010 (#\"))
@@ -247,6 +248,37 @@
     (ncmult 110 #d1109 " . " #d2109)
     (^^ 210 #d1211 "^^" #d2210)
     ))
+(define tps:std
+  '(
+    (template:default 140 #d0140 "(" #d1010 #(rest "," #d2010) ")")
+    (template:bunch 140 "[" #d0010 #(rest "," break #d1010) "]")
+    (template:parenthesis 200 "(" #d1010 ")")
+    (= 80 #d1080 "=" break #d2080 #(rest "=" break #d3080))
+    (- 100 #d1100 "-" break #d2101 #(rest "-" break #d3101))
+    (+ 100 #d1100 #(rest "+" break #d2101))
+    (* 120 #d1120 #(rest "*" #d2121))
+    (negate 90 "-" #d1090)
+    (/ 120 #d1120 "/" #d2121)
+    (over 120 #d1120 "/" #d2121)
+    (^ 140 #d1141 "^" #d2140)
+    (differential 170 #d1170 "'")
+    (suchthat 40 "{" #d1190 "|" #d2040 "}")
+    (satisfying 40 "{" #d1190 "::" #d2040 "}")
+    (rapply 200 #d1200 "[" #d2030 #(rest "," #d3010) "]")
+    (box 200 ((-1 #\")
+	      (0 (#\") #d1010 (#\"))
+	      (1 #\")))
+    (define 200 #d1120 ":" #d2010)
+    (set 20 "set " #d1120 " " #d2010)
+    (show 20 "show " #d1120)
+    (factorial 160 #d1160 "!")
+    (help 100 "help;")
+    (qed 100 "qed;")
+    (% 200 "%")
+    (ncmult 110 #d1109 " . " #d2109)
+    (^^ 210 #d1211 "^^" #d2210)
+    ))
+
 (define tps:tex
   '(
     (template:top 0 "$" #d1000 "$")
@@ -256,16 +288,17 @@
 ;;;    (template:matrix 140 "\\left({\matrix{" #d0010 #(rest "&" #d1010)
 ;;;		     (#\\)(#\c)(#\r) "}}\\right)")
     (template:parenthesis 200 "\\left(" #d1010 "\\right)")
-    (= 80 #d1080 " = " break #d2080 #(rest " = " break #d3080))
-    (- 100 #d1100 " - " break #d2101 #(rest " - " break #d3101))
-    (+ 100 #d1100 #(rest " + " break #d2101))
+    (= 80 #d1080 "=" break #d2080 #(rest "=" break #d3080))
+    (- 100 #d1100 "-" break #d2101 #(rest "-" break #d3101))
+    (+ 100 #d1100 #(rest "+" break #d2101))
     (* 120 #d1120 #(rest "\\," #d2121))
-    (negate 90 "- " #d1100)
+    (negate 100 "-" #d1100)
     (/ 120 #d1120 "/{" break #d2121 "}")
-    (over 120 "{" #d1040 "}\\over{" break #d2041 "}")
+    (over 120 "{{" #d1040 "}\\over{" break #d2041 "}}")
     (^ 140 #d1141 "^{" #d2100 "}")
     (differential 170 "{" #d1170 "}'")
     (suchthat 40 "\\left\\{ " #d1190 " | " break #d2040 "\\right\\}")
+    (satisfying 40 "\\left\\{ " #d1190 " :: " break #d2040 "\\right\\}")
     (rapply 200 #d1200 "\\left[" #d2030 #(rest "," break #d3010) "\\right]")
     (abs 200 "\\left|" #d1010 "\\right|")
 ;;;    (box 200 ((-1 #\")
@@ -352,7 +385,7 @@
 (prec:define-grammar (prec:infix '= '= 80 80))
 ;(prec:define-grammar (prec:infix '(~= <>) 'make-not-equal 80 80))
 (prec:define-grammar (prec:infix 'mod 'mod 70 70))
-(prec:define-grammar (prec:infix ':: 'suchthat 190 40))
+(prec:define-grammar (prec:infix ':: 'satisfying 190 40))
 (prec:define-grammar (prec:infix "|" 'suchthat 190 40))
 
 ;;; I don't remember what I had in mind here.
@@ -399,13 +432,21 @@
 	      (+ column (flush-input-whitespace cip))
 	      cip))
 
+(defgrammar 'std
+  (make-grammar
+   'std					;name
+   grm-reader				;reader
+   *syn-defs*				;read-tab
+   print-using-grammar			;writer
+   tps:std))				;write-tab
+
 (defgrammar 'standard
   (make-grammar
    'standard				;name
    grm-reader				;reader
    *syn-defs*				;read-tab
    print-using-grammar			;writer
-   tps:std))				;write-tab
+   tps:standard))			;write-tab
 
 (defgrammar 'disp2d
   (make-grammar
@@ -419,6 +460,9 @@
 (set! *output-grammar* (get-grammar 'disp2d))
 
 ;;;; Syntax definitions for TEX GRAMMAR
+
+;;; built-in functions:
+;; \arccos \arcsin \arctan \cos \cosh \cot \coth \csc \exp \gcd \lg \ln \log \sec \sin \sinh \tan \tanh
 
 ;;; Begin by Ignoring whitespace characters.
 (set! *syn-defs* *syn-ignore-whitespace*)

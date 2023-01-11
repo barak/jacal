@@ -22,7 +22,7 @@
 (require-if 'compiling 'info)
 (require-if 'compiling 'precedence-parse)
 
-(define *jacal-version* "1c7")
+(define *jacal-version* "1c8")
 
 (define (jacal:dot) (display ".") (force-output))
 (jacal:dot)
