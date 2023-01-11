@@ -7,7 +7,7 @@ Subject: SCHEME_LIBRARY_PATH
  1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 0164081..a545b13 100644
+index 96ba4fd..af8a251 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -195,12 +195,16 @@ install-script: jacal.sh installdirs

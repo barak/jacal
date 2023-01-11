@@ -1,8 +1,9 @@
-jacal (1c7-4) unstable; urgency=medium
+jacal (1c8-1) UNRELEASED; urgency=medium
 
   * simply debian/watch and also get it to work
+  * forward port patches
 
- -- Barak A. Pearlmutter <bap@debian.org>  Wed, 11 Jan 2023 16:26:29 +0000
+ -- Barak A. Pearlmutter <bap@debian.org>  Wed, 11 Jan 2023 16:39:16 +0000
 
 jacal (1c7-3) unstable; urgency=medium
 
