@@ -2,3 +2,5 @@ Version: 5
 
 Source: https://people.csail.mit.edu/jaffer/JACAL
 Matching-Pattern: .*/@PACKAGE@-@ANY_VERSION@@ARCHIVE_EXT@
+Repacksuffix: +ds
+Dversion-Mangle: auto
