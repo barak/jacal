@@ -1,61 +1,96 @@
-This directory contains the distribution of jacal-1c8.  Jacal is a
+This directory contains the distribution of jacal-2a1.  Jacal is a
 symbolic mathematics system written in the programming language Scheme.
 
-	     http://people.csail.mit.edu/jaffer/JACAL.html
+	     https://www.gnu.org/software/jacal/
 
-File: jacal-1c8.info,  Node: Installation,  Next: Running Jacal,  Prev: Authors and Bibliography,  Up: Overview
+File: jacal-2a1.info,  Node: Installation,  Next: GNU Free Documentation License,  Prev: Authors and Bibliography,  Up: Overview
 
 1.2 Installation
 ================
 
-The JACAL program is written in the Algorithmic Language "Scheme".  So
-you must obtain and install a Scheme implementation in order to run it.
-The installation procedures given here use the SCM Scheme
-implementation.  If your system has a Scheme (or Guile) implementation
-installed, then the 'scm' steps are unnecessary.
-
-  JACAL also requires the SLIB Portable Scheme library which is
-available from <http://people.csail.mit.edu/jaffer/SLIB>.
-
- -- System: x86_64 GNU/Linux with Redhat Package Manager (rpm)
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.x86_64.rpm
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.noarch.rpm
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.noarch.rpm
-          rpm -U scm-5f3-1.x86_64.rpm slib-3b7-1.noarch.rpm jacal-1c8-1.noarch.rpm
-          rm scm-5f3-1.x86_64.rpm slib-3b7-1.noarch.rpm jacal-1c8-1.noarch.rpm
-
-     The command 'jacal' will start an interactive session.
+The JACAL program is written in the Algorithmic Language “Scheme”.  So
+you must have or install a Scheme implementation in order to run it.
+JACAL also requires the SLIB Portable Scheme library which is available
+from <https://www.gnu.org/software/slib>.  The installation procedures
+given here provide the SCM Scheme implementation along with SLIB and
+JACAL. If your system has a Scheme (or Guile) implementation installed,
+then the ‘scm’ steps are unnecessary.
 
  -- System: Unix
  -- System: GNU/Linux
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3.zip
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7.zip
-          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8.zip
-          unzip -ao scm-5f3.zip
-          unzip -ao slib-3b7.zip
-          unzip -ao jacal-1c8.zip
-          (cd slib; ./configure --prefix=/usr/local/; make install)
-          (cd scm; ./configure --prefix=/usr/local/; make scm; make install)
-          (cd jacal; ./configure --prefix=/usr/local/; make install)
-          rm scm-5f3.zip slib-3b7.zip jacal-1c8.zip
 
-     The command 'jacal' will start an interactive session using ELK,
+     If you lack permission to install into /usr/local/, you can install
+     into your home directory by changing ‘/usr/local/’ to your home
+     directory in this script.
+
+          wget https://ftp.gnu.org/gnu/scm/scm-5f5.tar.gz
+          wget https://ftp.gnu.org/gnu/slib/slib-3c2.tar.gz
+          wget https://ftp.gnu.org/gnu/jacal/jacal-2a1.tar.gz
+          tar -xzf scm-5f5.tar.gz
+          tar -xzf slib-3c2.tar.gz
+          tar -xzf jacal-2a1.tar.gz
+          (cd slib-3c2; ./configure --prefix=/usr/local/; make install)
+          (cd scm-5f5; ./configure --prefix=/usr/local/; make scm; make install)
+          (cd jacal-2a1; ./configure --prefix=/usr/local/; make install)
+          # rm scm-5f5.tar.gz slib-3c2.tar.gz jacal-2a1.tar.gz
+
+     The command ‘jacal’ will start an interactive session.
+
+ -- System: x86_64 GNU/Linux with Redhat Package Manager (rpm)
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f5-1.x86_64.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3c2-1.noarch.rpm
+          wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-2a1-1.noarch.rpm
+          rpm -U scm-5f5-1.x86_64.rpm slib-3c2-1.noarch.rpm jacal-2a1-1.noarch.rpm
+          # rm scm-5f5-1.x86_64.rpm slib-3c2-1.noarch.rpm jacal-2a1-1.noarch.rpm
+
+     The command ‘jacal’ will start an interactive session using ELK,
      Gambit, Gauche, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48,
-     SCM, or SISC. Type 'jacal --help' for instructions.
-
- -- System: Apple
-     <http://www.io.com/~cobblers/scm/> has downloads and utilities for
-     installing SCM and SLIB on Macintosh computers.
+     SCM, or SISC. Type ‘jacal --help’ for instructions.
 
  -- System: x86 Microsoft
      Download and run
-     <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.exe>,
-     <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.exe>, and
-     <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.exe>.
+     <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3c2-1.exe>,
+     <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f4-1.exe>, and
+     <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-2a1-1.exe>.
 
-Compiling Jacal
----------------
+Manifest
+--------
 
-For Scheme implementations with compilers, it is worthwhile to compile
-SLIB files, and the JACAL files 'types.scm' and 'poly.scm'.
+COPYING
+     details the LACK OF WARRANTY for Jacal and the conditions for
+     distributing Jacal.
+HELP
+     is a short introduction to using Jacal.
+ChangeLog
+     documents changes to Jacal.
+
+jacal
+     is a unix (sh) script to start an interactive jacal session.
+rw.math
+     is a batch file of Robertson-Walker model of General Relativity.
+     "batch(rw.math);" to execute its commands in Jacal.
+test.math
+     is a batch file which tests Jacal.
+jacal.texi
+     is documentation on how to use jacal in TeXinfo format.
+DOC
+     has files telling about how jacal works.
+
+     algdenom
+          gives an algorithm for clearing radicals and other algebraic
+          field extensions from denominators.
+     grammar
+          explains how to create new grammars.
+     lambda
+          explains mid-level data formats.  From a Dr.  Dobbs article.
+     ratint.pdf
+          article explaining jacal's integration algorithm and
+          transcendental function simplification.
+
+math.scm
+     is the file you load into scheme in order to run jacal.
+toploads.scm
+     contains comments describing the rest of the files.
+modeinit.scm
+     has initializations for modes in Jacal.
 

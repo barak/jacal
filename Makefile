@@ -20,6 +20,7 @@
 snapdir=$(HOME)/pub/
 infodir=$(HOME)/info/
 htmldir=$(HOME)/public_html/
+webdir=$(HOME)/web/jacal/
 
 SHELL = /bin/sh
 INSTALL = install
@@ -46,7 +47,7 @@ intro:	config.status
 	@echo "to learn how to run and use JACAL."
 	@echo
 
-VERSION = 1c8
+VERSION = 2a1
 RELEASE = 1
 
 # ./configure --distdir=${HOME}/dist/ --snapdir=${HOME}/pub/ --docdir=${HOME}/public_html/
@@ -62,24 +63,22 @@ S48IMAGE = $(jacallibdir)scheme48.image
 windistdir = /c/Voluntocracy/dist/
 rpm_prefix = $(HOME)/rpmbuild/
 
-cfiles = math.scm modeinit.scm debug.scm view.scm toploads.scm
+cfiles = math.scm modeinit.scm debug.scm toploads.scm
 sfiles = types.scm func.scm poly.scm elim.scm vect.scm ext.scm		\
 	norm.scm sqfree.scm hist.scm sexp.scm grammar.scm unparse.scm	\
 	builtin.scm info.scm tensor.scm combin.scm ff.scm factors.scm	\
 	uv-hensel.scm hensel.scm interpolate.scm decompose.scm		\
-	anti-diff.scm
-gfiles = English.scm init.math
+	anti-diff.scm UFD-basis.scm timing.scm
+gfiles = English.scm init.math std.scm
 mfiles = ANNOUNCE COPYING HELP configure Makefile jacalcat jacal.texi	\
-	fdl.texi jacal.1 demo rw.math jacal.spec jacal.sh elk.scm	\
+	fdl.texi jacal.1 rw.math jacal.spec jacal.sh elk.scm	\
 	jacal.nsi
 tfiles = test.math interp_test.scm
 allfiles = README ChangeLog $(mfiles) $(sfiles) $(cfiles) $(gfiles)	\
 	$(tfiles) jacal.info jacal.doc version.txi			\
 	factor-call-graph.txt
 #dfiles Document internals of Jacal.
-dfiles = algdenom grammar history lambda ratint.tex eqalign.sty
-# Common Lisp not currently supported.
-#lfiles = scl.lisp math.lisp compilem.lisp
+dfiles = algdenom grammar lambda
 libfiles = $(sfiles) $(cfiles) $(gfiles) jacalcat Makefile COPYING HELP
 tagfiles = $(sfiles) $(cfiles) $(gfiles) $(mfiles) $(tfiles)
 
@@ -131,6 +130,11 @@ $(DESTDIR)$(htmldir)jacal: html/jacal
 	$(INSTALL_DATA) html/jacal/*.html $(DESTDIR)$(htmldir)jacal
 install-html: $(DESTDIR)$(htmldir)jacal
 
+webman: $(webdir)html/jacal-$(VERSION)
+$(webdir)html/jacal-$(VERSION): jacal.texi version.txi $(txifiles) $(texifiles)
+	mkdir -p $(webdir)html
+	makeinfo --html $< -o $(webdir)html/jacal-$(VERSION)
+
 # Used by w32install
 jacal.html:	jacal.texi
 	$(MAKEINFO) --html --no-split --no-warn --force $<
@@ -139,9 +143,12 @@ DOC/ratint.aux: DOC/ratint.tex DOC/eqalign.sty
 	cd DOC/; latex ratint.tex
 DOC/ratint.dvi: DOC/ratint.tex DOC/eqalign.sty DOC/ratint.aux
 	cd DOC/; latex ratint.tex
-
-$(DESTDIR)$(pdfdir)ratint.pdf: DOC/ratint.tex DOC/eqalign.sty
+DOC/ratint.pdf: DOC/ratint.tex DOC/eqalign.sty
 	cd DOC/; make ratint.pdf
+DOC/AlgebraLambda.pdf: DOC/AlgebraLambda.tex
+	cd DOC/; make AlgebraLambda.pdf
+
+$(DESTDIR)$(pdfdir)ratint.pdf: DOC/ratint.pdf DOC/eqalign.sty
 	$(INSTALL_DATA) DOC/ratint.pdf $(DESTDIR)$(pdfdir)
 
 jacal-$(VERSION).info: jacal.texi version.txi
@@ -162,12 +169,11 @@ install-infoz:	$(DESTDIR)$(infodir)jacal.info.gz
 infoz:	install-infoz
 
 jacal.doc: jacal.1
-	nroff -man $< | ul -tunknown >$@
+	nroff -man $< >$@	#  | ul -tunknown
 install-man: jacal.1 installdirs
 	-$(INSTALL_DATA) $< $(DESTDIR)$(mandir)man1/
 
 pdfs:	$(DESTDIR)$(pdfdir)jacal.pdf $(DESTDIR)$(pdfdir)ratint.pdf
-dvis:	jacal.dvi DOC/ratint.dvi
 
 docs: $(DESTDIR)$(infodir)jacal.info.gz \
       $(DESTDIR)$(htmldir)jacal \
@@ -242,7 +248,7 @@ temp/jacal/: $(DESTDIR)$(pdfdir)ratint.pdf $(allfiles)
 prevdocs:	$(prevdocsdir)jacal_toc.html $(prevdocsdir)jacal.info
 $(prevdocsdir)jacal_toc.html:
 $(prevdocsdir)jacal.info: Makefile
-	cd $(prevdocsdir); unzip -a $(distdir)jacal*.zip
+	cd $(prevdocsdir); unzip -ao $(distdir)jacal-1c8.zip
 	rm $(prevdocsdir)jacal/jacal*.info
 	cd $(prevdocsdir)jacal; make jacal.info #; make jacal_toc.html
 	cd $(prevdocsdir); mv -f jacal/jacal*.info ./
@@ -254,11 +260,11 @@ README: jacal-$(VERSION).info Makefile
 	echo "This directory contains the distribution of jacal-$(VERSION).  Jacal is a" > $@
 	echo "symbolic mathematics system written in the programming language Scheme." >> $@
 	echo "" >> $@
-	echo "	     http://people.csail.mit.edu/jaffer/JACAL.html" >> $@
+	echo "	     https://www.gnu.org/software/jacal/" >> $@
 	echo "" >> $@
 	info -f jacal-$(VERSION).info -n 'Installation' -o - >> $@
 
-release: dist README pdfs # rpm
+release: dist README pdfs rpm
 	cvs tag -F jacal-$(VERSION)
 	cp ANNOUNCE $(htmldir)JACAL_ANNOUNCE.txt
 	$(RSYNC) $(htmldir)JACAL.html $(htmldir)JACAL_ANNOUNCE.txt \
@@ -270,19 +276,28 @@ release: dist README pdfs # rpm
 	  $(Uploadee):dist/
 #	upload $(distdir)README $(distdir)jacal-$(VERSION).zip ftp.gnu.org:gnu/jacal/
 
+gnurelease: info pdf pdfs README install dist rpm doszip w32install webman
+	cvs tag -F jacal-$(VERSION)
+	cp rw.math $(webdir)
+	make upgnu
+
 upzip:	$(snapdir)jacal.zip
 	$(RSYNC) $(snapdir)jacal.zip $(Uploadee):pub/
 
 gnupzip:
-	gnupload --to alpha.gnu.org:jacal $(snapdir)jacal.zip
+	gnupload --replace --to alpha.gnu.org:jacal $(snapdir)jacal.zip
 ## ??does this end up in http://www.artfiles.org/gnu.org/alpha/gnu/jacal/
 
 dist:	$(distdir)jacal-$(VERSION).zip
 $(distdir)jacal-$(VERSION).zip:	temp/jacal/
 	$(MAKEDEV) DEST=$(distdir) PROD=jacal ver=-$(VERSION) zip
 
-upgnu:	$(distdir)jacal-$(VERSION).tar.gz
-	cd $(distdir); gnupload --to ftp.gnu.org:jacal jacal-$(VERSION).tar.gz
+upgnu:	$(distdir)jacal-$(VERSION).tar.gz jacal.pdf DOC/ratint.pdf DOC/AlgebraLambda.pdf
+	cp -f jacal.pdf jacal-$(VERSION).pdf
+	gnupload --replace --to ftp.gnu.org:jacal jacal-$(VERSION).pdf
+	rm jacal-$(VERSION).pdf
+	cd $(distdir); gnupload --replace --to ftp.gnu.org:jacal jacal-$(VERSION).tar.gz jacal-$(VERSION).zip
+	cd DOC; gnupload --replace --to ftp.gnu.org:jacal ratint.pdf AlgebraLambda.pdf
 tar.gz:	$(distdir)jacal-$(VERSION).tar.gz
 $(distdir)jacal-$(VERSION).tar.gz:	temp/jacal/
 	$(MAKEDEV) DEST=$(distdir) PROD=jacal ver=-$(VERSION) tar.gz
@@ -336,6 +351,7 @@ updates:
 	$(CHPAT) $(VERSION) $(ver) $(CITES)
 	$(MAKE) README
 
+# make new ver=...
 new:	updates
 	echo @set JACALVERSION $(ver) > version.txi
 	echo @set JACALDATE `date +"%B %Y"` >> version.txi

@@ -16,7 +16,7 @@
 This manual is for JACAL (version @value{JACALVERSION}, @value{JACALDATE}),
 an interactive symbolic mathematics system.
 
-Copyright @copyright{} 1993-1999, 2002, 2006, 2007, 2020
+Copyright @copyright{} 1993-2000, 2002-2011, 2013, 2015, 2016, 2019, 2020, 2023-2026
 Free Software Foundation, Inc.
 
 @quotation
@@ -58,41 +58,36 @@ Documentation License.''
 @node Top, Overview, (dir), (dir)
 @top JACAL
 
-@c @noindent
-@c This manual documents the JACAL symbolic mathematics system.  JACAL
-@c @value{JACALVERSION} was released @value{JACALDATE}.  Current
-@c information about JACAL can be found on JACAL's @dfn{WWW} home page:
-
-@c @center @url{http://people.csail.mit.edu/jaffer/JACAL}
-
 @insertcopying
 
 @menu
 * Overview::                    Installing and Starting JACAL
+* Introduction::
 * Algebra::                     Operators and Commands
+* Transcendental Functions::
 * Calculus::                    Operators and Commands
-* Matrices and Tensors::        
+* Matrices and Tensors::
 * Lambda Calculus::             Functions
-* Miscellaneous::               
-* Flags::                       
-* Index::                       
+* Miscellaneous::
+* Flags::
+* Index::
 @end menu
 @end ifnottex
 
-@node Overview, Algebra, Top, Top
+@node Overview, Introduction, Top, Top
 @chapter Overview
 @cindex Overview
 
-JACAL is a symbolic mathematics system for the simplification and
-manipulation of equations and single and multiple valued algebraic
-expressions constructed of numbers, variables, radicals, and algebraic
-functions, differential, and holonomic functions.  In addition, vectors
-and matrices of the above objects are included.
+JACAL is an interactive symbolic mathematics program.  JACAL can
+manipulate and simplify equations, scalars, vectors, matrices, and
+tensors of (single and multiple valued) algebraic expressions
+containing numbers, variables, radicals, and algebraic and
+transcendental functions.
 
 JACAL @value{JACALVERSION} was released @value{JACALDATE}.  Current
 information about JACAL can be found on JACAL's @dfn{WWW} home page:
 
-@center @url{http://people.csail.mit.edu/jaffer/JACAL}
+@center @url{https://www.gnu.org/software/jacal/}
 
 JACAL, part of the GNU project, is free software, and you are welcome
 to redistribute it under certain conditions; See the file COPYING with
@@ -103,11 +98,9 @@ release, see the file @file{ANNOUNCE}.  For a list of the features that
 have changed over time, see the file @file{ChangeLog}.
 
 @menu
-* Authors and Bibliography::    
+* Authors and Bibliography::
 * Installation::                How to install JACAL on your system.
-* Running Jacal::               
-* Release Notes::               Useful information.
-* GNU Free Documentation License::  
+* GNU Free Documentation License::
 @end menu
 
 @node Authors and Bibliography, Installation, Overview, Overview
@@ -116,20 +109,84 @@ have changed over time, see the file @file{ChangeLog}.
 @cindex Bibliography
 
 @table @b
-@item Aubrey Jaffer
-Most of JACAL
 @item Michael Thomas
 Polynomial Factoring.
 @item Jerry D. Hedden
 Tensors.
+@item Aubrey Jaffer
+Most of JACAL
 @end table
 
 The maintainer can be reached as @samp{agj@@alum.mit.edu}.
+
+@subheading Project History
+@cindex History
+
+In December of 1987, in order to facilitate the design of constant
+impedance electrical filters (diplexers), I (Aubrey Jaffer) wrote a
+symbolic circuit analysis program.  It was written in LISP and
+implemented canonical rational expressions (ratio of multivariate
+polynomials) as its representation of the (small signal) Laplace
+Transform of currents, voltages, and impedances.  After doing some
+reading about symbolic manipulation, I became fascinated with the
+problem of canonical forms.  That interest produced JACAL, an
+interactive symbolic mathematics program similar to Maxima.
+
+I initially used JACAL for electronics modeling, handling equations
+complicated enough that error-free pencil and paper manipulations were
+difficult.  As JACAL's capabilities grew, more applications were
+found.
+
+Around 1993-1995 Mike Thomas added univariate and multivariate
+polynomial factorization.
+In 1993-1997, Jerry D. Hedden added tensor manipulations to JACAL.
+
+Having retired, in 2024 I finally implemented indefinite integration
+(actually anti-differentiation) of rational functions incorporating
+radicals.
+
+Spurred by my mathematical physics work in fluid-mechanics, I
+implemented logarithms, exponentials, Lambert-W (the inverse of
+@code{x*exp(x)}), and trigonometric functions as the solutions to
+ordinary differential equations (ODE).
 
 @subheading Bibliography
 @cindex Bibliography
 
 @table @asis
+
+@item [Richardson]
+Daniel Richardson.@*
+@cite{Some undecidable problems involving elementary functions of a real variable.}@*
+The Journal of Symbolic Logic, 33(4):514–520, 1968.
+
+@item [Caviness]
+B. F. Caviness.@*
+@cite{On canonical forms and simplification.}@*
+J. ACM, 17(2):385–396, April 1970.
+
+@item [Wang]
+Paul S. Wang.@*
+@cite{The undecidability of the existence of zeros of real elementary functions.}@*
+J. ACM, 21(4):586589, October 1974.
+
+@item [Ritt]
+J.F. Ritt.@*
+@cite{Differential Algebra. American Mathematical Society: Colloquium publications.}@*
+Dover Publications, 1966.
+
+@item [Cox]
+David Cox.@*
+@cite{Ideals, Varieties, and Algorithms An Introduction to Computational Algebraic Geometry and Commutative Algebra.}@*
+Undergraduate Texts in Mathematics.@*
+Springer New York, New York, NY, 2nd ed. 1997. edition, 1997.
+
+@item [SRE]
+B. F. Caviness and R. J. Fateman.@*
+@cite{Simplification of radical expressions.}@*
+In @cite{Proceedings of the Third ACM Symposium on Symbolic and Algebraic Computation, SYMSAC ’76}@*
+pages 329–338, New York, NY, USA, 1976. ACM.
+
 @item [ACP]
 @pindex ACP
 Donald Ervin Knuth.@*
@@ -168,9 +225,7 @@ Todd R. Eigenschink and Aubrey Jaffer.@*
 @end ifinfo
 @end table
 
-
-
-@node Installation, Running Jacal, Authors and Bibliography, Overview
+@node Installation, GNU Free Documentation License, Authors and Bibliography, Overview
 @section Installation
 @ifset html
 <A NAME="Installation"> </A>
@@ -178,40 +233,44 @@ Todd R. Eigenschink and Aubrey Jaffer.@*
 
 @cindex Scheme
 The JACAL program is written in the Algorithmic Language @dfn{Scheme}.
-So you must obtain and install a Scheme implementation in order to run
-it.  The installation procedures given here use the SCM Scheme
-implementation.  If your system has a Scheme (or Guile) implementation
-installed, then the @samp{scm} steps are unnecessary.
+So you must have or install a Scheme implementation in order to run
+it.  JACAL also requires the SLIB Portable Scheme library which is
+available from @uref{https://www.gnu.org/software/slib}.  The
+installation procedures given here provide the SCM Scheme
+implementation along with SLIB and JACAL.  If your system has a Scheme
+(or Guile) implementation installed, then the @samp{scm} steps are
+unnecessary.
 
-JACAL also requires the SLIB Portable Scheme library which is available
-from @uref{http://people.csail.mit.edu/jaffer/SLIB}.
+@deftp System Unix
+@deftpx System GNU/Linux
 
-@deftp System x86_64 GNU/Linux with Redhat Package Manager (rpm)
+If you lack permission to install into /usr/local/, you can install
+into your home directory by changing @code{/usr/local/} to your home
+directory in this script.
+
 @example
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.x86_64.rpm
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.noarch.rpm
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.noarch.rpm
-rpm -U scm-5f3-1.x86_64.rpm slib-3b7-1.noarch.rpm jacal-1c8-1.noarch.rpm
-rm scm-5f3-1.x86_64.rpm slib-3b7-1.noarch.rpm jacal-1c8-1.noarch.rpm
+wget https://ftp.gnu.org/gnu/scm/scm-5f5.tar.gz
+wget https://ftp.gnu.org/gnu/slib/slib-3c2.tar.gz
+wget https://ftp.gnu.org/gnu/jacal/jacal-2a1.tar.gz
+tar -xzf scm-5f5.tar.gz
+tar -xzf slib-3c2.tar.gz
+tar -xzf jacal-2a1.tar.gz
+(cd slib-3c2; ./configure --prefix=/usr/local/; make install)
+(cd scm-5f5; ./configure --prefix=/usr/local/; make scm; make install)
+(cd jacal-2a1; ./configure --prefix=/usr/local/; make install)
+# rm scm-5f5.tar.gz slib-3c2.tar.gz jacal-2a1.tar.gz
 @end example
 
 The command @samp{jacal} will start an interactive session.
 @end deftp
 
-
-@deftp System Unix
-@deftpx System GNU/Linux
+@deftp System x86_64 GNU/Linux with Redhat Package Manager (rpm)
 @example
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3.zip
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7.zip
-wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8.zip
-unzip -ao scm-5f3.zip
-unzip -ao slib-3b7.zip
-unzip -ao jacal-1c8.zip
-(cd slib; ./configure --prefix=/usr/local/; make install)
-(cd scm; ./configure --prefix=/usr/local/; make scm; make install)
-(cd jacal; ./configure --prefix=/usr/local/; make install)
-rm scm-5f3.zip slib-3b7.zip jacal-1c8.zip
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f5-1.x86_64.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3c2-1.noarch.rpm
+wget http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-2a1-1.noarch.rpm
+rpm -U scm-5f5-1.x86_64.rpm slib-3c2-1.noarch.rpm jacal-2a1-1.noarch.rpm
+# rm scm-5f5-1.x86_64.rpm slib-3c2-1.noarch.rpm jacal-2a1-1.noarch.rpm
 @end example
 
 The command @samp{jacal} will start an interactive session using ELK,
@@ -219,27 +278,25 @@ Gambit, Gauche, Guile, Larceny, MIT-Scheme, MzScheme, Scheme48, SCM,
 or SISC.  Type @samp{jacal --help} for instructions.
 @end deftp
 
-
-@deftp System Apple
-@uref{http://www.io.com/~cobblers/scm/} has downloads and utilities for
-installing SCM and SLIB on Macintosh computers.
-@end deftp
-
+@c @deftp System Apple
+@c @uref{http://www.io.com/~cobblers/scm/} has downloads and utilities for
+@c installing SCM and SLIB on Macintosh computers.
+@c @end deftp
 
 @deftp System x86 Microsoft
 Download and run
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.exe},@*
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.exe}, and@*
-@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.exe}.
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3c2-1.exe},@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f4-1.exe}, and@*
+@uref{http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-2a1-1.exe}.
 @end deftp
 
 
-@subheading Compiling Jacal
-@cindex Compiling Jacal
+@c @subheading Compiling Jacal
+@c @cindex Compiling Jacal
 
-For Scheme implementations with compilers, it is worthwhile to
-compile SLIB files, and the JACAL files @file{types.scm} and
-@file{poly.scm}.
+@c For Scheme implementations with compilers, it is worthwhile to
+@c compile SLIB files, and the JACAL files @file{types.scm} and
+@c @file{poly.scm}.
 
 @c  SLIB has initialization files for most Scheme implementations.  It
 @c  is available from the same locations and vendors as JACAL.
@@ -252,8 +309,69 @@ compile SLIB files, and the JACAL files @file{types.scm} and
 @c @end iftex
 
 
+@subheading Manifest
+@cindex Manifest
 
-@node Running Jacal, Release Notes, Installation, Overview
+@table @asis
+@item COPYING
+details the LACK OF WARRANTY for Jacal and the conditions for
+distributing Jacal.
+@item HELP
+is a short introduction to using Jacal.
+@item ChangeLog
+documents changes to Jacal.
+
+@item jacal
+is a unix (sh) script to start an interactive jacal session.
+@item rw.math
+is a batch file of Robertson-Walker model of General Relativity.
+"batch(rw.math);" to execute its commands in Jacal.
+@item test.math
+is a batch file which tests Jacal.
+@item jacal.texi
+is documentation on how to use jacal in TeXinfo format.
+@item DOC
+has files telling about how jacal works.
+
+@table @asis
+@item algdenom
+gives an algorithm for clearing radicals and other algebraic field
+extensions from denominators.
+@item grammar
+explains how to create new grammars.
+@item lambda
+explains mid-level data formats. From a Dr. Dobbs article.
+@item ratint.pdf
+article explaining jacal's integration algorithm and transcendental
+function simplification.
+@end table
+
+@item math.scm
+is the file you load into scheme in order to run jacal.
+@item toploads.scm
+contains comments describing the rest of the files.
+@item modeinit.scm
+has initializations for modes in Jacal.
+@end table
+
+
+@node GNU Free Documentation License,  , Installation, Overview
+@section GNU Free Documentation License
+
+@include fdl.texi
+
+@node Introduction, Algebra, Overview, Top
+@chapter Introduction
+
+
+@menu
+* Running Jacal::
+* Canonical::
+* Release Notes::
+* Conventions::
+@end menu
+
+@node Running Jacal, Canonical, Introduction, Introduction
 @section Running Jacal
 @cindex Running Jacal
 
@@ -274,11 +392,11 @@ where @file{/usr/local/lib/jacal/} is a path to the JACAL directory.
 JACAL should then print:
 
 @example
-JACAL version @value{JACALVERSION}, Copyright 1989-2020 Aubrey Jaffer
+JACAL version @value{JACALVERSION}, Copyright 1989-2026 Aubrey Jaffer
 JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `(terms)' for details.
-;;; Type (math); to begin.
+;;; Type (math); to begin from Scheme session.
 @end example
 
 @noindent
@@ -288,30 +406,36 @@ Do as it says:
 (math)
 @result{}
 type qed; to return to scheme, type help; for help.
-e0 : 
+(%0000)
 @end example
 
 @noindent
 And you are ready to try the commands described in the rest of the
 manual.
 
-@subheading Demonstrating Jacal
-@cindex Demonstrating Jacal
-
-There are several demonstration files in the @file{jacal} directory.
-To run, use the batch command @ref{Miscellaneous, batch}.
-
-@table @samp
-@item batch("demo");
-Demonstrates a variety of JACAL features.
-@item batch("test.math");
-Tests each operator.
-@item batch("rw.math");
-Demonstrates tensors and The Robertson-Walker Cosmology Model.
-@end table
-
 @subheading Recovery from Errors
 @cindex Recovery from Errors
+
+JACAL tries to catch any errors it encounters and print an informative
+message before returning to the prompt.  If there are unmatched
+parentheses or missing delimiters in your typed command, type the
+closing delimiters, digits for ``expression missing'', and semicolon
+(followed by newline) until it returns to the prompt:
+
+@example
+@group
+(%0000) (@{adf;
+          ^ "mismatched delimiter" #\; expecting #\@} 
+;
+^ "mismatched delimiter" #\; expecting #\) 
+;
+%0000: adf
+(%0001) 
+@end group
+@end example
+
+If that is unsuccessful, typing @samp{CTRL-C} will likely return you
+to the underlying Scheme session.
 
 As JACAL is a complicated program there are bugs which will occasionally
 cause the program to stop with some sort of error reported by the
@@ -320,44 +444,202 @@ you can usually continue your session by typing @code{(math)}.  The
 expression which was input to JACAL just before the error will be lost
 but you should be able to otherwise continue with your session.
 
+If you define identifiers which have already been used in formulas,
+the earlier uses are not updated.  You can restore a name to its
+unassigned status by defining it to itself:
+
+@example
+@group
+(%0001) a: 5/7;
+a: 5/7
+(%0001) a+3;
+       26
+%0001: --
+       7
+(%0002) a:a;
+a: a
+(%0002) a+3;
+%0002: 3 + a
+@end group
+@end example
+
+If the underlying scheme implementation supports a @code{(restart)}
+command, then typing @code{restart();} in JACAL will re-initiate the
+session, forgetting all the commands and formulas you entered
+previously:
+
+@example
+@group
+(%0003) restart();
+..............
+JACAL version 2a1, Copyright 1989-2026 Aubrey Jaffer
+JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `(terms)' for details.
+;;; Type (math); to begin from Scheme session.
+Type qed; to return to Scheme, type help; for help.
+(%0000)
+@end group
+@end example
+
 @subheading Stopping Jacal
 @cindex Stopping Jacal
 
 The command @code{quit();} will end your JACAL session.
 
 With non-interactive Scheme implementations the JACAL command
-@code{qed();} or typing the end-of-file character (@key{C-z} on MS-DOS
+@code{qed;} or typing the end-of-file character (@key{C-z} on MS-DOS
 and VMS, @key{C-d} on others) will end your JACAL session.
 
-The command @code{qed();} will return to the interactive Scheme session.
+The command @code{qed;} will return to the interactive Scheme session.
 Typing @code{(math)} will return to the JACAL session.
 
 From the interactive Scheme session @code{(exit)} or possibly an
 end-of-file character will terminate the session.
 
 
+@node Canonical, Release Notes, Running Jacal, Introduction
+@section Canonical
+@cindex Canonical
 
-@node Release Notes, GNU Free Documentation License, Running Jacal, Overview
+The canonical aspect of JACAL is that all equations and expressions
+involving variables undergo nomalization such that two formulas which
+are equivalent have the same representation.  This representation is
+affected by variable ordering; substituting one variable name for
+another looks different but expresses the same mathematical
+constraint.
+
+As with all symbolic algebra systems, roots of unity (1) are not
+uniquely normalizable.  JACAL's guarantees apply only to expressions
+involving variables.
+
+JACAL prioritizes simplicity of expressions over full canonical
+reductions.  For instance, all trigonometric functions can be
+expressed as (complex number) exponentials and logarithms; but it is
+difficult to understand that representation.  Instead, trigonometric
+expressions are represented in terms of tangent (tan) and arctangent
+(atan).
+
+A transcendental function composed with its inverse cancels each other
+if the argument to the inverse function involves at least one
+variable.  @code{exp(@var{integer}*log(@var{argument}))} reduces to
+@code{@var{argument}^(@var{integer})} if @var{argument} involves at
+least one variable.  @code{exp(log(@var{argument})/@var{integer})}
+does not reduce if @var{integer} is greater than one.  The @code{^}
+function reduces this case to a radical:
+
+@example
+@group
+(%0000) %expt(a+x,1/5);
+           log(a + x)
+%0000: exp(----------)
+               5
+(%0001) (a+x)^(1/5);
+              1/5
+%0001: (a + x)
+@end group
+@end example
+
+Trignometric functions have similar reductions:
+
+@example
+@group
+(%0002) sin(asin(x));
+%0002: x
+(%0003) asin(sin(x));
+%0003: x
+(%0004) sin(3*asin(x));
+                  3
+%0004: - 3 x + 4 x
+(%0005) tan(3*atan(x));
+                3
+       - 3 x + x
+%0005: ----------
+               2
+       -1 + 3 x
+(%0006) atan(3*tan(x));
+%0006: atan(3 tan(x))
+(%0007) tan(6*atan(x));
+                   3      5
+         6 x - 20 x  + 6 x
+%0007: ----------------------
+               2       4    6
+       1 - 15 x  + 15 x  - x
+@end group
+@end example
+
+The Lambert-W function (@code{%W}) is the inverse of
+@code{@var{z}*exp(@var{z})}.  Currently the reduction works in one
+direction; the other will eventually be supported:
+
+@example
+@group
+(%0008) %W(x*exp(x));
+%0008: x
+(%0009) %W(x)*exp(%W(x));
+%0009: %W(x) exp(%W(x))
+@end group
+@end example
+
+Because transcendental functions are defined by their differential
+equations, JACAL can produce their derivatives:
+
+@example
+@group
+(%0015) diff(%W(x),x);
+          %W(x)
+%0015: -----------
+       x + x %W(x)
+(%0016) diff(tan(x),x);
+                   2
+%0016: 1 + (tan(x))
+(%0017) diff(sin(x),x);
+               1
+%0017: ------------------
+                    2 1/2
+       (1 + (tan(x)) )
+(%0018) diff(cos(x),x);
+              tan(x)
+%0018: --------------------
+                      2 1/2
+       - (1 + (tan(x)) )
+(%0019) diff(%expt(x,1/5),x);
+           log(x)
+       exp(------)
+             5
+%0019: -----------
+           5 x
+(%0020) diff(x^(1/5),x);
+         1
+%0020: ------
+          4/5
+       5 x
+@end group
+@end example
+
+The usual algebraic reductions also work:
+@example
+(%0024) sin(x/a)^2+cos(x/a)^2;
+%0024: 1
+@end example
+
+JACAL provides some functions which it does not canonicalize:
+@code{imagpart}, @code{realpart}, @code{abs}, and @code{cabs}.
+
+
+@node Release Notes, Conventions, Canonical, Introduction
 @section Release Notes
 @cindex Release Notes
 
-With the standard input grammar, the precedence of @samp{-} as a prefix
-behaves strangely.  @code{a^-b*c} becomes @code{a^(-b*c)} while
-@code{a^b*c} @result{} @code{(a^b)*c}.
+JACAL-2a1 is a major release incorporating transcendental functions.
 
-Using @code{divide} to divide a polynomial by an integer does not work.
+Do not raise transcendental functions to powers like @code{sin^2(x)}.
+Instead, use @code{sin(x)^2}.
 
-The command @code{example} executes the example it gives.  This can lead
-to unpredictable results if the variables and constants in the example
-have already been given values by the user.
+Trigonometric sum and difference of angle formulas do not reduce.
 
-The function @code{minor} should be modified to accept lists for
-@var{row} and @var{col}.
-
-Resultant might be modified to compute the resultant of a system of
-polynomials with respect to a list of variables.
-
-@subheading Conventions
+@node Conventions,  , Release Notes, Introduction
+@section Conventions
 @cindex Conventions
 
 Things that are labeled as Operators can occur in expressions output by
@@ -366,82 +648,29 @@ do not generally occur in expressions output by Jacal.  Things that are
 labeled as flags are @code{set} to control aspects of the Jacal
 environment.
 
-The examples throughout this text were produced using @code{SCM}.
+The examples throughout this text were produced using the SCM Scheme
+implementation.
 
-Jacal has several grammars it understands.  The @code{standard} grammar
-is used in this manual.  It is like simple @code{TeX} grammar and algol
-family computer languages.
+Jacal has several input grammars it understands.  The @code{standard}
+input grammar (which is the same as the @code{std} and @code{disp2d}
+input grammars) is used in this manual.  It is very similar to
+@code{Maxima} input grammar and the Algol family of computer
+languages.
 
-Identifier names are case sensitive and can be any number of characters
-long.
-
-@subheading Manifest
-@cindex Manifest
-
-@table @asis
-@item COPYING
-details the LACK OF WARRANTY for Jacal and the conditions for
-distributing Jacal.
-@item HELP
-is online introduction to using Jacal.
-@item ChangeLog
-documents changes to Jacal.
-
-@item jacal
-is a unix (sh) script to start an interactive jacal session.
-@item demo
-demonstrates batch file use.  "batch(demo);" to use in jacal.
-@item rw.math
-is a batch file of Robertson-Walker model of General Relativity.
-@item test.math
-is a batch file which tests Jacal.
-@item jacal.texi
-is documentation on how to use jacal in TeXinfo format.
-@item DOC
-has files telling about how jacal works.
-
-@table @asis
-@item algdenom
-gives an algorithm for clearing radicals and other algebraic field
-extensions from denominators.
-@item grammar
-explains how to create new grammars.
-@item history
-gives a little history of jacal.
-@item lambda
-explains mid-level data formats. From a Dr. Dobbs article.
-@item ratint.tex
-article explaining jacal's integration algorithm.
-@end table
-
-@item math.scm
-is the file you load into scheme in order to run jacal.
-@item toploads.scm
-contains comments describing the rest of the files.
-@item modeinit.scm
-has initializations for modes in Jacal.
-@item view.scm
-is a program for viewing TeX expressions.
-@end table
+Identifier names are case sensitive.
 
 
-@node GNU Free Documentation License,  , Release Notes, Overview
-@section GNU Free Documentation License
-
-@include fdl.texi
-
-
-@node Algebra, Calculus, Overview, Top
+@node Algebra, Transcendental Functions, Introduction, Top
 @chapter Algebra
 @cindex Algebra
 
 @menu
-* Algebraic Operators::         
-* Algebraic Commands::          
-* Rational Expression::         
-* Polynomials::                 
-* Interpolation::               
-* Factoring::                   
+* Algebraic Operators::
+* Algebraic Commands::
+* Rational Expression::
+* Polynomials::
+* Interpolation::
+* Factoring::
 @end menu
 
 @node Algebraic Operators, Algebraic Commands, Algebra, Algebra
@@ -455,34 +684,20 @@ accomplished by means of the infix operator @code{+}. For example,
 
 @example
 @group
-e2 : a:[[1, 3, 5], [2, 4, 7]];
-
-    [1  3  5]
-e2: [       ]
-    [2  4  7]
-
-e3 : b:[2, 4];
-
-e3: [2, 4]
-
-e4 : a + b;
-
-    [3  5  7 ]
-e4: [        ]
-    [6  8  11]
-
-e5 : 3 + 2;
-
-e5: 5
-
-e6 : c + b;
-
-e6: [2 + c, 4 + c]
-
-e7 : e1 + e5;
-
-         2   2
-e7: 5 + (8 a + 12 a ) b
+(%0000) a:[[1, 3, 5], [2, 4, 7]];
+   [ 1  3  5 ]
+a: [         ]
+   [ 2  4  7 ]
+(%0000) b:[2, 4];
+b: [2, 4]
+(%0000) a + b;
+       [ 3  5  7  ]
+%0000: [          ]
+       [ 6  8  11 ]
+(%0001) 3 + 2;
+%0001: 5
+(%0002) c + b;
+%0002: [2 + c, 4 + c]
 @end group
 @end example
 @end deffn
@@ -495,13 +710,10 @@ subtraction or the unary minus.
 
 @example
 @group
-e1 : -[1,2,3];
-
-e1: [-1, -2, -3]
-
-e2 : 3-7;
-
-e2: -4
+(%0004) -[1,2,3];
+%0004: [-1, -2, -3]
+(%0005) 3-7;
+%0005: -4
 @end group
 @end example
 @end deffn
@@ -519,21 +731,14 @@ operators (binary plus-or-minus, binary minus-or-plus). The value
 
 @example
 @group
-e7 : u:+/-3;
-
-e7: 3 %sqrt1
-
-e8 : u^2;
-
-e8: 9
-
-e9 : +/-(u);
-
-e9: 3
-
-e10 : u-/+3;
-
-e10: b-/+(3 %sqrt1, 3)
+(%0006) u:+/-3;
+u: 3 %sqrt1
+(%0006) u^2;
+%0006: 9
+(%0007) +/-(u);
+%0007: 3
+(%0008) u-/+3;
+%0008: 0
 @end group
 @end example
 @end deffn
@@ -546,10 +751,9 @@ operator @code{*}.  For example,
 
 @example
 @group
-e1 : (2 + 3 * a) * 4 * a * b^2;
-
-               2   2
-e1: (8 a + 12 a ) b
+(%0000) (2 + 3 * a) * 4 * a * b^2;
+                  2   2
+%0000: (8 a + 12 a ) b
 @end group
 @end example
 
@@ -570,11 +774,12 @@ returned by @code{6 / 2} is @code{3}.
 
 @example
 @group
-e3 : (x^2 - y^2) / (x - y);
-
-e3: x + y
+(%0001) (x^2 - y^2) / (x - y);
+%0001: x + y
 @end group
 @end example
+
+Note: using @code{divide} to divide a polynomial by an integer does not work.
 @end deffn
 
 @deffn Operator ^ expression exponent
@@ -588,10 +793,9 @@ square matrix to a power.  Instead, one should use @code{^^}.
 
 @example
 @group
-e7 : (1+x)^4;
-
-                 2      3    4
-e7: 1 + 4 x + 6 x  + 4 x  + x
+(%0002) (1+x)^4;
+                    2      3    4
+%0002: 1 + 4 x + 6 x  + 4 x  + x
 @end group
 @end example
 @end deffn
@@ -599,16 +803,17 @@ e7: 1 + 4 x + 6 x  + 4 x  + x
 @deffn Operator = expression1 expression2
 
 In Jacal, the equals sign @code{=} is @emph{not} used for conditionals
-and it is @emph{not} used for assignments.  To assign one value to
-another, use either @code{:} or @code{:=}.  The operator @code{=} merely
-returns a value of the form @code{0 = @var{expression}}.  The value
-returned by @code{a = b}, for example is @code{0 = a - b}.
+and it is @emph{not} used for assignments.  To assign a value to an
+identifier, use either @code{:} or @code{:=}.  The operator @code{=}
+merely returns a value of the form @code{0 = @var{expression}}.  The
+value returned by @code{a = b}, for example is @code{0 = a - b}.
 
 @example
 @group
-e6 : 1=2;
+(%0003) 1=2;
 
-e6: 0 = -1
+;;; eliminate singular-reduction [-1]
+
 @end group
 @end example
 @end deffn
@@ -621,11 +826,10 @@ components of impedances @var{Z1} and @var{Z2}:
 
 @example
 @group
-e1 : Z1 || Z2;
-
-     Z1 Z2
-e1: -------
-    Z1 + Z2
+(%0003) Z1 || Z2;
+        Z1 Z2
+%0003: -------
+       Z1 + Z2
 @end group
 @end example
 @end deffn
@@ -645,14 +849,11 @@ variables @var{var_1}, @dots{}, @var{var_m} from the equations
 
 @example
 @group
-e39 : eliminate([x^2+y=0,x^3+y=0],[x]);
-
+(%0004) eliminate([x^2+y=0,x^3+y=0],[x]);
                 2
-e39: 0 = - y - y
-
-e40 : eliminate([x+y+z=3,x^2+y^2+z^2=3,x^3+y^3+z^3=3],[x,y]);
-
-e40: 0 = 1 - z
+%0004: 0 = y + y
+(%0005) eliminate([x+y+z=3,x^2+y^2+z^2=3,x^3+y^3+z^3=3],[x,y]);
+%0005: 0 = -1 + z
 @end group
 @end example
 @end deffn
@@ -665,15 +866,12 @@ The equation @var{eqn} must contain an occurrence of variable @var{var}.
 extracting an expression from an equation.
 
 @example
-e0 : a*x+b*y+c = 0;
-
-e0: 0 = c + a x + b y
-
-e1 : suchthat(x, e0);
-
-    - c - b y
-e1: ---------
-        a
+(%0000) a*x+b*y+c = 0;
+%0000: 0 = c + a x + b y
+(%0001) suchthat(x,%0000);
+       - c - b y
+%0001: ---------
+           a
 @end example
 @end deffn
 
@@ -683,11 +881,10 @@ If an expression rather than an equation is given to @code{suchthat}, it
 is as though the equation @code{@var{exp}=0} was given.
 
 @example
-e2 : suchthat(x, e0);
-
-    - c - b y
-e2: ---------
-        a
+(%0002) suchthat(x, a*x+b*y+c);
+       - c - b y
+%0002: ---------
+           a
 @end example
 @end deffn
 
@@ -698,33 +895,54 @@ When used in combination with the @samp{@{ @}} notation for @code{or},
 the set notation used by some textbooks results.
 
 If @var{var} in @var{eqn} has multiple roots, a named
-@dfn{field extension} will be introduced to represent any one of those
+@dfn{ring extension} will be introduced to represent any one of those
 roots.  When multiple values are returned, the result (in @code{disp2d}
 and @code{standard} grammars) is wrapped with @samp{@{ @}}.
 
 @example
-e3 : x | a*x^2 + b*x + c;
-
-                               2
-ext3: @{:@@ | 0 = c + b :@@ + a :@@ @}
-e3: ext3
-
-e4 : e3 ^ 2;
-
-    - c - b ext3
-e4: ------------
-         a
+(%0003) x | a*x^2 + b*x + c;
+                            2
+%ext1: c + b %ext1 + a %ext1
+(%0003) %ext1^2;
+       - c - b %ext1
+%0003: -------------
+             a
 @end example
 @end deffn
 
-@deffn Command extrule extsym
-Returns the rule defining named field extension @var{extsym}.
+@deffn Command definition symbol
+Returns the rule or expression defining @var{symbol}.
 
 @example
-e5 : extrule(ext3);
-
-                           2
-e5: 0 = c + b ext3 + a ext3
+@group
+(%0000) @{x | a*x^2 + b*x + c@};
+                            2
+%ext1: c + b %ext1 + a %ext1
+(%0000) definition(%ext1);
+                                2
+%0000: 0 = c + b %ext1 + a %ext1
+(%0001) definition(sqrt);
+                    2/2
+%0001: 0 = - @@1 + @@1
+(%0002) definition(sqrt(x));
+                  2/2
+%0002: 0 = - x + x
+(%0003) definition(tan);
+                          2
+%0003: 0 = - @@1' + (1 + @@1 ) @@2'
+(%0004) definition(tan(x));
+                                      2
+%0004: 0 = - (tan(x))' + (1 + (tan(x)) ) x'
+(%0005) definition(%tanP);
+%0005: %tanP          + @@2 %tanQ
+            [-1 + @@1]           [-1 + @@1]
+(%0006) definition(%tanPQ);
+       %tanP
+            [@@1]
+%0006: ---------
+       %tanQ
+            [@@1]
+@end group
 @end example
 @end deffn
 
@@ -741,23 +959,20 @@ will return the multiple values.
 
 @example
 @group
-e1 : or(x=2,y=3);
-
-e1: 0 = -6 + 3 x + (2 - x) y
-
-e2 : or(2,3);
-
-                            2
-e2: @{:@@ | 0 = -6 + 5 :@@ - :@@ @}
-
-e3 : e2^2;
-
-                              2
-e3: @{:@@ | 0 = -36 + 13 :@@ - :@@ @}
-
-e4 : or(x=2,17);
-
-e4: 17
+(%0000) or(x=2,y=3);
+%0000: 0 = 6 - 3 x + (-2 + x) y
+(%0001) or(2,3);
+                           2
+%0001: @{@@ | 0 = 6 - 5 @@ + @@ @}
+(%0002) or(2,3)^2;
+                             2
+%0002: @{@@ | 0 = 36 - 13 @@ + @@ @}
+(%0003) factor %0001;
+%0003: 3 2
+(%0004) factor %0002;
+%0004: 9 4
+(%0005) or(x=2,17);
+%0005: 17
 @end group
 @end example
 
@@ -765,10 +980,10 @@ e4: 17
 @code{or}:
 
 @example
-e5 : @{+1, -1@};
+(%0012) : @{+1, -1@};
 
                      2
-e5: @{:@@ | 0 = -1 + :@@ @}
+%0012: @{:@@ | 0 = -1 + :@@ @}
 @end example
 @end deffn
 
@@ -784,18 +999,13 @@ returns a numerator of the expression.
 
 @example
 @group
-e25 : num((x^2+y^2)/(x^2-y^2));
-
-        2    2
-e25: - x  - y
-
-e26 : num(7/4);
-
-e26: 7
-
-e27 : num(7/(4/3));
-
-e27: 21
+(%0013) num((x^2+y^2)/(x^2-y^2));
+          2    2
+%0013: - x  - y
+(%0014) num(7/4);
+%0014: 7
+(%0015) num(7/(4/3));
+%0015: 21
 @end group
 @end example
 @end deffn
@@ -807,9 +1017,11 @@ rational expression.
 
 @example
 @group
-e26 : denom(4/5);
-
-e26: 5
+(%0016) denom(4/5);
+%0016: 5
+(%0017) denom((x^2+y^2)/(x^2-y^2));
+          2    2
+%0017: - x  + y
 @end group
 @end example
 @end deffn
@@ -821,13 +1033,10 @@ returns a list of the variables that occur in that expression.
 
 @example
 @group
-e7 : listofvars(x^2+y^3);
-
-e7: [x, y]
-
-e8 : listofvars((x^2+y^3)/(2*x^7+y*x+z));
-
-e8: [z, x, y]
+(%0018) listofvars(x^2+y^3);
+%0018: [x, y]
+(%0019) listofvars((x^2+y^3)/(2*x^7+y*x+z));
+%0019: [x, y, z]
 @end group
 @end example
 @end deffn
@@ -846,6 +1055,25 @@ Returns all but the coefficient of @code{%i} in expression @var{z};
 
 Returns the square root of the sum of the squares of the @code{realpart}
 and the @code{imagpart} of @var{z}.
+
+@example
+@group
+(%0020) abs(z);
+%0020: |z|
+(%0021) abs(-z);
+%0021: |- z|
+(%0022) abs(-3);
+%0022: 3
+(%0023) abs(1/%i);
+%0023: 1
+(%0024) realpart(1/%i);
+%0024: 0
+(%0025) imagpart(1/%i);
+%0025: -1
+(%0026) imagpart(3/%i);
+%0026: -3
+@end group
+@end example
 @end deffn
 
 
@@ -867,15 +1095,14 @@ of polynomial or equation @var{poly}.
 
 @example
 @group
-e26 : degree(a*x*x + b*y*x + c*y*y + d*x + e*y + f, y);
-
-e26: 2
-
-e27 : degree(a*x*x + b*y*x + c*y*y + d*x + e*y + f);
-
-e27: 3
+(%0028) degree(a*x*x + b*y*x + c*y*y + d*x + e*y + f, y);
+%0028: 2
+(%0029) degree(a*x*x + b*y*x + c*y*y + d*x + e*y + f);
+%0029: 3
 @end group
 @end example
+
+Note that all roots and radicals count as degree 1.
 @end deffn
 
 @deffn Operator coeff poly var
@@ -892,22 +1119,15 @@ coefficients. For example,
 
 @example
 @group
-e14 : coeff((x + 2)^4, x, 3);
-
-e14: 8
-
-e15 : (x + 2)^4;
-
-                     2      3    4
-e15: 16 + 32 x + 24 x  + 8 x  + x
-
-e16 : coeff((x + 2)^4, x);
-
-e16: 32
-
-e18 : coeffs((x + 2)^4, x);
-
-e18: [16, 32, 24, 8, 1]
+(%0009) coeff((x + 2)^4, x, 3);
+%0009: 8
+(%0010) (x + 2)^4;
+                       2      3    4
+%0010: 16 + 32 x + 24 x  + 8 x  + x
+(%0011) coeff((x + 2)^4, x);
+%0011: 32
+(%0012) coeffs((x + 2)^4, x);
+%0012: [16, 32, 24, 8, 1]
 @end group
 @end example
 @end deffn
@@ -921,15 +1141,12 @@ list of coefficients.
 
 @example
 @group
-e15 : poly(y, [16, 32, 24, 8, 1]);
-
-                     2      3    4
-e15: 16 + 32 y + 24 y  + 8 y  + y
-
-e16 : poly(y, 16, 32, 24, 8, 1);
-
-                     2      3    4
-e16: 16 + 32 y + 24 y  + 8 y  + y
+(%0013) poly(y, [16, 32, 24, 8, 1]);
+                       2      3    4
+%0013: 16 + 32 y + 24 y  + 8 y  + y
+(%0014) poly(y, 16, 32, 24, 8, 1);
+                       2      3    4
+%0014: 16 + 32 y + 24 y  + 8 y  + y
 @end group
 @end example
 @end deffn
@@ -943,13 +1160,10 @@ polynomial will not necessarily match those in the equation creating
 
 @example
 @group
-e17 : 2*a = 4*c;
-
-e17: 0 = - a + 2 c
-
-e18 : poly(e17);
-
-e18: - a + 2 c
+(%0015) 2*a = 4*c;
+%0015: 0 = - a + 2 c
+(%0016) poly(%0015);
+%0016: - a + 2 c
 @end group
 @end example
 @end deffn
@@ -963,10 +1177,9 @@ divided by the content.
 
 @example
 @group
-e24 : content(2*x*y+4*x^2*y^2,y);
-
-                     2
-e24: [2 x, y + 2 x y ]
+content(2*x*y+4*x^2*y^2,y);
+                      2
+%0017: [2 x, y + 2 x y ]
 @end group
 @end example
 @end deffn
@@ -985,29 +1198,20 @@ the third argument.
 
 @example
 @group
-e5 : divide(x^2+y^2,x-7*y^2,x);
-
-            2    2       4
-e5: [x + 7 y , y  + 49 y ]
-
-e6 : divide(-7,3);
-
-e6: [-2, -1]
-
-e11 : divide(x^2+y^2+z^2,x+y+z);
-
-                       2              2
-e11: [- x - y + z, 2 x  + 2 x y + 2 y ]
-
-e14 : divide(x^2+y^2+z^2,x+y+z,y);
-
-                       2              2
-e14: [- x + y - z, 2 x  + 2 x z + 2 z ]
-
-e15 : divide(x^2+y^2+z^2,x+y+z,z);
-
-                       2              2
-e15: [- x - y + z, 2 x  + 2 x y + 2 y ]
+(%0018) divide(x^2+y^2,x-7*y^2,x);
+               2   2       4
+%0018: [x + 7 y , y  + 49 y ]
+(%0019) divide(-7,3);
+%0019: [-2, -1]
+(%0020) divide(x^2+y^2+z^2,x+y+z);
+                        2              2
+%0020: [- x - y + z, 2 x  + 2 x y + 2 y ]
+(%0021) divide(x^2+y^2+z^2,x+y+z,y);
+                        2              2
+%0021: [- x + y - z, 2 x  + 2 x z + 2 z ]
+(%0022) divide(x^2+y^2+z^2,x+y+z,z);
+                        2              2
+%0022: [- x - y + z, 2 x  + 2 x y + 2 y ]
 @end group
 @end example
 @end deffn
@@ -1032,27 +1236,18 @@ results use symmetric representation.
 
 @example
 @group
-e19 : x^4+4 mod 3;
-
-          4
-e19: 1 + x
-
-e20 : x^4+4 mod x^2=2;
-
-e20: 8
-
-e22 : mod(x^3*a*7+x*8+34, -3);
-
-                3
-e22: 1 - x + a x
-
-e23 : mod(5,2);
-
-e23: 1
-
-e24 : mod(x^4+4,x^2=2,x);
-
-e24: 8
+(%0023) x^4+4 mod 3;
+            4
+%0023: 1 + x
+(%0024) x^4+4 mod x^2=2;
+%0024: 8
+(%0025) mod(x^3*a*7+x*8+34, -3);
+                  3
+%0025: 1 - x + a x
+(%0026) mod(5,2);
+%0026: 1
+(%0027) mod(x^4+4,x^2=2,x);
+%0027: 8
 @end group
 @end example
 @end deffn
@@ -1066,14 +1261,11 @@ integers.
 
 @example
 @group
-e1 : gcd(x^4-y^4,x^6+y^6);
-
-     2    2
-e1: x  + y
-
-e2 : gcd(4,10);
-
-e2: 2
+(%0028) gcd(x^4-y^4,x^6+y^6);
+        2    2
+%0028: x  + y
+(%0029) gcd(4,10);
+%0029: 2
 @end group
 @end example
 @end deffn
@@ -1087,9 +1279,8 @@ roots of the polynomial @var{poly} with respect to the variable
 
 @example
 @group
-e7 : discriminant(x^3 - 1, x);
-
-e7: -27
+(%0030) discriminant(x^3 - 1, x);
+%0030: -27
 @end group
 @end example
 @end deffn
@@ -1102,10 +1293,9 @@ The function @code{resultant} returns the resultant of the polynomials
 
 @example
 @group
-e2 : resultant(x^2 + a, x^3 + a, x);
-
-     2    3
-e2: a  + a
+(%0031) resultant(x^2 + a, x^3 + a, x);
+        2    3
+%0031: a  + a
 @end group
 @end example
 @end deffn
@@ -1120,15 +1310,15 @@ ratios of polynomials.
 
 @deffn Command decompose poly_1 var
 Returns the polynomial decomposition of @var{poly_1} with respect to
-@var{var}.
-@example
-@group
-e7 : decompose(((x+1)^6),x);
+@var{var}.  Note that @code{decompose} is not currently working.
+@c @example
+@c @group
+@c e7 : decompose(((x+1)^6),x);
 
-                2           2    3
-e7: [1 + 2 x + x , 3 x + 3 x  + x ]
-@end group
-@end example
+@c                 2           2    3
+@c e7: [1 + 2 x + x , 3 x + 3 x  + x ]
+@c @end group
+@c @end example
 @end deffn
 
 @node Interpolation, Factoring, Polynomials, Algebra
@@ -1154,19 +1344,14 @@ version. All the variants of the interpolation procedure described
 later have both these forms.
 
 @example
-e9 : interp([[2, 3], [0, -1]]);
-
-e9 : lambda([@@1], -1 + 2 @@1)
-
-e10 : interp([[2, 3], [1, z]]);
-
-e10 : lambda([@@1], -3 + 2 z + (3 - z) @@1)
-
-e11 : interp([2, 3], [y, z]);
-
-                  3 y - 2 z + (-3 + z) @@1
-e11 : lambda([@@1], -----------------------)
-                          -2 + y
+(%0032) interp([[2, 3], [0, -1]]);
+%0032: -1 + 2 @@1
+(%0033) interp([[2, 3], [1, z]]);
+%0033: -3 + 3 @@1 + (2 - @@1) z
+(%0034) interp([2, 3], [y, z]);
+       - 3 @@1 + 3 y + (-2 + @@1) z
+%0034: --------------------------
+                 -2 + y
 @end example
 @end deffn
 
@@ -1184,28 +1369,23 @@ derivatives for each point. That number does not have to be the same
 for all points. 
 
 @example
-e0 : interp.newton([-1, 0], [0, 1], [1, 0]);
-
-                       2
-e0: lambda([@@1], 1 - @@1 )
-
-e1 : interp.newton([-1, 0], [0, 1, 0, 20], [1, 0]);
-
-                          2        4
-e1: lambda([@@1], 1 + 10 @@1  - 11 @@1 )
-
-e2 : interp.newton([-1, 0], [0, 1, 0, a], [1, 0]);
-
-                         2              4
-                 2 + a @@1  + (-2 - a) @@1
-e2: lambda([@@1], ------------------------)
-                            2
+(%0035) interp.newton([-1, 0], [0, 1], [1, 0]);
+             2
+%0035: 1 - @@1
+(%0036) interp.newton([-1, 0], [0, 1, 0, 20], [1, 0]);
+                2        4
+%0036: 1 + 10 @@1  - 11 @@1
+(%0037) interp.newton([-1, 0], [0, 1, 0, a], [1, 0]);
+               4      2     4
+       2 - 2 @@1  + (@@1  - @@1 ) a
+%0037: -------------------------
+                   2
 @end example
 @end deffn
 
 @deffn Command interp.neville mat
 @deffnx Command interp.neville vec1 vec2 @dots{}
-The same as @command{interp} in its functionality, but uses newtons
+The same as @command{interp} in its functionality, but uses Neville
 form when constructing the polynomial.
 @end deffn
 
@@ -1224,15 +1404,12 @@ The results of the @code{factor} command are shown in a special
 
 @example
 @group
-e0 : factor(120);
-
-     3
-e0: 2  3 5
-
-e1 : factor(-120);
-
+(%0038) factor(120);
         3
-e1: -1 2  3 5
+%0038: 2  3 5
+(%0039) factor(-120);
+           3
+%0039: -1 2  3 5
 @end group
 @end example
 @end deffn
@@ -1244,121 +1421,57 @@ matrix of factors and exponents.
 As above, the results are shown in factored form.
 
 @example
-e2 : factor((14*x^4-10/68*x^-5)/(5*x^2+1));
-
-                 9
-       -5 + 476 x
-e2: ------------------
-                 2   5
-    2 17 (1 + 5 x ) x
-
-e3 : (14*x^4-10/68*x^-5)/(5*x^2+1);
-
-               9
-     -5 + 476 x
-e3: --------------
-        5        7
-    34 x  + 170 x
-
-e4 : (476*x^9-5)/(34*(5*x^2+1)*x^5);
-
-               9
-     -5 + 476 x
-e4: --------------
-        5        7
-    34 x  + 170 x
+(%0040) factor((14*x^4-10/68*x^-5)/(5*x^2+1));
+                    9
+          -5 + 476 x
+%0040: ------------------
+                    2   5
+       2 17 (1 + 5 x ) x
 @end example
 
 @example
-e5 : factor(x*y);
-
-e5: y x
-
-e6 : factor((x+a)*(y^4-z));
-
-                   4
-e6: -1 (a + x) (- y  + z)
-
-e7 : factor((x+u*a^3)*(y^4-z));
-
-         3            4
-e7: -1 (a  u + x) (- y  + z)
-
-e8 : factor((x+u*a^3)^2*(y^4-z)/((x+1)*(u^2-v^2)));
-
-         4        3       2
-     (- y  + z) (a  u + x)
-e8: -------------------------
-    (1 + x) (- u + v) (u + v)
-
-e9 : factor(200*(-1*x+1+y)*(u-r^6)*(21*x+2-t^4));
-
-     3  2     6                        4
-e9: 2  5  (- r  + u) (1 - x + y) (2 - t  + 21 x)
-
-e10 : factor(2*(a+u)*(-v+b)*(a*x+y)^2);
-
-                                     2
-e10: -1 2 (a + u) (- b + v) (a x + y)
-
-e11 : factor(2*(a+u)*(-v+b)*(a*x+y)^2/((u^2-v^2)*(11*x+55)));
-
-                                  2
-     2 (a + u) (- b + v) (a x + y)
-e11: ------------------------------
-      11 (5 + x) (- u + v) (u + v)
-
-e12 : factor(2*(a+u)*(-v+b)*(a*x+y)^2/((u^2-v^2)*x^4*(11*x+55)));
-
-                                  2
-     2 (a + u) (- b + v) (a x + y)
-e12: -------------------------------
-                                   4
-     11 (5 + x) (- u + v) (u + v) x
-
-e13 : factor((c^3*u+b*a)*(b*b*a+v*p^2*q^2*c));
-
-             3        2      2  2
-e13: (a b + c  u) (a b  + c p  q  v)
-
-e14 : factor((2*z+y-x)*(y^3-a*x^2)*(b*z^2+y));
-
-                             2        2    3
-e14: (- x + y + 2 z) (y + b z ) (- a x  + y )
-
-e15 : factor((a*a*b*z+d)*(2*a*b*b*z+c));
-
-           2                2
-e15: (d + a  b z) (c + 2 a b  z)
-
-e16 : factor((a*a*b*z+d)*(2*a*b*b*z+c)*((u+a)*x+1));
-
-                           2                2
-e16: (1 + (a + u) x) (d + a  b z) (c + 2 a b  z)
-
-e17 : factor((c*z+a)*(a*z+b)*(b*z+c));
-
-e17: (b + a z) (c + b z) (a + c z)
-
-e18 : factor((a*a*b*(x+w)*z+d)*(2*a*b*b*z+c));
-
-            2        2                   2
-e18: (d + (a  b w + a  b x) z) (c + 2 a b  z)
-
-e19 : factor(((x+w)^2*z-u*d)*(-2*a*b*z+c));
-
-                                   2            2
-e19: -1 (- c + 2 a b z) (- d u + (w  + 2 w x + x ) z)
-
-e20 : factor((-200*%i*x-c)*(x-d-z^5)/(a*(b^3-(a+u)*z)));
-
-                                 5
-     -1 (c + 200 %i x) (d - x + z )
-e20: ------------------------------
-                3
-          a (- b  + (a + u) z)
+(%0043) factor(x*y);
+%0043: x y
+(%0044) factor((x+a)*(y^4-z));
+                      4
+%0044: -1 (a + x) (- y  + z)
+(%0045) factor((x+u*a^3)*(y^4-z));
+            3            4
+%0045: -1 (a  u + x) (- y  + z)
+(%0046) factor((x+u*a^3)^2*(y^4-z)/((x+1)*(u^2-v^2)));
+            4        3       2
+        (- y  + z) (a  u + x)
+%0046: -------------------------
+       (- u + v) (u + v) (1 + x)
+(%0047) factor(200*(-1*x+1+y)*(u-r^6)*(21*x+2-t^4));
+           6            4                      2  3
+%0047: (- r  + u) (2 - t  + 21 x) (1 - x + y) 5  2
+(%0048) factor(2*(a+u)*(-v+b)*(a*x+y)^2);
+                                       2
+%0048: -1 2 (a + u) (- b + v) (a x + y)
+(%0049) factor(2*(a+u)*(-v+b)*(a*x+y)^2/((u^2-v^2)*(11*x+55)));
+                                    2
+       2 (a + u) (- b + v) (a x + y)
+%0049: ------------------------------
+        11 (- u + v) (u + v) (5 + x)
+(%0050) factor((c^3*u+b*a)*(b*b*a+v*p^2*q^2*c));
+               3        2      2  2
+%0050: (a b + c  u) (a b  + c p  q  v)
+(%0051) factor((2*z+y-x)*(y^3-a*x^2)*(b*z^2+y));
+             2    3                          2
+%0051: (- a x  + y ) (- x + y + 2 z) (y + b z )
+(%0052) factor((a*a*b*z+d)*(2*a*b*b*z+c));
+             2                2
+%0052: (d + a  b z) (c + 2 a b  z)
+(%0053) factor((a*a*b*z+d)*(2*a*b*b*z+c)*((u+a)*x+1));
+                             2                2
+%0053: (1 + (a + u) x) (d + a  b z) (c + 2 a b  z)
+(%0054) factor(a*(z+1)/4);
+       a (1 + z)
+%0054: ---------
+           2
+          2
 @end example
-
 @end deffn
 
 @noindent
@@ -1385,12 +1498,11 @@ integer @var{m}, calculate the square free factorisation of @var{poly}
 in GF(p^m)[x].  If @var{m} is not supplied, @code{1} is assumed.
 
 @example
-e0 : ffsff(x^5+x^3+1, 53);
-
-    [                2    3   ]
-    [16 - 22 x + 26 x  + x   1]
-e0: [                         ]
-    [       -13 + x          2]
+(%0059) ffsff(x^5+x^3+1, 53);
+       [                 2    3    ]
+       [ 16 - 22 x + 26 x  + x   1 ]
+%0059: [                           ]
+       [        -13 + x          2 ]
 @end example
 @end deffn
 
@@ -1400,10 +1512,9 @@ power of a prime, @var{q}, returns (as a bunch) the irreducible factors
 of @var{poly}.
 
 @example
-e2 : berl(x^5+x^3+2, 53);
-
-                        2               2
-e2: [1 + x, 5 - 26 x + x , 11 + 25 x + x ]
+(%0060) berl(x^5+x^3+2, 53);
+                           2               2
+%0060: [1 + x, 5 - 26 x + x , 11 + 25 x + x ]
 @end example
 @end deffn
 
@@ -1414,7 +1525,233 @@ square free.
 This code is still being developed.
 @end deffn
 
-@node Calculus, Matrices and Tensors, Algebra, Top
+@node Transcendental Functions, Calculus, Algebra, Top
+@chapter Transcendental Functions
+@cindex Transcendental Functions
+
+JACAL has the ability to manipulate and simplify functions defined by
+first order linear differential equations.
+
+The following functions and their reductions are defined by statements
+in @file{init.math}.
+
+@menu
+* Exponentials and Logarithms::
+* Trigonometric Functions::
+* Lambert W function::
+* Defining Differential Equations::
+@end menu
+
+@node Exponentials and Logarithms, Trigonometric Functions, Transcendental Functions, Transcendental Functions
+@section Exponentials and Logarithms
+@cindex Exponentials and Logarithms
+
+@deffn Operator exp expression
+
+Represents the exponential function of scalar @var{expression}.
+
+@example
+(%0043) exp(1+x);
+%0043: exp(1 + x)
+(%0044) exp(0);
+%0044: 1
+@end example
+@end deffn
+
+@deffn Operator log expression
+
+Represents the natural logarithm of scalar @var{expression}.
+
+@example
+(%0045) log(1+x);
+%0045: log(1 + x)
+(%0046) exp(5*log(a));
+        5
+%0046: a
+@end example
+@end deffn
+
+@deffn Operator %expt expression exponent
+
+@code{%expt} is equivalent to
+@code{@var{exponent}*log(@var{expression})}.  If @var{exponent} is an
+integer, it simplifies to a power of @var{expression}; a fractional
+@var{exponent} does not.
+
+@example
+(%0048) %expt(a,5);
+        5
+%0048: a
+(%0049) %expt(a,1/5);
+           log(a)
+%0049: exp(------)
+             5
+(%0050) a^(1/5);
+        1/5
+%0050: a
+@end example
+@end deffn
+
+@node Trigonometric Functions, Lambert W function, Exponentials and Logarithms, Transcendental Functions
+@section Trigonometric Functions
+@cindex Trigonometric Functions
+
+@deffn Operator tan expression
+@deffnx Operator atan expression
+
+These are the tangent and arctangent functions, from which all the
+other trigonometric functions are defined.
+@end deffn
+
+@deffn Operator cot expression
+@deffnx Operator acot expression
+
+@deffnx Operator sin expression
+@deffnx Operator asin expression
+@deffnx Operator cos expression
+@deffnx Operator acos expression
+@deffnx Operator sec expression
+@deffnx Operator asec expression
+@deffnx Operator csc expression
+@deffnx Operator acsc expression
+
+The standard trigonometric functions and their inverses.
+
+@example
+(%0051) tan(atan(x));
+%0051: x
+(%0052) atan(tan(x));
+%0052: x
+(%0053) tan(2*atan(x));
+        2 x
+%0053: ------
+            2
+       1 - x
+(%0054) tan(3*atan(x));
+                3
+       - 3 x + x
+%0054: ----------
+               2
+       -1 + 3 x
+(%0055) tan(4*atan(x));
+                   3
+        - 4 x + 4 x
+%0055: --------------
+               2    4
+       -1 + 6 x  - x
+(%0056) atan(2*tan(x));
+%0056: atan(2 tan(x))
+(%0057) sin(3*asin(x));
+                  3
+%0057: - 3 x + 4 x
+@end example
+@end deffn
+
+@node Lambert W function, Defining Differential Equations, Trigonometric Functions, Transcendental Functions
+@section Lambert W function
+@cindex Lambert W function
+
+@deffn Command %W expression
+
+The Lambert W function defined as the inverse of @code{z=%W*exp(%W)}.
+@end deffn
+
+@deffn Command lambert_w expression
+
+This equivalent function has the name which MAXIMA uses.  It is
+defined as:
+@example
+lambert_w(z) :: lambert_w(z)'/z'=lambert_w(z)/(z*(1+lambert_w(z)));
+@end example
+
+@code{lambert_w(log(x)*exp(log(x)))} does not reduce to @code{log(x)} because
+the principal branch of the Lambert-W function reduces only when
+@code{x>1/e}.
+@end deffn
+
+@node Defining Differential Equations,  , Lambert W function, Transcendental Functions
+@section Defining Differential Equations
+@cindex Defining Differential Equations
+
+These are the commands used to define transcendental functions.
+
+@deffn Command ::
+
+@example
+@var{func}(@var{x}) :: @var{func}(@var{x})'/@var{x}' = @var{expression}
+@end example
+
+Where @var{expression} is a function of @var{func}(@var{x}) and/or @var{x},
+defines the differential equation for @var{func}.
+@end deffn
+
+@deffn Command ::~
+
+@example
+@var{inv} ::~ @var{func};
+@var{inv}(@var{x}) ::~ @var{expression};
+@end example
+
+Defines @var{inv} as the inverse of @var{func} or @var{expression}.
+@end deffn
+
+@deffn Command ::=
+
+@example
+@var{func}(@var{const1}) ::= @var{const2}
+@end example
+
+Where @var{const1} and @var{const2} evaluate to constants, sets an
+initial condition for the differential equation defining @var{func}.
+
+The order in which initial conditions are defined matters; the first
+initial condition defined is used to vet potential solutions for
+differential equations.
+@end deffn
+
+The file @file{init.math} also defines expression-valued integer
+recurrences which generate the reduction of a transcendental function
+composed with an integer multiple of its inverse function.  In the
+future these recurrences will be generated automatically from the
+differential equations.
+
+@deffn Command :=
+@deffnx Command ::=
+
+@example
+@var{ident}[@var{index}] := @var{scalar-expression}
+@end example
+
+Defines @var{ident} as a memoized recurrence.  The
+@var{scalar-expression} can be any expression, and may include
+references to @var{ident} or other memoized recurrences with integer
+argument @code{[@var{ixpr}]} where @var{ixpr} evaluates to a
+non-negative integer.  The result of such a reference may be a
+function; that function can take arguments within parentheses after a
+@code{[@var{ixpr}]} argument.
+
+@example
+@var{ident}[@var{integer}] ::= @var{scalar-expression}
+@end example
+
+Sets an initial condition.  This is necessary to prevent runaway
+recursion if a recurrence does index arithmetic.  Factorial can be
+defined as:
+
+@example
+@group
+(%0039) fact[n] := n*fact[n-1];
+fact[n]: n * fact[n - 1]
+(%0039) fact[0] ::= 1;
+(%0040) fact[3];
+%0040: 6
+(%0041) fact[7];
+%0041: 5040
+@end group
+@end example
+@end deffn
+
+@node Calculus, Matrices and Tensors, Transcendental Functions, Top
 @chapter Calculus
 @cindex Calculus
 
@@ -1430,15 +1767,12 @@ individual variables. The derivation is denoted by a right quote.
 
 @example
 @group
-e6 : differential(x^2+y^3);
-
-                2
-e6: 2 x x' + 3 y  y'
-
-e7 : (x^2+y^3)';
-
-                2
-e7: 2 x x' + 3 y  y'
+(%0061) differential(x^2+y^3);
+                   2
+%0061: 2 x x' + 3 y  y'
+(%0062) (x^2+y^3)';
+                   2
+%0062: 2 x x' + 3 y  y'
 @end group
 @end example
 @end deffn
@@ -1452,10 +1786,9 @@ The Jacal command @code{diff} computes the derivative of the expression
 
 @example
 @group
-e6 : diff(x^2+y^3,y);
-
-       2
-e6: 3 y
+(%0063) diff(x^2+y^3,y);
+          2
+%0063: 3 y
 @end group
 @end example
 @end deffn
@@ -1467,10 +1800,9 @@ expression @var{expr} with respect to @var{var1}, @dots{}.
 
 @example
 @group
-e6 : partial(x^2+@@1^3,1);
-
-        2
-e6: 3 @@1
+(%0064) partial(x^2+@@1^3,1);
+           2
+%0064: 3 @@1
 @end group
 @end example
 @end deffn
@@ -1484,25 +1816,21 @@ that integral is a rational expression containing at most one radical
 involving @var{var}.
 @example
 @group
-e1 : integrate((3+x^2)*(1+x^2)^(2/3)/(3+6*x^2+3*x^4),x);
-
-            2 2/3
-    x (1 + x )
-e1: -------------
-            2
-       1 + x
-
-e2 : integrate((1+x^2)^(2/3),x);
+(%0065) integrate((3+x^2)*(1+x^2)^(2/3)/(3+6*x^2+3*x^4),x);
+               2 2/3
+       x (1 + x )
+%0065: -------------
+               2
+          1 + x
+(%0066) integrate((1+x^2)^(2/3),x);
 
 ;;; could-not-find-algebraic-anti-derivative
  non-decreasing-rxd 2 vs 0
-
-e2 : integrate(x*(1+x^2)^(2/3),x);
-
-            2        2 2/3
-    (3 + 3 x ) (1 + x )
-e2: ----------------------
-              10
+(%0066) integrate(x*(1+x^2)^(2/3),x);
+               2        2 2/3
+       (3 + 3 x ) (1 + x )
+%0066: ----------------------
+                 10
 @end group
 @end example
 @end deffn
@@ -1515,12 +1843,11 @@ rational expression (optionally including a radical involving
 integral evaluated at @var{b} and @var{a}.
 @example
 @group
-e3 : integrate(x*(1+x^2)^(2/3),x,0,1);
-
-            2/3
-    -3 + 6 2
-e3: -----------
-        10
+(%0067) integrate(x*(1+x^2)^(2/3),x,0,1);
+               2/3
+       -3 + 6 2
+%0067: -----------
+           10
 @end group
 @end example
 @end deffn
@@ -1535,10 +1862,10 @@ A row-vector is coded like @code{[[a,b,c]]}; a column-vector is coded
 by @code{[[a],[b],[c]]} or @code{[[a,b,c]]^^t} or @code{[a,b,c]^^t}.
 
 @menu
-* Generating Matrices::         
-* Matrix Parts::                
-* Matrix commands::             
-* Tensors::                     
+* Generating Matrices::
+* Matrix Parts::
+* Matrix commands::
+* Tensors::
 * tmult::                       Tensor Multiplication
 * contract::                    Tensor Contraction
 * indexshift::                  Shift an index within a tensor
@@ -1554,28 +1881,22 @@ by @code{[[a],[b],[c]]} or @code{[[a,b,c]]^^t} or @code{[a,b,c]^^t}.
 To collect any number of Jacal objects into a bunch, simply enclose them
 in square brackets. For example, to make the bunch whose elements are
 @code{1}, @code{2}, @code{4}, type @code{[1, 2, 4]}. One can also nest
-bunches, for example, @code{[1, [[1, 3], [2, 5]], [1, 4]]}.  Note
-however that the bunch whose only element is @code{[1, 2, 3]} is
-@code{[1 2 3]}.  It is importance to notice that one has commas and the
-other doesn't.
+bunches, for example, @code{[1, [[1, 3], [2, 5]], [1, 4]]}.
+
+A bunch whose only element is @code{[1, 2, 3]} is a row vector, which
+displays as @code{[1 2 3]}.  The bunch has commas; the row vector does
+not.
 
 @example
 @group
-e3 : a:bunch(1, 2, 3);
-
-e3: [1, 2, 3]
-
-e4 : b:[a];
-
-e4: [1  2  3]
-
-e5 : c:[b];
-
-e5: [[1, 2, 3]]
-
-e6 : [[[1, 2, 3]]];
-
-e6: [[1, 2, 3]]
+(%0068) B1:bunch(1, 2, 3);
+B1: [1, 2, 3]
+(%0068) B2:[B1];
+B2: [ 1  2  3 ]
+(%0068) [B2];
+%0068: [ [1, 2, 3] ]
+(%0069) [[[1, 2, 3]]];
+%0069: [ [1, 2, 3] ]
 @end group
 @end example
 @end deffn
@@ -1587,9 +1908,8 @@ constituent expressions and equations.
 
 @example
 @group
-e0 : flatten([a, [b, [c, d]], [5]]);
-
-e0: [a, b, c, d, 5]
+(%0070) flatten([a, [b, [c, d]], [5]]);
+%0070: [a, b, c, d, 5]
 @end group
 @end example
 @end deffn
@@ -1602,15 +1922,14 @@ convenient than obtaining this same matrix using the command
 
 @example
 @group
-e6 : ident(4);
-
-    [1  0  0  0]
-    [          ]
-    [0  1  0  0]
-e6: [          ]
-    [0  0  1  0]
-    [          ]
-    [0  0  0  1]
+(%0071) ident(4);
+       [ 1  0  0  0 ]
+       [            ]
+       [ 0  1  0  0 ]
+%0071: [            ]
+       [ 0  0  1  0 ]
+       [            ]
+       [ 0  0  0  1 ]
 @end group
 @end example
 @end deffn
@@ -1623,13 +1942,12 @@ equal to @var{entry}, where @code{@var{n} = @var{size}}.
 
 @example
 @group
-e1 : scalarmatrix(3, 6);
-
-    [6  0  0]
-    [       ]
-e1: [0  6  0]
-    [       ]
-    [0  0  6]
+(%0072) scalarmatrix(3, 6);
+       [ 6  0  0 ]
+       [         ]
+%0072: [ 0  6  0 ]
+       [         ]
+       [ 0  0  6 ]
 @end group
 @end example
 @end deffn
@@ -1642,22 +1960,19 @@ convenient to use the command @code{scalarmatrix}.
 
 @example
 @group
-e3 : diagmatrix(12,3,a,s^2);
-
-    [12  0  0  0 ]
-    [            ]
-    [0   3  0  0 ]
-e3: [            ]
-    [0   0  a  0 ]
-    [            ]
-    [0   0  0   2]
-    [          s ]
-
-e4 : diagmatrix([1,2],2);
-
-    [[1, 2]  0]
-e4: [         ]
-    [  0     2]
+(%0073) diagmatrix(12,3,a,s^2);
+       [ 12  0  0  0  ]
+       [              ]
+       [ 0   3  0  0  ]
+%0073: [              ]
+       [ 0   0  a  0  ]
+       [              ]
+       [ 0   0  0   2 ]
+       [           s  ]
+(%0074) diagmatrix([1,2],2);
+       [ [1, 2]  0 ]
+%0074: [           ]
+       [   0     2 ]
 @end group
 @end example
 @end deffn
@@ -1675,18 +1990,16 @@ syntax.
 
 @example
 @group
-e5 : sylvester(a0 + a1*x + a2*x^2 + a3*x^3, b0 + b1*x + b2*x^2, x);
-
-    [a3  a2  a1  a0  0 ]
-    [                  ]
-    [0   a3  a2  a1  a0]
-    [                  ]
-e5: [b2  b1  b0  0   0 ]
-    [                  ]
-    [0   b2  b1  b0  0 ]
-    [                  ]
-    [0   0   b2  b1  b0]
-
+(%0075) sylvester(a0 + a1*x + a2*x^2 + a3*x^3, b0 + b1*x + b2*x^2, x);
+       [ a3  a2  a1  a0  0  ]
+       [                    ]
+       [ 0   a3  a2  a1  a0 ]
+       [                    ]
+%0075: [ b2  b1  b0  0   0  ]
+       [                    ]
+       [ 0   b2  b1  b0  0  ]
+       [                    ]
+       [ 0   0   b2  b1  b0 ]
 @end group
 @end example
 @end deffn
@@ -1702,19 +2015,15 @@ explicit lambda expression or by an implicit lambda expression.
 
 @example
 @group
-e4 : @@1^2+@@2^2;
-
-                       2      2
-e4: lambda([@@1, @@2], @@1  + @@2 )
-
-e5 : genmatrix(e4,3,5);
-
-    [2   5   10  17  26]
-    [                  ]
-e5: [5   8   13  20  29]
-    [                  ]
-    [10  13  18  25  34]
-
+(%0076) genfun: @@1^2+@@2^2;
+          2     2
+genfun: @@1  + @@2
+(%0076) genmatrix(genfun,3,5);
+       [ 2   5   10  17  26 ]
+       [                    ]
+%0076: [ 5   8   13  20  29 ]
+       [                    ]
+       [ 10  13  18  25  34 ]
 @end group
 @end example
 @end deffn
@@ -1728,25 +2037,16 @@ columns of @var{matrix}, which is always equalt to the maximal number
 of linearly independent rows of @var{matrix}.
 @example
 @group
-e13 : rank([[0,0],[0,0]]);
-
-e13: 0
-
-e14 : rank([[0,0],[0,1]]);
-
-e14: 1
-
-e15 : rank([[2,0],[0,1]]);
-
-e15: 2
-
-e17 : rank([[b,c],[0,a]]);
-
-e17: 2
-
-e18 : rank([[b,c,d],[a,0,a],[e,f,a]]);
-
-e18: 3
+(%0077) rank([[0,0],[0,0]]);
+%0077: 0
+(%0078) rank([[0,0],[0,1]]);
+%0078: 1
+(%0079) rank([[2,0],[0,1]]);
+%0079: 2
+(%0080) rank([[b,c],[0,a]]);
+%0080: 2
+(%0081) rank([[b,c,d],[a,0,a],[e,f,a]]);
+%0081: 3
 @end group
 @end example
 @end deffn
@@ -1759,48 +2059,31 @@ The corresponding command for columns of a matrix is @code{col}.
 
 @example
 @group
-e3 : u:[[1, 2, 3], [1, 5, 3]];
-
-    [1  2  3]
-e3: [       ]
-    [1  5  3]
-
-e4 : row(u, 2);
-
-e4: [1, 5, 3]
+(%0082) U1:[[1, 2, 3], [1, 5, 3]];
+    [ 1  2  3 ]
+U1: [         ]
+    [ 1  5  3 ]
+(%0082) row(U1, 2);
+%0082: [1, 5, 3]
 @end group
 @end example
 @end deffn
 
 @deffn Command col matrix integer
-The command @code{col} is used to extract a column of a matrix. Here,
-@var{matrix} is a matrix and @var{integer} is a positive integer. If
-that integer exceeds the number of columns, an error message such
-as
+The command @code{col} is used to extract a column of a matrix.  Here,
+@var{matrix} is a matrix and @var{integer} is a positive integer.  It
+is an error if that integer exceeds the number of columns.
 
 @example
 @group
-ERROR: list-ref: Wrong type in arg1 ()
-@end group
-@end example
-
-@noindent
-appears. Here is an example of correct use of the command
-@code{col}:
-
-@example
-@group
-e19 : a:[[1,2,4],[2,5,6]];
-
-     [1  2  4]
-e19: [       ]
-     [2  5  6]
-
-e20 : col(a,2);
-
-     [2]
-e20: [ ]
-     [5]
+(%0084) C1:[[1,2,4],[2,5,6]];
+    [ 1  2  4 ]
+C1: [         ]
+    [ 2  5  6 ]
+(%0084) col(C1,2);
+       [ 2 ]
+%0084: [   ]
+       [ 5 ]
 @end group
 @end example
 @end deffn
@@ -1811,19 +2094,16 @@ obtained by deleting the @var{i}th row and the @var{j}th column.
 
 @example
 @group
-e21 : b:[[1,2,3],[3,1,5],[5,2,7]];
-
-     [1  2  3]
-     [       ]
-e21: [3  1  5]
-     [       ]
-     [5  2  7]
-
-e22 : minor(b,3,1);
-
-     [2  3]
-e22: [    ]
-     [1  5]
+(%0085) M3:[[1,2,3],[3,1,5],[5,2,7]];
+    [ 1  2  3 ]
+    [         ]
+M3: [ 3  1  5 ]
+    [         ]
+    [ 5  2  7 ]
+(%0085) minor(M3,3,1);
+       [ 2  3 ]
+%0085: [      ]
+       [ 1  5 ]
 @end group
 @end example
 @end deffn
@@ -1833,30 +2113,23 @@ The command @code{cofactor} returns the determinant of the @var{i},
 @var{j} @code{minor} of @var{matrix}.
 @end deffn
 
-@deffn Command rapply bunch int_1 int_2 @dots{}
-The function @code{rapply} is used to access elements of bunches.  It
+@deffn Command rref bunch int_1 int_2 @dots{}
+The function @code{rref} is used to access elements of bunches.  It
 can also access elements nested at lower levels in a bunch.  In
 particular, it can also access matrix elements.  In the above syntax,
 @var{bunch} is the bunch whose parts one wishes to access, and @var{n},
 @var{int_1}, @var{int_2}, @dots{}, @var{int_n} are positive integers.
 It returns the @var{int_n}-th element of the @var{int_@{n-1@}}-th element
 of @dots{} of the @var{int_2}-th element of the @var{int_1}-th element
-of @var{bunch}.  One can have @code{n = 0}.  In that case, @code{rapply}
+of @var{bunch}.  One can have @code{n = 0}.  In that case, @code{rref}
 simply returns the bunch.
 
 @example
 @group
-e2 : rapply([[1,2,3],[1,4,6],3],2,3);
-
-e2: 6
-
-e6 : rapply([a,b],2);
-
-e6: b
-
-e7 : rapply([a,b]);
-
-e7: [a, b]
+(%0088) [[1,2,3],[1,4,6],3] [2] [3];
+%0088: 6
+(%0089) [a,b] [2];
+%0089: b
 @end group
 @end example
 @end deffn
@@ -1867,6 +2140,20 @@ e7: [a, b]
 
 @deffn Command transpose matrix
 Computes the transpose of @code{(@var{matrix})}.
+
+@example
+@group
+(%0000) transpose([[a,b],[c,d]]);
+       [ a  c ]
+%0000: [      ]
+       [ b  d ]
+(%0001) [[a,b],[c,d]]^^t;
+       [ a  c ]
+%0001: [      ]
+       [ b  d ]
+@end group
+@end example
+
 @end deffn
 
 
@@ -1877,15 +2164,12 @@ matrix will produce an error message.
 
 @example
 @group
-e1 : a:[[1,2],[6,7]];
-
-    [1  2]
-e1: [    ]
-    [6  7]
-
-e2 : determinant(a);
-
-e2: -5
+(%0008) A1:[[1,2],[6,7]];
+    [ 1  2 ]
+A1: [      ]
+    [ 6  7 ]
+(%0008) determinant(A1);
+%0008: -5
 @end group
 @end example
 @end deffn
@@ -1904,23 +2188,18 @@ Matrix multiplication.
 
 @example
 @group
-e1 : a:[[1, 2, 3], [5, 2, 7]];
-
-    [1  2  3]
-e1: [       ]
-    [5  2  7]
-
-e2 : b:[[3, 2], [6, 4]];
-
-    [3  2]
-e2: [    ]
-    [6  4]
-
-e3 : b . a;
-
-    [13  10  23]
-e3: [          ]
-    [26  20  46]
+(%0009) A1:[[1, 2, 3], [5, 2, 7]];
+    [ 1  2  3 ]
+A1: [         ]
+    [ 5  2  7 ]
+(%0009) A2:[[3, 2], [6, 4]];
+    [ 3  2 ]
+A2: [      ]
+    [ 6  4 ]
+(%0009) A2 . A1;
+       [ 13  10  23 ]
+%0009: [            ]
+       [ 26  20  46 ]
 @end group
 @end example
 @end deffn
@@ -1932,79 +2211,64 @@ integral power.
 
 @example
 @group
-e8 : a:[[1, 0], [-1, 1]];
-
-    [1   0]
-e8: [     ]
-    [-1  1]
-
-e9 : a^^3;
-
-    [1   0]
-e9: [     ]
-    [-3  1]
+(%0010) A3:[[1, 0], [-1, 1]];
+    [ 1   0 ]
+A3: [       ]
+    [ -1  1 ]
+(%0010) A3^^3;
+       [ 1   0 ]
+%0010: [       ]
+       [ -3  1 ]
 @end group
 @end example
 
 Negative exponents raise the inverse matrix to a power.
 
-
 @example
 @group
-e8 : [[a, b], [c, d]];
-
-    [a  b]
-e8: [    ]
-    [c  d]
-
-e9 : e8^^-1;
-
-    [     d           - b    ]
-    [-----------  -----------]
-    [- b c + a d  - b c + a d]
-    [                        ]
-e9: [    - c           a     ]
-    [-----------  -----------]
-    [- b c + a d  - b c + a d]
-
-e10 : e8^^-2;
-
-     [               2                  - a b - b d       ]
-     [        b c + d            -------------------------]
-     [-------------------------   2  2                2  2]
-     [ 2  2                2  2  b  c  - 2 a b c d + a  d ]
-     [b  c  - 2 a b c d + a  d                            ]
-     [                                    2               ]
-e10: [       - a c - c d                 a  + b c         ]
-     [-------------------------  -------------------------]
-     [ 2  2                2  2   2  2                2  2]
-     [b  c  - 2 a b c d + a  d   b  c  - 2 a b c d + a  d ]
+(%0000) A4: [[a, b], [c, d]];
+    [ a  b ]
+A4: [      ]
+    [ c  d ]
+(%0000) A4^^-1;
+       [      d           - b     ]
+       [ -----------  ----------- ]
+       [ - b c + a d  - b c + a d ]
+       [                          ]
+%0000: [     - c           a      ]
+       [ -----------  ----------- ]
+       [ - b c + a d  - b c + a d ]
+(%0001) A4^^-2;
+       [                2                  - a b - b d        ]
+       [         b c + d            ------------------------- ]
+       [ -------------------------   2  2                2  2 ]
+       [  2  2                2  2  b  c  - 2 a b c d + a  d  ]
+       [ b  c  - 2 a b c d + a  d                             ]
+       [                                     2                ]
+%0001: [        - a c - c d                 a  + b c          ]
+       [ -------------------------  ------------------------- ]
+       [  2  2                2  2   2  2                2  2 ]
+       [ b  c  - 2 a b c d + a  d   b  c  - 2 a b c d + a  d  ]
 @end group
 
 @group
-e11 : e8 . e9;
-
-     [1  0]
-e11: [    ]
-     [0  1]
-
-e12 : e9 . e8;
-
-     [1  0]
-e12: [    ]
-     [0  1]
-
-e13 : e10 . e8 . e8;
-
-     [1  0]
-e13: [    ]
-     [0  1]
+(%0002) A4 . A4.1;
+       [ 1  0 ]
+%0002: [      ]
+       [ 0  1 ]
+(%0003) A4.1 . A4;
+       [ 1  0 ]
+%0003: [      ]
+       [ 0  1 ]
+(%0004) A4.2 . A4 . A4;
+       [ 1  0 ]
+%0004: [      ]
+       [ 0  1 ]
 @end group
 @end example
 
-
-
 @end deffn
+
 
 @deffn Command dotproduct vector_1 vector_2
 The Jacal function @code{dotproduct} returns the dot product of two
@@ -2015,16 +2279,11 @@ matrix times the transpose of the other one.
 
 @example
 @group
-e28 : a:[1,2,3]; b:[3,1,5];
-
-e28: [1, 2, 3]
-
-e29 :
-e29: [3, 1, 5]
-
-e30 : dotproduct(a,b);
-
-e30: 20
+(%0005) V1: [1,2,3]; V2: [3,1,5];
+V1: [1, 2, 3]
+V2: [3, 1, 5]
+(%0005) dotproduct(V1, V2);
+%0005: 20
 @end group
 @end example
 @end deffn
@@ -2036,9 +2295,8 @@ components.
 
 @example
 @group
-e25 : crossproduct([1,2,3],[4,2,5]);
-
-e25: [4, 7, -6]
+(%0007) crossproduct([1,2,3],[4,2,5]);
+%0007: [4, 7, -6]
 @end group
 @end example
 @end deffn
@@ -2063,17 +2321,58 @@ indices.  Users must keep track of this information themselves, and perform
 the necessary operations with an appropriate metric so that the "index
 gymnastics" is performed correctly.
 
-Before using any of JACAL's tensor operations, execute the following
-command from the JACAL prompt:
-
-        require("tensor");
-
-This loads the file @file{tensor.scm} into JACAL, and makes the tensor
-operations available for use.
-
 JACAL currently supports four tensor operations: @code{tmult},
 @code{contract}, @code{indexshift}, and @code{indexswap}.  Each of these is
 described in detail below.
+
+To use JACAL's tensor operations, execute the following command from
+the JACAL prompt:
+
+        require("tensor");
+
+To see tensor examples, download @file{rw.math} from the JACAL website
+@url{https://www.gnu.org/software/jacal/}.  Typing
+@code{batch("rw.math");} will execute the commands in the file,
+computing tensors for The Robertson-Walker Cosmology Model.  You can
+then view a tensor by typing its label (name before @samp{:}) followed
+by a semicolon.
+
+@example
+(%0001) metric_ll: diagmatrix((S(x4))^2/(1 - k * x1^2), (S(x4))^2 * x1^2, (S(x4))^2 * x1^2 * (sin(x2))^2, - 1)
+(%0002) metric_uu: diagmatrix(1/metric_ll[1][1], 1/metric_ll[2][2], 1/metric_ll[3][3], 1/metric_ll[4][4])
+(%0002) metric_ul: ident(4)
+(%0002) det_metric: determinant(metric_ll)
+(%0002) d_metric_lll: indexshift([diff(metric_ll, x1), diff(metric_ll, x2), diff(metric_ll, x3), diff(metric_ll, x4)], 1, 3)
+(%0002) Christoffel_ull: (tmult(metric_uu, d_metric_lll, 2, 1) + indexswap(tmult(metric_uu, d_metric_lll, 2, 1), 2, 3) - tmult(metric_uu, d_metric_lll, 2, 3))/2
+(%0002) d_Christoffel_ulll: indexshift([diff(Christoffel_ull, x1), diff(Christoffel_ull, x2), diff(Christoffel_ull, x3), diff(Christoffel_ull, x4)], 1, 4)
+(%0002) R_temp: d_Christoffel_ulll + indexshift(tmult(Christoffel_ull, Christoffel_ull, 2, 1), 2, 4)
+(%0002) Riemann_ulll: indexswap(R_temp, 3, 4) - R_temp
+(%0002) Ricci_ll: contract(Riemann_ulll, 1, 3)
+(%0002) Ricci_ul: tmult(metric_uu, Ricci_ll, 2, 1)
+(%0002) Ricci_uu: tmult(Ricci_ul, metric_uu, 2, 1)
+(%0002) scalar_curv: contract(Ricci_ul, 1, 2)
+(%0002) Einstein_ll: Ricci_ll - scalar_curv * metric_ll/2
+(%0002) Einstein_ul: Ricci_ul - scalar_curv * metric_ul/2
+(%0002) Einstein_uu: Ricci_uu - scalar_curv * metric_uu/2
+(%0002) 
+@group
+(%0002) Einstein_uu;
+             [        2   2                                                      ]
+             [ - k + k  x1         0                                             ]
+             [ ------------                              0                       ]
+             [          4          k                                             ]
+             [   (S(x4))     --------------              0                 0     ]
+             [                   2        4                                      ]
+             [      0        - x1  (S(x4))                      2          0     ]
+Einstein_uu: [                                   k + k (tan(x2))                 ]
+             [      0              0         -------------------------     0     ]
+             [                                   2        4          2           ]
+             [      0              0         - x1  (S(x4))  (tan(x2))     3 k    ]
+             [                                                          -------- ]
+             [                                           0                     2 ]
+             [                                                          (S(x4))  ]
+@end group
+@end example
 
 @node tmult, contract, Tensors, Matrices and Tensors
 @section Tensor Multiplication
@@ -2270,19 +2569,14 @@ also invert a function using the command @code{finv}.
 
 @example
 @group
-e12 : lambda([x],x^2);
-
-                    2
-e12: lambda([@@1], @@1 )
-
-e13 : lambda([x,y,z],x*y*z);
-
-e13: lambda([@@1, @@2, @@3], @@1 @@2 @@3)
-
-e14 : e12+e13;
-
-                            2
-e14: lambda([@@1, @@2, @@3], @@1  + @@1 @@2 @@3)
+(%0012) lambda([x],x^2);
+         2
+%0012: @@1
+(%0013) lambda([x,y,z],x*y*z);
+%0013: @@1 @@2 @@3
+(%0014) %0012 + %0013;
+         2
+%0014: @@1  + @@1 @@2 @@3
 @end group
 @end example
 @end deffn
@@ -2295,21 +2589,16 @@ applying @var{function} to each tuple of elements of @var{matrix1},
 
 @example
 @group
-e9 : elementwise(foo,[a, b], [c, d]);
-
-e9: [foo(a, c), foo(b, d)]
-
-e10 : elementwise(@@1+5*@@2,[a, b], [c, d]);
-
-e10: [a + 5 c, b + 5 d]
-
-e1 : elementwise(@@1-@@2,[9,8,7],[[1,0],[4,5],[6,3]]);
-
-    [ 8  9 ]
-    [      ]
-e1: [ 4  3 ]
-    [      ]
-    [ 1  4 ]
+(%0015) elementwise(foo,[a, b], [c, d]);
+%0015: [foo(a, c), foo(b, d)]
+(%0016) elementwise(@@1+5*@@2,[a, b], [c, d]);
+%0016: [a + 5 c, b + 5 d]
+(%0017) elementwise(@@1-@@2,[9,8,7],[[1,0],[4,5],[6,3]]);
+       [ 8  9 ]
+       [      ]
+%0017: [ 4  3 ]
+       [      ]
+       [ 1  4 ]
 @end group
 @end example
 @end deffn
@@ -2327,13 +2616,10 @@ same effect as typing @code{finv(@var{f})}.
 
 @example
 @group
-e0 : w(t):=t+1;
-
-w(t): lambda([@@1], 1 + @@1)
-
-e0 : finv(w);
-
-e0: lambda([@@1], -1 + @@1)
+(%0008) w(t):=t+1;
+w(t): t + 1
+(%0009) finv(w);
+%0009: -1 + @@1
 @end group
 @end example
 @end deffn
@@ -2348,32 +2634,20 @@ expression.
 
 @example
 @group
-e21: 5
-
-e22 : %;
-
-e22: 5
-
-e23 : %^2;
-
-e23: 25
+(%0010) 5+x;
+%0010: 5 + x
+(%0011) %^2-%;
+                   2
+%0011: 20 + 9 x + x
 @end group
 @end example
 @end deffn
 
 @deffn Command batch filename
-The command @code{batch} is used to read in a file containing programs
-written in Jacal. Here, @var{filename} is a string in double quotes. The
-precise way in which one refers to a file is, of course, system
-dependent.
-
-@example
-@group
-batch("demo");
-@end group
-@end example
-of the file demo in the JACAL directory will give a demonstration of
-JACAL's capabilities.
+The command @code{batch} is used to read in a file containing scripts
+of Jacal commands. Here, @var{filename} is a string in double
+quotes. The precise way in which one refers to a file is, of course,
+system dependent.
 @end deffn
 
 
@@ -2382,56 +2656,63 @@ JACAL's capabilities.
 @deffnx Command disp2d expr
 @deffnx Command standard expr
 @deffnx Command std expr
-Displays @var{expr} in TeX, Jacal's two-dimensional output format,
-Jacal's infix input format, or compressed infix format respectively.
-@end deffn
+Displays @var{expr} in TeX, the Scheme programming language, Jacal's
+two-dimensional output format, Jacal's infix input format, or
+compressed infix format respectively.
 
-@deffn Command tex string
-Read TeX expression @var{string}.
-@end deffn
-
-@deffn Command scheme string
-Read Scheme expression @var{string}.
-@end deffn
-
-@deffn Command disp2d string
-@deffnx Command standard string
-@deffnx Command std string
-Reads @var{string} in Jacal's infix input format.
-@end deffn
+If one these top-level function calls is prefixed with @code{%horner},
+the output will be in Horner's rule format, multiplication instead of
+exponentiation.
 
 @example
 @group
-e24 : b^2-4*a*c;
-
-      2
-e24: b  - 4 a c
-
-e25 : tex(e24);
-b^@{2@} - 4\,a\,c
-e25 : tex("b^@{2@} - 4\,a\,c");
-
-      2
-e25: b  - 4 a c
-
-e26 : disp2d(e25);
- 2
-b  - 4 a c
-e26 : disp2d("b^2-4*a*c");
-
-      2
-e26: b  - 4 a c
-
-e27 : scheme(e26);
-(- (^ b 2) (* 4 a c))
-
-e27 : scheme("(- (^ b 2) (* 4 a c))");
-
-      2
-e27: b  - 4 a c
+(%0002) disp2d((x-1)^3/(x+1)^3);
+              2    3
+-1 + 3 x - 3 x  + x
+--------------------
+             2    3
+1 + 3 x + 3 x  + x
+(%0002) horner(disp2d((x-1)^3/(x+1)^3));
+-1 + (3 + (-3 + x) x) x
+-----------------------
+ 1 + (3 + (3 + x) x) x
+(%0002) scheme((x-1)^3/(x+1)^3);
+(/ (+ (- (+ -1 (* 3 x)) (* 3 (expt x 2)))
+      (expt x 3))
+   (+ 1 (* 3 x) (* 3 (expt x 2)) (expt x 3)))
+(%0002) standard((x-1)^3/(x+1)^3);
+(-1 + 3 * x - 3 * x^2 + x^3)/(1 + 3 * x + 3 * x^2 + x^3)
+(%0002) std((x-1)^3/(x+1)^3);
+(-1+3*x-3*x^2+x^3)/(1+3*x+3*x^2+x^3)
+(%0002) tex((x-1)^3/(x+1)^3);
+@{@{-1+3\,x-3\,x^@{2@}+x^@{3@}@}\over@{1+3\,x+3\,x^@{2@}+x^@{3@}@}@}
 @end group
 @end example
+@end deffn
 
+@deffn Command tex "string"
+Read TeX expression @var{string}.
+The @code{tex} command reads its double-quoted argument as a TeX
+expression
+@end deffn
+
+@deffn Command scheme "string"
+Read Scheme double-quoted @var{string} argument as Scheme cdoe.
+
+@example
+@group
+(%0000) scheme("(- (expt b 2) (* 4 a c))");
+        2
+%0000: b  - 4 a c
+@end group
+@end example
+@end deffn
+
+@deffn Command disp2d "string"
+@deffnx Command standard "string"
+@deffnx Command std "string"
+Reads double-quoted @var{string} in Jacal's infix input format.
+@end deffn
 
 @deffn Command commands
 The command @code{commands} produces a list of all of the command
@@ -2440,25 +2721,26 @@ available in Jacal.  It is called as a function of no arguments.
 
 @example
 @group
-@exdent e21 : commands();
-
-% * + - / = ^ ^^ abs args augcoefmatrix b+/- b-/+ batch berl bunch cabs
-cartprod chain charpoly coeff coeffs coefmatrix cofactor col commands
-compose content continue crossproduct decompose degree denom depends
-describe determinant diagmatrix diff differential discriminant disp2d
-divide dotproduct elementwise eliminate equatecoeffs example extrule
-factor factorial factors ffsff finv flatten func gcd genmatrix help ident
-imagpart integrate interp interp.lagrange interp.neville interp.newton
-jacobi jacobian listofvars load matrix minor mod ncmult negate num or
-over parallel parfrac partial poly polydiff polyelim prime? qed quit rank
-rapply realpart require restart resultant row scalarmatrix scheme set sff
-shadow show standard std sylvester system taylor terms tex transcript
-transpose u+/- u-/+ usff verify wronski wronskian
+@exdent commands();
+% * + - / = ^ ^^ abs args arity augcoefmatrix b+/- b-/+ batch bunch cabs
+canon chain chainables charpoly coeff coeffs coefmatrix cofactor col
+commands compose content continue crossproduct decompose degree denom
+depends derivative describe determinant diagmatrix diff
+differential discriminant disp2d divide dotproduct elementwise eliminate
+equatecoeffs example extensions definition factorial factors finv flatten
+func gcd genmatrix help ident imagpart integrate interp interp.lagrange
+interp.neville interp.newton jacobi jacobian listofvars load matrix minor
+mod monomial ncmult negate normalize num or over parallel partial poly
+polyelim prime? qed quit rank raw realpart require restart resultant row
+rref scalarmatrix scheme scheme2d set shade shadows show
+squarefreefactors squarefreefactorslist standard std sylvester system
+taylor terms tex transcript transpose u+/- u-/+ varpri vd verify wronski
+wronskian
 @end group
 @end example
 
 @deffn Command describe command
-The command @code{describe} is the heart of the online help facility of
+The command @code{describe} is the heart of the builtin help facility of
 Jacal.  Here, @var{command} is a string which is the name of a command
 and @code{describe} produces a brief description of the command and in
 many cases includes an example of its use. Together with the command
@@ -2469,14 +2751,17 @@ learned how to get started.
 
 @example
 @group
-e27 : describe(col);
+(%0012) describe(col);
+built-in-operation
 column.  column of a matrix
-e27 : describe(resultant);
+(%0012) describe(resultant);
+built-in-operation
 resultant.  The result of eliminating a variable between 2
 equations (or polynomials).
-27 : describe(+);
-Addition, plus.
-a + b
+(%0012) describe(/);
+built-in-operation
+Quotient, division, divide, over.
+a/b
 @end group
 @end example
 @end deffn
@@ -2490,27 +2775,28 @@ See also @ref{Miscellaneous,describe}.
 
 @example
 @group
-e43 : example(+);
-a + b
-
-e43: a + b
+(%0013) example(*);
+a * 7
+%0013: 7 a
 @end group
 @end example
-@end deffn
 
+Note: the command @code{example} executes the example it gives.  This
+can lead to unpredictable results if the variables and constants in
+the example have already been given values by the user.
+@end deffn
 
 @deffn Command load string
 The Jacal command @code{load} takes as input a string and reads in a
 @samp{Scheme} file whose name is obtained by appending the extension
 @file{.scm} to the string.  If you want to read in a file of Jacal
 commands, do not use @code{load}.  Instead use the command
-@code{batch}. To load in the file @file{foo.scm},
+@code{batch}. To load in the file @file{tensor.scm},
 
 @example
 @group
-e9 : load("foo");
-
-e9: foo
+(%0014) load("tensor.scm"); 
+"tensor.scm"
 @end group
 @end example
 @end deffn
@@ -2524,7 +2810,7 @@ suspends Jacal and returns you to the underlying scheme.  You can return
 to the Jacal session where you left off by simply typing @code{(math)}.
 If you do not wish to return to Jacal but really want to terminate the
 session and return to the operating system, then after typing
-@code{qed();}, type @code{(slib:exit)} or use @code{quit}.
+@code{qed;}, type @code{(slib:exit)} or use @code{quit}.
 @end deffn
 
 @deffn Command quit
@@ -2533,12 +2819,11 @@ to continue your Jacal session.
 
 @example
 @group
-type qed(); to return to scheme
-e1 : qed();
+(%0015) qed;
 scheme
 > (math)
-type qed(); to return to scheme
-e2 : quit();
+Type qed; to return to Scheme, type help; for help.
+(%0015) quit();
 unix>
 @end group
 @end example
@@ -2556,10 +2841,9 @@ GNU emacs.
 
 @example
 @group
-e0 : system("echo hi there");
+(%0000) system("echo hi there");
 hi there
-
-e0: 0
+%0000: 0
 @end group
 @end example
 @end deffn
@@ -2569,7 +2853,7 @@ e0: 0
 Prints a copy of the GNU General Public License
 @example
 @group
-e1 : terms();
+(%0001) terms();
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -2593,30 +2877,19 @@ does not echo commands to a file.
 
 @example
 @group
-e9 : a:[1,2,3];
+(%0001) a:[1,2,3];
+a: [1, 2, 3]
+(%0001) transcript("foo");
+"foo"
+(%0002) a;
+a: [1, 2, 3]
+(%0002) transcript();
+(%0002) system("cat foo");
 
-e9: [1, 2, 3]
 
-e10 : transcript("foo");
+(%0002) a;
 
-e10: foo
-
-e11 : a;
-
-e11: [1, 2, 3]
-
-e12 : transcript();
-e12 : system("cat foo");
-
-e10: foo
-
-e11 : a;
-
-e11: [1, 2, 3]
-
-e12 : transcript();
-
-e12: 0
+(%0002) transcript();%0002: 0
 @end group
 @end example
 @end deffn
@@ -2633,54 +2906,52 @@ closely related, allowing one to see what the current settings are.
 
 @deffn Command show flag
 The command @code{show} enables the Jacal user to examine the current
-setting of various flags as well as to list the flags that can be set by
-the user and to display other information. To change the settings of the
-flags, use the command @code{set}. To see all the information accessible
-through the @code{show} command, type @code{show all}. To see the
-available grammars, type @code{show grammars}.  To see the current input
-grammar type @code{show ingrammar}. To see the current output grammar,
-type @code{show outgrammar}. To see the current priority for printing
-expressions, type @code{show priority}.
+setting of various flags as well as to list the flags that can be set
+by the user and to display other information. To change the settings
+of the flags, use the command @code{set}. To see all the information
+accessible through the @code{show} command, type @code{show all}. To
+see the available grammars, type @code{show grammars}.  To see the
+current input grammar type @code{show ingrammar}. To see the current
+output grammar, type @code{show outgrammar}. To see the current
+variable ordering, type @code{show ordering}.
 @end deffn
 
 @example
 @group
-@exdent e1 : show all;
+(%0003) show all;
 
-all debug echogrammar grammars horner ingrammar linkradicals outgrammar
-page phases priority prompt trace version width
+     all debug echogrammar elims grammars horner ingrammar linkradicals
+     ordering outgrammar page phases priority prompt trace version width
 
-@exdent e1 : show prompt;
+(%0003) show prompt;
+%0003: %0003
 
-@exdent e1: e1
+(%0000) show ordering;
 
-@exdent e3 : show priority;
-
-:@@ (differential :@@) @@3 @@2 @@1 y x wronskian wronski verify u-/+ u+/-
-transpose transcript tex terms t system sylvester standard show shadow
-set scheme scalarmatrix row resultant restart require realpart rapply
-rank quit qed prompt priority prime? polyelim polydiff poly partial
-parallel over or num negate ncmult mod minor matrix load listofvars
-jacobian jacobi interp.newton interp.neville interp.lagrange interp
-imagpart ident help genmatrix gcd func flatten finv factors factorial
-factor extrule example equatecoeffs eliminate elementwise e0 dotproduct
-divide disp2d discriminant differential diff diagmatrix determinant
-describe depends denom degree crossproduct continue content commands col
-cofactor coefmatrix coeffs coeff charpoly chain cartprod cabs c bunch
-batch b-/+ b+/- b augcoefmatrix args all abs a ^^ ^ ? = ::@@ / - + * %
-%sqrt1 %i
-
-@exdent e3 : show outgrammar;
-
-@exdent e3: disp2d
-
-@exdent e4 : show ingrammar;
-
-@exdent e4: standard
-
-@exdent e5 : show grammars;
-
-@exdent e5: [scheme, null, schemepretty, standard, disp2d, tex]
+     @@ %W (exp(@@2*log(@@1)))' ((tanh(@@1))^(1/2))' ((1+(tan(@@1))^2)^(1/2))'
+     ((-1+(tanh(@@1))^2)^(1/2))' (tanh(@@1))' (tan(@@1))' (log(@@1))' (exp(@@1^2))'
+     (exp(@@1))' (exp(1))' (exp(-@@2^2))' (exp(-@@1^2))' (erf(@@1*%i))' (erf(@@1))'
+     (atanh(1/@@1))' (atan(1/@@1))' (atan(1))'
+     (atan((-@@1*%i*(-1+@@1^2)^(1/2))/(-1+@@1^2)))'
+     (atan((-1+@@1^2)^(1/2)/(-1+@@1^2)))' (atan((-1+@@1^2)^(1/2)))'
+     (atan(%i*(-1+@@1^2)^(1/2)/@@1))' exp(@@2*log(@@1)) (tanh(@@1))^(1/2)
+     (1+(tan(@@1))^2)^(1/2) (-1+(tanh(@@1))^2)^(1/2) tanh(@@1) tan(@@1) log(@@1)
+     exp(@@1^2) exp(@@1) exp(1) exp(-@@2^2) exp(-@@1^2) erf(@@1*%i) erf(@@1)
+     atanh(1/@@1) atan(1/@@1) atan(1) atan((-@@1*%i*(-1+@@1^2)^(1/2))/(-1+@@1^2))
+     atan((-1+@@1^2)^(1/2)/(-1+@@1^2)) atan((-1+@@1^2)^(1/2))
+     atan(%i*(-1+@@1^2)^(1/2)/@@1) tanh tan log fre exp erf atanh atan lambert_w
+     ((atan(1))^(1/2))' (atan(1))^(1/2) @@2' @@1' (@@1^(1/3))' (@@1^(1/2))'
+     ((-1+@@1^2)^(1/2))' %i' @@' %tanhQ[@@1] %tanhQ[-1+@@1] %tanhP[@@1]
+     %tanhP[-1+@@1] %tanQ[@@1] %tanQ[-1+@@1] %tanP[@@1] %tanP[-1+@@1] %expPQ[-1+@@1]
+     @@3 @@2: @@2 @@1^(1/3) @@1^(1/2) (-1+@@1^2)^(1/2) %i @@1: @@1 %sqrt1 y x t
+     ordering c b a ? ::@@ %tanhQ %tanhPQ %tanhP %tanQ %tanPQ %tanP %expPQ
+     "Currently in math mode."
+(%0000) show outgrammar;
+%0000: disp2d
+(%0001) show ingrammar;
+%0001: standard
+(%0002) show grammars;
+%0002: [null, raw, scheme, scheme2d, std, standard, disp2d, tex]
 @end group
 @end example
 
@@ -2701,25 +2972,16 @@ in this incrementation.
 
 @example
 @group
-e1 : set prompt az9Z;
-e1 : a+b;
-
+(%0003) set prompt "az9Z";
+(az9Z) a+b;
 az9Z: a + b
-
-az9AA : a+b;
-
+(az9AA) a+b;
 az9AA: a + b
-
-az9AB : set prompt ok99;
-az9AB : a+b;
-
+(az9AB) set prompt "ok99";
+(ok99) a+b;
 ok99: a + b
-
-ok100 : a+b;
-
-ok100: a + b
-
-ok101 :
+(ok100) b+c;
+ok100: b + c
 @end group
 @end example
 @end defvr
@@ -2730,100 +2992,86 @@ The following examples show how one changes the input grammar or the
 output grammar.
 @example
 @group
-e1 : a:[[[1,2,3]]];
+(%0000) a:[[[1,2,3]]];
+a: [ [1, 2, 3] ]
+(%0000) set outgrammar standard;
+(%0000) a;
+a: [[[1, 2, 3]]]
+(%0000) set outgrammar scheme;
+(%0000) a;
+(define a #(#(#(1 2 3))))
 
-e1: [[1, 2, 3]]
+(%0000) (1+x)^5;
+(define %0000 (+ 1 (* 5 x) (* 10 (expt x 2)) (* 10 (expt x 3)) (* 5 (expt x 4)) (expt x 5)))
 
-e2 : set outgrammar standard;
-e2 : a;
+(%0001) set ingrammar scheme;
+(%0001) (+ %0000 1);
+(define %0002 (+ 2 (* 5 x) (* 10 (expt x 2)) (* 10 (expt x 3)) (* 5 (expt x 4)) (expt x 5)))
 
-e2: [[[1, 2, 3]]]
+(set ingrammar disp2d)
+(%0003) diagmatrix(3,6);
+(define %0003 #(#(3 0) #(0 6)))
 
-e3 : set outgrammar scheme;
-e3 : a;
-
-(define e3 #(#(#(1 2 3))))
-e4 : (1+x)^5;
-@end group
-
-@group
-(define e4 (+ 1 (* 5 x) (* 10 (^ x 2)) (* 10 (^ x 3)) (* 5 (^ x 4)) (^ x 5)))
-e6 : set ingrammar scheme;
-e6 : (+ e4 1);
-
-(define e6 (+ 2 (* 5 x) (* 10 (^ x 2)) (* 10 (^ x 3)) (* 5 (^ x 4)) (^ x 5)))
-e7 : (set ingrammar disp2d)
-e7 : diagmatrix(3,6);
-
-(define e7 #(#(3 0) #(0 6)))
-e8 : set outgrammar disp2d;
-e8 : e7;
-
-    [3  0]
-e8: [    ]
-    [0  6]
-
-e9 : set outgrammar standard;
-e9 : e7;
-
-e9: [[3, 0], [0, 6]]
+(%0004) set outgrammar disp2d;
+(%0004) %0003;
+       [ 3  0 ]
+%0003: [      ]
+       [ 0  6 ]
+(%0004) set outgrammar standard;
+(%0004) %0003;
+%0003: [[3, 0], [0, 6]]
 @end group
 @end example
 
 Note that in the above examples, it is possible to input and output
 expressions in scheme by setting the ingrammar and/or outgrammar to
-@code{scheme}.  Doing so result in linear output (as with @code{standard
-grammar}) as opposed to a two dimensional display (as with
-@code{disp2d}).  The analogue of @code{disp2d} for scheme output is
-scheme pretty-printing.  To have such output, set the output grammar to
-@code{schemepretty}.
+@code{scheme}.  Doing so result in linear output (as with
+@code{standard grammar}) as opposed to a two dimensional display (as
+with @code{disp2d}).  The analogue of @code{disp2d} for scheme output
+is Scheme pretty-printing.  To have such output, set the output
+grammar to @code{scheme2d}.
 
 @example
 @group
-
-e4 : set outgrammar schemepretty;
-e4 : (1+x)^5;
-
-(define e4
+(%0004) set outgrammar scheme2d;
+(%0004) (1+x)^5;
+(define %0004
   (+ 1
      (* 5 x)
-     (* 10 (^ x 2))
-     (* 10 (^ x 3))
-     (* 5 (^ x 4))
-     (^ x 5)))
+     (* 10 (expt x 2))
+     (* 10 (expt x 3))
+     (* 5 (expt x 4))
+     (expt x 5)))
+
 @end group
 @end example
 
 Jacal also allows for output to be automatically typeset in @TeX{}.
 This can be quite useful if one wants to use the results of one's
-computations in published articles. Continuing with the example of
+computations in published articles.  Continuing with the example of
 @code{(1+x)^5} above, we have:
 
 @example
 @group
-e5 : set outgrammar tex;
-e5 : e4;
-
-e5: 1 + 5 x + 10 x^@{2@} + 10 x^@{3@} + 5 x^@{4@} + x^@{5@}
-
-e6 : (1+1/x)^3/(1-1/y)^4;
-
-e6: @{\left(1 + 3 x + 3 x^@{2@} + x^@{3@}\right) y^@{4@}@}\over@{x^@{3@} - 4 x^@{3@} y +
-
-                6 x^@{3@} y^@{2@} - 4 x^@{3@} y^@{3@} + x^@{3@} y^@{4@}@}
+(%0005) set outgrammar tex;
+(%0005) %0004;
+%0004: 1+5\,x+10\,x^@{2@}+10\,x^@{3@}+5\,x^@{4@}+x^@{5@}
+(%0005) (1+1/x)^3/(1-1/y)^4;
+%0005: @{@{\left(1+3\,x+3\,x^@{2@}+x^@{3@}\right)\,y^@{4@}@}\over@{x^@{3@}-
+  4\,x^@{3@}\,y+6\,x^@{3@}\,y^@{2@}-4\,x^@{3@}\,y^@{3@}+x^@{3@}\,y^@{4@}@}@}
 @end group
 @end example
 @ifinfo
 
 That looks much better when formatted by TeX in an article than the
-actual Jacal output in @code{disp2d} grammar.
+Jacal output using @code{disp2d} grammar.
 @end ifinfo
 @tex
 After being included in a document in math display mode, these two
 examples will appear in the following way.
-$$1 + 5 x + 10 x^{2} + 10 x^{3} + 5 x^{4} + x^{5}$$
-$${\left(1 + 3 x + 3 x^{2} + x^{3}\right) y^{4}}\over{x^{3} - 4 x^{3} y +
-               6 x^{3} y^{2} - 4 x^{3} y^{3} + x^{3} y^{4}}$$
+$$1+5\,x+10\,x^{2}+10\,x^{3}+5\,x^{4}+x^{5}$$
+$${{\left(1+3\,x+3\,x^{2}+x^{3}\right)\,y^{4}}\over{x^{3}-
+  4\,x^{3}\,y+6\,x^{3}\,y^{2}-4\,x^{3}\,y^{3}+x^{3}\,y^{4}}}$$
 @end tex
 @end defvr
 
@@ -2831,32 +3079,28 @@ $${\left(1 + 3 x + 3 x^{2} + x^{3}\right) y^{4}}\over{x^{3} - 4 x^{3} y +
 The following examples show how to set the priority of printing terms.
 @example
 @group
-e10 : a;
+(%0000) a: [[[1,2,3]]];
+a: [ [1, 2, 3] ]
+(%0000) show priority a;
 
-e10: [[[1, 2, 3]]]
+;;; expl->var not a simple variable:  [[[1 2 3]]]
 
-e11 : show priority a;
-
-;;; not a simple variable:  (((1 2 3) . ()) . ())
-
-e12 : show priority b;
-
-e12: 128
-
-e13 : show priority c;
-
-e13: 128
-
-e14 : b+c;
-
-e14: b + c
-
-e15 : c+b;
-
-e15: b + c
-
-e16 : set priority b 200;
-e16 : b+c;
+(%0000) show priority b;
+%0000: 3000
+(%0001) show priority c;
+%0001: 3000
+(%0002) b+c;
+%0002: b + c
+(%0003) c+b;
+%0003: b + c
+(%0004) set priority b 2000;
+(%0004) b+c;
+%0004: b + c
+(%0005) set priority b 4000;
+(%0005) b+c;
+%0005: c + b
+(%0006) %0002;
+%0002: b + c
 @end group
 @end example
 @end defvr

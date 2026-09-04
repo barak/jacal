@@ -1,5 +1,5 @@
 ;;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1996, 1997, 2002, 2009, 2020 Aubrey Jaffer.
+;;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1996, 1997, 1998, 1999, 2002, 2005, 2006, 2007, 2009, 2020, 2024, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -37,6 +37,8 @@
 ;; (require 'polynomial-factors)
 (require 'debug)
 
+(set! math:debug #t)
+
 (define math:break-continuation-stack '())
 
 (define (math:break-with-object msg obj)
@@ -64,19 +66,11 @@
 		    (else (math:print x))))
 	    args))
 
-(define (print . args)
-  (define result #f)
-  (for-each (lambda (x) (set! result x) (math:print x)
-		    (display-diag #\space))
-	    args)
-  (newline-diag)
-  result)
-
 (define (debug:check proc1 proc2 . opts)
   (lambda args
     (let ((result1 (apply proc1 args))
 	  (result2 (apply proc2 args)))
-      (cond ((not (equal? result1 result2))
+      (cond ((not (math:equal? result1 result2))
 	     (newline-diag)
 	     (display-diag "WARN:")
 	     (for-each (lambda (x) (display-diag #\space) (write-diag x)) opts)
@@ -95,18 +89,3 @@
 	     (math:print result2)
 	     (newline-diag)))
       result1)))
-
-;;; Wrap POLY:FACTOR< with check for well-ordering.
-(define poly:factor<
-  (let ((factor< poly:factor<))
-    (lambda (x y)
-      (define x<y (factor< x y))
-      (define y<x (factor< y x))
-      (cond ((and x<y y<x)
-	     (slib:error 'poly:factor< 'failed x y))
-	    ((and (not x<y) (not y<x)
-		  (not (equal? x y)))
-	     (slib:error 'poly:factor< 'failed= x y))
-	    (else x<y)))))
-
-(provide 'qp)

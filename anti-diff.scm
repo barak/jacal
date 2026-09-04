@@ -1,5 +1,5 @@
 ;; "anti-diff.scm" rational-function anti-derivative.	-*-scheme-*-
-;; Copyright 2020, 2023 Aubrey Jaffer
+;; Copyright 2020, 2023, 2026 Aubrey Jaffer
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 (require 'common-list-functions)
 
 ;; returns a list of unsquared factors of increasing power.
+;; poly:sqfr-split in "sqfree.scm" is quite similar!
 (define (sqfr-splits c var)
   (define splitter (poly:diff c var))
   (cond ((not (number? splitter))
@@ -45,7 +46,7 @@
 		       acc))))))
 
 (define (rat:integrate dnmf L var ver)
-  (define dY (normalize (diff (var->expl ver) var)))
+  (define dY (expr:numerads (diff (var->expl ver) var)))
   (define Q (denom dY))
   (define Qxd (poly:degree Q var))
   (define N (reduce-init poly:* 1 dnmf))
@@ -83,9 +84,9 @@
 			       (univ:monomial 1 h ver))))
 	      (else (poly:* (univ:monomial 1 g var)
 			    (univ:monomial 1 h ver)))))
-      (define dT (normalize (diff T var)))
-      (define B (normalize (app* $1*$2+$3 N dT (poly:* M T))))
-      (define C (expr:normalize
+      (define dT (expr:numerads (diff T var)))
+      (define B (expr:numerads (app* $1*$2+$3 N dT (poly:* M T))))
+      (define C (expr:numerads
 		 (app* $1/$2
 		       (poly:* (denom B) (poly:coeff RyC var Rxd))
 		       (poly:* (poly:coeff (poly:coeff (num B) ver Ryd) var Rxd)
@@ -101,8 +102,8 @@
 	     (math:print 'dT= dT)
 	     (math:print 'B= B)
 	     (math:print 'C= C)))
-      (set! A (expr:normalize (app* $1*$2+$3 C T A)))
-      (set! R (expr:normalize (app* $1-$2*$3 R C B)))
+      (set! A (expr:numerads (app* $1*$2+$3 C T A)))
+      (set! R (expr:numerads (app* $1-$2*$3 R C B)))
       (cond ((and math:debug (number? R) (not (zero? R)))
 	     (math:print 'nonzero-number-R= R)))
       (cond ((if (number? R) (zero? R) (univ:zero? R))
@@ -140,25 +141,25 @@
 	 (math:warn 'too-many-extensions-involving v ': verlst)
 	 novalue)
 	(else
-	 (let ((ans (normalize
+	 (let ((ans (expr:numerads
 		     (app* $1*$2
 			   (rat:integrate (sqfr-splits dnm/cdnm v) nm/cnm v ver)
 			   (app* $1/$2 cnm cdnm)))))
-	   (let ((chk (expr:normalize (diff ans v))))
+	   (let ((chk (expr:numerads (diff ans v))))
 	     (cond ((novalue? ans) ans)
-		   ((independent-of-var? (normalize (app* $1-$2 chk p)) v)
+		   ((independent-of-var? (expr:numerads (app* $1-$2 chk p)) v)
 		    ans)
-		   ((independent-of-var? (normalize (app* $1+$2 chk p)) v)
+		   ((independent-of-var? (expr:numerads (app* $1+$2 chk p)) v)
 		    (if math:debug (math:warn 'integration-was-negated))
 		    (app* _-$1 ans))
 		   (else
-		    (math:warn 'diff-of-integral-mismatch chk)
-		    (math:print 'mr-diff-of-integral-mismatch p)
-		    novalue)))))))
+		    (math:warn 'diff-of-integral-mismatch)
+		    (math:write chk *output-grammar*) (newline)
+		    ans)))))))
 
 (define (integrate . args)
   (if (not (<= 2 (length args) 4)) (bltn:error 'integrate 'wna args))
-  (let ((expr (normalize (car args)))
+  (let ((expr (expr:numerads (car args)))
 	(var (expl->var (cadr args)))
 	(lo (if (null? (cddr args)) #f (caddr args)))
 	(hi (and (= 4 (length args)) (cadddr args))))
@@ -167,7 +168,7 @@
 	  (else
 	   (let ((sexp (sexp:alpha-convert (list (var:sexp var))
 					   (cano->sexp expr horner))))
-	     (define ifun (indef-integrate (sexp->math sexp) $1))
+	     (define ifun (indef-integrate (seval sexp '()) $1))
 	     (cond ((novalue? ifun) ifun)
 		   ((case (length args)
 		      ((3) (app* ifun lo))

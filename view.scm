@@ -29,9 +29,9 @@
 
 (define page-height #f)
 (define page-width #f)
-(define *input-grammar* (get-grammar 'scheme))
+(define *input-grammar* (get-grammar 'null))
 			;grammar to use if none is loaded.
-(define *output-grammar* (get-grammar 'scheme))
+(define *output-grammar* (get-grammar 'null))
 			;grammar to use if none is loaded.
 (define *echo-grammar* (get-grammar 'null))
 
@@ -56,7 +56,7 @@
 	      (force-output cip))
 	     (else (display math:prompt)
 		   (force-output)))
-       (set! obj (read-sexp *input-grammar* (string-length math:prompt)))
+       (set! obj (read-sexp *input-grammar* (string-length math:prompt) cip))
        (cond ((and (null? file) (not obj)))
 	     ((eof-object? obj))
 	     ((not obj) (display "got #f") (newline))

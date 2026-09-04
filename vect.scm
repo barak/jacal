@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1998, 1999, 2002, 2005, 2007, 2010, 2019, 2020, 2024 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -78,11 +78,22 @@
       ((< i i1) mat)))
 
 ;;;Create a matrix of indeterminates
-
 (define (nmatrix var . rst)
   (apply genmatrix
-	 (lambda subs (apply rapply var subs))
+	 (lambda subs (apply rcall var subs))
 	 rst))
+
+;;;; apply a function to its coordinates for each element of an array
+(define (rcall ob . args)
+  (cond ((null? args) ob)
+	((bunch? ob)
+	 (let ((idx (plicit->integer (car args))))
+	   (if (<= 1 idx (length ob))
+	       (apply rcall
+		      (list-ref ob (+ -1 idx))
+		      (cdr args))
+	       (eval:error 'rcall 'coordinate-out-of-range:-- idx ob))))
+	(else (eval:error 'rcall 'wta ob))))
 
 (define (row? a)
   (and (bunch? a)

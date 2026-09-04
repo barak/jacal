@@ -183,7 +183,7 @@
   (sym:sym modulus (univ:lc poly)))
 
 (define (ff:monic? modulus poly)
-  (and (not (univ:const? poly)) (eqv? 1 (ff:lc modulus poly))))
+  (and (not (univ:constant? poly)) (eqv? 1 (ff:lc modulus poly))))
 
 ;;;================================================================
 ;;; Standard Euclidean algorithm for polynomial gcd over Z mod n
@@ -232,7 +232,7 @@
    (yuniv:square-free-factorization ppoly (car ppoly))))
 
 (define (ff:diff n p v)
-  (if (equal? (car p) v)
+  (if (eqv? (car p) v)
       (do ((i (- (length p) 1) (+ -1 i))
 	   (r '() (cons (sym:sym n (* (+ -1 i) (list-ref p i))) r)))
 	  ((< i 2) (cons v r)))
@@ -485,12 +485,12 @@
 	    (let ((u (car us)))
 	      (let loop3 ((ss ffp))
 		(cond ((and (not (null? ss)) (< (length factors) k))
-		       ;;(print '!)
+		       ;;`(sexp:print '!)
 		       (let ((g (ff:euclid-gcd ;poly:gcd
 				 p
 				 (poly:- (vector-ref vs r) (car ss)) ;(list var )
 				 u)))
-			 (cond ((and (not (equal? g u))
+			 (cond ((and (not (math:equal? g u))
 				     (not (univ:one? g var)))
 				(set! factors (delete u factors))
 				(set! u (ff:p/p p u g))
@@ -544,7 +544,7 @@
     (let ((e (licit->polxpr poly)))
       (ff:check-arg e)
       (cond
-       ((not (equal? e (u:primz e)))	;this test should be replaced
+       ((not (math:equal? e (u:primz e)))	;this test should be replaced
 	(bltn:error 'not-a-primitive-polynomial poly))
        (else (u:sff e))))))
 
@@ -577,5 +577,5 @@
 
 (defbltn 'parfrac 1 1
   (lambda (poly)
-    (let ((e1 (expr:normalize poly)))
+    (let ((e1 (expr:numerads poly)))
       (u:partial-fraction-expand (num e1) (denom e1)))))

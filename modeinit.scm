@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1998, 2002, 2003, 2007, 2024, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -16,14 +16,16 @@
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-(set! Language "English")	;grammar <Language>.scm should exist
+(set! language "English")	;grammar <Language>.scm should exist
 
 (set! math:debug #f)		; #t to break on soft errors, #f to continue.
 				;Does extra checking.
 
 (set! math:phases #f)		; #t to show phases of normaization.
 
-(set! math:trace #f)		; #t to trace variable eliminations, #f not to.
+(set! math:trace #f)		; #t to trace function applications, #f not to.
+
+(set! math:elims #f)		; #t to trace variable elims, #f not to.
 
 (set! linkradicals #t)		;Relate radicals in the traditional manner.
 
@@ -33,9 +35,9 @@
 
 (set! page-width #t)		;Number or #t to use SLIB's width. #f for wide.
 
-(set! newextstr (string-standard-case "EXT0")) ;extension template
+(set! newextstr (string-standard-case "%EXT0")) ;extension template
 
-(set! newlabelstr (string-standard-case "E0")) ;prompt template
+(set! newlabelstr (string-standard-case "%0000")) ;prompt template
 
 (set! newlabelsym (string->symbol newlabelstr))
 (set! % novalue)
@@ -44,5 +46,5 @@
   (if (file-exists? init)
       (slib:load init)))			;User initialization file
 
-(if (and Language (= 3 (length (list-of-grammars)))) ;none loaded yet.
-    (slib:load (in-vicinity (program-vicinity) Language)))
+(if (and language (not (get-grammar 'standard))) ;none loaded yet.
+    (slib:load (in-vicinity (program-vicinity) language)))

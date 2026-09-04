@@ -1,6 +1,6 @@
 ;; "hensel.scm" Multivariate Hensel Lifting.	-*-scheme-*-
 ;; Copyright 1994, 1995 Mike Thomas
-;; Copyright 1996, 1997, 1998, 1999, 2002, 2009, 2020 Aubrey Jaffer
+;; Copyright 1996, 1997, 1998, 1999, 2002, 2004, 2005, 2007, 2009, 2020, 2024 Aubrey Jaffer
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -114,7 +114,7 @@
     (math:print 'u-too-short u) '())
    ((not (pairwise-relatively-prime? u p x_1))
     (math:print 'not-pairwise-relatively-prime-in x_1 u p) '())
-   ((not (equal? a* u_i*))
+   ((not (math:equal? a* u_i*))
     ;; many occurrences; all are negations.
     (math:print 'u-product-mod-p^l-ideal-not-equal-to-a u_i* a*) '())
    (else
@@ -133,7 +133,7 @@
 	(let loop0 ((j 0))
 	  (define bU* (reduce-init poly:* 1 bU))
 	  (cond
-	   ((>= j nu-1) (if (equal? a bU*) bU #f))
+	   ((>= j nu-1) (if (math:equal? a bU*) bU #f))
 	   (else
 	    (let ((bU1 bU)
 		  (monomial 1)
@@ -307,7 +307,8 @@
      (let varloop ((vloopcnt 0))
        (cond (math:trace
 	      (display-diag 'factoring:) (newline-diag)
-	      (math:write (poleqns->licits poly) *output-grammar*)))
+	      (display-diag "  ")
+	      (math:write (poleqns->licits poly) (get-grammar 'std))))
        (let* ((spec-var (list-ref vars (modulo vloopcnt nvars)))
 	      (spec-var-poly (var->expl spec-var))
 	      (psign (poly:unitz poly spec-var))
@@ -333,8 +334,10 @@
 		       psign (append (poly:factorz pcont) ppolyfactors))))))
 	 (cond (math:trace
 		(display-diag 'yielding-factors:) (newline-diag)
+		(display-diag "  ")
 		(math:print facts)
-		(math:write facts *output-grammar*)))
+		(display-diag "  ")
+		(math:write facts (get-grammar 'std))))
 	 (cond ((not (null? ppolyfactors)) facts)
 	       ((>= vloopcnt nvars)
 		(math:warn 'could-not-factor poly) '())
@@ -360,7 +363,7 @@
     (if (null? ivars)
 	sofar
 	(let ((rn (let loop ((rn1 (+ 2 (random (- r 1) ideal:prngs))))
-		    (if (member rn1 nums)
+		    (if (memv rn1 nums)
 			(loop (+ 2 (random (- r 1) ideal:prngs)))
 			rn1))))
 	  (mri (cdr ivars) (cons rn sofar) (cons rn nums)))))
@@ -507,5 +510,5 @@
 			  (else
 			   (varloop (+ 1 vloopcnt))))))))))))))
 
-;;(require 'debug-jacal) (trace hen:diophantine hen:eea-lift hen:univariate-diophant hen:multivariate-diophant lcsubst hen:multivariate-hensel correct-lcs)
+;;(require 'debug-jacal) (trace HEN:DIOPHANTINE HEN:EEA-LIFT HEN:UNIVARIATE-DIOPHANT HEN:MULTIVARIATE-DIOPHANT LCSUBST HEN:MULTIVARIATE-HENSEL CORRECT-LCS)
 ;;(require 'debug-jacal) (trace-all "hensel.scm")

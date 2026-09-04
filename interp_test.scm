@@ -26,7 +26,7 @@
 (define-syntax assert-equal
   (syntax-rules ()
     ((assert-equal expression1 expression2)
-     (if (equal? expression1 expression2)
+     (if (math:equal? expression1 expression2)
 	 (display "Success!\n")
 	 (begin
 	   (display "Failed assert-equal:\n")
@@ -40,7 +40,7 @@
 (define-syntax assert-not-equal
   (syntax-rules ()
     ((assert-not-equal expression1 expression2)
-     (if (not (equal? expression1 expression2))
+     (if (not (math:equal? expression1 expression2))
 	 (display "Success!\n")
 	 (begin
 	   (display "Failed assert-not-equal:\n")

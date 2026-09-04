@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 2019, 2020 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1997, 1998, 1999, 2002, 2005, 2007, 2019, 2020, 2024, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 (require 'sort)
+(require 'tsort)			; topological sort
 (require 'common-list-functions)
 
 ;;; An algebraic extension is the root of a polynomial with more than
@@ -32,9 +33,9 @@
   (define elts '())
   (poly:for-each-var
    (lambda (v)
-     (let ((er (extrule v)))
-       (if (and er (not (eq? er poly)))
-	   (set! elts (adjoin v elts)))))
+     (let ((er (var:algrule v)))
+       (if (and er (not (math:equal? er poly)))
+	   (set! elts (cons v elts)))))
    poly)
   elts)
 
@@ -42,73 +43,82 @@
   (define elts '())
   (poly:for-each-var
    (lambda (v)
-     (let ((er (extrule v)))
+     (let ((er (var:algrule v)))
        (if (and er
-		(not (eq? er poly))
+		(not (math:equal? er poly))
 		(not (poly:find-var? er (var:differential v))))
-	   (set! elts (adjoin v elts)))))
+	   (set! elts (cons v elts)))))
    poly)
   elts)
 
 ;;;alg:vars returns a list of all terminal vars used in this or in extensions
-;;;used in this.
+;;;used only by listofvars
 (define (alg:vars poly)
   (define deps '())
   (poly:for-each-var
    (lambda (v)
-     (if (and (not (extrule v)) (null? (var:depends v)))
-	 (set! deps (adjoin v deps)))
+     (if (and (not (var:algrule v)) (null? (var:depends v)))
+	 (set! deps (cons v deps)))
      (set! deps (union (var:depends v) deps)))
    poly)
   deps)
 
-(define (application? v)
-  (and (not (extrule v))
-       (pair? (var:sexp v))
-       ;; (not (eq? 'differential (car (var:sexp v))))
-       ))
+(define (var:application? v)
+  (and (not (var:algrule v))
+       (pair? (var:sexp v))))
 
-;;; we want to find all functionals used by this poly except.
-(define (var:funcs poly)
+;;; used only in chain-rule
+(define (poly:funcs poly)
   (define elts '())
   (poly:for-each-var
    (lambda (v)
-     (if (application? v)
-	 (set! elts (adjoin v elts))))
+     (if (var:application? v)
+	 (set! elts (cons v elts))))
    poly)
   elts)
 
-;;; algebraic and applications
-(define (chainables poly)
-  (define elts '())
-  (poly:for-each-var
-   (lambda (v)
-     (let ((er (extrule v)))
-       (if (or (and er (not (eq? er poly)))
-	       (application? v))
-	   (set! elts (adjoin v elts)))))
-   poly)
-  elts)
+;;; used only in EXT:ELIM and CHAINABLES
+(define (extensions licit)
+  (define deps (licit:depends licit))
+  (remove-if (lambda (dp) (null? (var:depends dp))) deps))
+
+;;; returns a list of algebraic, differential, and application vars.
+;;; used only in TOTAL-DIFFERENTIAL
+(define (chainables licit)
+  (remove-if var:constant? (licit:depends licit)))
 
 ;;; This is for poleqn
 ;;; Don't simplify a rule with itself
 ;;; Don't simplify differential rules
 (define (alg:simplify p)
-  (let ((vars (sort (poly:aexts p) var:>)))
-    (define exrls (map extrule vars))
-    (define ans p)
-    (for-each (lambda (r v) (set! ans (poly:prem ans r v))) exrls vars)
-    ans))
+  (phases-diag
+   'alg:simplify
+   (lambda (p)
+     (define vars (sort (poly:aexts p) var:>))
+     (define exrls (map var:algrule vars))
+     (define ans p)
+     (for-each (lambda (r v) (set! ans (poly:prem ans r v))) exrls vars)
+     ans)
+   p))
 
 (define (alg:clear-leading-exts poly)
-  (define p poly)
-  ;; (cond (math:trace (display-diag 'clear-leading-exts:) (newline-diag)))
-  (let loop ((lc (poly:leading-coeff p (car p))))
-    (define v (poly:find-var-if? lc potent-extrule))
-    (cond ((not v) p)
-	  (else
-	   (set! p (alg:simplify (poly:* p (alg:conjugate lc v))))
-	   (loop (poly:leading-coeff p (car p)))))))
+  (phases-diag
+   'alg:clear-leading-exts
+   (lambda (poly)
+     (define p poly)
+     (cond ((number? p) p)
+	   (else
+	    (let loop ((lc (poly:leading-coeff p (car p))))
+	      (define v (poly:find-var-if? lc var:algrule))
+	      (cond ((not v) p)
+		    (else
+		     (set! p (alg:simplify (poly:* p (alg:conjugate lc v))))
+		     (cond ((number? p)
+			    (math:warn 'wta 'ALG:CLEAR-LEADING-EXTS p)
+			    poly)	; give up
+			   (else
+			    (loop (poly:leading-coeff p (car p)))))))))))
+   poly))
 
 ;;; This generates conjugates for any algebraic by a wonderful theorem of mine.
 ;;; 4/30/90 jaffer
@@ -123,7 +133,7 @@
     (if (zero? (univ:degree prem var))
 	(univ:demote pquo)
 	(poly:* (univ:demote pquo) (alg:conjugate prem extpoly)))))
-;; (trace alg:simplify alg:clear-leading-exts alg:conjugate poly:aexts)
+;; (trace ALG:SIMPLIFY ALG:CLEAR-LEADING-EXTS ALG:CONJUGATE POLY:AEXTS)
 
 ;;; This section attempts to implement an incremental version of
 ;;; Caviness, B.F., Fateman, R.:
@@ -138,13 +148,6 @@
 ;;; If the variable LINKRADICALS is #f then a new multiple value expression
 ;;; is returned for each radical.
 
-;;; this is actually alg:depth
-;(define (rad:depth imp)
-;  (let ((exts (poly:aexts imp)))
-;    (if (null? exts)
-;	0
-;      (+ 1 (apply max (map (lambda (x) (rad:depth (extrule x))) exts))))))
-
 ;;; Integer power of EXPR
 (define (ipow a pow)
   (if (not (integer? pow)) (math:error 'non-integer-power?- pow))
@@ -157,21 +160,47 @@
 		      (make-rat (ipow (rat:num a) pow)
 				(ipow (rat:denom a) pow))))
 	(else (if (< pow 0)
-		  (app* (list $ 1 (univ:monomial -1 (- pow) $1)) a)
+		  (app* (list $ -1 (univ:monomial 1 (- pow) $1)) a)
 		  (app* (univ:monomial 1 pow $1) a)))))
 
-(define (^ a pow)
+(define (rref rvarl idx)
+  (let ((var (expl->var rvarl)))
+    ;; (set! idx (normalize idx))
+    (cond ((not (number? idx)) (deferop _rref rvarl idx))
+	  ((negative? idx) (math:error 'rref 'negative-index idx)
+	   novalue)
+	  ((not (var:recurrence? var))
+	   (math:error 'rref 'wta var))
+	  ((assv idx (var:instances var)) => cdr)
+	  (else
+	   (let ((val (canonicalize (rapply (var:recrule var) (list idx)))))
+	     (var:set-instances! var (cons (cons idx val) (var:instances var)))
+	     val)))))
+
+(define %expt #f)
+(define (register-%expt!)
+  (cond (%expt)
+	(else
+	 (set! %expt (cdr (symdef-lookup (string->symbol "%expt") '()))))))
+
+;;; function for handling non-trivial cases.
+(define (^ a0 pow0)
+  (define a (expr:canonicalize a0))
+  (define pow (normalize pow0))
   (cond
-   ((not (rat:number? pow)) (deferop _^ a pow))
    ((eqn? a) (math:error 'expt-of-equation?:- a))
+   ((and (not (rat:number? pow)) (not (eqv? 0 a)))
+    (register-%expt!)
+    (app* %expt a pow))
    (else
-    (set! pow (expr:normalize pow))
     (let ((expnum (num pow))
 	  (expdenom (denom pow)))
       (cond
+       ((and (eqv? 0 a) (eqv? 0 expnum))
+	(math:error 'undefined '(^ 0 0)))
+       ((eqv? 0 a) 0)
        ((eqv? 1 expdenom) (ipow a expnum))
        (linkradicals
-	(set! a (expr:normalize a))
 	(cond ((expl? a) (ipow (make-radical-exts a expdenom) expnum))
 	      ((not (rat? a)) (math:error 'non-rational-radicand:- a))
 	      ((rat:unit-denom? a)
@@ -190,18 +219,24 @@
 	  (app* tmp a))))))))
 
 ;;; Generate extensions for radicals of polynomials
-;;; Currently this does not split previously defined radicands.
-;;; It will as soon as expression rework is added.
 (define (make-radical-exts p r)
-  (reduce-init poly:* 1 (map (lambda (fact-exp)
-			       (ipow (make-radical-ext (car fact-exp) r)
-				     (cadr fact-exp)))
-			     (factors-list->fact-exps (rat:factors-list p)))))
+  (reduce-init
+   poly:* 1 (map (lambda (fact-exp)
+		   (cond 
+		    ;; ((licit:variable? (car fact-exp))
+		    ;;  ;; (register-%expt!)
+		    ;;  (app* %expt (car fact-exp) (make-rat (cadr fact-exp) r)))
+		    (else
+		     (ipow (make-radical-ext (car fact-exp) r)
+			   (cadr fact-exp)))))
+		 ;; (factors-list->fact-exps (rat:factors-list p))
+		 (factors-list->fact-exps (rat:sqfr-factors-list p))
+		 )))
 
 ;; radical-defs is the list of radical extension defining poleqns
 (define (make-radical-ext p r)
   (set! p (licit->polxpr p))
-  (let ((e (member-if (lambda (e) (equal? p (cadr e))) radical-defs)))
+  (let ((e (member-if (lambda (e) (math:equal? p (cadr e))) radical-defs)))
     (cond (e (if (divides? r (length (cddr (car e))))
 		 (radpow (car e) r)
 		 (var->expl (make-rad-var p r))))
