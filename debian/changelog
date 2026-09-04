@@ -1,12 +1,17 @@
-jacal (1c8-2) UNRELEASED; urgency=medium
+jacal (2a1+ds-1) unstable; urgency=medium
 
   * Update debian/watch support file to uscan v5
   * Bump versions of policy and debhelper
   * Rewrite debian/copyright in machine-readable DEP-5 format
   * Exclude upstream-generated files (jacal.info, jacal.doc,
     DOC/ratint.pdf) from the repacked upstream tarball
+  * New upstream release
+  * Update upstream homepage
+  * Remove undefined debian/control substitution variable
+  * Do not install HELP in /usr/share/doc/jacal/; it is in the help dir
+  * Tweak debian/rules to put upstream version in user script
 
- -- Barak A. Pearlmutter <bap@debian.org>  Fri, 04 Sep 2026 15:25:00 +0100
+ -- Barak A. Pearlmutter <bap@debian.org>  Fri, 04 Sep 2026 15:27:41 +0100
 
 jacal (1c8-1) unstable; urgency=medium
 

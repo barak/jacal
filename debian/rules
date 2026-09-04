@@ -5,6 +5,11 @@
 
 include /usr/share/dpkg/pkg-info.mk
 
+# The orig tarball is repacked (see Files-Excluded in debian/copyright), so
+# the Debian upstream version carries a +ds suffix.  Strip it: this is the
+# version "jacal --version" reports, and it should match upstream's own.
+UPSTREAM_VERSION = $(firstword $(subst +ds, ,$(DEB_VERSION_UPSTREAM)))
+
 export TEXI2HTML=texi2html
 
 MAKEVARS=DESTDIR=$(CURDIR)/debian/jacal \
@@ -31,7 +36,7 @@ debian/jacal/usr/bin/jacal:
 	-mkdir -p $$(dirname $@)
 	echo '#! /bin/bash'			 > $@
 	echo JACALDIR=/usr/lib/jacal/		>> $@
-	echo VERSION=$(DEB_VERSION_UPSTREAM)	>> $@
+	echo VERSION=$(UPSTREAM_VERSION)	>> $@
 	cat jacal.sh				>> $@
 	chmod +x $@
 
