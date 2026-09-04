@@ -1,3 +1,10 @@
+jacal (1c8-2) UNRELEASED; urgency=medium
+
+  * Update debian/watch support file to uscan v5
+  * Bump versions of policy and debhelper
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Fri, 04 Sep 2026 09:04:14 +0100
+
 jacal (1c8-1) unstable; urgency=medium
 
   * simply debian/watch and also get it to work
