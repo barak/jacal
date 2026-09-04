@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 2020 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 2020, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -15,14 +15,57 @@
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+(define diag:indent 0)
+
+(define (elim-diag id proc vars eqns)
+  (cond ((and math:elims id)
+	 (do ((i diag:indent (+ -1 i))) ((zero? i)) (display #\space))
+	 (set! diag:indent (modulo (+ 2 diag:indent) 31))
+	 (display id) (display " ")
+	 (math:write1 (map var->expl vars) (get-grammar 'standard))
+	 (display " from: ")
+	 (math:write eqns (get-grammar 'standard))	 
+	 (let ((res (proc vars eqns)))
+	   (set! diag:indent (modulo (+ -2 diag:indent) 31))
+	   (do ((i diag:indent (+ -1 i))) ((zero? i)) (display #\space))
+	   (display id) (display " ==> ")
+	   (math:write res (get-grammar 'standard))
+	   res))
+	(else (proc vars eqns))))
+
+(define (trace-diag id proc body args)
+  (cond ((and math:trace id)
+	 (do ((i diag:indent (+ -1 i))) ((zero? i)) (display #\space))
+	 (set! diag:indent (modulo (+ 2 diag:indent) 31))
+	 (display id) (display " ") (math:write1 body (get-grammar 'standard))
+	 (display " to: ") (math:write args (get-grammar 'standard))
+	 (let ((res (proc body args)))
+	   (set! diag:indent (modulo (+ -2 diag:indent) 31))
+	   (do ((i diag:indent (+ -1 i))) ((zero? i)) (display #\space))
+	   (display id) (display " ==> ")
+	   (math:write res (get-grammar 'standard))
+	   res))
+	(else (proc body args))))
+
+(define (phases-diag id proc arg)
+  (cond ((and math:phases id (not (trifle? arg)))
+	 (do ((i diag:indent (+ -1 i))) ((zero? i)) (display #\space))
+	 (set! diag:indent (modulo (+ 2 diag:indent) 31))
+	 (display id) (display " ") (math:write arg (get-grammar 'standard))
+	 (let ((res (proc arg)))
+	   (set! diag:indent (modulo (+ -2 diag:indent) 31))
+	   (do ((i diag:indent (+ -1 i))) ((zero? i)) (display #\space))
+	   (display id) (display " ==> ")
+	   (math:write res (get-grammar 'standard))
+	   res))
+	(else (proc arg))))
+
 ;;	Save our vicinity for finding non-scheme files.
 (define jacal-vicinity (program-vicinity))
 ;;	Load the core files.
 (slib:load (in-vicinity (program-vicinity) "toploads"))
 ;;	Initialize modes to something reasonable.
 (slib:load (in-vicinity (program-vicinity) "modeinit"))
-;;	Load functions defined in standard grammar.
-(batch-quietly (in-vicinity (program-vicinity) "init.math"))
 
 ;;;; error and interrupt response for SCM.
 ;;; Put appropriate handlers for other systems here.
@@ -62,4 +105,10 @@
 ;;  (set! user-interrupt #f)
   (set! end-of-program #f))
 
-;; (trace make-shadow memshad var:shadow simple-shadowed-lambdavar? capply ext:elim var:elim deferop)
+;;	Load functions defined in standard grammar.
+(batch-quietly (in-vicinity (program-vicinity) "init.math"))
+
+;; (trace normalize canorm extize unitcan
+;;        expr:norm-or-unitcan expr:canonicalize expr:canorm
+;;        alg:simplify alg:clear-leading-exts
+;;        poly:square-free-var poly:square-and-num-cont-free)

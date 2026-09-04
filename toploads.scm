@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2002, 2008 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1997, 1998, 1999, 2002, 2004, 2005, 2006, 2007, 2010, 2019, 2020, 2023, 2024, 2025, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -22,37 +22,44 @@
 (require-if 'compiling 'info)
 (require-if 'compiling 'precedence-parse)
 
-(define *jacal-version* "1c8")
+(define *jacal-version* "2a1")
 
+(define math:output-port (current-output-port))
 (define (jacal:dot) (display ".") (force-output))
 (jacal:dot)
-(slib:load (in-vicinity (program-vicinity) "types"))
-(jacal:dot)		;Variables and type conversions.
-(define (math:exit b) (cleanup-handlers!) (slib:error "error in math system"))
+(define (math:exit b) (cleanup-handlers!) (slib:error "error initializing math system"))
 	;error handling when not running (math) [read-eval-print loop]
 ;(define *diagnostic-output* (current-output-port))
 (slib:load (in-vicinity (program-vicinity) "grammar"))
 (jacal:dot)		;grammar, I/O, test, and error routines.
 ;;; Dynamic Variables -- These get set in "modeinit.scm"
 		;grammars to use if none is loaded.
-(define *input-grammar* (get-grammar 'scheme))
-(define *output-grammar* (get-grammar 'scheme))
+(define *input-grammar* (get-grammar 'null))
+(define *output-grammar* (get-grammar 'null))
 (define *echo-grammar* (get-grammar 'null))
+(define initial-prompt? #t)
 (define tran:translations '())
-(define Language #f)
+(define language #f)
 (define math:debug #f)
 (define math:phases #f)
 (define math:trace #f)
+(define math:elims #f)
 (define linkradicals #f)
 (define horner #f)
 (define page-height #f)
 (define page-width #f)
 (define newextstr #f)
-(define newlabelstr #f)
+(define newlabelstr "")
 (define newlabelsym #f)
 (define % #f)
 (define *modulus* 0)
 
+;; output grammar needed by types.scm
+(slib:load (in-vicinity (program-vicinity) "std"))
+(slib:load (in-vicinity (program-vicinity) "unparse"))
+(jacal:dot)		;infix printer.
+(slib:load (in-vicinity (program-vicinity) "types"))
+(jacal:dot)		;Variables and type conversions.
 ;(define *symdefs* '())			;":" environment.
 (define *symdefs* (make-hash-table 37))	;":" environment.
 (slib:load (in-vicinity (program-vicinity) "sexp"))
@@ -62,6 +69,8 @@
 (jacal:dot)		;Routines which operate on internal data type POLY.
 (slib:load (in-vicinity (program-vicinity) "elim"))
 (jacal:dot)		;Routines which eliminate variables.
+(slib:load (in-vicinity (program-vicinity) "UFD-basis"))
+(jacal:dot)		;Routines which reduce sets of polynomials.
 (slib:load (in-vicinity (program-vicinity) "vect"))
 (jacal:dot)		;Routines which operate on lists of POLY (mtrx).
 (slib:load (in-vicinity (program-vicinity) "norm"))
@@ -96,9 +105,10 @@
 	    msgs)
   (newline-diag))
 (jacal:dot)		;General parser
-(slib:load (in-vicinity (program-vicinity) "unparse"))
-(jacal:dot)		;infix printer.
 (catalog:read jacal-vicinity "jacalcat")
+
+(define (report-run-time thunk) (thunk)) ; stub for non-standard Scheme feature
+
 ;;; These routines test the core mathematical routines;
 ;;; Beware if they produce warnings or errors.
 (poly:test)		;Test for routines in "poly"
@@ -109,11 +119,11 @@
 
 (newline)
 (display "JACAL version ") (display *jacal-version*)
-(display ", Copyright 1989-2020 Aubrey Jaffer
+(display ", Copyright 1989-2026 Aubrey Jaffer
 JACAL comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `(terms)' for details.
 ")
-(display ";;; Type (math); to begin.")
+(display ";;; Type (math); to begin from Scheme session.")
 (newline)
 (force-output)

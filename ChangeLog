@@ -1,3 +1,1372 @@
+2026-08-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Installation): Added instructions for local install.
+
+	* sexp.scm (saw-newline?): #\nl --> #\newline (for MITScheme).
+
+2026-08-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* Makefile (upgnu): Fighting with gnupload script.
+
+	* jacal.texi, jacal.nsi, Makefile (demo, view.scm): Removed files
+	from distribution.
+
+	* jacal.texi (Release Notes, Conventions, Tensors): Updated.
+
+	* init.math, test.math, jacal.texi (lambert_w): Renamed from %w;
+	%W is retained.
+
+	* README: Include file manifest.
+
+	* English.scm (one-arg): Warn of extra expressions.
+
+	* sexp.scm (seval): Cleaned up numeric type checking.
+
+2026-08-12  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Tensors, Canonical): Added sections.
+
+	* types.scm (licit:depends): Signal error if passed primitive
+	transcendental.
+
+	* rw.math: set width 160; to keep each command on one line.
+
+	* builtin.scm ($): Changed var:pri 9000 --> 65535.
+	(%i): Changed var:pri to 2.
+	(^): Changed var:pri to 5.
+
+	* init.math (asin, acsc): Changed acot() to atan() of reciprocal.
+
+	* norm.scm (mapply): expr:canonicalize --> normalize argument to
+	tcall.  This fixed sin(asin(x)).
+
+	* test.math: Added tests for sec() and csc().
+
+2026-08-11  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (%sqrt1, %i): var:pri = 1.  Still problem with %expt
+	versus %i; sin(asin(x)).
+
+	* types.scm (poly:pri): Added to calculate var:pri from nesting.
+	(var:topo-sort): Removed; not needed with new var:pri ordering.
+	(most-nested-arg): Replaces nested-arg.
+	(poly:most-nested-var): Replaces poly:one-var.
+
+2026-08-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Defining Differential Equations): Added memoized
+	recurrence definitions and factorial example.
+
+	* test.math (Transcendental reductions): added tests.
+
+	* builtin.scm (listofvars)
+	* types.scm (licit:depends)
+	* sexp.scm (batch1)
+	* poly.scm (poly:vars, licit:vars)
+	* norm.scm (total-chain-exts)
+	* hensel.scm (make-random-ideal)
+	* ext.scm (alg:vars)
+	* elim.scm (capply, var:max-lambda-position)
+	(var:min-lambda-position): Change math:equal? procedures to eqv?
+	analogs when dealing with vars or integers.
+
+	* types.scm (sexp->new-var): Nesting calls increases priority.
+	(var:topo-sort): Abstracted from licit:depends.
+
+	* builtin.scm (differential): Just calls total-differential.
+	(priority): "show priority" now prints the priorities of all vars.
+
+	* ext.scm (extensions, chainables): Greatly simplified using
+	licit:depends.
+
+	* debug.scm (math:debug): set true.
+
+	* grammar.scm (math:advise): Added; prints on when math:debug is on.
+
+	* types.scm (licit:depends): Changed to topological-sort.
+	(nested-arg): Changed to math:advise 'multiple-nested-vars.
+
+	* elim.scm (eliminate): In cases of singular-reduction,
+	math:advise instead of math:error; and return novalue.
+	(ext:elim): (reduce math:union (map extensions poleqns)) -->
+	(extensions poleqns).
+
+	* sexp.scm (math:greet): help() --> help;.
+
+2026-08-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (licit:depends): Scans var:arglist for depends.
+	(register-instance!): does this twice!
+	(var:set-depends! var (remove var (licit:depends impl)))
+
+	* ext.scm (var:application?): Renamed from "application?"
+	(extends): Try simplification.
+
+	* sexp.scm (seval): Disabled expected-abstract-transcendental-var-
+	clause; not sure what it was for.
+
+	* types.scm (math:adjoin): Simplified.
+	(var:reset!, var:definverse!): Changed (var:set-func! var #f) to
+	(var:set-func! var (var->expl var))
+
+	* builtin.scm (func): Simplified.
+
+2026-08-08  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Algebraic Operators): Recurrences will eventually be
+	automatically generated.
+
+	* norm.scm (total-differential): Disabled equation as argument.
+
+	* types.scm (var:reset!, var:definverse!): Corrected setting of
+	arglist and depends.
+
+	* ext.scm (chainables): Defined in terms of extensions().
+
+	* builtin.scm (extrule): extrule --> definition.
+
+	* jacal.texi (Algebraic Commands): extrule --> definition.
+
+	* types.scm (poleqn:differential?, var:nodiffs): Changed to use
+	var:differential?.
+
+	* English.scm (tps:tex): Added %W and %w.
+
+2026-08-07  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Miscellaneous, Running Jacal, Algebraic Commands):
+	improved text.
+
+	* types.scm (with-shadows): removed.
+
+	* builtin.scm (depvars cartprod): removed.
+	(extrule): Now returns an equation in all 3 cases.
+
+	* English.scm (tps:2d, tps:c, tps:standard, tps:tex)
+	* std.scm (tps:std): Removed qed and help.
+
+	* builtin.scm (factorial): Now only accepts integer argument.
+
+	* English.scm (tps:2d, tps:c, tps:standard, tps:tex)
+	* std.scm (tps:std)
+	* unparse.scm (hformat, unparse): Moved rules for symbol lookup
+	into a list at start of template; Moved template: rules into list
+	in cadr of template; the remaining (function) rules are in cddr of
+	template.  This mitigates the speed impact of doing symbol lookup.
+
+	* English.scm (tps:2d, tps:standard, tps:tex): Removed % as command.
+	(tps:tex): Added atan(), tan(), exp(), and log() functions.
+	Added translation for %i.
+
+	* builtin.scm (transcript-files): Added so transcript-off isn't
+	called with no active transcript.
+
+	* sexp.scm (batch1): When no *ingrammar* is set, echo with 'standard.
+
+	* init.math (*PQ): Moved after function definitions.
+
+	* jacal.texi (Flags): Removed @ from TeX example.
+
+	* norm.scm (import-var): Don't choke if not defined yet.
+
+2026-08-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.nsi: missing files added.
+
+	* jacal.texi (Running Jacal): Expanded.
+	(Miscellaneous): Reran examples.
+
+	* jacal.nsi: Removed "DOC\history".
+
+	* builtin.scm (flag-set, flag-get): Fixed for "priority" flag.
+
+	* Makefile (jacal.doc): Removed 'ul' command.
+
+2026-08-05  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* toploads.scm (*jacal-version*): Bumped from 1c9 to 2a1.
+
+2026-08-04  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Transcendental Functions): Chapter added.
+
+	* ext.scm (extensions, extends): Greatly simplified; less crunching.
+
+	* elim.scm (var:elim): eapply --> mapply.
+
+	* types.scm (var:simple-shade): Removed.
+	(make-shadow): Fixed application of nested extension functions.
+
+	* builtin.scm (shade): Added.
+
+2026-08-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm, elim.scm: Removed depvars, eapply, shapply.
+
+	* ext.scm, poly.scm, types.scm: depvars removed.
+
+	* types.scm (licit:shadowed?): Added; returns first
+	simple-shadowed-lambdavar? found.
+
+	* sexp.scm (seval-norm-top): Don't canonicalize and warn if find
+	escaped-shadow-variable.
+
+2026-07-18  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (var:elim): mapply->eapply.
+	(eapply): Don't choke on @1->@1 substitutions.
+
+2026-06-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (var:shadow): Also call var:set-shade!
+
+	* init.math (atanh): Removed second definition; cleanup.
+
+2026-06-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (tcall): Fixed for tan(atan(1/x));
+
+	* init.math (atan(-1)): Added.
+
+2026-05-30  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* init.math (log, tan): Added identities for constants.
+
+	* norm.scm (tcall): Don't choke when IC=0 and arg=1/x.  Updated
+	comments.  Code cleanup.
+
+	* types.scm (var:definverse!): arglist is $1.
+
+2026-05-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (shapply): shd --> (licit->impl shd).
+
+	* types.scm (var:reset!): (var:set-arglist! var (list $1)).
+
+	* init.math (atanh, coth, sech, csch, cosh, sinh, acoth): Added.
+
+2026-05-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (shapply): Convert xpr to impl.
+	(eapply): Added; works, but doesn't do alpha conversion.
+
+	* types.scm (var:dump): print var:shade.
+
+	* ext.scm (extends): algrule or dffrule.
+
+	* builtin.scm (eapply): Added.
+
+2026-05-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* grammar.scm (do-more): q --> (math:exit #f)
+
+	* norm.scm (mapply): expr:numerads --> expr:canonicalize.
+
+	* elim.scm (var:elim): Stricter elimination check; deferop not used.
+
+	* builtin.scm (extrule): Don't turn into equation.
+
+2026-05-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (ext:elim, var:elim): Code cleanup.
+	(make-shade-poleqn): Added error checks.
+	(make-subst-poleqn, make-shift-poleqn): Added for shapply.
+	(shapply): Added eventual replacement for capply.
+
+	* builtin.scm (arity, shapply): Added.
+
+	* types.scm (var:reset!): Removed unnecessary fields.
+
+2026-04-30  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (make-shade-poleqn, licit:shade): Added.
+	(var:elim): normalize --> canonicalize in doarg.
+	(capply): cons --> math:adjoin.
+
+	* builtin.scm (shade): Added command.
+
+	* types.scm (var:shade, var:set-shade!, var:simple-shade): Added
+	new field used only for simple-lambda-vars.
+
+2026-04-27  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (sexp->new-var): Fixed var:arity of transcendental instances.
+
+2026-04-25  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (canorm): Corrected bunch recursion.
+	(fcinverse): normalize --> canonicalize.
+
+2026-04-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (extensions): Renamed from chains.
+
+	* elim.scm (ext:elim): Use extensions instead of chainables.
+
+	* ext.scm (extensions): Added topological-sort of extensions.
+
+	* types.scm (var:constant?): Disallow differentials.
+
+2026-04-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* init.math (math): math : "Currently in math mode.";
+
+	* norm.scm (mapply): Don't choke with two arguments.
+
+	* elim.scm (var:elim): Code cleanup.
+
+	* builtin.scm (terms): Ignore arguments.
+	(chains): Added.
+
+	* ext.scm (chains): Added.
+
+2026-04-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (batch1): (set! diag:indent 0).
+
+	* builtin.scm (depvars): Added.
+	(eliminate): "map canonicalize" removed.
+	(shadows): Renamed from shadow.
+
+	* elim.scm (var:elim): canonicalize --> normalize.
+	(ext:elim): Wrapped by elim-diag.  Reversed argument order.
+
+	* ext.scm (alg:clear-leading-exts, alg:simplify): Simplified using
+	phases-diag().
+
+	* types.scm (make-rad-var): extrule --> var:algrule.
+	(licit:depvars, licit:depends): Reversed sort order.
+	(trifle?): Added novalue?.
+
+	* norm.scm (canorm): Simplified using phases-diag().
+
+	* math.scm (phases-diag): Added function.
+
+2026-04-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* anti-diff.scm: Normalization functions names changed.
+
+	* elim.scm (capply): Now uses trace-diag.
+	(var:elim, eliminate): Now use elim-diag; changed argument order.
+
+	* grammar.scm (math:write1): Like math:write without newline.
+
+	* norm.scm (rapply, mapply, tcall): Now use trace-diag.
+
+	* poly.scm (poly:elim2): Reversed argument order; now uses elim-diag.
+
+	* math.scm (diag:indent, elim-diag, trace-diag): Added to
+	abstract, unify, and improve diagnostic output.
+
+2026-04-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (canon): Added expr:canonicalize command.
+
+	* norm.scm (expr:numerads, expr:canorm expr:canonicalize)
+	(canonicalize, canorm): renamed.
+
+	* builtin.scm (depends): Now calls licit:depends.
+
+2026-04-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (normalize-top): Disabled top.
+	(expr:normalize-top): Used only in builtin ^, num, and denom.
+
+2026-04-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* init.math (%W): Inverse function definition has correct derivatives.
+
+	* elim.scm (poly:elim, var:elim, eliminate)
+	* poly.scm (poly:elim2): generate diagnostics when math:elims.
+
+	* norm.scm (tcall): Traces when math:trace is true.
+
+	* modeinit.scm, toploads.scm (math:elims)
+	* builtin.scm (elims): Added flag.
+
+2026-04-12  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (defext): var:set-shadows! not needed.
+
+	* sexp.scm (seval): "satisfying" case rewritten using
+	sexp:alpha-convert.
+
+	* builtin.scm: (var:set-shadows! (car _^) (list #f #f)) not needed.
+
+2026-04-11  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (mapply): Fixed @1(x).
+
+	* init.math (%expt): Renamed from expo.
+
+	* ext.scm (%expt, register-%expt!): Renamed from expol.
+
+	* sexp.scm (batch-quietly): Replaced with-input-from-file with
+	call-with-input-file.
+
+	* norm.scm (register-inits!, tcall): Added tanh.
+
+	* modeinit.scm: Better detection of whether English.scm was loaded.
+
+	* init.math (tanhPQ): added recurrence for tanh(n*atanh(x)).
+
+	* grammar.scm (raw): Added Jacal's sexpr syntax (close to Scheme).
+
+	* builtin.scm (make-grammar-bltn): All grammar commands now use this.
+
+	* English.scm (prec:commentfix): Echo comments unless
+	*echo-grammar* is null.
+
+2026-04-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* init.math: Trigonometry works except for cos().
+
+	* norm.scm (expr:normalize-top): Rewritten using expr:normalize1.
+	(expr:normalize1, impl:reciprocal): Added.
+
+	* poly.scm (rat:<): Added.
+	(poly:total-degree, impl:total-degree): rewritten using rat: numbers.
+
+	* types.scm (make-rat, rat:num): Swapped signs.
+
+	* builtin.scm (eliminate): (normalize args) --> (map normalize-top args).
+	(%i, %sqrt1): func and arglist defined.
+	(degree): simplified.
+
+2026-04-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (rapply, mapply): (normalize args) --> (map normalize-top args).
+
+	* sexp.scm (define-label, seval): seval-norm calls changed to
+	seval-norm-top.
+
+	* norm.scm (normalize1): Unified math:phases reporting.
+	(expr:normalize-top): Like normalize less alg:clear-leading-exts.
+
+	* poly.scm (impl:total-degree): max, not +
+
+	* builtin.scm ($?): Eliminated warnings.
+	(num, denom): normalize --> normalize-top.
+
+	* elim.scm (var:elim): Use normalize-top.
+
+	* ext.scm (alg:simplify): Added math:phases.
+
+	* math.scm: Moved loading of "init.math" after establishing handlers.
+
+	* sqfree.scm (poly:factor<): Adding math:equal? test ensures ordering.
+
+2026-04-08  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sqfree.scm (sqfr-free-var): Removed.
+	(poly:factor<, poly:sort-factors): Moved from "factors.scm".
+
+	* sexp.scm (batch1): Show output from definitions.
+
+	* init.math (sin, cos, asin, acsc): Tweaked definitions.
+
+	* factors.scm (negate-factors-exps, poly:factor<)
+	(poly:sort-factors): Moved to "sqfree.scm".
+
+	* ext.scm (make-radical-exts): Use sqare-free instead of full factoring.
+
+	* debug.scm (poly:factor<): Wrapper moved to "sqfree.scm".
+
+	* Makefile (dfiles): Removed "history" and "ratint.tex".
+
+	* builtin.scm (squarefreefactors, squarefreefactorslist): Added.
+
+	* test.math: Moved factors test earlier in order to load ffsff()
+	and berl() commands.
+
+2026-04-07  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sqfree.scm (rat:sqfr-factors-list, poly:sqfr-factors-list)
+	(poly:sqfr-factors): Added.
+	(poly:sqfr-split, univ:square-free-factorization, poly:sqfr-all):
+	Commouted unused functions.
+
+	* builtin.scm (squarefreefactors): Added.
+
+	* poly.scm (poly/scalar): Added.
+
+2026-04-05  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sqfree.scm (poly:square-and-num-cont-free): Unduplicated code.
+
+2026-04-04  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* factors.scm (prepend-integer-factor): handle -1 = numcont case.
+
+	* rw.math: Changed to recent rref notation.  Removed trig
+	eliminations.
+
+	* init.math (tanh, atanh): work as inverses.
+	cos(z) := sin(z)/tan(z); works! sidesteps orphan shadow var issue.
+
+	* elim.scm (var:deep-arity): removed.
+	(licit:deep-arity): Simplified.
+
+	* jacal.texi (Authors and Bibliography): Expanded.
+
+2026-04-02  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacal.texi (Project History): Added (from DOC/history).
+
+2026-04-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (batch1): eliminated rref: rref output.
+
+	* grammar.scm (scheme): Added newline call.
+
+	* builtin.scm, grammar.scm, jacal.texi: Grammar scheme -> scheme2d.
+
+	* grammar.scm (scheme, scheme2d): Added readers.
+
+	* builtin.scm (make-grammar-bltn): Improved initial column.
+	  (scheme2d): Added.
+
+	* English.scm (tex): Improved reader.
+
+2026-03-31  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (scheme): Translate over <-> / and expt <-> ^.
+
+	* sexp.scm (define-label, seval): %time --> time(); %factor -->
+	factor(); %horner --> horner().
+
+	* builtin.scm (make-grammar-bltn): Added reader.
+
+	* grammar.scm (scheme, null, schemepretty, read-sexp): Added port
+	argument to read-sexp.
+
+	* sexp.scm (batch1): Added port argument to read-sexp.
+
+	* view.scm (view): Added port argument to read-sexp.
+
+	* types.scm (var->string): Strings are symbols with leading and
+	trailing double-quotes.
+	(strimbol?): Added for string-encoded symbols.
+
+2026-03-30  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (sexp?): Fixed for vectors.
+
+	* sexp.scm (define-label): Added %horner command; works with scheme(), std(), etc.
+
+	* English.scm (%horner): Added.
+
+	* grammar.scm (schemepretty): Use /, -, and expt.
+
+2026-03-29  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (normalize1): Added top? argument.
+	(normalize-top, expr:normalize-top): Added.
+	(mapply): ((procedure? fxpr) (apply fxpr (normalize args))) Added.
+
+	* poly.scm (impl:total-degree): Added to gage impl complexity.
+
+	* sexp.scm (define-label): many seval-norm --> seval-norm-top.
+
+	* init.math (sec, asec, acos, asin, acsc): Replaced expo(,1/2)
+	calls with sqrt().
+
+2026-03-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (degree): Now accepts only polynomials.
+
+	* jacal.texi: Converted examples to current session look.
+
+	* types.scm (impl?): Corrected "and" order.
+
+	* test.math: Prefixed all assigned variables with "Tst."
+
+2026-03-27  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* factors.scm (rat:factor->sexp, rat:factors): fixed x/15 factoring.
+	(nuf-def, rat:factor->sexp, rat:factors): Moved expand-integer-factors calls.
+
+	* builtin.scm (_^): expr? --> expl?.
+
+	* ext.scm (alg:clear-leading-exts): Added "yielding:".
+
+	* builtin.scm (boolify): Changed booleans to #t and #f.
+
+	* unparse.scm (unparse): Changed booleans to #t and #f.
+
+	* norm.scm (normalize): Changed booleans to #t and #f.
+
+	* sexp.scm (vet-sym): Restored to "@" (from ":@").
+	(batch1, define-label): Changed booleans to #t and #f.
+
+2026-03-26  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm ($): Restored to "@" (from ":@").
+
+	* sexp.scm (vet-sym): Don't choke on @ without suffix.
+
+2026-03-25  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (licit->polxpr): Added.
+
+	* sexp.scm (seval(suchthat)): Force expression to polxpr.
+
+2026-03-24  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* t.math: Don't set debug on;
+
+2026-03-24  Aubrey Jaffer  <jaffer@jaffer-Vivobook-ASUSLaptop-X1703ZA-K1703ZA>
+
+	* toploads.scm (*jacal-version*): Bumped from 1c8 to 1c9.
+
+2024-11-08  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (eliminate, bunch:norm): ((null? x) x).
+
+	* norm.scm (chain-rule): poly:vars --> poly:variables.
+
+	* ext.scm (poly:exts, poly:aexts): eq? --> math:equal?
+
+	* types.scm (nested-arg): math:error ---> math:warn.
+
+2024-05-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ext.scm (chainables): don't find constant vars.
+
+	* init.math (erf): simplified 2/sqrt(%pi) to sqrt(atan(1)).
+
+	* types.scm (poly:variables): added to find non-constant vars;
+
+2024-05-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (math:adjoin, math:union): added math:equal? procedures.
+	(nested-arg): checks for and warns about non-matching nested-args.
+
+2024-04-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* poly.scm (poly:vars, licit:vars, poly:find-var-exts): var:< ---> var:>
+
+2024-04-12  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (extrule): include var:recrule in command.
+
+	* types.scm (licit:depends): removed dependence on (pair? var:def).
+	(potent-extrule): removed.
+	(var:reset!, var:definverse!, defext, register-instance!)
+	(extize): removed var:set-def! calls.
+
+	* norm.scm (mapply, tcall): var:def --> var:dffrule.
+
+	* ext.scm (poly:exts, poly:aexts, alg:vars, application?)
+	(alg:clear-leading-exts): extrule --> var:algrule.
+
+2024-04-11  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (var:reset!, nested-arg): var:diffeq? --> var:dffrule.
+
+	* sexp.scm (seval): var:def ---> var:dffrule.
+
+	* elim.scm (var:elim): var:diffeq? ---> var:dffrule.
+	(licit:deep-arity): var:def ---> var:dffrule and var:algrule.
+
+	* builtin.scm (differential): simplified using var:dffrule.
+
+	* ext.scm (rref): var:def ---> var:recrule.
+
+	* norm.scm (rapply): streamlined code.
+
+	* sexp.scm (define-label): don't set var:def for recurrences.
+
+	* types.scm (var:recurrence?): simplified using var:recrule.
+
+	* types.scm, norm.scm, sexp.scm (var:algrule, var:dffrule, var:recrule):
+	Added to facilitate removing var:def overloading.
+
+	* types.scm (var:definverse!): added for differential extensions
+	defined by the inverse function.
+
+	* init.math (%W, %w): %W is inverse-defined; %w is diffeq-defined.
+
+2024-04-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (poly:elim): Don't choke on variables missing from equations.
+
+	* init.math, ext.scm: added comments; formatted.
+
+2024-04-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* init.math (%W): added %W(%e) ::= 1; as first initial-condition.
+	(acos, asin, acsc): sqrt(1-z^2) --> expo(1-z^2,1/2).
+
+	* norm.scm (tcall): Now checks initial-conditions in addition to
+	diffeq.
+
+	* test.math: added nested transcendental function tests.
+
+	* types.scm (poly:one-var): added.  needs to be smarter.
+	(nested-arg): now finds only var:diffeq? nested functions.
+
+2024-04-05  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (var:depvars, var:set-depvars!, licit:depvars): Added
+	dependencies list of variables only.
+
+2024-04-04  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* init.math (%pi): must be defined after atan().
+
+	* sexp.scm (seval): inversefunction sets both var:inverse fields.
+
+	* norm.scm (tcall): handle constant cases with integer coefficient
+	of nested transcendental, like tan(3*atan(1/2));
+
+	* types.scm (deferop): commented out redundant instance check.
+	(nested-arg): don't require VAR:DIFFEQ?.
+
+	* ff.scm, norm.scm, poly.scm, types.scm (*:constant?):
+	renamed from *:CONST?.
+
+2024-04-03  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (var:inverse, var:set-inverse!): added.
+	(var:const?, var:variable?, licit:variable?, licit:const?): added.
+	(licit:depends): capture deps only from variables.
+	(var:reset!, register-instance!): Set var:def to #f and
+	var:depends to '() for constants.
+
+	* sexp.scm (seval): call VAR:SET-INVERSE! for inversefunction.
+
+	* norm.scm (tcall): use new VAR:INVERSE field, simplify constant
+	expressions.
+
+	* elim.scm (ext:elim): added comment.
+
+	* builtin.scm ($?): simplified and added check.
+
+	* types.scm, ext.scm: code cleanup.
+
+	* elim.scm, norm.scm, sexp.scm, builtin.scm (mapply):
+	renamed from SAPPLY.
+
+	* builtin.scm, info.scm, norm.scm, sexp.scm, types.scm,
+	anti-diff.scm (sexp->math): replaced by calls to SEVAL.
+
+2024-04-02  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (tcall): removed gratuitous (register-inits!).
+	(sapply): simplified; moved VAPPLY into SAPPLY.
+	(rapply): call APPLY instead of VAPPLY.
+
+	* elim.scm (var:elim): simplified.  Now calls TCALL directly.
+	(vapply): merged into SAPPLY.
+
+	* types.scm (math:equal?, math:assoc): safe replacement for EQUAL? and ASSOC.
+	(math:assoc): changed to internal recursion.
+	(deferop): (or (var:func var) var) --> var; (var:func var) was never true.
+
+	* builtin.scm, debug.scm, elim.scm, ext.scm, factors.scm, ff.scm, grammar.scm, hensel.scm, interp_test.scm, interpolate.scm, norm.scm, poly.scm, sexp.scm, sqfree.scm, types.scm, uv-hensel.scm:
+	* (math:equal?, math:assoc): safely replace EQUAL? and ASSOC.
+	* (math:test) renamed from TEST.
+
+	* test.math: verify(diff(%W(x*exp(x)),x),1); now works.
+
+	* ext.scm (register-expol!): cache expo (from "init.math").
+
+2024-04-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (tcall): automatically simplifies exp(N*log(ARG)) to
+	ARG(N) for integer N; and tan(N*atan(ARG)) to polynomial of ARG.
+	Simplifies %W(x*exp(x)) --> x.  %W(x)*exp(%W(x)) doesn't simplify.
+	(register-inits!): cache expPQ and tanPQ from "init.math".
+
+	* init.math, test.math (expPQ, tanPQ): simplified discrete recurrences.
+
+	* types.scm (nested-arg): returns argument of nested transcendental.
+
+2024-03-31  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (expr:normalize): remove gratuitous UNIV:DEMOTE.
+
+	* poly.scm (poly:/?, poly:gcd): changed EQUAL? --> EQV?
+
+	* decompose.scm (calculate-s): changed EQUAL? --> EQV?
+
+	* types.scm (make-monomial): changed EQUAL? --> EQV?
+
+	* uv-hensel.scm (hen:eea-lift): changed EQUAL? --> EQV?
+
+	* types.scm (var:reset!): set var:depends.
+	(licit:depends): include dependent extension vars.  This fixes
+	"Wrong type  alg:clear-leading-exts 0" warnings.
+	(licit:depends): sort depends.
+
+	* poly.scm (poly:vars, licit:vars, poly:find-var-exts): sort! changed to sort.
+
+	* norm.scm (diff, derivative): sort! changed to sort.
+
+	* factors.scm (poly:sort-factors): sort! changed to sort.
+
+	* builtin.scm (int:factor, int:factors): sort! changed to sort.
+
+	* test.math: Added derivative() test cases.
+
+	* elim.scm (vapply): fixed tcall WNA cases.
+
+	* sexp.scm, types.scm: code cleanup; minor optimizations.
+
+2024-03-30  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (derivative): second argument can be expression.
+	(diff, derivative): simpler implementation.
+
+	* builtin.scm (derivative): added version of diff where the
+	variable arguments can be expressions involving variables.
+
+2024-03-29  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* init.math (expQ): added expQ[n] = 1
+
+	* elim.scm (licit:deep-arity): adjoin --> cons.
+
+	* ext.scm (poly:exts, poly:aexts, alg:vars, poly:funcs)
+	(chainables): adjoin --> cons.
+
+	* norm.scm (diff): adjoin --> cons.
+
+	* poly.scm (poly:vars, licit:vars): sort results.
+	(licit:for-each-var, poly:for-each-var): call proc once per var.
+	(poly:find-var-exts): adjoin --> cons.
+	(poly:vars, licit:vars, poly:find-var-exts): reversed
+	sort order so diff((%W(x))*exp(%W(x)),x); doesn't spin into segfault.
+
+2024-03-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ext.scm (rref): signal error if var is not a recurrence.
+
+	* sexp.scm (rapply): split from sapply to handle rrefs.
+
+	* types.scm (licit:diffeq?, var:diffeq?): added.
+	(var:recurrence?): fixed.
+
+	* init.math (tanP, tanQ, expP): added recurrences for reducing
+	compositions of transcendental functions and their inverses.
+
+	* builtin.scm (_rref): signal an error for negative indexes.
+
+	* types.scm (sexp->new-var): set arity for lambdavars.
+	set shadows for any lambdavardep? var.
+
+	* ext.scm (rref): recurrences finally work!
+
+	* elim.scm (var:elim): recurrences finally work!
+
+	* sexp.scm (vet-sym): unshadow vars.
+
+2024-03-27  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (sapply): fixed (3*sqrt(t))(4);
+
+2024-03-25  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (var:recurrence?): made like radicalvar?
+
+	* sexp.scm (sapply): pass through rational-number functions.
+
+	* builtin.scm (chainables): added.
+
+2024-03-24  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (_rref): defbltn.
+
+	* elim.scm (var:elim): added recurrence support.
+
+	* ext.scm (rref): moved code to Scheme procedure.
+
+	* init.math (fact): added recurrence.
+
+	* sexp.scm (sapply): working toward recurrence support.
+
+	* types.scm (register-recurrence!): Added.
+
+2024-03-22  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (differential): just wrap with differential when
+	argument is expl:var?; otherwise total-differential.
+
+	* sexp.scm (define-label, seval): Added incomplete support for
+	recurrences.
+
+	* types.scm (rdeferop, var:recurrence?): added.
+	(var:set-pristr!, var:set-diffcnt!): removed unused procedures.
+
+2024-03-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (batch1, seval): added support for rref.
+	(batch1): changed prompt.
+	(initialcondition, inversefunction): renamed.
+
+2024-03-20  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (define-label): undid previous change.
+	(sapply): don't choke on wrong number of arguments.
+
+	* test.math (%W): added tests for Lambert-W function.
+
+	* types.scm (register-instance!): don't change var:pri; it screws
+	up existing expressions.
+	(var:reset!): restore original var:pri.
+	(impl?): require at least one coefficient.
+	(poly->eqn): signal error for poly argument which is a number.
+
+	* poly.scm (poly:poly?): require at least one coefficient.
+	(promote): moved from "builtin.scm".
+
+	* elim.scm: comments and code cleanup.
+	(eliminate): signal error for division by 0.
+
+2024-03-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (poleqn:differential?, var:reset!): added.
+	(var:reset!): take implicit rule argument.
+	(licits:vet): expanded scope of poly:vet.
+	(sexp->new-var): don't strip primes from var:pri-str.
+
+	* sexp.scm (seval): added support for pair-inverse command.
+	(undefsym): don't make new var.
+
+	* init.math: use new "::~" syntax.
+	(fre): added.
+
+	* English.scm (pair-inverse): added "::~" syntax.
+
+	* norm.scm (total-differential): fixed for equation argument.
+	(diff): disallow equation argument.
+
+2024-03-18  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (sapply): compactified math:trace output.
+	(tcall, seval): simplified.
+	(seval): restrict :: to differential equations.
+
+	* types.scm (licit->poleqn, licit->polxpr, licit->impl)
+	(expl->var, variables): no longer accept symbols as arguments.
+	(deferop): check instances before creating new symbol.
+	(register-instance!): combined register-impl-var! and register-trn-var!
+
+2024-03-17  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): undefine instances when redefining a
+	transcendental function's differential equation.
+
+2024-03-16  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* poly.scm (const:promote): restored to be LIST procedure.
+
+2024-03-15  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* unparse.scm (template-print): shrank width by 1.
+
+	* types.scm (poly:vet): this function finally found the
+	transcendental variable ordering bug!
+	(defext, register-trn-var!, register-impl-var!, extize): fixed the
+	extension variable ordering bug.
+	(licit:depends): streamlined.
+	(var:nodiffs): fixes licit:depends.
+
+	* elim.scm (poly:elim): removed gratuitous poly:promote.
+
+	* norm.scm: code cleanup.
+	(total-differential, poly:diff): code cleanup.
+
+	* poly.scm (poly:degree): check for unnormalized polynomial and
+	output "!".
+	(const:promote): check if promoting already-promoted polynomial.
+
+	* factors.scm (svpf): even though it shouldn't happen, handle
+	numeric poly argument.
+
+2024-03-14  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* jacalcat (timing): feature renamed from non-standard.
+
+	* norm.scm (expr:normalize): Added univ:demote call.
+
+	* types.scm (rat:num, rat:denom): code somewhere is returning
+	polys with bad variable ordering; calling univ:demote fixes it.
+
+	* sexp.scm (define-label): factor changed to %factor command.
+	(defsym-both): added for %factor command.
+	(define-label): handle WNA for top-level commands.
+
+	* English.scm (%factor): prec:prefix command added.
+	(one-arg): made argument lists WNA robust.
+
+	* builtin.scm (defbltn): moved from "sexp.scm".
+	(set, show): corrected arities.
+
+	* norm.scm (normalize): no longer passes sexpressions.
+
+2024-03-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* poly.scm (poly:degree): made more robust by checking for
+	high-order 0 coefficients.
+
+	* sexp.scm (batch-quietly, seval): code cleanup.
+	(define-label): now handles %time command.
+	(seval): now checks for inconsistent calls in differential definitions.
+	(sexp:find-if-lambdavar?): added for checking sexp syntax.
+	(seval): combined differential and implicit code for :: definitions.
+
+	* English.scm ($time): corrected Scheme symbol name.
+
+	* grammar.scm (sexp:warn): added.
+
+	* jacalcat (non-standard): added.
+
+	* toploads.scm (non-standard): added stub.
+
+	* unparse.scm (template-print): narrow page-width by length of
+	newlabelstr.
+
+	* non-standard.scm (report-run-time): non-standard Scheme code;
+	stub is in "toploads.scm".
+
+	* modeinit.scm (newlabelstr, newextstr): Changed automatically
+	generated labels to a % prefix.
+
+2024-03-12  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* English.scm (%time): added command.
+
+	* norm.scm (normalize): pass through s-expressions unchanged; this
+	fixes the FACTOR command.
+
+	* sexp.scm (sexp:rat-number?): added.
+	(seval): Added support for %time command.
+
+	* anti-diff.scm (indef-integrate): return (wrong) answer with
+	warning.
+
+	* sexp.scm (saw-newline?): added to suppress prompt output in
+	batch1 when multiple commands are on one input line.
+	(seval-norm): defined at top level; used in seval.
+
+	* modeinit.scm (newlabelstr): changed default template to "e0000".
+
+	* types.scm (defext, register-trn-var!, register-impl-var!)
+	(extize): var:pri for constants now 1000.
+
+	* init.math (%W, %w): define %W as differential equation, %w as
+	implicit function.
+
+	* ext.scm (alg:clear-leading-exts): instead of failing with error,
+	warn and return original polynomial.
+
+2024-03-11  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (capply): added tracing to capply.
+
+	* types.scm (register-impl-var!): added; may be merged with
+	register-trn-var! later.
+
+	* sexp.scm (sexp:find?): finds object in sexp tree.
+	(seval): defines implicit function if equation lacks @2'.
+
+2024-03-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (batch-quietly, seval, tcall): implemented ::=,
+	integralfix, which defines an integral constant.  Store expr
+	instead of var in var:instances.
+
+	* test.math (log, exp, tan, atan): added integal constant tests.
+
+	* init.math (log, exp, tan, atan): defined integral constants.
+
+	* English.scm (::=): Added ::= syntax for integralfix, which sets
+	the integration constant for a transcendental function.
+
+	* builtin.scm ($): increased var:pri to 9000.
+
+	* types.scm (extize): swapped extize arguments.
+	(sexp->new-var): increased var:pri by a factor of 10.
+
+	* elim.scm (clambda?): Fixes diff(expo(3,x),x).
+
+2024-03-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (licit:depends): Call to var:nodiffs seems unnecessary.
+	(var:nodiffs): removed.
+
+2024-03-08  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ext.scm (make-radical-exts): added debugging stuff.
+
+	* init.math (expo): Added 2-argument expo().
+
+	* builtin.scm (describe): Put info:describe to the end.
+
+	* types.scm (make-shadow): simplified, arglist only.
+
+	* test.math: cleaned up comments with new %skip syntax.
+
+	* builtin.scm (_^, _^^, _partial, _ncmult, _abs): defined with
+	return value of defbltn.
+
+	* sexp.scm (defbltn): return expl of var to ease definition of deferop symbols.
+
+	* English.scm: Added %skip ...; comment syntax.
+
+2024-03-07  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (tapply): unused; removed.
+
+	* types.scm (make-shadow): changed var:pristr increment to var:pri.
+
+	* norm.scm (extize): moved to sexp.scm.
+
+	* ext.scm (^): fixed 0^0 (error), 0^(1/2)=0, and 0^x=0.
+
+	* poly.scm (poly:/?): was doing const:promote on non-constant, a
+	long standing bug.
+
+2024-03-06  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm ($, %sqrt1, %i): set var:pris to 1000, 50, and 50.
+
+	* test.math (a): commented out W0 tests.
+
+	* init.math (W0): Changed to inverse function formula; commented out.
+
+	* types.scm (sexp->new-var): code cleanup; reordered var: fields.
+	(var:>): now reports spurious var matches.
+	(register-trn-var!, defext): (sort (remove var (licit:depends impl)) var:>)
+	(sexp->new-var): found formula for var:pri preventing
+	"does not divide" in test.math:
+	(+ (if (positive? predef) (+ 150 predef) 300) diffs)
+
+	* norm.scm (extize): (sort (remove var (licit:depends impl)) var:>).
+
+	* grammar.scm (write-sexp-to-string): fluid-let unprs:lincnt to
+	avoid --more-- message on startup.
+
+	* std.scm (tps:std): tps:std is the output template for priority
+	strings var:pristr.  It was extracted from English.scm so that it
+	is not dependent on the user's language, and so variables can be
+	created before the rest of the grammar system is loaded.
+
+	* elim.scm (licit:deep-arity): returns index of max @n found.
+
+	* grammar.scm (write-sexp-to-string): added.
+
+	* toploads.scm (math:output-port): default value defined.
+
+	* types.scm: Major reorganization of "var" structure.
+
+	* unparse.scm (display-line): print to math:output-port.
+
+2024-03-05  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* elim.scm (licit:deep-arity): Just arity, no minarity.
+	(var:max-lambda-position, var:min-lambda-position): minor optimization.
+	(var:deep-arity): added to fill var:arity fields.
+
+	* test.math: test Currying.
+
+	* types.scm: All "var:" references now abstracted into procedures.
+	(licit:depends): renamed from impl-depends.
+	(sexp?): now immune to var length changes.
+
+	* elim.scm (var:max-lambda-position, var:min-lambda-position):
+	restored to local scope.
+	(licit:max-lambda-position): removed.
+	(licit:deep-arity): added.
+
+2024-03-04  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* vect.scm, types.scm:
+	Summary: Renamed internal variable names to avoid conflict with global symbols.
+
+	* test.math: reordered tests and disabled two longest factoring tests;
+	added "test the alpha-convert phase of hygienic macro expansion".
+
+	* init.math (sec, acot, acos, asin, acsc): no longer crash.
+
+	* ext.scm (alg:clear-leading-exts): Don't choke on numbers.
+
+	* elim.scm (var:min-lambda-position, var:max-lambda-position):
+	include lambda positions of var:depends.
+
+	* builtin.scm (vd): Added shortcut to var:dump.
+
+2024-03-02  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (batch1): Function defines respond with @-variable
+	defintions.
+
+	* types.scm (var:impl-depends, arglist-depends): arglist-depends
+	replaced var:impl-depends.
+	Major cleanup.  Added new fields to "var" data structure, storing
+	results of var:min-lambda-position and var:max-lambda-position.
+
+	* sexp.scm (sexp:beta-reduce, tapply): do application in exprs, no
+	longer using sexp:beta-reduce.
+	(sapply): applies unnested derived transcendental functions correctly.
+
+	* poly.scm (poly:promote, univ:demote): return poly argument when
+	it is a number.
+
+2024-03-01  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (var:shadow): Restored.
+
+	* elim.scm (var:lambda-bump, var:min-lambda-position): Restored.
+
+2024-02-29  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (var:shadow): simplified; breaks Currying.
+	Code cleanup and comments.
+	(var:build-depends): removed.  var:depends get set by defext
+	and register-trn-var!.
+
+	* sexp.scm (tapply, sym:idx, sexp:beta-reduce): Added.
+	(sapply): rewritten.
+
+2024-02-28  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (instances, set-instances!): renamed from func-inst-alst.
+	(var:func, arglist): split from func-arglist.
+
+	* grammar.scm, debug.scm (sexp:print): move and rename PRINT to
+	SEXP:PRINT.
+
+2024-02-26  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval, tcall): moved transcendental function call code
+	into tcall.
+	(sapply): all applications call sapply.
+	(tcall): take var argument instead of fxpr.
+
+	* test.math (rref): Added tests.
+
+2024-02-25  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): corrected call to register-trn-var!.
+
+	* types.scm (expr->impl): added.
+
+	* English.scm, builtin.scm, sexp.scm: (rref): bunch-ref implemented.
+
+	* English.scm, builtin.scm, info.scm, test.math, unparse.scm
+	(rcall): no longer exposed to user.
+
+	* sexp.scm, vect.scm (rcall): moved.
+
+2024-02-24  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (rcall): replaces rapply.
+	(seval): improved argument names for readabillity.
+
+	* unparse.scm, vect.scm, English.scm, builtin.scm, info.scm,
+	jacal.texi (rcall): replaces rapply.
+
+	* types.scm (expr, exprs): No longer needed; removed.  Reduces
+	confusion with variable names.
+
+2024-02-23  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* init.math(W0): Renamed from W.
+
+2024-02-21  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): normalize arg before application.
+
+	* types.scm (register-trn-var!): removed unused arg.
+
+	* init.math (%pi, %e); added.
+
+2024-02-20  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (sexp->new-var): Removed var:atdef field.
+
+	* sexp.scm (cano->sexp): merged with bunch->sexp.
+
+	* types.scm (deferop): don't put LAMBDAs into arguments.
+
+2024-02-19  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* sexp.scm (seval): Stubbed out unused code.
+	(seval): added (var:set-depends! var (list $1))
+
+	* test.math: reenabled factors(x^60-1).
+
+	* types.scm (var:build-depends): Stubbed out unused section.
+	(register-trn-var!): Priority is -2+min of dependents.
+
+	* grammar.scm (math:print): Don't choke on variables.
+
+2024-02-13  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* poly.scm (poly:elim2): Indented arguments when math:trace.
+
+	* test.math: Added diff test cases for unnested algebraic and
+	transcendental extensions.
+
+	* types.scm (register-trn-var!): Decrease pri by 2.
+	(defext): Increase pri by 2.
+
+	* norm.scm (normalize): Indented arguments when math:trace.
+	(extize): Increase pri by 2.
+
+	* ext.scm (alg:clear-leading-exts): Added diagnostic output when math:phases.
+
+	* hensel.scm (poly:factorz): Indented arguments when math:trace.
+
+2024-02-12  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (extize): don't recompute var:depends.
+
+	* types.scm (var:impl-depends): Added, removing overload of
+	var:build-depends.
+
+2024-02-11  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* DOC/ratint.tex (section{Nested transcendental extensions}):
+	Removed discussion of erf(); its inverse was incorrectly defined.
+
+2024-02-10  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* types.scm (var:dump): Added for debug mode.
+
+2024-02-09  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* builtin.scm (priority): Fixed for showing and setting individual
+	variables.
+	(unimplemented, ordering): Added.
+
+	* norm.scm (make-var-eqn): no longer used.
+
+2024-01-20  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* norm.scm (expr:normalize): simplified the logic.
+
+	* types.scm: monomial: --> mono:
+
+	* UFD-basis.scm (mono:overlap?, mono:divides?): Added.  Also, monomial: --> mono:.
+
+	* debug.scm (poly:factor<): Not defined when loading "debug.scm" early.
+
+2024-01-18  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* grammar.scm (math:print): now handles monomials.
+
+	* types.scm (poly:var?): Now checks length.
+	(make-monomial, monomial?, monomial:>, monomial->poly): Added
+	monomial type.
+
+2024-01-17  Aubrey Jaffer  <agj@alum.mit.edu>
+
+	* ANNOUNCE, README, jacal.tex: Updated version numbers.
+
 2023-01-05  Aubrey Jaffer  <jaffer@jaffer-Lenovo-Z70-80>
 
 	* toploads.scm (*jacal-version*): Bumped from 1c7 to 1c8.

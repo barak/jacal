@@ -1,6 +1,6 @@
 ;; "uv-hensel.scm" Univariate Hensel Lifting.	-*-scheme-*-
 ;; Copyright 1994, 1995 Mike Thomas
-;; Copyright 2002, 2020 Aubrey Jaffer
+;; Copyright 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2020, 2024 Aubrey Jaffer
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@
      (define p^k (expt p k))
      ;; (set! a (univ:demote a))
      ;; (set! b (univ:demote b))
-     (if (not (equal? (car a) (car b)))
+     (if (not (eq? (car a) (car b)))
 	 (math:error 'hen:eea-lift "polys not in the same variable." a b))
      (let* ((x (car a))
 	    (amodp (ff:unorm p a))
@@ -213,7 +213,7 @@
 	   (ff:unorm
 	    p^k (number->univ (reduce poly:+ (map poly:* bs result)) x)))
 	  (cn (ff:unorm p^k c)))
-      (cond ((equal? cn inner-prod) result)
+      (cond ((math:equal? cn inner-prod) result)
 	    (else
 	     (math:print 'check-hd 'incorrect-result= result 'as= as 'bs= bs
 			 'inner-prod= inner-prod 'cn= cn 'p^k= p^k)
@@ -260,7 +260,7 @@
 	   (ff:unorm
 	    p^k (number->univ (reduce poly:+ (map poly:* bs result)) x)))
 	  (x^m (number->univ (poly:^ (var->expl x) m) x)))
-      (cond ((equal? x^m inner-prod) result)
+      (cond ((math:equal? x^m inner-prod) result)
 	    (else
 	     (math:print 'check-hd1 'incorrect-result= result 'as= as 'bs= bs
 			 'inner-prod= inner-prod 'x^m= x^m 'x= x 'm= m 'p^k= p^k)
@@ -467,7 +467,7 @@
 					      ply)
 			       (car poly))))
 	   (loop (car (primes> (+ 1 prime) 1))))
-	  ;; (math:debug (print 'squarefreeness-preserving-modulus prime))
+	  ;; (math:debug (sexp:print 'squarefreeness-preserving-modulus prime))
 	  (else prime))))
 
 ;;; Factorise a square-free univariate polynomial over the integers

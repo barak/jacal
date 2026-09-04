@@ -10,4 +10,6 @@
  (debug-jacal		. "debug")
  (info			. "info")
  (antidiff		. "anti-diff")
+ (UFD-basis		. "UFD-basis")
+ (timing		. "timing")
  )

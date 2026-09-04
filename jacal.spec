@@ -1,5 +1,5 @@
 %define name jacal
-%define version 1c8
+%define version 2a1
 %define release 1
 
 Name:         %{name}
@@ -22,10 +22,10 @@ Prefix:       %{_prefix}
 
 %description
 JACAL is an interactive symbolic mathematics program. JACAL can
-manipulate and simplify equations, scalars, vectors, and matrices of
-single and multiple valued algebraic expressions containing numbers,
-variables, radicals, and algebraic differential, and holonomic
-functions.
+manipulate and simplify equations, scalars, vectors, matrices, and
+tensors of (single and multiple valued) algebraic expressions
+containing numbers, variables, radicals, and algebraic and
+transcendental functions.
 
 %prep
 %setup -n jacal -c -T

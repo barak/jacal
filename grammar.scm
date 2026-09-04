@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1992, 1993, 1996, 1997, 2020 Aubrey Jaffer.
+;; Copyright 1992, 1993, 1996, 1997, 1998, 2002, 2003, 2005, 2006, 2007, 2009, 2010, 2020, 2024, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 ;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 (require 'alist)
+(require 'fluid-let)
 (require-if 'compiling 'pretty-print)
 
 ;(require 'record)
@@ -64,37 +65,67 @@
        col)
     (read-char port)))
 
-(defgrammar 'scheme
-  (make-grammar 'scheme
-		(lambda (grm column) (read))
-		#f
-		(lambda (sexp grm) (write sexp) (force-output))
-		#f))
-
 (defgrammar 'null
   (make-grammar 'null
-		(lambda (grm column) (math:error 'cannot-read-null-grammar))
+		(lambda (grm column prt) (math:error 'cannot-read-from-null-grammar))
 		#f
 		(lambda (sexp grm) #t)
 		#f))
 
-;;; Establish autoload for PRETTY-PRINT.
-(defgrammar 'schemepretty
-  (let ((pploaded #f))
-    (make-grammar 'schemepretty
-		  (lambda (grm column) (read))
-		  #f
-		  (lambda (sexp grm)
-		    (or pploaded (begin (require 'pretty-print)
-					(set! pploaded #t)))
-		    (pretty-print sexp)
-		    (force-output))
-		  #f)))
+(defgrammar 'raw
+  (make-grammar 'raw
+		(lambda (grm column prt) (read prt))
+		#f
+		(lambda (sexp grm)
+		  (write sexp)
+		  (newline)
+		  (force-output))
+		#f))
 
-(define (read-sexp grm icol)
-  ((grammar-reader grm) grm icol))
+(defgrammar 'scheme
+  (make-grammar 'scheme
+		(lambda (grm column prt) (read prt))
+		#f
+		(lambda (sexp grm)
+		  (write
+		   (substq '/ 'over
+			   (substq 'expt '^
+				   (substq '- 'negate sexp))))
+		  (newline)
+		  (force-output))
+		#f))
+
+;;; Establish autoload for PRETTY-PRINT.
+(defgrammar 'scheme2d
+  (make-grammar 'scheme2d
+  		(lambda (grm column prt) (read prt))
+		#f
+		(lambda (sexp grm)
+		  (require 'pretty-print)
+		  (pretty-print
+		   (substq '/ 'over
+			   (substq 'expt '^
+				   (substq '- 'negate sexp))))
+		  (force-output))
+		#f))
+
+;;; WRITE-SEXP-TO-STRING is used only by SEXP->NEW-VAR in "types.scm"
+;;; The second argument must be TPS:STD
+(define (write-sexp-to-string sexp grm)
+  (call-with-output-string
+      (lambda (prt)
+	(fluid-let ((math:output-port prt)
+		    (unprs:lincnt 0)
+		    (horner #f))
+	  (template-print sexp grm)))))
+
+(define (read-sexp grm icol prt)
+  ((grammar-reader grm) grm icol prt))
 (define (write-sexp sexp grm)
   ((grammar-writer grm) sexp grm))
+(define (math:write1 e grm)
+  (cond ((not (eq? 'null (grammar-name grm)))
+	 (write-sexp (cano->sexp e horner) grm))))
 (define (math:write e grm)
   (cond ((not (eq? 'null (grammar-name grm)))
 	 (write-sexp (cano->sexp e horner) grm)
@@ -106,6 +137,16 @@
 (define (newline-diag)
   (let ((cep (current-error-port)))
     (newline cep) (force-output cep)))
+
+;;; display-diag sexps and newline-diag; return last value
+(define (sexp:print . args)
+  (define result #f)
+  (for-each (lambda (x) (set! result x)
+		    (display-diag x)
+		    (display-diag #\space))
+	    args)
+  (newline-diag)
+  result)
 
 ;;;; careful write for displaying internal stuff
 (define (math:print . args)
@@ -119,6 +160,7 @@
 			    (cdr obj)))
 		 (else (display-diag " . ") (print1 (cdr obj))))
 	   (display-diag #\]))
+	  ((monomial? obj) (display-diag (monomial->poly obj)))
 	  ((poly:var? obj) (display-diag (var:sexp obj)))
 	  (else (write-diag obj))))
   (define ans '())
@@ -126,6 +168,7 @@
 	      (display-diag #\space)
 	      (set! ans obj)
 	      (cond ((symbol? obj) (display-diag (tran:translate obj)))
+		    ((poly:var? obj) (display-diag (var:sexp obj)))
 		    ((sexp? obj) (write-diag obj))
 		    (else (print1 obj))))
 	    args)
@@ -136,11 +179,22 @@
     (if as (cdr as) sym)))
 (define (tran:display sym)
   (display (tran:translate sym)))
+(define (math:advise . args)
+  (cond (math:debug
+	 (newline)
+	 (force-output)
+	 (display-diag ";;; ADVISE")
+	 (apply math:print args))))
 (define (math:warn . args)
   (newline)
   (force-output)
   (display-diag ";;;")
   (apply math:print args))
+(define (sexp:warn . args)
+  (newline)
+  (force-output)
+  (display-diag ";;;")
+  (apply sexp:print args))
 (define (math:error . args)
   (force-output)
   (apply math:warn args)
@@ -157,9 +211,9 @@ message and a description of what you were doing to agj @ alum.mit.edu.
 ")
   (apply math:warn args))
 
-(define (test ans fun . args)
+(define (math:test ans fun . args)
   (let ((res (apply fun args)))
-    (if (equal? ans res) #t (math:warn 'trouble-with fun))))
+    (if (math:equal? ans res) #t (math:warn 'trouble-with fun))))
 
 ;;; outputs list of strings with as much per line as possible.
 (define (block-write-strings lst)
@@ -216,7 +270,8 @@ message and a description of what you were doing to agj @ alum.mit.edu.
     (cond ((char=? #\space r) #t)
 	  ((eof-object? r) #t)
 	  ((char-whitespace? r) (loop (read-char)))
-	  ((char-ci=? #\q r) #f)
+	  ;; ((char-ci=? #\q r) #f)
+	  ((char-ci=? #\q r) (math:exit #f) #f)
 	  (helped (loop (read-char)))
 	  (else (tran:display 'q-to-quit-space-for-more:-)
 		(force-output)

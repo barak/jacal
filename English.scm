@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright (C) 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2007, 2009, 2010, 2020, 2021 Aubrey Jaffer.
+;; Copyright (C) 1989, 1990, 1991, 1992, 1993, 1995, 1997, 1998, 2002, 2005, 2006, 2007, 2009, 2010, 2019, 2020, 2023, 2024, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
     (did-not-verify: . "Did not verify:")
     (error . "ERROR")
     (expt-of-equation?:-- . "Expt of equation?: ")
-    (inexact-number-to-eval:- . "Inexact number to eval: ")
+    (inexact-number:- . "Inexact number: ")
     (non-rational-radicand:-- . "Non-rational radicand: ")
     (not-a-number . "Not a Number")
     (not-a-matrix:-- . "Not a matrix: ")
@@ -44,7 +44,7 @@
     (cannot-be-coerced-to-poly-eqn:-- . "cannot be coerced to poly eqn: ")
     (cannot-extract-denominator- . "cannot extract denominator ")
     (cannot-extract-numerator- . "cannot extract numerator ")
-    (cannot-read-null-grammar . "cannot read null grammar")
+    (cannot-read-from-null-grammar . "cannot read from null grammar")
     (cannot-suchthat-a-vector . "cannot suchthat a vector")
     (cc-of . "cc of ")
     (column-vector . "column vector")
@@ -62,7 +62,7 @@
     (equation . "equation")
     (expected-boolean . "expected boolean")
     (expected-boolean-or-number . "expected boolean or number")
-    (expected-simple-symbol . "expected simple symbol")
+    (expected-string . "expected string")
     (expression-missing . "expression missing")
     (extra-delimiter . "extra delimiter")
     (extra-separator . "extra separator")
@@ -96,6 +96,7 @@
     (not-an-operator . "not an operator")
     (not-canonical . "not canonical ")
     (not-enough-equations . "not enough equations")
+    (not-implemented . "not implemented")
     (not-known . "not known")
     (not-s-expression . " not s-expression")
     (number . "number")
@@ -116,7 +117,7 @@
     (trouble-with . "trouble with ")
     (transcendental-function-of-1-argument . "transcendental function of 1 argument")
     (true . "true")
-    (type . "type ")
+    (type . "Type ")
     (type- . ", type ")
     (unknown . "unknown")
     (value-expected-equation-found:-- . "value expected, equation found: ")
@@ -128,11 +129,12 @@
 ;;;; Here are the templates for 2 dimensional output
 
 (define tps:2d
-  '(
-    (template:default 140 #d0140 "(" #d1010 #(rest ", " #d2010) ")")
-    (template:bunch 140 "[" #d0010 #(rest ", " break #d1010) "]")
-    (template:matrix 140 (#\[) (#\ ) #d0010 #(rest "  " #d1010) (#\ ) (#\]))
-    (template:parenthesis 200 "(" #d1010 ")")
+  '(()
+    ((template:default 140 #d0140 "(" #d1010 #(rest ", " #d2010) ")")
+     (template:bunch 140 "[" #d0010 #(rest ", " break #d1010) "]")
+     (template:matrix 140 (#\[) (#\ ) #d0010 #(rest "  " #d1010) (#\ ) (#\]))
+     (template:parenthesis 200 "(" #d1010 ")")
+     )
     (- 100 #d1100 " - " break #d2101 #(rest " - " break #d3101))
     (negate 100 "- " #d1100)
     (+ 100 #d1100 #(rest " + " break #d2101))
@@ -150,7 +152,8 @@
     (suchthat 40 "{" #d1190 " | " #d2040 "}")
     (satisfying 40 "{" #d1190 " :: " #d2040 "}")
     (define 200 #d1120 ": " ((0 #d2010)))
-    (rapply 200 #d1200 ((1 #d2030 #(rest "," #d3010))))
+    (rref 200 #d1200 ((1 "[" #d2030 #(rest "," #d3010) "]")))
+    ;; (rref 200 #d1200 "[" #d2030 #(rest "," #d3010) "]")
     (abs 200 (#\|) #d1010 (#\|))
     (box 200 ((-1 #\")
 	      (0 (#\") #d1010 (#\"))
@@ -189,18 +192,16 @@
 	 (1 "!")
 	 (2 "!"))
 	((2 #d2010 #(rest ", " #d3010))))
-    (help 100 "help;")
-    (qed 100 "qed;")
-    (% 200 "%")
     (ncmult 110 #d1109 " . " #d2109)
     (^^ 210 #d1211 "^^" #d2210)
     ))
 
 (define tps:c
-  '(
-    (template:default 140 #d0140 "(" #d1010 #(rest ", " #d2010) ")")
-    (template:bunch 140 "{" #d0010 #(rest ", " #d1010) "}")
-    (template:parenthesis 200 "(" #d1010 ")")
+  '(()
+    ((template:default 140 #d0140 "(" #d1010 #(rest ", " #d2010) ")")
+     (template:bunch 140 "{" #d0010 #(rest ", " #d1010) "}")
+     (template:parenthesis 200 "(" #d1010 ")")
+     )
     (= 80 #d1080 " == " break #d2080 #(rest "==" break #d3080))
     (- 100 #d1100 " - " break #d2101 #(rest " - " break #d3101))
     (+ 100 #d1100 #(rest " + " break #d2101))
@@ -209,7 +210,7 @@
     (/ 120 #d1120 "/" #d2121)
     (over 120 #d1120 "/" #d2121)
     (^ 140 "pow(" #d1141 ", " #d2100 ")")
-    (rapply 200 #d1200 "[" #d2030 #(rest "," #d3010) "]")
+    (rref 200 #d1200 "[" #d2030 #(rest "," #d3010) "]")
     (box 200 ((-1 #\")
 	      (0 (#\") #d1010 (#\"))
 	      (1 #\")))
@@ -219,10 +220,11 @@
     ))
 
 (define tps:standard
-  '(
-    (template:default 140 #d0140 "(" #d1010 #(rest ", " #d2010) ")")
-    (template:bunch 140 "[" #d0010 #(rest ", " break #d1010) "]")
-    (template:parenthesis 200 "(" #d1010 ")")
+  '(()
+    ((template:default 140 #d0140 "(" #d1010 #(rest ", " #d2010) ")")
+     (template:bunch 140 "[" #d0010 #(rest ", " break #d1010) "]")
+     (template:parenthesis 200 "(" #d1010 ")")
+     )
     (= 80 #d1080 " = " break #d2080 #(rest " = " break #d3080))
     (- 100 #d1100 " - " break #d2101 #(rest " - " break #d3101))
     (+ 100 #d1100 #(rest " + " break #d2101))
@@ -234,7 +236,7 @@
     (differential 170 #d1170 "'")
     (suchthat 40 "{" #d1190 " | " #d2040 "}")
     (satisfying 40 "{" #d1190 " :: " #d2040 "}")
-    (rapply 200 #d1200 "[" #d2030 #(rest "," #d3010) "]")
+    (rref 200 #d1200 "[" #d2030 #(rest "," #d3010) "]")
     (box 200 ((-1 #\")
 	      (0 (#\") #d1010 (#\"))
 	      (1 #\")))
@@ -242,52 +244,23 @@
     (set 20 "set " #d1120 " " #d2010)
     (show 20 "show " #d1120)
     (factorial 160 #d1160 "!")
-    (help 100 "help;")
-    (qed 100 "qed;")
-    (% 200 "%")
-    (ncmult 110 #d1109 " . " #d2109)
-    (^^ 210 #d1211 "^^" #d2210)
-    ))
-(define tps:std
-  '(
-    (template:default 140 #d0140 "(" #d1010 #(rest "," #d2010) ")")
-    (template:bunch 140 "[" #d0010 #(rest "," break #d1010) "]")
-    (template:parenthesis 200 "(" #d1010 ")")
-    (= 80 #d1080 "=" break #d2080 #(rest "=" break #d3080))
-    (- 100 #d1100 "-" break #d2101 #(rest "-" break #d3101))
-    (+ 100 #d1100 #(rest "+" break #d2101))
-    (* 120 #d1120 #(rest "*" #d2121))
-    (negate 90 "-" #d1090)
-    (/ 120 #d1120 "/" #d2121)
-    (over 120 #d1120 "/" #d2121)
-    (^ 140 #d1141 "^" #d2140)
-    (differential 170 #d1170 "'")
-    (suchthat 40 "{" #d1190 "|" #d2040 "}")
-    (satisfying 40 "{" #d1190 "::" #d2040 "}")
-    (rapply 200 #d1200 "[" #d2030 #(rest "," #d3010) "]")
-    (box 200 ((-1 #\")
-	      (0 (#\") #d1010 (#\"))
-	      (1 #\")))
-    (define 200 #d1120 ":" #d2010)
-    (set 20 "set " #d1120 " " #d2010)
-    (show 20 "show " #d1120)
-    (factorial 160 #d1160 "!")
-    (help 100 "help;")
-    (qed 100 "qed;")
-    (% 200 "%")
     (ncmult 110 #d1109 " . " #d2109)
     (^^ 210 #d1211 "^^" #d2210)
     ))
 
 (define tps:tex
-  '(
-    (template:top 0 "$" #d1000 "$")
-    (template:default 140 #d0140 "\\left(" #d1010
-		      #(rest ", " #d2010) "\\right)")
-    (template:bunch 140 "\\left[" #d0010 #(rest ", " break #d1010) "\\right]")
+  '(((%i "{\\rm{i}}")
+     (%w "{\\rm{w}}")
+     (%W "{\\rm{W}}")
+     )
+    ((template:top 0 "$" #d1000 "$")
+     (template:default 140 #d0140 "\\left(" #d1010
+		       #(rest ", " #d2010) "\\right)")
+     (template:bunch 140 "\\left[" #d0010 #(rest ", " break #d1010) "\\right]")
 ;;;    (template:matrix 140 "\\left({\matrix{" #d0010 #(rest "&" #d1010)
 ;;;		     (#\\)(#\c)(#\r) "}}\\right)")
-    (template:parenthesis 200 "\\left(" #d1010 "\\right)")
+     (template:parenthesis 200 "\\left(" #d1010 "\\right)")
+     )
     (= 80 #d1080 "=" break #d2080 #(rest "=" break #d3080))
     (- 100 #d1100 "-" break #d2101 #(rest "-" break #d3101))
     (+ 100 #d1100 #(rest "+" break #d2101))
@@ -299,18 +272,20 @@
     (differential 170 "{" #d1170 "}'")
     (suchthat 40 "\\left\\{ " #d1190 " | " break #d2040 "\\right\\}")
     (satisfying 40 "\\left\\{ " #d1190 " :: " break #d2040 "\\right\\}")
-    (rapply 200 #d1200 "\\left[" #d2030 #(rest "," break #d3010) "\\right]")
+    (rref 200 #d1200 "\\left[" #d2030 #(rest "," break #d3010) "\\right]")
     (abs 200 "\\left|" #d1010 "\\right|")
 ;;;    (box 200 ((-1 #\")
 ;;;	      (0 (#\") #d1010 (#\"))
 ;;;	      (1 #\")))
     (define 200 #d1120 ": " #d2010)
-    (set 20 "set " #d1120 " " #d2010)
-    (show 20 "show " #d1120)
-    (factorial 160 #d1160 "!")
-    (help 100 "help;")
-    (qed 100 "qed;")
-    (% 200 "%")
+    (atan 140 "\\arctan\\left(" #d1010 #(rest ", " #d2010) "\\right)")
+    (tan 140 "\\tan\\left(" #d1010 #(rest ", " #d2010) "\\right)")
+    (exp 140 "\\exp\\left(" #d1010 #(rest ", " #d2010) "\\right)")
+    (log 140 "\\log\\left(" #d1010 #(rest ", " #d2010) "\\right)")
+;;; Shouldn't show up in output
+    ;; (set 20 "set " #d1120 " " #d2010)
+    ;; (show 20 "show " #d1120)
+    ;; (factorial 160 #d1160 "!")
     ))
 
 ;;;;The parse tables.
@@ -345,7 +320,7 @@
 		      #\"
 		      (lambda (dyn l)
 			(tok:read-char dyn)
-			(list->string (cdr l)))))
+			(string-append (list->string l) "\""))))
 
 ;;; Delimiters and Separators
 
@@ -363,7 +338,6 @@
 (prec:define-grammar (prec:prefix "+/-" 'u+/- 100))
 (prec:define-grammar (prec:prefix "-/+" 'u-/+ 100))
 (prec:define-grammar (prec:prefix '(not ~) 'impl:not 70))
-(prec:define-grammar (prec:prefix ":" 'settemplate! 20))
 
 ;;;nary operators
 (prec:define-grammar (prec:nary '* '* 120))
@@ -381,31 +355,39 @@
 (prec:define-grammar (prec:infix #\. 'ncmult 110 109))
 (prec:define-grammar (prec:infix '(^ **) '^ 140 139))
 (prec:define-grammar (prec:infix '^^ '^^ 210 210))
-(prec:define-grammar (prec:infix '(":=" ":") 'define 180 20))
 (prec:define-grammar (prec:infix '= '= 80 80))
 ;(prec:define-grammar (prec:infix '(~= <>) 'make-not-equal 80 80))
 (prec:define-grammar (prec:infix 'mod 'mod 70 70))
+(prec:define-grammar (prec:infix '(":=" ":") 'define 180 20))
 (prec:define-grammar (prec:infix ':: 'satisfying 190 40))
+(prec:define-grammar (prec:infix '::~ 'inversefunction 190 40))
+(prec:define-grammar (prec:infix '::= 'initialcondition 190 40))
 (prec:define-grammar (prec:infix "|" 'suchthat 190 40))
 
-;;; I don't remember what I had in mind here.
 ;(prec:define-grammar (prec:infix "" '* 120 120)) ;null operator
 
 ;;;postfix operators
 (prec:define-grammar (prec:postfix #\! 'factorial 160))
 (prec:define-grammar (prec:postfix #\' 'differential 170))
 
+(define (one-arg x . args)
+  (cond ((null? args) x)
+	(else (math:warn 'extra-expressions-ignored args) x)))
 ;;;matchfix operators
-(prec:define-grammar (prec:matchfix #\( identity #f #\)))
+
+;;; doesn't work because it tries to parse inside.
+;; (prec:define-grammar (prec:matchfix #\" symbol->string #f #\"))
+
+(prec:define-grammar (prec:matchfix #\( one-arg #f #\)))
 (prec:define-grammar (prec:matchfix #\[ vector #\, #\]))
 (prec:define-grammar (prec:matchfix #\{ 'or #\, #\}
-				   (prec:infix "|" 'suchthat 190 40)))
+				    (prec:infix "|" 'suchthat 190 40)))
 (prec:define-grammar (prec:matchfix #\\ 'lambda #\, #\;))
 (prec:define-grammar (prec:matchfix "|" 'abs #f "|"))
 
 ;;;special operators
 (prec:define-grammar (prec:inmatchfix #\( list #\, #\) 200))
-(prec:define-grammar (prec:inmatchfix #\[ 'rapply #\, #\] 200))
+(prec:define-grammar (prec:inmatchfix #\[ 'rref #f #\] 200))
 
 ;;;rest operator reads expressions up to next delimiter.
 (prec:define-grammar (prec:prestfix 'set 'set 10))
@@ -421,16 +403,25 @@
 		      "/*"
 		      (lambda (str)
 			(and str
-			     (not (eq? (get-grammar 'null) *echo-grammar*))
-			     (display str)))
+			     (not (eq? 'null (grammar-name *echo-grammar*)))
+			     (display str)
+			     (newline)))
 		      "*/"))
 
-(define (grm-reader grm column)
-  (define cip (current-input-port))
+(prec:define-grammar (prec:commentfix
+		      "%skip"
+		      (lambda (str)
+			(and str
+			     (not (eq? 'null (grammar-name *echo-grammar*)))
+			     (display "%skip ") (display str)
+			     (display ";") (newline)))
+		      ";"))
+
+(define (grm-reader grm column prt)
   (prec:parse (grammar-read-tab grm)
 	      #\;
-	      (+ column (flush-input-whitespace cip))
-	      cip))
+	      (+ column (flush-input-whitespace prt))
+	      prt))
 
 (defgrammar 'std
   (make-grammar
@@ -469,38 +460,42 @@
 
 (prec:define-grammar (tok:char-group
 		      40
-		      tok:decimal-digits
+		      (string-append "." tok:decimal-digits)
 		      (lambda (dyn l) (string->number (list->string l)))))
 (prec:define-grammar (tok:char-group
-		      41
+		      40
 		      (string-append tok:upper-case tok:lower-case)
 		      list2string))
-(let ((seen1 #f))
-  (prec:define-grammar (tok:char-group
-			(lambda (chr)
-			  (cond (seen1 (not (char-alphabetic? chr)))
-				((not (char-alphabetic? chr))
-				 (set! seen1 chr) #t)
-				(else (set! seen1 #t) #f)))
-			'(#\\)
-			(lambda (dyn l)
-			  (cond ((char? seen1)
-				 (tok:read-char dyn)
-				 (set! l (list #\\ seen1))))
-			  (set! seen1 #f)
-			  (list->string l)))))
+(prec:define-grammar (tok:char-group
+		      41
+		      "\\"
+		      (lambda (dyn lst)
+			(list->string
+			 (cond ((and (>= (length lst) 2)
+				     (eqv? #\\ (car lst))
+				     (eqv? #\% (cadr lst)))
+				(cdr lst))
+			       (else lst)))
+			)))
+(prec:define-grammar (tok:char-group
+		      41
+		      "%"
+		      (lambda (dyn lst) "%")))
+(prec:define-grammar (tok:char-group 75 '(#\$) list2string))
 
-(prec:define-grammar (prec:commentfix #\$ #f #\$))
+(prec:define-grammar (prec:matchfix "$" #f #f "$"))
+(prec:define-grammar (prec:matchfix "$$" #f #f "$$"))
 
+(prec:define-grammar (prec:matchfix "\\\\" 'lambda #\, #\;))
 (prec:define-grammar (prec:delim #\,))
-(prec:define-grammar (prec:delim #\;))
+;; (prec:define-grammar (prec:delim #\;))
 (prec:define-grammar (prec:prefix #\+ #f 100))
 (prec:define-grammar (prec:prefix #\- 'negate 100))
 (prec:define-grammar (prec:postfix #\! 'factorial 160))
 (prec:define-grammar (prec:postfix #\' 'differential 170))
 (prec:define-grammar (prec:infix #\: 'define 180 20))
 (prec:define-grammar (prec:infix #\= '= 80 80))
-(prec:define-grammar (prec:nary '(#\* "\\,") '* 120))
+(prec:define-grammar (prec:nary '("\\," #\~) '* 120))
 (prec:define-grammar (prec:nary #\+ '+ 100))
 (prec:define-grammar (prec:nary #\- '- 100))
 (prec:define-grammar (prec:nary #\/ '/ 120))
@@ -508,36 +503,50 @@
 (prec:define-grammar (prec:nary #\& vector 50))
 (prec:define-grammar (prec:nary "\\cr" vector 49))
 
+;; (prec:define-grammar (prec:commentfix
+;; 		      '("\\left" "\\right"
+;; 				 "\\big" "\\bigm" "\\bigl" "\\bigr"
+;; 				 "\\bigg" "\\biggm" "\\biggl" "\\biggr"
+;; 				 "\\Big" "\\Bigm" "\\Bigl" "\\Bigr"
+;; 				 "\\Bigg" "\\Biggm" "\\Biggl" "\\Biggr")
+;; 		      #f
+;; 		      #f))
 (prec:define-grammar (prec:commentfix
-		      '("\\left" "\\right"
-				 "\\big" "\\bigm" "\\bigl" "\\bigr"
-				 "\\bigg" "\\biggm" "\\biggl" "\\biggr"
-				 "\\Big" "\\Bigm" "\\Bigl" "\\Bigr"
-				 "\\Bigg" "\\Biggm" "\\Biggl" "\\Biggr")
-		      #f
-		      #f))
-(prec:define-grammar (prec:commentfix #\% #f #\newline))
+		      '("%" "%%")
+		      (lambda (str)
+			(and str
+			     (not (eq? 'null (grammar-name *echo-grammar*)))
+			     (display str)
+			     (newline)))
+		      #\newline))
 
 (prec:define-grammar (prec:inmatchfix #\( #f #\, #\) 200))
 (prec:define-grammar (prec:matchfix #\( #f #f #\)))
 (prec:define-grammar (prec:matchfix #\{ #f #f #\}))
 (prec:define-grammar (prec:matchfix "\\lbrace" #f #f "\\rbrace"))
-(prec:define-grammar (prec:inmatchfix #\[ 'rapply #\, #\] 200))
-(prec:define-grammar (prec:inmatchfix "\\lbrack" 'rapply #\, "\\rbrack" 200))
+(prec:define-grammar (prec:inmatchfix #\[ 'rref #f #\] 200))
+(prec:define-grammar (prec:inmatchfix "\\lbrack" 'rref #f "\\rbrack" 200))
 (prec:define-grammar (prec:matchfix #\[ vector #\, #\]))
 (prec:define-grammar (prec:infix '(#\| "\\vert") 'suchthat 190 40))
 (prec:define-grammar (prec:infix #\^ '^ 140 139))
 (prec:define-grammar (prec:prefix "\\sqrt" (lambda (arg) `(^ ,arg (/ 1 2))) 100))
 (prec:define-grammar (prec:prefix "\\frac" '/ 100)) ;prefix2
+;; (prec:define-grammar (prec:infix "\\eqdef" (lambda args (cons 'define (reverse args))) 20 40
+;; 				 (tok:char-group
+;; 				  (lambda (chr) (or (eqv? #\} chr) (eof-object? chr)))
+;; 				  #\{
+;; 				  (lambda (dyn l) (list->string l)))))
+
 ;(prec:define-grammar (prec:delim "\\of"))
 ;(prec:define-grammar (prec:prefix "\\root" (lambda (arg) `(^ ,arg (/ 1 2))) 100))
 
-(prec:define-grammar (prec:prefix 'load 'load 50))
-(prec:define-grammar (prec:nofix '% '%))
-(prec:define-grammar (prec:nofix 'help 'help))
-(prec:define-grammar (prec:nofix '(qed bye exit) 'qed))
-(prec:define-grammar (prec:prestfix 'set 'set 10))
-(prec:define-grammar (prec:prestfix 'show 'show 10))
+;; (prec:define-grammar (prec:prefix '\\eqdef 'define 60))
+;; (prec:define-grammar (prec:prefix 'load 'load 50))
+;; (prec:define-grammar (prec:nofix '% '%))
+;; (prec:define-grammar (prec:nofix 'help 'help))
+;; (prec:define-grammar (prec:nofix '(qed bye exit) 'qed))
+;; (prec:define-grammar (prec:prestfix 'set 'set 10))
+;; (prec:define-grammar (prec:prestfix 'show 'show 10))
 
 (defgrammar 'tex
   (make-grammar

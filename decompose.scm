@@ -67,7 +67,7 @@
 (define (calculate-s c)
   (do ((i 1 (+ i 1)))
       ((or (>= i (vector-length c))
-	   (not (equal? (vector-ref c i) 0))) i)))
+	   (not (eqv? (vector-ref c i) 0))) i)))
 
 (define (calculate-b a c m k)
   (let ((b (make-vector (+ m 1)))

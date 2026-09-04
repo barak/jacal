@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 2005, 2010, 2020 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1998, 1999, 2002, 2005, 2006, 2007, 2010, 2019, 2020, 2024 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@
 		  (cond ((null? info) (math:warn 'no-example-for x) novalue)
 			(else (write-sexp (car info) *input-grammar*)
 			      (newline)
-			      (sexp->math (car info))))))))
+			      (seval (car info) '())))))))
 	(pop-modes)
 	ans))
      (else (math:warn 'no-example-for x)))))
@@ -172,10 +172,10 @@ the inverse of the function is raised to -n."
   '(bunch a b c)
   '#(a b c))
 
-(definfo 'rapply
-  "subscripted reference"
-  '(rapply #(a b) 2)
-  'b)
+;; (definfo 'rcall
+;;   "subscripted reference"
+;;   '(rcall #(a b) 2)
+;;   'b)
 
 (definfo 'or
   "union, multiple value.  Or of two equations returns an equation

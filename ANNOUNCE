@@ -1,16 +1,15 @@
-This message announces the availability of JACAL release jacal-1c8.
+This message announces the availability of JACAL release jacal-2a1.
 
-JACAL is an interactive symbolic mathematics program.  JACAL can
-manipulate and simplify equations, scalars, vectors, and matrices of
-single and multiple valued algebraic expressions containing numbers,
-variables, radicals, and algebraic differential, and holonomic
-functions.
+JACAL is an interactive symbolic mathematics program. JACAL can
+manipulate and simplify equations, scalars, vectors, matrices, and
+tensors of (single and multiple valued) algebraic expressions
+containing numbers, variables, radicals, and transcendental functions.
 
 JACAL is written in Scheme and works with Scheme implementations which
-support the SLIB Scheme Library.  The SCM Scheme implementation
-(written in C) is available with JACAL.  SCM runs on Amiga, Atari-ST,
-MacOS, MS-DOS, OS/2, NOS/VE, Unicos, VMS, Windows, Unix and similar
-systems.
+support the SLIB Scheme Library.  The (download and) installation
+instructions at
+<https://www.gnu.org/software/jacal/html/jacal-2a1/Installation.html>
+include the SCM Scheme implementation optimized for use with JACAL.
 
 JACAL is free software and part of the GNU project.  It is released
 under the GNU General Public License (GPL).
@@ -18,48 +17,28 @@ under the GNU General Public License (GPL).
 Documentation and distributions in several formats are linked from
 JACAL's home page:
 
-	      <http://people.csail.mit.edu/jaffer/JACAL>
-
-Links to distributions of JACAL and related softwares are at the end
-of this message.
+		<https://www.gnu.org/software/jacal/>
 
 			       -=-=-=-
-jacal-1c8 news:
+jacal-2a1 news:
+
+ * init.math (exp, %expt, log, %e, tan, atan, %pi, cot, sec, cos, sin,
+   csc, acot, asec, acos, asin, acsc, %W): defined as differential
+   equations and inverse functions; %W is the Lambert-W function.
+
+   This support for transcendental functions is a major increase in
+   Jacal's abilities!
+
+ * (::~): Added inverse-function operator.
+
+ * (::): Now defines differential recurrences (ODE).
+
+ * types.scm (math:equal?): safe replacement for equal? yields
+   significant performance improvement.
+
+ * repair of many bugs.  Variable names and some code reorganized.
+
+ * Jacal's home page has changed to <https://www.gnu.org/software/jacal>
 
 Details at
 <http://cvs.savannah.gnu.org/viewvc/*checkout*/jacal/jacal/ChangeLog>
-
-From: Kris Katterjohn
-  * anti-diff.scm (integrate): Check and handle "novalue?".
-  * builtin.scm: Fixed missing quotes in error messages.
-
-			       -=-=-=-
-
-JACAL is available from:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8.zip>
-Also available as RPM:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.src.rpm>
- <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.noarch.rpm>
-Also available as MS-Windows installer:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/jacal-1c8-1.exe>
-
-SLIB is a portable scheme library which JACAL requires:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7.zip>
-Also available as RPM:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.src.rpm>
- <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.noarch.rpm>
-Also available as MS-Windows installer:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/slib-3b7-1.exe>
-
-SCM is a small Scheme implementation under which JACAL will run.
-SCM source is available from:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3.zip>
- <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.src.rpm>
-Also available as a binary RPM:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.x86_64.rpm>
-A previous version is available as MS-Windows installer:
- <http://groups.csail.mit.edu/mac/ftpdir/scm/scm-5f3-1.exe>
-
-Programs for printing and viewing TexInfo documentation (which JACAL
-has) come with GNU Emacs or can be obtained via ftp from:
- <ftp://ftp.gnu.org/pub/gnu/texinfo>

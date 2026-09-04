@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1992, 1993, 2020 Aubrey Jaffer.
+;; Copyright 1992, 1993, 1998, 2002, 2005, 2006, 2007, 2020, 2024, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@
 (define (display-chunk box)
   (do ((b box (cdr b)))
       ((or (null? b) (not (= (+ 1 unprs:linum) (top-edge b))) (null? (cdar b)))
-;;;       (print (+ 1 unprs:linum) (and (not (null? b)) (top-edge b)) unprs:lincnt)
+;;;       (sexp:print (+ 1 unprs:linum) (and (not (null? b)) (top-edge b)) unprs:lincnt)
        b)
     (display-line 0 #\space (cdar b))
     (if (not (null? (cdr b)))
@@ -163,13 +163,13 @@
 (define (display-line hpos fillchr line)
   (cond ((null? line) hpos)
 	((string? (cadr line))
-	 (display (make-string (- (car line) hpos) fillchr))
-	 (display (cadr line))
+	 (display (make-string (- (car line) hpos) fillchr) math:output-port)
+	 (display (cadr line) math:output-port)
 	 (display-line (+ (car line) (text-width (cadr line)))
 		       fillchr
 		       (cddr line)))
 	((char? (cadr line))
-	 (display (make-string (- (car line) hpos) fillchr))
+	 (display (make-string (- (car line) hpos) fillchr) math:output-port)
 	 (display-line (car line)
 		       (cadr line)
 		       (cddr line)))
@@ -253,7 +253,7 @@
 			     (hformat (cdr hbox) args tps hroom))
 		      (nconc
 		       (hformat
-			(template-hbox (cdr (assq 'template:parenthesis tps)))
+			(template-hbox (cdr (assq 'template:parenthesis (cadr tps))))
 			(list '() arg) tps hroom)
 		       (hformat (cdr hbox) args tps hroom))))
 		(hformat (cdr hbox) args tps hroom))))
@@ -350,41 +350,47 @@
   (template-print exp (grammar-write-tab grm)))
 
 (define (template-print exp tps)
-  (define owidth (get-page-width))
+  (define owidth (max 0 (- (get-page-width) 1 (string-length newlabelstr))))
   (if (zero? owidth) (set! owidth 99999)) ;essentially infinite
   (display-box (hglue (pbox-lines (unparse exp tps owidth)) owidth)))
 
 (define (unparse exp tps hroom)
-  (cond ((symbol? exp)
-	 (make-pbox 200 (list (list (list 0 0 (symbol->string exp))))))
+  (cond ((boolean? exp)
+	 (make-pbox 200 (list (list (list 0 0 (if exp "true" "false"))))))
+	((symbol? exp)
+	 (let ((pr (assq exp (car tps))))
+	   (make-pbox 200 (list (list (list 0 0
+					    (if (and (pair? pr) (= 2 (length pr)))
+						(cadr pr)
+						(symbol->string exp))))))))
 	((number? exp)
 	 (make-pbox 200 (list (list (list 0 0 (number->string exp))))))
 	((list? exp)
-	 (let* ((p (assq (car exp) tps)))
-	   (unparse1 (if p (cdr p) (cdr (assq 'template:default tps)))
+	 (let* ((p (assq (car exp) (cddr tps))))
+	   (unparse1 (if p (cdr p) (cdr (assq 'template:default (cadr tps))))
 		     exp tps hroom)))
 	((not (vector? exp))
 	 (slib:error 'unparse 'not-s-expression exp))
-	((zero? (vector-length exp))	;this special case should be eliminated
+	((zero? (vector-length exp)) ;this special case should be eliminated
 	 (make-pbox 200 (list (list (list 0 0 "[]")))))
 	((and (vector? (vector-ref exp 0))
-	      (assq 'template:matrix tps)
+	      (assq 'template:matrix (cadr tps))
 	      (let ((len (vector-length (vector-ref exp 0))))
 		(every (lambda (r) (and (vector? r) (= (vector-length r) len)))
 		       (cdr (vector->list exp)))))
 	 (let ((hr (quotient hroom (vector-length exp)))
-	       (template (cdr (assq 'template:matrix tps))))
+	       (template (cdr (assq 'template:matrix (cadr tps)))))
 	   (make-pbox
 	    (template-bp template)
 	    (hformat
 	     (template-hbox template)
 	     (map (lambda (obj)
 		    (unparse1 (rubber-vbox (length obj)) obj tps hr))
-		  ;transpose of exp
+					;transpose of exp
 		  (apply map list (map vector->list
 				       (vector->list exp))))
 	     tps hroom))))
-	(else (unparse1 (cdr (assq 'template:bunch tps))
+	(else (unparse1 (cdr (assq 'template:bunch (cadr tps)))
 			(vector->list exp) tps hroom))))
 
 (define (unparse1 template exp tps hroom)
@@ -412,7 +418,7 @@
    (lambda (b) (template-print b tps) (newline))
    '(
      (+ (* 3 a b) (* 2 (^ a 2) b) c (* d e))
-     (sum (* (rapply a i) (^ x (+ -2 i))) i 0 inf)
+     (sum (* (rref a i) (^ x (+ -2 i))) i 0 inf)
      (= %gamma (limit (sum (- (over 1 n) (log m)) n 1 m) m inf))
      (^ (- (over 1 (^ (+ y x) 4)) (over 3 (^ (+ y x) 3))) 2)
      (^ x (over (+ (^ a 2) 1) a))

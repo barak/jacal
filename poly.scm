@@ -1,5 +1,5 @@
 ;; JACAL: Symbolic Mathematics System.        -*-scheme-*-
-;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1997, 2020 Aubrey Jaffer.
+;; Copyright 1989, 1990, 1991, 1992, 1993, 1995, 1997, 1998, 2002, 2004, 2005, 2007, 2009, 2020, 2024, 2026 Aubrey Jaffer.
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@
   (if (number? p)
       (zero? p)
       (and (= (length p) 2) (zero? (cadr p)))))
-(define (univ:const? p)
+(define (univ:constant? p)
   (or (number? p)
       (and (= (length p) 2) (number? (cadr p)) (cadr p))))
 
@@ -68,22 +68,29 @@
   (if (number? a) (list v a) a))
 
 (define (poly:find-var-if? poly proc)
-  (cond ((not (expr? poly)) (math:error 'poly:find-var-if? poly)))
   (cond ((number? poly) #f)
+	((not (expr? poly)) (math:error 'POLY:FIND-VAR-IF? poly))
+	;; ((eqn? poly) (math:error 'POLY:FIND-VAR-IF? 'equation 'not-allowed poly))
 	((proc (car poly)))
 	(else (some (lambda (x) (poly:find-var-if? x proc)) (cdr poly)))))
 
 (define (poly:find-var? poly var)
   (poly:find-var-if? poly (lambda (x) (eqv? var x))))
 
-;;; This can call proc more than once per var
+;;;POLY:VARS returns a list of all vars used in POLY
+(define (poly:vars poly)
+  (define vars '())
+  (define (collect-vars poly)
+    (cond ((number? poly))
+	  (else
+	   (set! vars (adjoin (car poly) vars))
+	   (for-each (lambda (b) (collect-vars b))
+		     (cdr poly)))))
+  (collect-vars poly)
+  (sort vars var:>))
+
 (define (poly:for-each-var proc poly)
-  (cond ((not (expr? poly)) (math:error 'poly:for-each-var poly)))
-  (cond ((number? poly))
-	(else
-	 (proc (car poly))
-	 (for-each (lambda (b) (poly:for-each-var proc b))
-		   (cdr poly)))))
+  (for-each proc (poly:vars poly)))
 
 (define (licit:for-each proc b)
   (cond ((bunch? b) (for-each (lambda (x) (licit:for-each proc x)) b))
@@ -91,32 +98,60 @@
 	((licit? b) (proc b))
 	(else (math:error 'licit:for-each b))))
 
+(define (licit:vars polys)
+  (define vars '())
+  (define (cv polys)
+    (cond ((number? polys))
+	  ((licit? polys)
+	   (set! vars (adjoin (car polys) vars))
+	   (for-each (lambda (b) (cv b))
+		     (cdr polys)))
+	  (else (math:error 'licit:for-each-var 'wta polys))))
+  (define (collect-vars polys)
+    (cond ((number? polys))
+	  ((bunch? polys) (for-each collect-vars polys))
+	  ((eqn? polys) (cv (eqn->poly polys)))
+	  ((licit? polys) (cv polys))
+	  (else (math:error 'licit:for-each-var 'wta polys))))
+  (collect-vars polys)
+  (sort vars var:>))
+
 (define (licit:for-each-var proc polys)
-  (licit:for-each (lambda (poly) (poly:for-each-var proc poly)) polys))
+  (for-each proc (licit:vars polys)))
 
 (define (poly:find-var-exts poly var)
   (define elts '())
   (poly:for-each-var (lambda (v) (if (memq var (var:depends v))
-				     (set! elts (adjoin v elts))))
+				     (set! elts (cons v elts))))
 		     poly)
-  elts)
+  (sort elts var:>))
 
-;;;POLY:VARS returns a list of all vars used in POLY
-(define (poly:vars poly)
-  (let ((elts '()))
-    (poly:for-each-var (lambda (v) (set! elts (adjoin v elts))) poly)
-    elts))
+(define (rat:< x y)
+  (define dif (app* $1-$2 x y))
+  (negative? (if (number? dif)
+		 (abs dif)
+		 (* -1 (cadr dif) (caddr dif)))))
+
+(define (rat:max x y) (if (rat:< x y) y x))
 
 (define (poly:total-degree poly)
   (if (number? poly)
       0
-      (do ((lst (cdr poly) (cdr lst))
-	   (tdg 0 (+ 1 tdg))
-	   (mxdg 0 (max mxdg (+ tdg (poly:total-degree (car lst))))))
-	  ((null? lst) mxdg))))
+      (let ((var (car poly)))
+	(define pw (cond ((not (var:algrule var)) 1)
+			 ((eq? _^ (var:func var))
+			  (cadr (var:arglist var)))
+			 (else (length (cddr (var:algrule var))))))
+	(do ((lst (cdr poly) (cdr lst))
+	     (tdg 0 (+ tdg 1))
+	     (mxdg 0 (rat:max mxdg (app* $1*$2+$3 pw tdg
+					 (poly:total-degree (car lst))))))
+	    ((null? lst) mxdg)))))
 
 (define (poly:poly? p)
-  (and (pair? p) (poly:var? (car p))))
+  (and (pair? p)
+       (not (null? (cdr p)))
+       (poly:var? (car p))))
 
 (define (poly:univariate? p)
   (and (poly:poly? p) (every number? (cdr p))))
@@ -137,9 +172,8 @@
       l
       (let ((first (proc (car l)))
 	    (rest (map-no-end-0s proc (cdr l))))
-	(if (and (null? rest) (eqv? 0 first))
-	    rest
-	    (cons first rest)))))
+	(cond ((and (null? rest) (eqv? 0 first)) rest)
+	      (else (cons first rest))))))
 (define (map2c-no-end-0s proc l1 l2)
   (cond ((null? l1) l2)
 	((null? l2) l1)
@@ -204,6 +238,9 @@
 ;;; Divide coefficients by a scalar
 (define (univ/scalar a c)
   (cons (car a) (map (lambda (x) (quotient x c)) (cdr a))))
+(define (poly/scalar a c)
+  (cond ((number? a) (quotient a c))
+	(else (cons (car a) (map (lambda (x) (poly/scalar x c)) (cdr a))))))
 
 (define (univ:/? u v)
   (let ((r (list->vector (cdr u)))
@@ -230,19 +267,17 @@
 
 ;;; POLY:/? returns U / V if V divides U, otherwise returns #f
 (define (poly:/? u v)
-  (cond ((equal? u v) 1)
+  (cond ((eqv? u v) 1)
 	((eqv? 0 u) 0)
 	((number? v)
 	 (cond ((poly:0? v) #f)
-;;;	       ((unit? v) (poly:* u v))
+	       ((unit? v) (poly:* u v))
 	       ((coef:invertable? v) (poly:* u (coef:invert v)))
 	       ((number? u) (and (divides? v u) (quotient u v)))
 	       (else (univ:/? u (const:promote (car u) v)))))
 	((number? u) #f)
 	((eq? (car u) (car v)) (univ:/? u v))
-	((var:> (car u) (car v))
-	 (univ:/? u (const:promote (car u) v)))
-	(else #f)))
+	(else (univ:/? u (poly:promote (car u) v)))))
 
 (define (univ:/ dividend divisor)
   (or (univ:/? dividend divisor)
@@ -262,8 +297,13 @@
 
 (define (poly:degree p var)
   (cond ((number? p) 0)
-	((eq? var (car p)) (length (cddr p)))
-	((var:> var (car p)) 0)
+	((eq? var (car p))
+	 (let lp ((i (length (cddr p))))
+	   (define co (poly:coeff p var i))
+	   (cond ((zero? i) 0)
+		 ((eqv? 0 co) (display #\!) (lp (+ -1 i)))
+		 (else i))))
+	;; ((var:> var (car p)) 0)
 	(else (reduce-init (lambda (m c) (max m (poly:degree c var)))
 			   0
 			   (cdr p)))))
@@ -277,10 +317,15 @@
 
 ;;;; Routines used in normalizing IMPL polynomials
 
+(define (impl:total-degree poly)
+  (cond ((rat? poly) (mapply $1+$2 (map poly:total-degree (cdr poly))))
+	((impl? poly) (bltn:error 'impl:total-degree 'not-implemented poly))
+	(else (poly:total-degree poly))))
+
 (define (univ:lc p)
   (cond ((number? p) p)
 	((not (pair? p)) (math:error 'univ:lc 'p= p))
-	;;; disabled so it works with unnormalized univs.
+;;; disabled so it works with unnormalized univs.
 	;; ((eqv? 0 (car (last-pair p))) (math:error 'univ:lc 0))
 	(else (car (last-pair p)))))
 
@@ -300,6 +345,9 @@
 	(else (univ:make-monic p))))
 
 (define (univ:shorter? x y)
+  ;; (cond ((not (and (pair? x) (pair? y))) (display "?"))
+  ;; 	((not (eq? (car x) (car y))) (display 1))
+  ;; 	(else (poly:degree x (car x)) (poly:degree y (car y))))
   (cond ((number? x) (not (number? y)))
 	((number? y) #f)
 	(else (< (length x) (length y)))))
@@ -438,7 +486,7 @@
 	(poly:* c (univ:primpart ans)))))
 
 (define (poly:gcd p1 p2)
-  (cond ((equal? p1 p2) p1)
+  (cond ((eqv? p1 p2) p1)
 	((and (number? p1) (number? p2)) (gcd p1 p2))
 	((number? p1) (if (poly:0? p1) p2 (apply poly:gcd* p1 (cdr p2))))
 	((number? p2) (if (poly:0? p2) p1 (apply poly:gcd* p2 (cdr p1))))
@@ -485,6 +533,7 @@
 	((zero? n) (car l))
 	(else (list-ref? (cdr l) (+ -1 n)))))
 
+;;;; 0=ord is the constant part.
 (define (univ:coeff p ord) (or (list-ref? (cdr p) ord) 0))
 (define (poly:coeff p var ord)
   (cond ((or (number? p) (var:> var (car p)))
@@ -497,31 +546,41 @@
 
 (define (poly:subst0 old e) (poly:coeff e old 0))
 
+;;;; bring variable p up to be the top-level; can now be treated as univ.
+(define (poly:promote var p)
+  (cond ((number? p) p)
+	((eq? var (car p)) p)
+	(else
+	 (let ((dgr (poly:degree p var)))
+	   (do ((i dgr (+ -1 i))
+		(ol (if (eqv? 0 (poly:coeff p var dgr))
+			'()
+			(list (poly:coeff p var dgr)))
+		    (cons (poly:coeff p var (+ -1 i)) ol)))
+	       ((zero? i) (cons var ol)))))))
+
 (define const:promote list)
 
-(define (poly:promote var p)
-  (if (eq? var (car p))
-      p
-      (let ((dgr (poly:degree p var)))
-	(do ((i dgr (+ -1 i))
-	     (ol (list (poly:coeff p var dgr))
-		 (cons (poly:coeff p var (+ -1 i)) ol)))
-	    ((zero? i) (cons var ol))))))
+(define (promote var p)
+  (if (poly:poly? p)
+      (poly:promote var p)
+      (const:promote var p)))
 
+;;;; push the top level (univ) polynomial down to its correct position
 ;;;this is bummed if v has higher priority than any variable in (cdr p)
 (define (univ:demote p)
   (if (number? p)
       p
-    (let ((v (car p)))
-      (if (every (lambda (cof) (or (number? cof) (var:> v (car cof))))
-		 (cdr p))
-	  p
-	(poly:+ (cadr p)
-		(do ((trms (cddr p) (cdr trms))
-		     (sum 0)
-		     (mon (list v 0 1) (cons v (cons 0 (cdr mon)))))
-		    ((null? trms) sum)
-		    (set! sum (poly:+ sum (poly:* mon (car trms))))))))))
+      (let ((v (car p)))
+	(if (every (lambda (cof) (or (number? cof) (var:> v (car cof))))
+		   (cdr p))
+	    p
+	    (poly:+ (cadr p)
+		    (do ((trms (cddr p) (cdr trms))
+			 (sum 0)
+			 (mon (list v 0 1) (cons v (cons 0 (cdr mon)))))
+			((null? trms) sum)
+		      (set! sum (poly:+ sum (poly:* mon (car trms))))))))))
 
 (define (poly:cabs p)
   (cond ((number? p) (abs p))
@@ -576,51 +635,47 @@
 ;;; Akritas, A.G.: Exact Algorithms for the Matrix-Triangulation
 ;;; Subresultant PRS Method.  Computers and Mathematics, 145-155.
 ;;; Springer Verlag, 1989.
-(define (bareiss m)
-  4)
+;; (define (bareiss m) ...)
 
 (define (poly:resultant p1 p2 var)
   (let ((u1 (poly:promote var p1))
 	(u2 (poly:promote var p2)))
-    (or (not (zero? (univ:degree u1 var)))
-	(not (zero? (univ:degree u2 var)))
+    (define u1d (univ:degree u1 var))
+    (define u2d (univ:degree u2 var))
+    (if (zero? (+ u1d u2d))
 	(math:error var 'does-not-appear-in- p1 'or- p2))
-    (let ((res (cond ((zero? (univ:degree u1 var)) p1)
-		     ((zero? (univ:degree u2 var)) p2)
-		     ((univ:shorter? u1 u2) (univ:prs u2 u1))
-		     (else (univ:prs u1 u2)))))
+    (let ((res (cond ((zero? u1d) p1)
+		     ((zero? u2d) p2)
+		     ((< u1d u2d) (univ:demote (univ:prs u2 u1)))
+		     (else (univ:demote (univ:prs u1 u2))))))
       (if (zero? (univ:degree res var)) res
 	  0))))
 
-(define (poly:elim2 p1 p2 var)
-  (cond (math:trace
-	 (display-diag "eliminating: ")
-	 (display-diag (var:sexp var))
-	 (display-diag " from:")
-	 (newline-diag)
-	 (let ((grm (get-grammar 'std)))
-	   (math:write (poleqn->licit p1) grm)
-	   (math:write (poleqn->licit p2) grm))))
-  (let* ((u1 (poly:promote var p1))
-	 (u2 (poly:promote var p2))
-	 (pg (poly:gcd (univ:lc u1) (univ:lc u2))))
-    (or (not (zero? (univ:degree u1 var)))
-	(not (zero? (univ:degree u2 var)))
-	(math:error var 'does-not-appear-in- p1 'or- p2))
-    (let* ((res (cond ((zero? (univ:degree u1 var)) p1)
-		      ((zero? (univ:degree u2 var)) p2)
-		      ((univ:shorter? u1 u2) (univ:prs u2 u1))
-		      (else (univ:prs u1 u2))))
-	   (e (if (zero? (univ:degree res var)) res 0)))
-      (set! res (if (number? pg)
-		    e
-		    (let ((q (poly:/ e pg)))
-		      (if (number? q) e (univ:primpart q)))))
-      (cond (math:trace (display-diag 'yielding:)
-			(newline-diag)
-			(math:write res (get-grammar 'std))))
-      res)))
-
+(define (poly:elim2 var p1 p2)
+  (elim-diag (and #f 'poly:elim2)
+	     (lambda (vars polys)
+	       (define var (car vars))
+	       (define p1 (car polys))
+	       (define p2 (cadr polys))
+	       (define u1 (poly:promote var p1))
+	       (define u2 (poly:promote var p2))
+	       (define pg (poly:gcd (univ:lc u1) (univ:lc u2)))
+	       (or (not (zero? (univ:degree u1 var)))
+		   (not (zero? (univ:degree u2 var)))
+		   (math:error var 'does-not-appear-in- p1 'or- p2))
+	       (let* ((res (cond ((zero? (univ:degree u1 var)) p1)
+				 ((zero? (univ:degree u2 var)) p2)
+				 ((univ:shorter? u1 u2) (univ:prs u2 u1))
+				 (else (univ:prs u1 u2))))
+		      (e (if (zero? (univ:degree res var)) res 0)))
+		 (set! res (if (number? pg)
+			       e
+			       (let ((q (poly:/ e pg)))
+				 (if (number? q) e (univ:primpart q)))))
+		 res))
+	     (list var)
+	     (list p1 p2)))
+  
 (define (poly:modularize modulus poly)
   (if (number? poly)
       (modular:normalize modulus poly)
@@ -707,35 +762,35 @@
   (define c (sexp->var 'c))
   (define x (sexp->var 'x))
   (define y (sexp->var 'y))
-  (test (list a 0 -2)
-	poly:gcd
-	(list a 0 -2)
-	(list a 0 0 -2))
-  (test (list x (list a 0 1) 1)
-	poly:gcd
-	(list x (list a 0 0 -1) 0 1)
-	(list x (list a 0 0 1) (list a 0 2) 1))
-  (test (list x 0 (list a 0 1))
-	poly:gcd
-	(list x 0 (list a 0 0 1))
-	(list x 0 0 (list a 0 1)))
-  (test (list x (list b 0 0 1) 0 (list b 1 2) (list a 0 1) 1)
-	poly:resultant
-	(list y (list x (list b 0 1) 0 1) (list x 0 1))
-	(list y (list x 1 (list a 0 1)) 0 1)
-	y)
-  (test (list y (list b 0 0 1) 0 (list b 1 2) (list a 0 1) 1)
-	poly:resultant
-	(list y (list b 0 1) (list x 0 1) 1)
-	(list y (list x 1 0 1) (list a 0 1))
-	x)
+  (math:test (list a 0 -2)
+	     poly:gcd
+	     (list a 0 -2)
+	     (list a 0 0 -2))
+  (math:test (list x (list a 0 1) 1)
+	     poly:gcd
+	     (list x (list a 0 0 -1) 0 1)
+	     (list x (list a 0 0 1) (list a 0 2) 1))
+  (math:test (list x 0 (list a 0 1))
+	     poly:gcd
+	     (list x 0 (list a 0 0 1))
+	     (list x 0 0 (list a 0 1)))
+  (math:test (list x (list b 0 0 1) 0 (list b 1 2) (list a 0 1) 1)
+	     poly:resultant
+	     (list y (list x (list b 0 1) 0 1) (list x 0 1))
+	     (list y (list x 1 (list a 0 1)) 0 1)
+	     y)
+  (math:test (list y (list b 0 0 1) 0 (list b 1 2) (list a 0 1) 1)
+	     poly:resultant
+	     (list y (list b 0 1) (list x 0 1) 1)
+	     (list y (list x 1 0 1) (list a 0 1))
+	     x)
   (cond ((provided? 'bignum)
-	 (test 1
-	       poly:gcd
-	       (list x -5 2 8 -3 -3 1 1)
-	       (list x 21 -9 -4 5 3))
-	 (test 1
-	       poly:gcd
-	       (list x -5 2 8 -3 -3 0 1 0 1)
-	       (list x 21 -9 -4 0 5 0 3))))
+	 (math:test 1
+		    poly:gcd
+		    (list x -5 2 8 -3 -3 1 1)
+		    (list x 21 -9 -4 5 3))
+	 (math:test 1
+		    poly:gcd
+		    (list x -5 2 8 -3 -3 0 1 0 1)
+		    (list x 21 -9 -4 0 5 0 3))))
   'done)
