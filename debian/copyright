@@ -52,10 +52,6 @@ Files: fdl.texi
 Copyright: 1993-2026 Free Software Foundation, Inc.
 License: GFDL-1.3+
 
-Files: COPYING
-Copyright: 2007 Free Software Foundation, Inc.
-License: GPL-3-verbatim
-
 Files: configure
 Copyright: 1992-2008 Free Software Foundation, Inc.
  2010 Aubrey Jaffer <agj@alum.mit.edu>

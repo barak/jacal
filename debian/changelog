@@ -1,6 +1,7 @@
 jacal (2a1+ds-2) UNRELEASED; urgency=medium
 
   * Build and include ratint.pdf using local copy of its sources
+  * Remove listed license files (COPYING) from copyright.
 
  -- Barak A. Pearlmutter <bap@debian.org>  Sat, 05 Sep 2026 12:24:03 +0100
 
