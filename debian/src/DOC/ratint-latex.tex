@@ -1,0 +1,847 @@
+%% pdflatex ratint.tex
+%% bibtex ratint
+%% pdflatex ratint.tex
+%% pdflatex ratint.tex
+
+%% Upstream typeset this as a plain TeX document with a private
+%% "macros.tex" which is not part of the JACAL distribution.  It has
+%% been converted to LaTeX.  The page layout, section headings, table
+%% of contents and lemma style are configured below so that the result
+%% still matches the PDF upstream shipped.
+
+\documentclass[10pt,letterpaper]{article}
+
+%% Plain TeX's page: 1in margins, \vsize of 8.9in, folio below that.
+\usepackage[letterpaper,top=1in,left=1in,right=1in,
+            textheight=8.9in,footskip=23.4pt]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+%% Plain TeX's paragraph indentation and body-size footnotes, which
+%% the original was set with.
+\setlength{\parindent}{20pt}
+\renewcommand{\footnotesize}{\normalsize}
+
+%% Plain TeX's display-math spacing (LaTeX's is 2pt tighter, which
+%% would repaginate the document).
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}     {12pt plus 3pt minus 9pt}%
+  \setlength{\belowdisplayskip}     {12pt plus 3pt minus 9pt}%
+  \setlength{\abovedisplayshortskip} {0pt plus 3pt}%
+  \setlength{\belowdisplayshortskip} {7pt plus 3pt minus 4pt}%
+}
+
+%% Sections as "1.<quad>Title" at body size, and a table of contents
+%% with slanted entries and dotted leaders, as in the original.
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\contentsname}{Table of Contents}
+\makeatletter
+%% Plain TeX's \beginsection encouraged a page break before a heading
+%% by offering the page a third of its height of stretch at a -250
+%% penalty, and taking it back again if the break was not used.
+%% Without this the pages here run full and the sections all move up.
+\newcommand*{\sectionbreak}{%
+  \par
+  \vskip\z@\@plus.3\textheight
+  \penalty-250
+  \vskip\z@\@plus-.3\textheight}
+\renewcommand{\section}{\sectionbreak\@startsection{section}{1}{\z@}%
+  {-\bigskipamount}{\smallskipamount}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand*{\l@section}[2]{\@dottedtocline{1}{1em}{1.8em}{\slshape#1}{#2}}
+\renewcommand{\@tocrmarg}{\@pnumwidth}
+\makeatother
+
+%% Plain TeX's \proclaim: bold run-in heading, slanted body.
+\newtheoremstyle{proclaim}{\medskipamount}{\medskipamount}%
+  {\slshape}{0pt}{\bfseries}{.}{0.5em}{}
+\theoremstyle{proclaim}
+\newtheorem{lemma}{Lemma}
+
+%% Three equal columns spanning the text width, for Table 1.
+\newlength{\thirdwidth}
+\setlength{\thirdwidth}{\dimexpr(\textwidth-4\tabcolsep)/3\relax}
+
+%% This document is dated by its release, not by when it is typeset.
+\renewcommand{\today}{30 March 2024}
+
+\DeclareMathOperator{\diff}{d}
+\DeclareMathOperator{\W}{W}
+\DeclareMathOperator{\atanh}{atanh}
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\fre}{fre}
+\newcommand{\coeff}{\mathrm{coeff}\,}
+\newcommand{\at}{{@}}
+
+%% Plain TeX packs each page into a \vbox to \vsize; article.cls is
+%% \raggedbottom for oneside.  Match the original.
+\flushbottom
+
+\begin{document}
+
+{\centering
+  \textbf{Canonical Rational Function Integration}\\
+  Aubrey G. Jaffer\\
+  agj@alum.mit.edu\\
+  \today\par}
+
+\section*{Abstract}
+
+{\narrower
+
+  \hspace*{\parindent}%% \section* suppresses the indent; the original had it.
+  The derivative of any rational function (ratio of polynomials) is a
+  rational function.  An algorithm and decision procedure for finding
+  the rational function anti-derivative of a rational function is
+  presented.  This algorithm is then extended to derivatives of
+  rational functions which include instances of a radical involving
+  the integration variable.  It is further extended to derivatives of
+  rational functions which include instances of transcendental
+  functions defined by separable first-order differential equations.
+
+  \par}
+
+%% \beginsection{Keywords}
+%% {\narrower symbolic integration\par}
+
+\tableofcontents
+
+\section{Canonical form}
+
+In symbolic computation, a canonical form has only one representation
+for expressions which are equivalent.  A less stringent constraint is
+normal form, where all expressions equivalent to 0 are represented
+by~0.
+
+Richardson~\cite{10.2307/2271358},
+Caviness~\cite{Caviness:1970:CFS:321574.321591}, and
+Wang~\cite{10.1145/321850.321856} explore which combinations of number
+systems, operations, algebraic, and transcendental functions are
+decidable (able to be resolved in finite time by an algorithm) for
+questions of an expression having a value greater than 0.  Questions
+of ordering are valid only in ordered number systems such as the
+reals.  Real analysis is an important domain, but not the only one.
+
+Differential algebra (Ritt~\cite{ritt1966differential}) and Gr\"obner
+bases~\cite{alma991010801422205596} are built from a polynomial ring
+whose polynomial coefficients are a field.  The canonical form of the
+present work is built from the Euclidean domain (which is also a
+unique factorization domain and a commutative ring) of polynomials
+having integer coefficients.\footnote
+%%
+{The coefficients being integer instead of rational is of practical
+ importance to the speed of calculation.  In order to keep the storage
+ for rational numbers under control, polynomial arithmetic algorithms
+ typically normalize the ratio of integers using greatest common
+ divisor (GCD) after each arithmetic operation, trading time for
+ storage.  The storage required for the results of operations on
+ integers grows more slowly than for rational numbers.  In the present
+ work, GCD operations on integers are postponed until the
+ normalization phase.}
+
+In the present work, each equation is in implicit form, a polynomial
+equated with zero.  An expression is represented by a polynomial
+equation involving the special variable $\at$.  The ratio
+$a/(2+3\,b^2)$ is represented:
+\begin{equation}
+2\,\at+3\,b^2\,\at-a=0\label{at-form}
+\end{equation}
+%%
+A square-root of $a$ is represented by $\at^2-2\,a=0$.
+A root of the fifth-order polynomial $x^5+x+2\,a$ is represented by
+$\at^5+\at+2\,a=0$.
+
+It is expected that the polynomial arithmetic algorithms will always
+combine the coefficients of the sum of terms with identical variable
+exponents, and remove monomial terms having 0 as coefficient.  After a
+polynomial calculation is performed involving $\at$, the polynomial is
+made square-free; that is, the exponent of each factor is reduced
+to~1.  Given polynomial equation $\mathtt{P}(\at,x_1,\dots)$, its
+square-free form is computed by (exactly) dividing $\mathtt{P}$ by the
+GCD of $\mathtt{P}$ and its derivative with respect to $\at$:
+\begin{equation}
+{\mathtt{P}\left/\gcd\left(\mathtt{P},{\frac{\diff\mathtt{P}}{\diff\at}}\right)\right.}\label{normalize-at}
+\end{equation}
+
+Each of the remaining factors of the square-free polynomial equation
+represents its degree of distinct solutions.  The square-free form
+also removes factors not involving $\at$, as well as the ``content'',
+the GCD of all the coefficients.  Expressions equivalent to 0 will
+reduce to $\at=0$; therefore, this representation is a normal-form.
+
+The existence of total orderings for variables and terms is well
+established for Gr\"obner bases.  Using a total ordering, the
+polynomial equation can be displayed in a deterministic way.  The
+combination of a total ordering and this implicit normal form is thus
+a canonical form for expressions.
+
+The canonical form can be extended to equations not involving~$\at$.
+In this case, the canonicalization procedure makes all factors
+involving variables square-free.  The variable ordering governs which
+high order term has a positive coefficient.
+
+\section{Rational function differentiation}
+
+Let
+\begin{equation}
+f(x)=\prod_{j\ne0} p_j(x)^j\label{f(x)}
+\end{equation}
+%%
+be a rational function of $x$ where the primitive polynomials $p_j(x)$
+are square-free and mutually relatively prime.
+
+The derivative of $f(x)$ is
+\begin{equation}
+{\frac{\partial{f}}{ \partial{x}}}(x)=\sum_{j} j\,p_j(x)^{j-1}\,{p_j'}(x)\prod_{k\neq j}p_k(x)^k
+  \label{f(x)'}
+\end{equation}
+
+\begin{lemma}\label{lemma:sum}
+  Given square-free and relatively prime primitive polynomials $p_j(x)$,
+  $\sum_{j}j\,{p_j'}(x)\prod_{k\neq j}p_k(x)$ has no factors in common
+  with $p_j(x)$.
+\end{lemma}
+
+Assume that the sum has a common factor $p_h(x)$ such that $p_h(x)$
+divides the sum:
+\[
+p_h(x)\left|\sum_{j}j\,{p_j'}(x)\prod_{k\neq j}p_k(x)\right.
+\]
+
+$p_h(x)$ divides all terms for $j\neq h$.  Because it divides the
+whole sum, $p_h(x)$ must divide the remaining term $h\,p_h'(x)
+\prod_{k\neq h} p_k(x)$.  From the given conditions, $p_h(x)$
+does not divide $p_h'(x)$ because $p_h(x)$ is square-free; and $p_h(x)$
+does not divide $p_k(x)$ for $k\neq h$ because they are relatively
+prime.
+
+\section{Rational function integration}
+
+Separating square-and-higher factors from the sum in
+equation~\eqref{f(x)'}:
+\begin{equation}
+{\frac{\partial{f}}{ \partial{x}}}(x) = \left[ \prod_j p_j(x)^{j-1} \right]
+\left[\sum_j j\,{p_j'}(x)\prod_{k\neq j} p_k(x)\right]\label{f(x)'2}
+\end{equation}
+
+There are no common factors between the sum and product terms of
+equation~\eqref{f(x)'2} because of the relatively prime condition of
+equation~\eqref{f(x)} and because of Lemma~\ref{lemma:sum}.  Hence, this equation
+cannot be reduced and is canonical.
+
+Split equation \eqref{f(x)'2} into factors by the sign of the exponents,
+giving:
+\begin{equation}
+{\frac{\partial{f}}{ \partial{x}}}(x)
+ ={\frac{\prod_{j>2}p_j(x)^{j-1}}{\prod_{j<0} p_j(x)^{1-j}}}\,
+ \overbrace{p_2(x)\,{\sum_{j}j\,{p_j'}(x)\prod_{k\neq j}p_k(x)}}^{\mathbf{L}}
+\label{renum}
+\end{equation}
+
+The denominator is $\prod_{j\le0} p_j(x)^{1-j}$.  Its individual
+$p_j(x)$ can be separated by square-free factorization.  The $p_j(x)$
+for $j>2$ can also be separated by square-free factorization of the
+numerator.  Neither $p_2(x)$ nor
+${\sum_{j}j\,{p_j'}(x)\prod_{k\neq{j}}p_k(x)}$ have square factors; so
+square-free factorization will not separate them.  Treating $p_2(x)$
+as 1 lets its factor be absorbed into $p_1(x)$.  Note that $p_j(x)=1$
+for factor exponents $j$ which don't occur in the factorization of
+$\partial{f}/\partial{x}$.  All the $p_j(x)$ are now known except $p_1(x)$.  Once
+$p_1(x)$ is known, $f(x)$ can be recovered by equation \eqref{f(x)}.
+Let polynomial $\mathtt{L}$ be the result of dividing the numerator of
+$\partial{f}/\partial{x}$ by $\prod_{j>2}p_j(x)^{j-1}$.
+\begin{equation}
+\overbrace{\sum_{j}j\,{p_j'}(x)\prod_{k\neq j} p_k(x)}^{\mathbf{L}}=
+  \overbrace{\sum_{j\ne1}j\,{p_j'}(x)\prod_{1\neq k\neq j}p_k(x)}^{\mathbf{M}}\,p_1(x)
+  +{p_1'}(x)\,\overbrace{\prod_{k\neq1}p_k(x)}^{\mathbf{N}}\label{p1(x)}
+\end{equation}
+
+Because they don't involve $p_1(x)$, polynomials $\mathtt{M}$ and
+$\mathtt{N}$ in equation \eqref{p1(x)} can be computed from the
+square-free factorizations of the numerator and denominator.  This
+allows $p_1(x)$ to be constructed by a process resembling long
+division.  The trick at each step is to construct a monomial $q(x)$
+such that $\mathtt{M}\,q(x)+q'(x)\,\mathtt{N}$ cancels the highest term of
+dividend $\mathtt{R}$ (which is initially $\mathtt{L}$).
+
+Let $\deg(p)$ be the degree of $x$ in polynomial $p$.  Let
+$\coeff(p,w)$ be the coefficient of the $x^w$ term of polynomial $p$
+for non-negative integer $w$.
+
+Note that $\deg(\mathtt{M})=\deg(\mathtt{N})-1$ because the
+derivative of exactly one of the $p_j(x)$ occurs instead of $p_j(x)$
+in each term of $\mathtt{M}$.  And
+$\deg(q(x)\,\mathtt{M})=\deg(q'(x)\,\mathtt{N})$ because
+$\deg(q'(x))=\deg(q(x))-1$.
+
+The polynomial $p_1(x)$ can be constructed by the following procedure.
+Let $\mathtt{A}$, $\mathtt{C}$, and $\mathtt{R}$ be rational expressions.
+Only the numerators of $\mathtt{A}$ and $\mathtt{R}$ contain powers of
+$x$.  Starting from polynomials $\mathtt{L}$, $\mathtt{M}$, and
+$\mathtt{N}$:
+\begin{verbatim}
+A = 0
+R = L
+Nxd = deg(N)
+while ( g = deg(num(R)) - Nxd + 1 ) >= 0:
+    Rxd = deg(num(R))
+    RxC = coeff(num(R),Rxd)
+    C = RxC / ( coeff(M,Nxd-1) + g*coeff(N,Nxd) ) / denom(R)
+    A = A + C * x^g
+    R = R - C * ( M*x^g + N*diff(x^g,x) )
+    if deg(num(R)) > Rxd:
+        fail
+    if 0 == R:
+        return A
+\end{verbatim}
+At the end of this process, if $\mathtt{R}=0$, then $p_1(x)$ is the
+numerator of $\mathtt{A}$; and the anti-derivative is
+$f(x)=\prod_j{p_j(x)^j}/\mathrm{denom}\,(\mathtt{A})$.  Otherwise the
+anti-derivative is not a rational function.
+
+\medskip
+Just as this algorithm works with $p_2(x)$ absorbed into $p_1(x)$, it
+works with all of the $p_j(x)$ for $j>1$ absorbed into $p_1(x)$.  This
+removes the need to factor the numerator and provides the opportunity
+to enhance the algorithm to handle algebraic extensions.
+
+\section{Algebraic extension}
+
+Let variable $y$ represent one of the solutions of its defining
+equation (reduction rule) represented by a polynomial $\mathtt{Y}=0$
+which is irreducible over the integers.  For example $\mathtt{Y}$ would
+be $y^3-x$ for a cube root of~$x$.
+
+In order to normalize polynomials with regard to $\mathtt{Y}$, each
+polynomial $\mathtt{P}$ containing $y$ is replaced by
+$\mathtt{prem(P,Y)}$, the remainder of pseudo-division of $\mathtt{P}$ by
+$\mathtt{Y}$, as described by Knuth~\cite{KnuthVol2}.
+
+While that process normalizes polynomials, it doesn't normalize
+ratios of polynomials, for instance:
+\[
+1/y^2=1/(\sqrt[3]{x})^2=\sqrt[3]{x}/x=y/x
+\]
+
+After the polynomials are normalized, if the denominator still
+contains the extension $y$, it is possible to move $y$ to the
+numerator by multiplying both numerator and denominator by the
+$y$-conjugate of the denominator, then normalizing both numerator and
+denominator by $\mathtt{Y}$.  The conjugate of a polynomial $\mathtt{P}$
+with respect to $\mathtt{Y}$ can be computed by the following procedure
+where $\deg(\mathtt{Q})$ is the degree of $y$ in polynomial~$\mathtt{Q}$ and
+$\mathtt{pquo(Y,P)}$ and $\mathtt{prem(Y,P)}$ are the quotient and
+remainder of pseudo-division of $\mathtt{Y}$ by~$\mathtt{P}$:
+\begin{verbatim}
+def conj(P):
+    if deg(P) < deg(Y):
+        Q = pquo(Y,P)
+        R = prem(Y,P)
+    else:
+        Q = 1
+        R = 0
+    if deg(R) == 0:
+        return Q
+    else:
+        return Q * conj(R)
+\end{verbatim}
+
+As discussed by Caviness and
+Fateman~\cite{Caviness:1976:SRE:800205.806352}, multiple ring
+extensions involving the same variable can be combined into a single
+extension.  For the purposes of integration, combine the ring
+extensions involving the variable of integration $x$ into a single
+variable $y$ with its defining equation $\mathtt{Y}$.
+
+\section{Rational function integration with algebraic extension}
+
+With a single algebraic extension $y$ which is a function of
+$x$, and the denominator free of $y$, and all the numerator factors in
+$p_1(x,y)$, the previous development can be reformulated:
+\begin{equation}
+f(x,y)=\prod_{j\le1}p_j(x,y)^j\label{f(x,y)}
+\end{equation}
+
+The derivative of $f(x,y)$ with respect to $x$ is
+\begin{equation}
+{\frac{\partial{f}}{ \partial{x}}}(x,y)=\sum_{j\le1}j\,p_j(x,y)^{j-1}\,{p_j'}(x,y)\prod_{k\neq j}p_k(x,y)^k
+  \label{f(x,y)'}
+\end{equation}
+
+Separating into numerator and denominator:
+\begin{equation}
+{\frac{\partial{f}}{ \partial{x}}}(x,y)
+ ={\frac{\sum_{j}j\,{p_j'}(x,y)\prod_{k\neq j}p_k(x,y)}
+        {\prod_{j\le0}p_j(x,y)^{1-j}}}
+\label{renum2}
+\end{equation}
+
+This time, $\mathtt{L}$ is the whole numerator of
+equation \eqref{renum2}.  Note that the denominator includes
+$p_0(x,y)$; $p_0(x,y)$ does not contribute a term to $\mathtt{M}$
+because its coefficient $j$ is 0.  Separating $p_1(x,y)$ from the
+denominator factors:
+\begin{equation}
+\overbrace{\sum_{j}j\,{p_j'}(x,y)\prod_{k\neq j} p_k(x,y)}^{\mathbf{L}}=
+  \overbrace{\sum_{j\le0}j\,{p_j'}(x,y)\prod_{k\neq j}p_k(x,y)}^{\mathbf{M}}\,p_1(x,y)
+  +{p_1'}(x,y)\,\overbrace{\prod_{k\le0}p_k(x,y)}^{\mathbf{N}}\label{p1(x,y)}
+\end{equation}
+
+Because they don't involve $p_1(x,y)$, polynomials $\mathtt{M}$ and
+$\mathtt{N}$ can be computed from the square-free factorization of the
+denominator.  The trick at each step is to construct a polynomial
+$t$ such that $\mathtt{M}\,t+t'\,\mathtt{N}$ cancels the
+highest term of dividend $\mathtt{R}$ (initial $\mathtt{R}=\mathtt{L}$).
+
+For polynomial $q$, $\deg(q'(x))=\deg(q(x))-1$ in the previous
+section.  The derivatives of polynomials involving $x$ and its
+algebraic extension $y$ are more complicated.  The derivative of
+$y$ is found by differentiating the $y$ defining equation
+$\mathtt{Y}=0$, then eliminating $y'$ from the chain rule for each term
+of the polynomial it occurs in.  An example using the square of
+$y=(x^4+a)^{1/3}$ demonstrates the reduction:
+\[
+{\frac{\diff{y^2}}{ \diff{x}}}=
+  {\frac{8\,x^3}{3\,(x^4+a)^{1/3}}}=
+  {\frac{8\,x^3\,(x^4+a)^{2/3}}{3\,(x^4+a)}}=
+  {\frac{8\,x^3\,y^2}{3\,(x^4+a)}}
+\]
+
+The degree of $y$ does not change between $y^2$ and $\diff{y^2}/\diff{x}$.
+However the degree of $x$ decreases; the degree of the denominator is
+one more than the degree of the numerator of $\diff{y^2}/\diff{x}$.  This holds
+for any algebraic extension defined by a primitive polynomial.
+
+Let $\mathtt{A}$, $\mathtt{C}$, and $\mathtt{R}$ be rational expressions.
+Let $\mathtt{Q}$ and $\mathtt{T}$ be polynomials of $x$ containing no
+algebraic extensions of $x$.  Let $g=\deg_x\mathtt{R}-\deg_x\mathtt{N}+1$.
+The addition of 1 is to compensate for the reduction in the degree of
+$x$ in $p_1'(x,y)$.
+
+When there is no algebraic extension, $t=x^g$.  If there is an
+algebraic extension $y$, let $q$ be the denominator of normalized
+${\diff{y}/\diff{x}}$, $i$ be the integer quotient ${g/\deg_x{q}}$, and set
+$g$ to the remainder of ${g/\deg_x{q}}$.  Then:
+\[
+t=q^i\,x^g\,y^h
+\]
+
+%% Because $y$ is algebraic function of $x$, $\deg(\diff{y}/\diff{x},x)=\deg(y,x)-1$.
+
+The polynomial $p_1(x,y)$ can be constructed by the following
+procedure given polynomials $\mathtt{L}$, $\mathtt{M}$, and $\mathtt{N}$:
+\begin{verbatim}
+A = 0
+R = L
+Q = denom( normalize( diff(y,x) ) )
+Nyd = deg(N,y)
+NyC = coeff(N,y,Nyd)
+Nxd = deg(NyC,x)
+while 0 < 1:
+    Ryd = deg(num(R),y)
+    RyC = coeff(num(R),y,Ryd)
+    Rxd = deg(RyC,x)
+    h = Ryd - Nyd
+    g = ( Rxd - Nxd + 1 )
+    if 0 = deg(Q,x):
+        T = x^g
+    else:
+        i = quotient(g,deg(Q,x))
+        g = remainder(g,deg(Q,x))
+        T = Q^i * x^g * y^h
+    B = normalize( N*diff(T,x) + M*T )
+    C = coeff(RyC,x,Rxd) * denom(B) / denom(R) /
+        coeff(coeff(num(B),y,Ryd),x,Rxd)
+    A = A + C * T
+    R = R - C * B
+    if 0 = R:
+        return A
+    if deg(num(R),y) > Ryd:
+        fail
+    if deg(num(R),y) == Ryd and
+       deg(coeff(num(R),y,deg(num(R),y)),x) >= Rxd:
+        fail
+\end{verbatim}
+The looping continues only as long as the degree of $\mathtt{R}$
+decreases.  If this process succeeds, then the numerator of $\mathtt{A}$
+is $p_1(x,y)$; and the anti-derivative is
+$f(x,y)=\mathtt{A}\,\prod_{j<1}p_j(x,y)^j$.
+
+\section{Transcendental extension}
+
+Some transcendental extensions involving a variable can be
+described by separable first-order differential equations:
+\begin{equation}
+{{\log(x)}'}={\frac{1}{ x}}\,{x'}\label{diff-log}
+\end{equation}
+
+Where $a$ is independent of $x$, applying the chain-rule:
+\begin{equation}
+{{\log(x^a)}'}={\frac{a\,x^{a-1}}{ x^a}}\,{x'}={\frac{a}{ x}}\,{x'}\label{diff-log-a}
+\end{equation}
+
+Eliminating $x'/x$ from equations \eqref{diff-log} and \eqref{diff-log-a}
+results in:
+\[
+{{\log(x^a)}'}=a\,{{\log(x)}'}
+\]
+
+Taking the anti-derivative of both sides:
+\begin{equation}
+\log(x^a)=a\,\log(x)+C\label{log(x^a)}
+\end{equation}
+
+Thus, $\log(x)$ is sufficient to be the canonical extension for both
+$\log(x)$ and $\log(x^a)$.  Logarithm is multi-valued in the complex
+plane.  Like radical functions, $\log(x)$ assumes one branch.  The
+canonical form described here produces equations which are true for
+any branch of $\log$ assuming all references to $\log(x)$ are the same
+branch.  Note that the branch $\log(x)$ is not linked to the
+branch of $\log(y)$.
+%% Note the difference from algebraic extensions; the branches for
+%% $\sqrt{x}$ and $\sqrt{y}$ aren't linked, while the branches for
+%% $\log{x}$ and $\log{y}$ are.
+
+To describe the inverse function of $\log(x)$, substitute $y$ for
+$\log(x)$ and $\exp(y)$ for $x$:
+\begin{equation}
+{\frac{{y}'}{ {\exp(y)}'}}={\frac{1}{\exp(y)}}\qquad{\frac{{\exp(y)}'}{ {y}'}}=\exp(y)\label{diff-exp}
+\end{equation}
+
+Part of normalization for an expression (or equation) reduces the
+expression modulo the defining rules of the extensions appearing in
+that expression.  For a transcendental extension, this is its
+defining differential equation.
+
+These reductions serve to normalize expressions (involving variables)
+with unnested extensions.  While (irreducible) algebraic expressions
+involving unnested transcendental extensions are canonical, when a
+transcendental function is composed with its inverse, an algebraic
+expression (without transcendental extensions) can result.
+%% The rest of this section addresses those nested transcendental
+%% expressions which reduce to algebraic forms.
+
+\section{Reduction of nested transcendental extensions}
+
+For $\log(\exp(y))$, the reduction results from integrating the
+combination of defining differential equations~\eqref{diff-log}
+and~\eqref{diff-exp} with $x=\exp(y)$:
+%% $${\log(x)'\over x'}={1\over x}\qquad {\exp(y)'\over y'}={\exp(y)}\label{exp-log-defs}$$
+\[
+{\log(\exp(y))'}={\frac{\exp(y)'}{\exp(y)}}=y'
+ \qquad \log(\exp(y))=y+C
+\]
+
+For $\exp(\log(x))$, the defining differential equations~\eqref{diff-log}
+and~\eqref{diff-exp} combined with $y=\log(x)$ is separated, integrated
+($\ln[=\log]$ is the result of the integration), then exponentiated:
+\[
+{\frac{\exp(\log(x))'}{\exp(\log(x))}}={\frac{x'}{ x}}
+ \qquad{\ln(\exp(\log(x)))}=\ln(x)
+ \qquad \exp(\log(x))=x
+\]
+
+The defining equations for arc-tangent and tangent are:
+\begin{equation}
+\arctan(x)'={\frac{x'}{ x^2+1}}\qquad
+ {\frac{\tan(\theta)'}{\theta'}}=\tan(\theta)^2+1\label{tan-arctan-defs}
+\end{equation}
+\[
+x=\tan(\theta)\qquad
+ \arctan(\tan(\theta))'={\frac{\tan(\theta)'}{\tan(\theta)^2+1}}=\theta'
+ \qquad \arctan(\tan(\theta))=\theta+C
+\]
+\[
+\theta=\arctan(x)\qquad
+ {\frac{\tan(\arctan(x))'}{\arctan(x)'}}=\tan(\arctan(x))^2+1
+ \qquad{\frac{\tan(\arctan(x))'}{\tan(\arctan(x))^2+1}}={\frac{x'}{ x^2+1}}
+\]
+
+For both $\tan(\arctan(x))$ and $\exp(\log(x))$, composition through
+the defining equations results in a form with polynomial function
+$\Phi$:
+\begin{equation}
+{\frac{y'}{\Phi(y)}}={\frac{x'}{\Phi(x)}}\label{Phi-form}
+\end{equation}
+
+Equation \eqref{Phi-form} is a stronger constraint than $y'=x'$ in
+that it implies $y=x$ without a constant of integration.
+Equation \eqref{Phi-form} is not the only form reducing to an
+algebraic relationship between $y$ and $x$.
+Equation \eqref{Phi-b-form} where $b$ is a nonzero integer may also
+reduce to an algebraic relation:
+\begin{equation}
+{\frac{y'}{\Phi(y)}}={\frac{b\,x'}{\Phi(x)}}\label{Phi-b-form}
+\end{equation}
+
+Separating $y(x)$ into a ratio of relatively prime polynomials
+$y(x)=f(x)/g(x)$:
+\begin{equation}
+{\frac{(f/g)'}{\Phi(f/g)}}=
+   {\frac{f'\,g-f\,g'}{ g^2\,\Phi(f/g)}}={\frac{b\,x'}{\Phi(x)}}\qquad
+   ({f'\,g-f\,g'})\,{\Phi(x)}=b\,g^2\,\Phi(f/g)\,x'\label{y=f/g}
+\end{equation}
+
+$f$, $f'$, $g$, $g'$, $x$, $x'$, and $\Phi(x)$ are all polynomials.
+Thus, $({f'\,g-f\,g'})\,{\Phi(x)}$ is a polynomial.  If
+equation \eqref{y=f/g} is to hold, then $g^2\,\Phi(f/g)\,x'$ must also
+be a polynomial, which will only be the case when the denominator of
+$\Phi(f/g)$ has degree 1 or 2 times the degree of $g$.  When
+$g^2\,\Phi(f/g)\,x'$ does not equal $({f'\,g-f\,g'})\,{\Phi(x)}$, the
+scaled composition cannot be reduced to an algebraic relation.
+
+For both $\Phi(y)=y$ and $\Phi(y)=y^2\pm1$, it is the case that
+$g^2\,\Phi(f_b/g_b)={\Phi(x)}^b$, and $\Phi$ is related to
+$y_b=f_b/g_b$ with $b\ge2$:
+\[
+\left({f_b'\,g_b-f_b\,g_b'}\right)\,{\Phi(x)}=b\,{\Phi(x)}^b\,x'\quad\to\quad
+  {f_b'\,g_b-f_b\,g_b'}=b\,{\Phi(x)}^{b-1}\,x'
+\]
+
+In the case of $\Phi(y)=y$,
+\begin{equation}
+y_1=x\qquad y_{b}=y_{b-1}\,x\qquad {\frac{y'}{ y}}={\frac{b\,x'}{ x}}\to y=x^b\label{log-y_b}
+\end{equation}
+%% $${a\,y'\over y^2}={b\,x'\over x^2}\to y^a=x^b\qquad$$
+%% $${a\,(1+x^2)\,y'}={b\,(1+y^2)\,x'}$$
+
+In the case of $\Phi(y)=1+y^2$, using the sum-of-angles formula (a la
+Chebyshev):
+\begin{equation}
+\tan(b\,\theta)={\frac{\tan((b-1)\,\theta)+\tan(\theta)}{1-\tan((b-1)\,\theta)\,\tan(\theta)}}\label{Chebyshev}
+\end{equation}
+%% ={\sum_{k\ \rm{odd}}(-1)^{(k-1)/2}\,{b\choose k}\,\tan^k\theta\over\sum_{k\ \rm{even}}(-1)^{k/2}\,{b\choose k}\,\tan^k\theta}
+
+Let $\theta=\arctan x$, $y_{1}=x$, $y_b=f_b/g_b$:
+\begin{equation}
+y_{b}={\frac{y_{b-1}+x}{1-y_{b-1}\,x}}=
+  {\frac{f_{b-1}+g_{b-1}\,x}{ g_{b-1}-f_{b-1}\,x}}\qquad
+  y_{-b}={\frac{y_{-b+1}-x}{1+y_{-b+1}\,x}}=
+  {\frac{g_{-b+1}\,x-f_{-b+1}}{ g_{-b+1}+f_{-b+1}\,x}}\label{arctan-y_b}
+\end{equation}
+%% ={(1-x^2)\,y_{b-2}+2\,x\over(1-x^2)-y_{b-2}\,2\,x}
+%% ={(1-x^2)\,f_{b-2}+g_{b-2}\,2\,x\over(1-x^2)\,g_{b-2}-f_{b-2}\,2\,x}
+%% ={\sum_{k\ \rm{odd}}(-1)^{(k-1)/2}\,{b\choose k}\,x^k\over\sum_{k\ \rm{even}}(-1)^{k/2}\,{b\choose k}\,x^k}
+
+Because $f_{1}=x$ and $g_{1}=1$, the difference of the degrees of
+$f_{b}$ and $g_{b}$ alternate between $1$ and $-1$ with the parity of
+$b$.
+
+Extensions for irreducible $\Phi$ polynomials will always reduce
+to identity when directly composed with their inverse function; those
+which can reduce scaled composition to more complicated algebraic
+expressions are limited to degrees of 1 or 2 by
+equation \eqref{y=f/g}.  Any $y_{b}$ recurrence must be symmetrical in
+$x$ and $y_{b-1}$.  There are few symmetrical candidates for $y_{b}$
+which might have transcendental-to-algebraic reductions.  They were
+checked by formula \eqref{y=f/g} for $y_2(x)=f_2/g_2$.
+
+For hyperbolic tangent $y_{b}=\tanh(b\,\atanh x)$, $\Phi(y)=1-y^2$, $y_{1}=x$, $y=f/g$ and:
+\begin{equation}
+y_{b}={\frac{y_{b-1}+x}{1+y_{b-1}\,x}}=
+  {\frac{f_{b-1}+g_{b-1}\,x}{ g_{b-1}+f_{b-1}\,x}}\qquad
+  y_{-b}={\frac{y_{-b+1}-x}{1-y_{-b+1}\,x}}=
+  {\frac{g_{-b+1}\,x-f_{-b+1}}{ g_{-b+1}-f_{-b+1}\,x}}\label{arctanh-y_b}
+\end{equation}
+%%   {(1+x^2)\,y_{b-2}+2\,x\over(1+x^2)+y_{b-2}\,2\,x}=
+%%   {(1+x^2)\,f_{b-2}+g_{b-2}\,2\,x\over(1+x^2)\,g_{b-2}+f_{b-2}\,2\,x}
+%% $$\tanh(n\,\theta)={\tanh((n-1)\,\theta)+\tanh(\theta)\over1+\tanh((n-1)\,\theta)\,\tanh(\theta)}$$
+
+But $\Phi(x)=1-x^2$ is reducible, having factors $1-x$ and $1+x$; so
+it is not associated with a lone canonical extension.  Instead
+the integral uses extensions $\log(x+1)$ and $\log(x-1)$:
+\[
+\int{\frac{\diff{x}}{1-x^2}}={\frac{\log(x+1)-\log(x-1)}{2}}
+\]
+
+Equation \eqref{Phi-form} is symmetrical.  Both sides can be scaled by
+nonzero integers:
+\begin{equation}
+{\frac{a\,y'}{\Phi(y)}}={\frac{b\,x'}{\Phi(x)}}\label{Phi-a-b-form}
+\end{equation}
+
+A composition of defining differential equations yielding a
+form \eqref{Phi-a-b-form} results in a relation $y_{b}=x_{a}$.  For
+$\Phi(t)=t$, $y=(\sqrt[a]{x})^b$.  For other $\Phi$, the result is
+a polynomial relation $y_{b}=x_{a}$.
+
+Because ${x'/\Phi(x)}+{x'/\Phi(x)}=2\,{x'/\Phi(x)}$, using
+equations~\eqref{log-y_b} and~\eqref{arctan-y_b} without recurrence
+directs how to compose with a sum of inverse transcendental functions.
+\begin{equation}
+\begin{aligned}
+  \exp(\log x_1+\log x_2)&\to y=x_1\,x_2\\
+  \tan(\arctan x_1+\arctan x_2)&\to y=(x_1+x_2)/(1-x_1\,x_2)
+\end{aligned}
+\label{composition-of-sum}
+\end{equation}
+
+A related problem is to normalize $\log(x\,z)\to\log x+\log z$.
+Taking the total differential of $\log(x\,z)$ yields:
+  \[
+\log(x\,z)'={\frac{x'\,z+x\,z'}{ x\,z}}={\frac{x'}{ x}}+{\frac{z'}{ z}}
+\]
+which is separable and integrable to $\log x+\log z$.  This procedure
+works for $\arctan()$ as well:
+  \[
+\int\arctan\left({\frac{x+z}{1-x\,z}}\right)'=\int{\frac{x'}{1+x^2}}+\int{\frac{z'}{1+z^2}}
+  =\arctan x+\arctan z
+\]
+
+These example nested transcendental functions simplify to rational
+functions (polynomial ratios):
+\[
+\begin{aligned}
+\exp(3\,\log x)&\to{\frac{y'}{ y}}={\frac{3\,x'}{ x}}\to y_3=x^3\\
+\tan(4\,\arctan x)&\to
+  {\frac{y'}{1+y^2}}={\frac{4\,x'}{1+x^2}}\to
+  y_4={\frac{{4\,x-4\,x^{3}}}{{1-6\,x^{2}+x^{4}}}}\\
+\tan(7\,\arctan x)&\to
+  {\frac{y'}{1+y^2}}={\frac{7\,x'}{1+x^2}}\to
+  y_7={\frac{{-7\,x+35\,x^{3}-21\,x^{5}+x^{7}}}{{-1+21\,x^{2}-35\,x^{4}+7\,x^{6}}}}
+\end{aligned}
+\]
+
+\newpage
+
+\section{Nested transcendental extensions}
+
+%% The upper incomplete gamma function $\Gamma(s,x)$ is notated here as
+%% $\Gamma_{\!s}(x)$.  With non-integer argument $s$:
+%% $${\partial{\Gamma_{\!s}(x)}\over\partial{x}}={-x^{s-1}\over\exp{x}}$$
+
+%% These equations must hold with change-of-variable.  Substituting
+%% $x^2+a$ for $x$:
+%% $$\int{2\,x\,\diff{x}\over\left(x^2+a\right)^2+1}=\arctan\left(x^2+a\right)$$
+
+%% \proclaim Lemma 2. {
+%% Given differentiable functions $f(x)$ and $g(y)$, where $y=f(x)$ and
+%% $${\partial g/\partial y\over g(y)}=
+%%   {\partial f/\partial x\over f(x)}$$}\par
+
+%% $$\tan(2\,\theta)={2\,\tan(\theta)\over1-\tan^2(\theta)}\qquad
+%%   \tan{\theta\over2}={-1\pm\sqrt{1+\tan\theta}\over\tan\theta}$$
+
+%% Let $g(f)$ and $f(x)$ be transcendental functions.  Consider the
+%% derivative of their composition:
+%% $$g(f(x))'=g'(f(x))\,f'(x)\,x'\qquad{g(f)'\over g'(f)}={f'(x)\,x'}\label{composition-derivative}$$
+%% %% $$g(a\,f(x))'=g'(a\,f(x))\,a\,f'(x)\,x'\qquad{g(a\,f(x))'\over g'(a\,f(x))}={a\,f'(x)\,x'}$$
+
+%% Thus, their derivative always forms a separable differential equation.
+
+\medskip
+
+%% Inverse function theorem:
+%% $$x=f(y(x))\qquad 1={f(y(x))'\over{x'}}=f'(y)\,y'(x)\qquad {f'(y)}={1\over y'(x)}\qquad f(y)=\int{1\over y'(x)}\,x'$$
+%% $$(x\,\exp{x})'=[1+x]\,\exp{x}\,x'$$
+
+The Lambert $\W$ function is an inverse of $y\,\exp y$.  Its
+derivative is used as its defining differential equation:
+\begin{equation}
+{\frac{\partial\W(z)}{\partial{z}}}={\frac{\W(z)}{ z\;[1+\W(z)]}}\label{W}
+\end{equation}
+\[
+{\frac{w'}{{z'}}}={\frac{ w}{ z\;[1+ w]}}\qquad
+  \left[1+{\frac{1}{{w}}}\right]\;{w'}={\frac{{z'}}{{z}}}\qquad
+  w+{\ln{w}}={\ln{z}}\qquad z=w\,\exp{w}
+\]
+%% $$\qquad z=w\,\exp{w}\qquad{{z'}}=\left[1+{w}\right]\;\exp{w}\;w'$$
+
+The derivative of the composition of $\W$ with its inverse,
+$x\,\exp{x}$, reduces to a separable differential equation:
+\begin{equation}
+{\frac{\W(x\,\exp{x})+1}{\W(x\,\exp{x})}}\;{\W(x\,\exp{x})}'={\frac{x+1}{ x}}\,x'\label{W-1}
+\end{equation}
+
+Equation \eqref{W-1} is of the form:
+\begin{equation}
+{\frac{\W'}{\Phi(\W)}}={\frac{x'}{\Phi(x)}}\qquad\Phi(y)={\frac{y}{{y+1}}}\label{sep-W}
+\end{equation}
+
+Thus, $\W(x\,\exp{x})=x$.  Because $\Phi(y)$ is not a polynomial,
+reductions from forms like equation~\eqref{Phi-a-b-form} are not
+possible for~$\W$.
+Differentiating ${\W(x)\,\exp(\W(x))}$, then reducing by
+equations~\eqref{diff-exp} and~\eqref{W}:
+\begin{equation}
+\begin{aligned}
+  {(\W(y)\;\exp(\W(y)))'}&={\exp(\W(y))\;\W(y)'}+{\exp(\W(y))'\;\W(y)}\\
+  &={\frac{\exp(\W(y))\;[1+\W(y)]\;\W(y)\;y'}{ y\;[1+\W(y)]}}
+\end{aligned}
+\label{sep-W1}
+\end{equation}
+%% $$\eqalign{{(\W(y)\;\exp(\W(y)))'}&={\exp(\W(y))\;\W(y)'}+{\exp(\W(y))'\;\W(y)}\cr
+%%   &={\exp(\W(y))\;\W(y)'}+{\exp(\W(y))\,\W(y)\,\W(y)'}\cr
+%%   &=\exp(\W(y))\,\left[1+{\W(y)}\right]\,\W(y)'\cr
+%%   &=\exp(\W(y))\,\left[1+{\W(y)}\right]\,{\W(y)\over y\,[1+\W(y)]}y'\cr
+%%   &={\exp(\W(y))\;[1+\W(y)]\;\W(y)\;y'\over y\;[1+\W(y)]}\cr}$$
+%% &={\exp(\W(y))\;[1+\W(y)]\;\W(y)'}\cr
+\begin{equation}
+{\frac{(\W(y)\;\exp(\W(y)))'}{\W(y)\;\exp(\W(y))}}={\frac{y'}{ y}}\label{sep-W2}
+\end{equation}
+
+Thus, ${\W(x)\,\exp(\W(x))=x}$.
+%% There is a non-differential recurrence for $\W$, but it is doubly
+%% recursive and won't reduce to purely algebraic expressions:
+%% $$\W(x)+\W(y)=\W\left(x\,y\left[{1\over\W(x)}+{1\over\W(y)}\right]\right)$$
+
+\section{Transcendental constants}
+
+This system is canonical for algebraic extensions involving variables.
+It cannot be canonical for algebraic constants because the many roots
+of unity make alternate factorizations possible, and the system
+requires that polynomials be a unique factorization domain.  Algebraic
+constants can be represented; but not all possible reductions will
+happen as part of the normalization processes.
+
+This is also the reason that trigonometric functions were not encoded
+with $\log()$ and $\exp()$ using imaginary transcendental constants
+($\pi\,\mathrm{i}$).
+
+Transcendental constants can be represented by an uninstantiated
+differential equation and a rational argument value:
+\[
+\exp1=\mathrm{e}\qquad\arctan1=\pi/4
+\]
+
+If a transcendental function is composed with the transcendental
+constant, then their differential equations are combined.  If the
+resulting equation is separable, then the recurrence is used to
+construct the algebraic result as before.  $\exp0=1$ and $\arctan0=0$
+are deducible from the recurrence without explicit training.
+
+\section{Rational function integration with transcendental extension}
+
+For an integer power $w$ of an algebraic extension $y(x)$:
+\[
+\deg_y{\frac{\partial{y^w}}{ \partial{x}}}=w\qquad\deg_x{\frac{\partial{y^w}}{ \partial{x}}}=-1
+\]
+
+Transcendental extensions behave differently:
+\medskip
+
+\noindent
+\begin{tabular}{@{}p{\thirdwidth}p{\thirdwidth}p{\thirdwidth}@{}}
+  \qquad$y=\exp(x^w)$    & \qquad$\deg_y{\frac{\partial{y}}{ \partial{x}}}=1$
+                         & \qquad$\deg_x{\frac{\partial{y}}{ \partial{x}}}=w-1$\\
+  \qquad$y=\log^w(x)$    & \qquad$\deg_y{\frac{\partial{y}}{ \partial{x}}}=w-1$
+                         & \qquad$\deg_x{\frac{\partial{y}}{ \partial{x}}}=-1$\\
+\end{tabular}
+
+\refstepcounter{table}\label{transcendental extensions}%
+{\centering\textbf{Table \thetable\quad transcendental extensions}\par}
+
+%% There are two ways a variable representing a transcendental
+%% extension can arise in integration, from a non-constant polynomial
+%% in $p_0$, or from appearing in any of the $p_j$ polynomials.
+
+\bibliographystyle{unsrt}
+\bibliography{ratint}
+
+\end{document}
+
+% LocalWords:  tex Caviness coeff atanh erf fre Ritt GCD obner Nxd Nyd
+% LocalWords:  prem pquo factorizations renum num denom Fateman deg
+% LocalWords:  Rxd RxC NyC Ryd RyC unnested exponentiated arctan defs
+% LocalWords:  Chebyshev arctanh sep uninstantiated ratint Jaffer
+% LocalWords:  monomial endverbatim canonicalization

@@ -3,8 +3,10 @@
 /debhelper-build-stamp
 /files
 /jacal/
+/src/DOC/*-latex.fls
 /src/DOC/*.aux
 /src/DOC/*.bbl
 /src/DOC/*.blg
+/src/DOC/*.fdb_latexmk
 /src/DOC/*.pdf
 /src/DOC/*.toc

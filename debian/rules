@@ -34,6 +34,7 @@ override_dh_auto_build: jacal.info jacal.html debian/src/DOC/ratint.pdf
 %.html: %.texi
 	makeinfo --no-split --html $<
 
+# Future: latexmk -pdf -cd debian/src/DOC/ratint-latex.tex
 debian/src/DOC/ratint.pdf: debian/src/DOC/ratint.tex debian/src/DOC/ratint.bib
 	(cd debian/src/DOC && \
 	 pdftex ratint.tex && \
