@@ -26,9 +26,20 @@ MAKEVARS=DESTDIR=$(CURDIR)/debian/jacal \
 execute_before_dh_auto_configure:
 	chmod +x ./configure
 
-override_dh_auto_build:
-	makeinfo --info jacal.texi
-	makeinfo --no-split --html jacal.texi
+override_dh_auto_build: jacal.info jacal.html debian/src/DOC/ratint.pdf
+
+%.info: %.texi
+	makeinfo --info $<
+
+%.html: %.texi
+	makeinfo --no-split --html $<
+
+debian/src/DOC/ratint.pdf: debian/src/DOC/ratint.tex debian/src/DOC/ratint.bib
+	(cd debian/src/DOC && \
+	 pdftex ratint.tex && \
+	 bibtex ratint.aux && \
+	 pdftex ratint.tex && \
+	 pdftex ratint.tex)
 
 # These are from upstream's install target, turned into correctness.
 
